@@ -13,9 +13,9 @@ import org.swrlapi.sqwrl.SQWRLQueryEngine;
 import org.swrlapi.sqwrl.SQWRLResult;
 import org.swrlapi.sqwrl.exceptions.SQWRLException;
 import org.swrlapi.sqwrl.values.SQWRLLiteralResultValue;
-import org.swrlapi.test.SWRLAPITestBase;
+import org.swrlapi.test.SWRLAPIIntegrationTestBase;
 
-public class SWRLBuiltInsTestCase extends SWRLAPITestBase
+public class SWRLBuiltInsIT extends SWRLAPIIntegrationTestBase
 {
 	final String Namespace = "http://swrlapi.org/ontologies/SWRLBuiltInsTestCase.owl#";
 

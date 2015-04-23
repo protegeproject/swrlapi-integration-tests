@@ -21,5 +21,5 @@ Change into the swrlapi-integration-tests directory:
 
 To run the tests:
 
-    mvn test
+    mvn verify
 

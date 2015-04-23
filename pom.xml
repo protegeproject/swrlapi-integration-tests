@@ -12,13 +12,17 @@
 
   <properties>
 
-    <java.version>1.8</java.version> 
     <swrlapi.version>1.0.0-SNAPSHOT</swrlapi.version>
+
     <slf4j.version>1.6.1</slf4j.version>
-    <junit.version>4.11</junit.version>
+    <junit.version>4.7</junit.version>
 
     <maven.compiler.plugin.version>2.3.2</maven.compiler.plugin.version>
+    <maven.failsafe.plugin.version>2.6</maven.failsafe.plugin.version>
+    <maven.jar.plugin.version>2.4</maven.jar.plugin.version>
+    <maven.install.plugin.version>2.4</maven.install.plugin.version>
     
+    <java.version>1.8</java.version> 
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
   </properties>
@@ -63,6 +67,43 @@
         <configuration>
           <source>${java.version}</source>
           <target>${java.version}</target>
+        </configuration>
+      </plugin>
+
+      <plugin>
+        <artifactId>maven-jar-plugin</artifactId>
+        <version>${maven.jar.plugin.version}</version>
+        <executions> <!-- Attach this plugin to the 'none' phase so it never runs -->
+          <execution>
+            <id>default-jar</id>
+            <phase>none</phase>
+          </execution>
+        </executions>
+      </plugin>  
+
+      <plugin>
+        <artifactId>maven-failsafe-plugin</artifactId>
+        <version>${maven.failsafe.plugin.version}</version>
+        <configuration>
+          <!-- SWRLAPIIntegrationTestBase not currently set up to allow parallel tests -->
+          <!-- <parallel>methods</parallel> -->
+          <encoding>UTF-8</encoding>
+        </configuration>
+        <executions>
+          <execution>
+            <goals>
+              <goal>integration-test</goal>
+              <goal>verify</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+
+      <plugin>
+        <artifactId>maven-install-plugin</artifactId>
+        <version>${maven.install.plugin.version}</version>
+        <configuration>
+          <skip>true</skip>
         </configuration>
       </plugin>
 

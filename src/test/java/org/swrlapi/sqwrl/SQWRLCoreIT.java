@@ -16,9 +16,9 @@ import org.swrlapi.drools.core.DroolsFactory;
 import org.swrlapi.parser.SWRLParseException;
 import org.swrlapi.sqwrl.exceptions.SQWRLException;
 import org.swrlapi.sqwrl.values.SQWRLLiteralResultValue;
-import org.swrlapi.test.SWRLAPITestBase;
+import org.swrlapi.test.SWRLAPIIntegrationTestBase;
 
-public class SQWRLCoreTestCase extends SWRLAPITestBase
+public class SQWRLCoreIT extends SWRLAPIIntegrationTestBase
 {
 	final String Namespace = "http://swrlapi.org/ontologies/SQWRLCoreTestCase.owl#";
 

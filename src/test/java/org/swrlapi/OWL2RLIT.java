@@ -10,9 +10,9 @@ import org.swrlapi.parser.SWRLParseException;
 import org.swrlapi.sqwrl.SQWRLQueryEngine;
 import org.swrlapi.sqwrl.SQWRLResult;
 import org.swrlapi.sqwrl.exceptions.SQWRLException;
-import org.swrlapi.test.SWRLAPITestBase;
+import org.swrlapi.test.SWRLAPIIntegrationTestBase;
 
-public class OWL2RLTestCase extends SWRLAPITestBase
+public class OWL2RLIT extends SWRLAPIIntegrationTestBase
 {
 	final String Namespace = "http://swrlapi.org/ontologies/OWL2RLTestCase.owl#";
 
