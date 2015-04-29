@@ -3,12 +3,9 @@ package org.swrlapi;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyCreationException;
-import org.swrlapi.core.SWRLAPIFactory;
 import org.swrlapi.core.xsd.XSDDuration;
 import org.swrlapi.parser.SWRLParseException;
-import org.swrlapi.sqwrl.SQWRLQueryEngine;
 import org.swrlapi.sqwrl.SQWRLResult;
 import org.swrlapi.sqwrl.exceptions.SQWRLException;
 import org.swrlapi.sqwrl.values.SQWRLLiteralResultValue;
@@ -16,14 +13,10 @@ import org.swrlapi.test.SWRLAPIIntegrationTestBase;
 
 public class SWRLCoreBuiltInsIT extends SWRLAPIIntegrationTestBase
 {
-	SQWRLQueryEngine sqwrlQueryEngine;
-
 	@Before
 	public void setUp() throws OWLOntologyCreationException
 	{
-		OWLOntology ontology = createEmptyOWLOntology();
-
-		sqwrlQueryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
+		createOWLOntologyAndSQWRLQueryEngine();
 	}
 
 	@Test
@@ -533,17 +526,5 @@ public class SWRLCoreBuiltInsIT extends SWRLAPIIntegrationTestBase
 				"swrlb:time(\"10:11:12\"^^xsd:time, 10, 11, 12, \"\") -> sqwrl:select(0)");
 
 		Assert.assertTrue(result.next());
-	}
-
-	private SQWRLResult executeSQWRLQuery(String queryName) throws SQWRLException
-	{
-		return sqwrlQueryEngine.runSQWRLQuery(queryName);
-	}
-
-	protected SQWRLResult executeSQWRLQuery(String queryName, String query) throws SQWRLException, SWRLParseException
-	{
-		createSQWRLQuery(queryName, query);
-
-		return executeSQWRLQuery(queryName);
 	}
 }

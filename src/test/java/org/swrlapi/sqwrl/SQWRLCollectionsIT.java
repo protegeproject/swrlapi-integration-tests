@@ -3,9 +3,7 @@ package org.swrlapi.sqwrl;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyCreationException;
-import org.swrlapi.core.SWRLAPIFactory;
 import org.swrlapi.parser.SWRLParseException;
 import org.swrlapi.sqwrl.exceptions.SQWRLException;
 import org.swrlapi.sqwrl.values.SQWRLLiteralResultValue;
@@ -13,14 +11,10 @@ import org.swrlapi.test.SWRLAPIIntegrationTestBase;
 
 public class SQWRLCollectionsIT extends SWRLAPIIntegrationTestBase
 {
-	private SQWRLQueryEngine sqwrlQueryEngine;
-
 	@Before
 	public void setUp() throws OWLOntologyCreationException
 	{
-		OWLOntology ontology = createEmptyOWLOntology();
-
-		sqwrlQueryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
+		createOWLOntologyAndSQWRLQueryEngine();
 	}
 
 	@Test
@@ -237,10 +231,10 @@ public class SQWRLCollectionsIT extends SWRLAPIIntegrationTestBase
 		String homePage1 = "http://stanford.edu/~fred";
 		String homePage2 = "http://stanford.edu/~bob";
 
-		SQWRLResult result = executeSQWRLQuery("q1", ". sqwrl:makeBag(?s1, \"" + homePage1
-				+ "\"^^xsd:anyURI) ^ sqwrl:makeBag(?s2, \"" + homePage2 + "\"^^xsd:anyURI)" + " ^ sqwrl:makeBag(?s1, \""
-				+ homePage1 + "\"^^xsd:anyURI) ^ sqwrl:makeBag(?s2, \"" + homePage2
-				+ "\"^^xsd:anyURI) . sqwrl:equal(?s1, ?s2) -> sqwrl:select(0)");
+		SQWRLResult result = executeSQWRLQuery("q1",
+				". sqwrl:makeBag(?s1, \"" + homePage1 + "\"^^xsd:anyURI) ^ sqwrl:makeBag(?s2, \"" + homePage2
+						+ "\"^^xsd:anyURI)" + " ^ sqwrl:makeBag(?s1, \"" + homePage1 + "\"^^xsd:anyURI) ^ sqwrl:makeBag(?s2, \""
+						+ homePage2 + "\"^^xsd:anyURI) . sqwrl:equal(?s1, ?s2) -> sqwrl:select(0)");
 
 		Assert.assertTrue(result.next());
 	}
@@ -251,10 +245,11 @@ public class SQWRLCollectionsIT extends SWRLAPIIntegrationTestBase
 		String homePage1 = "http://stanford.edu/~fred";
 		String homePage2 = "http://stanford.edu/~bob";
 
-		SQWRLResult result = executeSQWRLQuery("q1", ". sqwrl:makeSet(?s1, \"" + homePage1 + "\"^^xsd:anyURI) "
-				+ " ^ sqwrl:makeSet(?s1, \"" + homePage2 + "\"^^xsd:anyURI)" + " ^ sqwrl:makeSet(?s2, \"" + homePage1
-				+ "\"^^xsd:anyURI) " + " ^ sqwrl:makeSet(?s2, \"" + homePage2 + "\"^^xsd:anyURI) " + " ^ sqwrl:makeSet(?s2, \""
-				+ homePage2 + "\"^^xsd:anyURI) " + " . sqwrl:equal(?s1, ?s2) -> sqwrl:select(0)");
+		SQWRLResult result = executeSQWRLQuery("q1",
+				". sqwrl:makeSet(?s1, \"" + homePage1 + "\"^^xsd:anyURI) " + " ^ sqwrl:makeSet(?s1, \"" + homePage2
+						+ "\"^^xsd:anyURI)" + " ^ sqwrl:makeSet(?s2, \"" + homePage1 + "\"^^xsd:anyURI) "
+						+ " ^ sqwrl:makeSet(?s2, \"" + homePage2 + "\"^^xsd:anyURI) " + " ^ sqwrl:makeSet(?s2, \"" + homePage2
+						+ "\"^^xsd:anyURI) " + " . sqwrl:equal(?s1, ?s2) -> sqwrl:select(0)");
 
 		Assert.assertTrue(result.next());
 	}
@@ -822,17 +817,5 @@ public class SQWRLCollectionsIT extends SWRLAPIIntegrationTestBase
 
 		Assert.assertTrue(result.next());
 		Assert.assertEquals(result.getIndividual("secondLast").getShortName(), "BBT");
-	}
-
-	private SQWRLResult executeSQWRLQuery(String queryName) throws SQWRLException
-	{
-		return sqwrlQueryEngine.runSQWRLQuery(queryName);
-	}
-
-	protected SQWRLResult executeSQWRLQuery(String queryName, String query) throws SQWRLException, SWRLParseException
-	{
-		createSQWRLQuery(queryName, query);
-
-		return executeSQWRLQuery(queryName);
 	}
 }
