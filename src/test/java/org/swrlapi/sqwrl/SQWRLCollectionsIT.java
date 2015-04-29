@@ -3,9 +3,9 @@ package org.swrlapi.sqwrl;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyCreationException;
-import org.swrlapi.core.SWRLAPIOWLOntology;
-import org.swrlapi.drools.core.DroolsFactory;
+import org.swrlapi.core.SWRLAPIFactory;
 import org.swrlapi.parser.SWRLParseException;
 import org.swrlapi.sqwrl.exceptions.SQWRLException;
 import org.swrlapi.sqwrl.values.SQWRLLiteralResultValue;
@@ -20,9 +20,9 @@ public class SQWRLCollectionsIT extends SWRLAPIIntegrationTestBase
 	@Before
 	public void setUp() throws OWLOntologyCreationException
 	{
-		SWRLAPIOWLOntology swrlapiOWLOntology = createEmptySWRLAPIOWLOntology(Namespace);
+		OWLOntology ontology = createEmptyOWLOntology(Namespace);
 
-		sqwrlQueryEngine = swrlapiOWLOntology.createSQWRLQueryEngine(DroolsFactory.getSWRLRuleEngineCreator());
+		sqwrlQueryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
 	}
 
 	@Test
