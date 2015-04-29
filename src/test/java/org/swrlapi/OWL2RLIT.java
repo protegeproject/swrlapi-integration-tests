@@ -14,14 +14,12 @@ import org.swrlapi.test.SWRLAPIIntegrationTestBase;
 
 public class OWL2RLIT extends SWRLAPIIntegrationTestBase
 {
-	final String Namespace = "http://swrlapi.org/ontologies/OWL2RLTestCase.owl#";
-
 	private SQWRLQueryEngine sqwrlQueryEngine;
 
 	@Before
 	public void setUp() throws OWLOntologyCreationException
 	{
-		OWLOntology ontology = createEmptyOWLOntology(Namespace);
+		OWLOntology ontology = createEmptyOWLOntology();
 
 		sqwrlQueryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
 	}
