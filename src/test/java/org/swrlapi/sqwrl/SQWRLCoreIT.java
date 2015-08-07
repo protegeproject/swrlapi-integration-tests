@@ -14,9 +14,9 @@ import org.swrlapi.literal.XSDTime;
 import org.swrlapi.parser.SWRLParseException;
 import org.swrlapi.sqwrl.exceptions.SQWRLException;
 import org.swrlapi.sqwrl.values.SQWRLLiteralResultValue;
-import org.swrlapi.test.SWRLAPIIntegrationTestBase;
+import org.swrlapi.test.IntegrationTestBase;
 
-public class SQWRLCoreIT extends SWRLAPIIntegrationTestBase
+public class SQWRLCoreIT extends IntegrationTestBase
 {
   @Before
   public void setUp() throws OWLOntologyCreationException

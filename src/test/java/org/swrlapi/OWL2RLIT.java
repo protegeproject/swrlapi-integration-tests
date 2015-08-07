@@ -3,26 +3,59 @@ package org.swrlapi;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.semanticweb.owlapi.model.OWLClass;
+import org.semanticweb.owlapi.model.OWLDataProperty;
+import org.semanticweb.owlapi.model.OWLNamedIndividual;
+import org.semanticweb.owlapi.model.OWLObjectProperty;
+import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyCreationException;
 import org.swrlapi.parser.SWRLParseException;
+import org.swrlapi.sqwrl.SQWRLQueryEngine;
 import org.swrlapi.sqwrl.SQWRLResult;
 import org.swrlapi.sqwrl.exceptions.SQWRLException;
-import org.swrlapi.test.SWRLAPIIntegrationTestBase;
+import org.swrlapi.test.IntegrationTestBase;
 
-public class OWL2RLIT extends SWRLAPIIntegrationTestBase
+import static org.semanticweb.owlapi.apibinding.OWLFunctionalSyntaxFactory.Class;
+import static org.semanticweb.owlapi.apibinding.OWLFunctionalSyntaxFactory.ClassAssertion;
+import static org.semanticweb.owlapi.apibinding.OWLFunctionalSyntaxFactory.DataProperty;
+import static org.semanticweb.owlapi.apibinding.OWLFunctionalSyntaxFactory.DataPropertyAssertion;
+import static org.semanticweb.owlapi.apibinding.OWLFunctionalSyntaxFactory.DataPropertyDomain;
+import static org.semanticweb.owlapi.apibinding.OWLFunctionalSyntaxFactory.IRI;
+import static org.semanticweb.owlapi.apibinding.OWLFunctionalSyntaxFactory.Literal;
+import static org.semanticweb.owlapi.apibinding.OWLFunctionalSyntaxFactory.NamedIndividual;
+import static org.semanticweb.owlapi.apibinding.OWLFunctionalSyntaxFactory.ObjectProperty;
+import static org.semanticweb.owlapi.apibinding.OWLFunctionalSyntaxFactory.ObjectPropertyAssertion;
+import static org.semanticweb.owlapi.apibinding.OWLFunctionalSyntaxFactory.ObjectPropertyDomain;
+import static org.semanticweb.owlapi.apibinding.OWLFunctionalSyntaxFactory.SameIndividual;
+
+public class OWL2RLIT extends IntegrationTestBase
 {
+  private static final OWLClass C = Class(IRI(":C"));
+  private static final OWLNamedIndividual S = NamedIndividual(IRI(":s"));
+  private static final OWLNamedIndividual O = NamedIndividual(IRI(":o"));
+  private static final OWLNamedIndividual I = NamedIndividual(IRI(":i"));
+  private static final OWLNamedIndividual I1 = NamedIndividual(IRI(":i1"));
+  private static final OWLNamedIndividual I2 = NamedIndividual(IRI(":i2"));
+  private static final OWLNamedIndividual I3 = NamedIndividual(IRI(":i3"));
+  private static final OWLObjectProperty OP = ObjectProperty(IRI(":op"));
+  private static final OWLDataProperty DP = DataProperty(IRI(":dp"));
+
+  private SQWRLQueryEngine queryEngine;
+  private OWLOntology ontology;
+
   @Before
   public void setUp() throws OWLOntologyCreationException
   {
-    createOWLOntologyAndSQWRLQueryEngine();
+    queryEngine = createSQWRLQueryEngine();
+    ontology = queryEngine.getOWLOntology();
   }
 
   @Test
   public void TEST_EQU_REF_C() throws SWRLParseException, SQWRLException
   {
-    declareOWLClassAssertion("C", "i");
+    addOWLAxioms(ontology, ClassAssertion(C, I));
 
-    SQWRLResult result = executeSQWRLQuery("q1", "sameAs(i, i) -> sqwrl:select(\"Yes!\")");
+    SQWRLResult result = queryEngine.runSQWRLQuery("q1", "sameAs(i, i) -> sqwrl:select(0)");
 
     Assert.assertTrue(result.next());
   }
@@ -30,9 +63,9 @@ public class OWL2RLIT extends SWRLAPIIntegrationTestBase
   @Test
   public void TEST_EQU_REF_OP() throws SWRLParseException, SQWRLException
   {
-    declareOWLObjectPropertyAssertion("s", "p", "o");
+    addOWLAxioms(ontology, ObjectPropertyAssertion(OP, S, O));
 
-    SQWRLResult result = executeSQWRLQuery("q1", "sameAs(s, s) ^ sameAs(o, o) -> sqwrl:select(\"Yes!\")");
+    SQWRLResult result = queryEngine.runSQWRLQuery("q1", "sameAs(s, s) ^ sameAs(o, o) -> sqwrl:select(0)");
 
     Assert.assertTrue(result.next());
   }
@@ -40,9 +73,9 @@ public class OWL2RLIT extends SWRLAPIIntegrationTestBase
   @Test
   public void TEST_EQU_REF_DP() throws SWRLParseException, SQWRLException
   {
-    declareOWLDataPropertyAssertion("s", "p", "1", "xsd:int");
+    addOWLAxioms(ontology, DataPropertyAssertion(DP, S, Literal("1", XSD_INT)));
 
-    SQWRLResult result = executeSQWRLQuery("q1", "sameAs(s, s) -> sqwrl:select(\"Yes!\")");
+    SQWRLResult result = queryEngine.runSQWRLQuery("q1", "sameAs(s, s) -> sqwrl:select(0)");
 
     Assert.assertTrue(result.next());
   }
@@ -50,9 +83,9 @@ public class OWL2RLIT extends SWRLAPIIntegrationTestBase
   @Test
   public void TEST_EQU_SYM() throws SWRLParseException, SQWRLException
   {
-    declareOWLSameAsAssertion("i1", "i2");
+    addOWLAxioms(ontology, SameIndividual(I1, I2));
 
-    SQWRLResult result = executeSQWRLQuery("q1", "sameAs(i2, i1) -> sqwrl:select(\"Yes!\")");
+    SQWRLResult result = queryEngine.runSQWRLQuery("q1", "sameAs(i2, i1) -> sqwrl:select(0)");
 
     Assert.assertTrue(result.next());
   }
@@ -60,10 +93,9 @@ public class OWL2RLIT extends SWRLAPIIntegrationTestBase
   @Test
   public void TEST_EQU_TRANS() throws SWRLParseException, SQWRLException
   {
-    declareOWLSameAsAssertion("i1", "i2");
-    declareOWLSameAsAssertion("i2", "i3");
+    addOWLAxioms(ontology, SameIndividual(I1, I2), SameIndividual(I2, I3));
 
-    SQWRLResult result = executeSQWRLQuery("q1", "sameAs(i1, i3) -> sqwrl:select(\"Yes!\")");
+    SQWRLResult result = queryEngine.runSQWRLQuery("q1", "sameAs(i1, i3) -> sqwrl:select(0)");
 
     Assert.assertTrue(result.next());
   }
@@ -71,10 +103,9 @@ public class OWL2RLIT extends SWRLAPIIntegrationTestBase
   @Test
   public void TEST_EQU_REP_S_C() throws SWRLParseException, SQWRLException
   {
-    declareOWLSameAsAssertion("i1", "i2");
-    declareOWLClassAssertion("C", "i1");
+    addOWLAxioms(ontology, SameIndividual(I1, I2), ClassAssertion(C, I1));
 
-    SQWRLResult result = executeSQWRLQuery("q1", "C(i2) -> sqwrl:select(\"Yes!\")");
+    SQWRLResult result = queryEngine.runSQWRLQuery("q1", "C(i2) -> sqwrl:select(0)");
 
     Assert.assertTrue(result.next());
   }
@@ -82,10 +113,9 @@ public class OWL2RLIT extends SWRLAPIIntegrationTestBase
   @Test
   public void TEST_EQU_REP_S_OP() throws SWRLParseException, SQWRLException
   {
-    declareOWLSameAsAssertion("i1", "i2");
-    declareOWLObjectPropertyAssertion("i1", "p", "o");
+    addOWLAxioms(ontology, SameIndividual(I1, I2), ObjectPropertyAssertion(OP, I1, O));
 
-    SQWRLResult result = executeSQWRLQuery("q1", "p(i2, o) -> sqwrl:select(\"Yes!\")");
+    SQWRLResult result = queryEngine.runSQWRLQuery("q1", "op(i2, o) -> sqwrl:select(0)");
 
     Assert.assertTrue(result.next());
   }
@@ -93,10 +123,9 @@ public class OWL2RLIT extends SWRLAPIIntegrationTestBase
   @Test
   public void TEST_EQU_REP_S_DP() throws SWRLParseException, SQWRLException
   {
-    declareOWLSameAsAssertion("i1", "i2");
-    declareOWLDataPropertyAssertion("i1", "p", "3", "xsd:int");
+    addOWLAxioms(ontology, SameIndividual(I1, I2), DataPropertyAssertion(DP, I1, Literal("3", XSD_INT)));
 
-    SQWRLResult result = executeSQWRLQuery("q1", "p(i2, 3) -> sqwrl:select(\"Yes!\")");
+    SQWRLResult result = queryEngine.runSQWRLQuery("q1", "dp(i2, 3) -> sqwrl:select(0)");
 
     Assert.assertTrue(result.next());
   }
@@ -104,10 +133,9 @@ public class OWL2RLIT extends SWRLAPIIntegrationTestBase
   @Test
   public void TEST_EQU_REP_O() throws SWRLParseException, SQWRLException
   {
-    declareOWLSameAsAssertion("i1", "i2");
-    declareOWLObjectPropertyAssertion("s", "p", "i2");
+    addOWLAxioms(ontology, SameIndividual(I1, I2), ObjectPropertyAssertion(OP, S, I2));
 
-    SQWRLResult result = executeSQWRLQuery("q1", "p(s, i1) -> sqwrl:select(\"Yes!\")");
+    SQWRLResult result = queryEngine.runSQWRLQuery("q1", "op(s, i1) -> sqwrl:select(0)");
 
     Assert.assertTrue(result.next());
   }
@@ -115,10 +143,9 @@ public class OWL2RLIT extends SWRLAPIIntegrationTestBase
   @Test
   public void TEST_PRP_DOM_OP() throws SWRLParseException, SQWRLException
   {
-    declareOWLObjectPropertyDomainAxiom("p", "C");
-    declareOWLObjectPropertyAssertion("s", "p", "o");
+    addOWLAxioms(ontology, ObjectPropertyDomain(OP, C), ObjectPropertyAssertion(OP, S, O));
 
-    SQWRLResult result = executeSQWRLQuery("q1", "C(s) -> sqwrl:select(\"Yes!\")");
+    SQWRLResult result = queryEngine.runSQWRLQuery("q1", "C(s) -> sqwrl:select(0)");
 
     Assert.assertTrue(result.next());
   }
@@ -126,10 +153,9 @@ public class OWL2RLIT extends SWRLAPIIntegrationTestBase
   @Test
   public void TEST_PRP_DOM_DP() throws SWRLParseException, SQWRLException
   {
-    declareOWLDataPropertyDomainAxiom("p", "C");
-    declareOWLDataPropertyAssertion("s", "p", "1", "xsd:int");
+    addOWLAxioms(ontology, DataPropertyDomain(DP, C), DataPropertyAssertion(DP, S, Literal("1", XSD_INT)));
 
-    SQWRLResult result = executeSQWRLQuery("q1", "C(s) -> sqwrl:select(\"Yes!\")");
+    SQWRLResult result = queryEngine.runSQWRLQuery("q1", "C(s) -> sqwrl:select(0)");
 
     Assert.assertTrue(result.next());
   }

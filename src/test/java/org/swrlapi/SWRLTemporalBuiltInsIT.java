@@ -8,9 +8,9 @@ import org.swrlapi.literal.XSDDateTime;
 import org.swrlapi.parser.SWRLParseException;
 import org.swrlapi.sqwrl.SQWRLResult;
 import org.swrlapi.sqwrl.exceptions.SQWRLException;
-import org.swrlapi.test.SWRLAPIIntegrationTestBase;
+import org.swrlapi.test.IntegrationTestBase;
 
-public class SWRLTemporalBuiltInsIT extends SWRLAPIIntegrationTestBase
+public class SWRLTemporalBuiltInsIT extends IntegrationTestBase
 {
   @Before
   public void setUp() throws OWLOntologyCreationException

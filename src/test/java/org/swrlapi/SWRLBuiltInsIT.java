@@ -10,9 +10,9 @@ import org.swrlapi.parser.SWRLParseException;
 import org.swrlapi.sqwrl.SQWRLResult;
 import org.swrlapi.sqwrl.exceptions.SQWRLException;
 import org.swrlapi.sqwrl.values.SQWRLLiteralResultValue;
-import org.swrlapi.test.SWRLAPIIntegrationTestBase;
+import org.swrlapi.test.IntegrationTestBase;
 
-public class SWRLBuiltInsIT extends SWRLAPIIntegrationTestBase
+public class SWRLBuiltInsIT extends IntegrationTestBase
 {
   @Before
   public void setUp() throws OWLOntologyCreationException
