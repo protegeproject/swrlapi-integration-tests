@@ -27,10 +27,13 @@ import static org.semanticweb.owlapi.apibinding.OWLFunctionalSyntaxFactory.Objec
 import static org.semanticweb.owlapi.apibinding.OWLFunctionalSyntaxFactory.ObjectPropertyAssertion;
 import static org.semanticweb.owlapi.apibinding.OWLFunctionalSyntaxFactory.ObjectPropertyDomain;
 import static org.semanticweb.owlapi.apibinding.OWLFunctionalSyntaxFactory.SameIndividual;
+import static org.semanticweb.owlapi.apibinding.OWLFunctionalSyntaxFactory.SubClassOf;
 
 public class OWL2RLIT extends IntegrationTestBase
 {
   private static final OWLClass C = Class(IRI(":C"));
+  private static final OWLClass C1 = Class(IRI(":C1"));
+  private static final OWLClass C2 = Class(IRI(":C2"));
   private static final OWLNamedIndividual S = NamedIndividual(IRI(":s"));
   private static final OWLNamedIndividual O = NamedIndividual(IRI(":o"));
   private static final OWLNamedIndividual I = NamedIndividual(IRI(":i"));
@@ -251,9 +254,16 @@ public class OWL2RLIT extends IntegrationTestBase
   //
   // createOWL2RLRuleDefinition(OWL2RLNames.Rule.CLS_OO, "cls_oo",
   // "rule cls_oo when OOOCE($c:ceid, $y1:i1, $y2:i2) then CAA caa1=new CAA($c, $y1); CAA caa2=new CAA($c, $y2); inferrer.infer(caa1, caa2); end");
-  //
-  // createOWL2RLRuleDefinition(OWL2RLNames.Rule.CAX_SCO, "cax_sco",
-  // "rule cax_sco  when SCA($c1:subcid, $c2:supercid) CAA(cid==$c1, $x:i) then CAA caa=new CAA($c2, $x); inferrer.infer(caa); end");
+
+  @Test
+  public void CAX_SCO() throws SWRLParseException, SQWRLException
+  {
+    addOWLAxioms(ontology, SubClassOf(C1, C2), ClassAssertion(C1, I));
+
+    SQWRLResult result = queryEngine.runSQWRLQuery("q1", "C2(i) -> sqwrl:select(0)");
+
+    Assert.assertTrue(result.next());
+  }
   //
   // createOWL2RLRuleDefinition(OWL2RLNames.Rule.CAX_EQC1, "cax_eqc1",
   // "rule cax_eqc1 when ECA($c1:c1id, $c2:c2id) CAA(cid==$c1, $x:i) then CAA caa=new CAA($c2, $x); inferrer.infer(caa); end");
