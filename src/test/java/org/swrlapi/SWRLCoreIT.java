@@ -48,6 +48,7 @@ public class SWRLCoreIT extends IntegrationTestBase
   private static final OWLDataProperty HAS_NAME = DataProperty(IRI(":hasName"));
   private static final OWLDataProperty IS_FRENCH = DataProperty(IRI(":isFrench"));
   private static final OWLDataProperty HAS_HEIGHT_IN_CM = DataProperty(IRI(":hasHeightInCM"));
+  private static final OWLDataProperty HAS_HEIGHT = DataProperty(IRI(":hasHeight"));
   private static final OWLDataProperty HEIGHT_OFFET_IN_CM = DataProperty(IRI(":heightOffsetInCM"));
 
   private SQWRLQueryEngine queryEngine;
@@ -62,7 +63,6 @@ public class SWRLCoreIT extends IntegrationTestBase
   @Test public void TestSWRLCoreClassAtomInAntecedentWithNamedIndividual() throws SWRLParseException, SQWRLException
   {
     addOWLAxioms(ontology, ClassAssertion(MALE, P1));
-    //declareOWLClassAssertion("Male", "p1");
 
     SQWRLResult result = queryEngine.runSQWRLQuery("q1", "Male(p1) -> sqwrl:select(p1)");
 
@@ -73,7 +73,6 @@ public class SWRLCoreIT extends IntegrationTestBase
   @Test public void TestSWRLCoreClassAtomInAntecedentWithVariable() throws SWRLParseException, SQWRLException
   {
     addOWLAxioms(ontology, ClassAssertion(MALE, P1));
-    //    declareOWLClassAssertion("Male", "p1");
 
     SQWRLResult result = queryEngine.runSQWRLQuery("q1", "Male(?m) -> sqwrl:select(?m)");
 
@@ -86,8 +85,6 @@ public class SWRLCoreIT extends IntegrationTestBase
   {
     addOWLAxioms(ontology, SameIndividual(P1, P2));
 
-    //declareOWLSameAsAssertion("p1", "p2");
-
     SQWRLResult result = queryEngine.runSQWRLQuery("q1", "sameAs(p1, p2) -> sqwrl:select(0)");
 
     Assert.assertTrue(result.next());
@@ -96,7 +93,6 @@ public class SWRLCoreIT extends IntegrationTestBase
   @Test public void TestSWRLCoreDifferentFrom() throws SWRLParseException, SQWRLException
   {
     addOWLAxioms(ontology, DifferentIndividuals(P1, P2));
-    //declareOWLDifferentFromAssertion("p1", "p2");
 
     SQWRLResult result = queryEngine.runSQWRLQuery("q1", "differentFrom(p1, p2) -> sqwrl:select(0)");
 
@@ -106,7 +102,6 @@ public class SWRLCoreIT extends IntegrationTestBase
   @Test public void TestSWRLCoreIndividualShortNameMatch() throws SWRLParseException, SQWRLException
   {
     addOWLAxioms(ontology, ObjectPropertyAssertion(HAS_UNCLE, P1, P2));
-    //    declareOWLObjectPropertyAssertion("p1", "hasUncle", "p2");
 
     SQWRLResult result = queryEngine.runSQWRLQuery("q1", "hasUncle(p1, p2) -> sqwrl:select(p1, p2)");
 
@@ -120,7 +115,6 @@ public class SWRLCoreIT extends IntegrationTestBase
   @Test public void TestSWRLCoreIndividualPrefixedNameMatch() throws SWRLParseException, SQWRLException
   {
     addOWLAxioms(ontology, ObjectPropertyAssertion(HAS_UNCLE, P1, P2));
-    //    declareOWLObjectPropertyAssertion("p1", "hasUncle", "p2");
 
     SQWRLResult result = queryEngine.runSQWRLQuery("q1", "hasUncle(:p1, :p2) -> sqwrl:select(:p1, :p2)");
 
@@ -134,7 +128,6 @@ public class SWRLCoreIT extends IntegrationTestBase
   @Test public void TestSWRLCoreIndividualShortNameBind() throws SWRLParseException, SQWRLException
   {
     addOWLAxioms(ontology, ObjectPropertyAssertion(HAS_UNCLE, P1, P2));
-    //    declareOWLObjectPropertyAssertion("p1", "hasUncle", "p2");
 
     SQWRLResult result = queryEngine.runSQWRLQuery("q1", "hasUncle(p1, ?uncle) -> sqwrl:select(?uncle)");
 
@@ -145,8 +138,7 @@ public class SWRLCoreIT extends IntegrationTestBase
 
   @Test public void TestSWRLCoreByteLiteralMatch() throws SWRLParseException, SQWRLException
   {
-    addOWLAxioms(ontology, DataPropertyAssertion(HAS_AGE, P1, Literal("42", XSD_INT)));
-    //declareOWLDataPropertyAssertion("p1", "hasAge", "42", "xsd:byte");
+    addOWLAxioms(ontology, DataPropertyAssertion(HAS_AGE, P1, Literal("42", XSD_BYTE)));
 
     SQWRLResult result = queryEngine.runSQWRLQuery("q1", "hasAge(p1, \"42\"^^xsd:byte) -> sqwrl:select(0)");
 
@@ -156,7 +148,6 @@ public class SWRLCoreIT extends IntegrationTestBase
   @Test public void TestSWRLCoreNegativeByteLiteralMatch() throws SWRLParseException, SQWRLException
   {
     addOWLAxioms(ontology, DataPropertyAssertion(YEAR_OFFSET_TO_BIRTH, P1, Literal("-42", XSD_BYTE)));
-    //    declareOWLDataPropertyAssertion("p1", "yearOffsetToBirth", "-42", "xsd:byte");
 
     SQWRLResult result = queryEngine.runSQWRLQuery("q1", "yearOffsetToBirth(p1, \"-42\"^^xsd:byte) -> sqwrl:select(0)");
 
@@ -166,7 +157,6 @@ public class SWRLCoreIT extends IntegrationTestBase
   @Test public void TestSWRLCoreByteLiteralBind() throws SWRLParseException, SQWRLException
   {
     addOWLAxioms(ontology, DataPropertyAssertion(HAS_AGE, P1, Literal("42", XSD_BYTE)));
-    //    declareOWLDataPropertyAssertion("p1", "hasAge", "42", "xsd:byte");
 
     SQWRLResult result = queryEngine.runSQWRLQuery("q1", "hasAge(p1, ?age) -> sqwrl:select(?age)");
 
@@ -178,7 +168,6 @@ public class SWRLCoreIT extends IntegrationTestBase
   @Test public void TestSWRLCoreShortLiteralMatch() throws SWRLParseException, SQWRLException
   {
     addOWLAxioms(ontology, DataPropertyAssertion(HAS_AGE, P1, Literal("42", XSD_SHORT)));
-    //    declareOWLDataPropertyAssertion("p1", "hasAge", "42", "xsd:short");
 
     SQWRLResult result = queryEngine.runSQWRLQuery("q1", "hasAge(p1, \"42\"^^xsd:short) -> sqwrl:select(0)");
 
@@ -188,7 +177,6 @@ public class SWRLCoreIT extends IntegrationTestBase
   @Test public void TestSWRLCoreNegativeShortLiteralMatch() throws SWRLParseException, SQWRLException
   {
     addOWLAxioms(ontology, DataPropertyAssertion(YEAR_OFFSET_TO_BIRTH, P1, Literal("-42", XSD_SHORT)));
-    //    declareOWLDataPropertyAssertion("p1", "yearOffsetToBirth", "-42", "xsd:short");
 
     SQWRLResult result = queryEngine
         .runSQWRLQuery("q1", "yearOffsetToBirth(p1, \"-42\"^^xsd:short) -> sqwrl:select(0)");
@@ -199,7 +187,6 @@ public class SWRLCoreIT extends IntegrationTestBase
   @Test public void TestSWRLCoreShortLiteralBind() throws SWRLParseException, SQWRLException
   {
     addOWLAxioms(ontology, DataPropertyAssertion(HAS_AGE, P1, Literal("42", XSD_SHORT)));
-    //declareOWLDataPropertyAssertion("p1", "hasAge", "42", "xsd:short");
 
     SQWRLResult result = queryEngine.runSQWRLQuery("q1", "hasAge(p1, ?age) -> sqwrl:select(?age)");
 
@@ -211,7 +198,6 @@ public class SWRLCoreIT extends IntegrationTestBase
   @Test public void TestSWRLCoreNegativeShortLiteralBind() throws SWRLParseException, SQWRLException
   {
     addOWLAxioms(ontology, DataPropertyAssertion(YEAR_OFFSET_TO_BIRTH, P1, Literal("-42", XSD_SHORT)));
-    //declareOWLDataPropertyAssertion("p1", "yearOffsetToBirth", "-42", "xsd:short");
 
     SQWRLResult result = queryEngine.runSQWRLQuery("q1", "yearOffsetToBirth(p1, ?offset) -> sqwrl:select(?offset)");
 
@@ -223,7 +209,6 @@ public class SWRLCoreIT extends IntegrationTestBase
   @Test public void TestSWRLCoreRawIntLiteralMatch() throws SWRLParseException, SQWRLException
   {
     addOWLAxioms(ontology, DataPropertyAssertion(HAS_AGE, P1, Literal("42", XSD_INT)));
-    //declareOWLDataPropertyAssertion("p1", "hasAge", "42", "xsd:int");
 
     SQWRLResult result = queryEngine.runSQWRLQuery("q1", "hasAge(p1, 42) -> sqwrl:select(0)");
 
@@ -234,8 +219,6 @@ public class SWRLCoreIT extends IntegrationTestBase
   {
     addOWLAxioms(ontology, DataPropertyAssertion(YEAR_OFFSET_TO_BIRTH, P1, Literal("-42", XSD_INT)));
 
-    //    declareOWLDataPropertyAssertion("p1", "yearOffsetToBirth", "-42", "xsd:int");
-
     SQWRLResult result = queryEngine.runSQWRLQuery("q1", "yearOffsetToBirth(p1, -42) -> sqwrl:select(0)");
 
     Assert.assertTrue(result.next());
@@ -244,7 +227,6 @@ public class SWRLCoreIT extends IntegrationTestBase
   @Test public void TestSWRLCoreQualifiedIntLiteralMatch() throws SWRLParseException, SQWRLException
   {
     addOWLAxioms(ontology, DataPropertyAssertion(HAS_AGE, P1, Literal("42", XSD_INT)));
-    //    declareOWLDataPropertyAssertion("p1", "hasAge", "42", "xsd:int");
 
     SQWRLResult result = queryEngine.runSQWRLQuery("q1", "hasAge(p1, \"42\"^^xsd:int) -> sqwrl:select(0)");
 
@@ -254,7 +236,6 @@ public class SWRLCoreIT extends IntegrationTestBase
   @Test public void TestSWRLCoreQualifiedNegativeIntLiteralMatch() throws SWRLParseException, SQWRLException
   {
     addOWLAxioms(ontology, DataPropertyAssertion(YEAR_OFFSET_TO_BIRTH, P1, Literal("-42", XSD_INT)));
-    //declareOWLDataPropertyAssertion("p1", "yearOffsetToBirth", "-42", "xsd:int");
 
     SQWRLResult result = queryEngine.runSQWRLQuery("q1", "yearOffsetToBirth(p1, \"-42\"^^xsd:int) -> sqwrl:select(0)");
 
@@ -264,7 +245,6 @@ public class SWRLCoreIT extends IntegrationTestBase
   @Test public void TestSWRLCoreIntLiteralBind() throws SWRLParseException, SQWRLException
   {
     addOWLAxioms(ontology, DataPropertyAssertion(HAS_AGE, P1, Literal("42", XSD_INT)));
-    //declareOWLDataPropertyAssertion("p1", "hasAge", "42", "xsd:int");
 
     SQWRLResult result = queryEngine.runSQWRLQuery("q1", "hasAge(p1, ?age) -> sqwrl:select(?age)");
 
@@ -276,7 +256,6 @@ public class SWRLCoreIT extends IntegrationTestBase
   @Test public void TestSWRLCoreNegativeIntLiteralBind() throws SWRLParseException, SQWRLException
   {
     addOWLAxioms(ontology, DataPropertyAssertion(YEAR_OFFSET_TO_BIRTH, P1, Literal("-42", XSD_INT)));
-    //declareOWLDataPropertyAssertion("p1", "yearOffsetToBirth", "-42", "xsd:int");
 
     SQWRLResult result = queryEngine.runSQWRLQuery("q1", "yearOffsetToBirth(p1, ?offset) -> sqwrl:select(?offset)");
 
@@ -288,7 +267,6 @@ public class SWRLCoreIT extends IntegrationTestBase
   @Test public void TestSWRLCoreLongLiteralMatch() throws SWRLParseException, SQWRLException
   {
     addOWLAxioms(ontology, DataPropertyAssertion(HAS_AGE, P1, Literal("42", XSD_LONG)));
-    //declareOWLDataPropertyAssertion("p1", "hasAge", "42", "xsd:long");
 
     SQWRLResult result = queryEngine.runSQWRLQuery("q1", "hasAge(p1, \"42\"^^xsd:long) -> sqwrl:select(0)");
 
@@ -298,7 +276,6 @@ public class SWRLCoreIT extends IntegrationTestBase
   @Test public void TestSWRLCoreNegativeLongLiteralMatch() throws SWRLParseException, SQWRLException
   {
     addOWLAxioms(ontology, DataPropertyAssertion(YEAR_OFFSET_TO_BIRTH, P1, Literal("-42", XSD_LONG)));
-    //    declareOWLDataPropertyAssertion("p1", "yearOffsetToBirth", "-42", "xsd:long");
 
     SQWRLResult result = queryEngine.runSQWRLQuery("q1", "yearOffsetToBirth(p1, \"-42\"^^xsd:long) -> sqwrl:select(0)");
 
@@ -308,7 +285,6 @@ public class SWRLCoreIT extends IntegrationTestBase
   @Test public void TestSWRLCoreLongLiteralBind() throws SWRLParseException, SQWRLException
   {
     addOWLAxioms(ontology, DataPropertyAssertion(HAS_AGE, P1, Literal("42", XSD_LONG)));
-    //declareOWLDataPropertyAssertion("p1", "hasAge", "42", "xsd:long");
 
     SQWRLResult result = queryEngine.runSQWRLQuery("q1", "hasAge(p1, ?age) -> sqwrl:select(p1, ?age)");
 
@@ -322,7 +298,6 @@ public class SWRLCoreIT extends IntegrationTestBase
   @Test public void TestSWRLCoreNegativeLongLiteralBind() throws SWRLParseException, SQWRLException
   {
     addOWLAxioms(ontology, DataPropertyAssertion(YEAR_OFFSET_TO_BIRTH, P1, Literal("-42", XSD_LONG)));
-    //    declareOWLDataPropertyAssertion("p1", "yearOffsetToBirth", "-42", "xsd:long");
 
     SQWRLResult result = queryEngine.runSQWRLQuery("q1", "yearOffsetToBirth(p1, ?offset) -> sqwrl:select(?offset)");
 
@@ -334,7 +309,6 @@ public class SWRLCoreIT extends IntegrationTestBase
   @Test public void TestSWRLCoreRawFloatLiteralMatch() throws SWRLParseException, SQWRLException
   {
     addOWLAxioms(ontology, DataPropertyAssertion(HAS_HEIGHT_IN_CM, P1, Literal("180.0", XSD_FLOAT)));
-    //declareOWLDataPropertyAssertion("p1", "hasHeightInCM", "180.0", "xsd:float");
 
     SQWRLResult result = queryEngine.runSQWRLQuery("q1", "hasHeightInCM(p1, 180.0) -> sqwrl:select(0)");
 
@@ -344,7 +318,6 @@ public class SWRLCoreIT extends IntegrationTestBase
   @Test public void TestSWRLCoreRawNegativeFloatLiteralMatch() throws SWRLParseException, SQWRLException
   {
     addOWLAxioms(ontology, DataPropertyAssertion(HEIGHT_OFFET_IN_CM, P1, Literal("-180.0", XSD_FLOAT)));
-    //    declareOWLDataPropertyAssertion("p1", "heightOffsetInCM", "-180.0", "xsd:float");
 
     SQWRLResult result = queryEngine.runSQWRLQuery("q1", "heightOffsetInCM(p1, -180.0) -> sqwrl:select(0)");
 
@@ -354,7 +327,6 @@ public class SWRLCoreIT extends IntegrationTestBase
   @Test public void TestSWRLCoreQualifiedFloatLiteralMatch() throws SWRLParseException, SQWRLException
   {
     addOWLAxioms(ontology, DataPropertyAssertion(HAS_HEIGHT_IN_CM, P1, Literal("177.0", XSD_FLOAT)));
-    //    declareOWLDataPropertyAssertion("p1", "hasHeightInCM", "177.0", "xsd:float");
 
     SQWRLResult result = queryEngine.runSQWRLQuery("q1", "hasHeightInCM(p1, \"177.0\"^^xsd:float) -> sqwrl:select(0)");
 
@@ -364,7 +336,6 @@ public class SWRLCoreIT extends IntegrationTestBase
   @Test public void TestSWRLCoreQualifiedNegativeFloatLiteralMatch() throws SWRLParseException, SQWRLException
   {
     addOWLAxioms(ontology, DataPropertyAssertion(HEIGHT_OFFET_IN_CM, P1, Literal("-177.1", XSD_FLOAT)));
-    //    declareOWLDataPropertyAssertion("p1", "heightOffsetInCM", "-177.1", "xsd:float");
 
     SQWRLResult result = queryEngine
         .runSQWRLQuery("q1", "heightOffsetInCM(p1, \"-177.1\"^^xsd:float) -> sqwrl:select(0)");
@@ -375,7 +346,6 @@ public class SWRLCoreIT extends IntegrationTestBase
   @Test public void TestSWRLCoreFloatLiteralBind() throws SWRLParseException, SQWRLException
   {
     addOWLAxioms(ontology, DataPropertyAssertion(HAS_HEIGHT_IN_CM, P1, Literal("177.0", XSD_FLOAT)));
-    //    declareOWLDataPropertyAssertion("p1", "hasHeightInCM", "177.0", "xsd:float");
 
     SQWRLResult result = queryEngine.runSQWRLQuery("q1", "hasHeightInCM(p1, ?height) -> sqwrl:select(?height)");
 
@@ -387,7 +357,6 @@ public class SWRLCoreIT extends IntegrationTestBase
   @Test public void TestSWRLCoreNegativeFloatLiteralBind() throws SWRLParseException, SQWRLException
   {
     addOWLAxioms(ontology, DataPropertyAssertion(HEIGHT_OFFET_IN_CM, P1, Literal("-177.0", XSD_FLOAT)));
-    //    declareOWLDataPropertyAssertion("p1", "heightOffsetInCM", "-177.0", "xsd:float");
 
     SQWRLResult result = queryEngine.runSQWRLQuery("q1", "heightOffsetInCM(p1, ?offset) -> sqwrl:select(?offset)");
 
@@ -399,7 +368,6 @@ public class SWRLCoreIT extends IntegrationTestBase
   @Test public void TestSWRLCoreDoubleLiteralMatch() throws SWRLParseException, SQWRLException
   {
     addOWLAxioms(ontology, DataPropertyAssertion(HAS_HEIGHT_IN_CM, P1, Literal("177.0", XSD_DOUBLE)));
-    //declareOWLDataPropertyAssertion("p1", "hasHeightInCM", "177.0", "xsd:double");
 
     SQWRLResult result = queryEngine.runSQWRLQuery("q1", "hasHeightInCM(p1, \"177.0\"^^xsd:double) -> sqwrl:select(0)");
 
@@ -409,7 +377,6 @@ public class SWRLCoreIT extends IntegrationTestBase
   @Test public void TestSWRLCoreNegativeDoubleLiteralMatch() throws SWRLParseException, SQWRLException
   {
     addOWLAxioms(ontology, DataPropertyAssertion(HEIGHT_OFFET_IN_CM, P1, Literal("-177.1", XSD_DOUBLE)));
-    declareOWLDataPropertyAssertion("p1", "heightOffsetInCM", "-177.1", "xsd:double");
 
     SQWRLResult result = queryEngine
         .runSQWRLQuery("q1", "heightOffsetInCM(p1, \"-177.1\"^^xsd:double) -> sqwrl:select(0)");
@@ -420,7 +387,6 @@ public class SWRLCoreIT extends IntegrationTestBase
   @Test public void TestSWRLCoreDoubleLiteralBind() throws SWRLParseException, SQWRLException
   {
     addOWLAxioms(ontology, DataPropertyAssertion(HAS_HEIGHT_IN_CM, P1, Literal("177.0", XSD_DOUBLE)));
-    //declareOWLDataPropertyAssertion("p1", "hasHeightInCM", "177.0", "xsd:double");
 
     SQWRLResult result = queryEngine.runSQWRLQuery("q1", "hasHeightInCM(p1, ?height) -> sqwrl:select(?height)");
 
@@ -432,7 +398,6 @@ public class SWRLCoreIT extends IntegrationTestBase
   @Test public void TestSWRLCoreNegativeDoubleLiteralBind() throws SWRLParseException, SQWRLException
   {
     addOWLAxioms(ontology, DataPropertyAssertion(HEIGHT_OFFET_IN_CM, P1, Literal("-177.0", XSD_DOUBLE)));
-    //    declareOWLDataPropertyAssertion("p1", "heightOffsetInCM", "-177.0", "xsd:double");
 
     SQWRLResult result = queryEngine.runSQWRLQuery("q1", "heightOffsetInCM(p1, ?offset) -> sqwrl:select(?offset)");
 
@@ -444,7 +409,6 @@ public class SWRLCoreIT extends IntegrationTestBase
   @Test public void TestSWRLCoreRawBooleanLiteralTrueMatch() throws SWRLParseException, SQWRLException
   {
     addOWLAxioms(ontology, DataPropertyAssertion(IS_FRENCH, P1, Literal("true", XSD_BOOLEAN)));
-    //    declareOWLDataPropertyAssertion("p1", "isFrench", "true", "xsd:boolean");
 
     SQWRLResult result = queryEngine.runSQWRLQuery("q1", "isFrench(p1, true) -> sqwrl:select(p1)");
 
@@ -456,7 +420,6 @@ public class SWRLCoreIT extends IntegrationTestBase
   @Test public void TestSWRLCoreQualifiedBooleanLiteralTrueMatch() throws SWRLParseException, SQWRLException
   {
     addOWLAxioms(ontology, DataPropertyAssertion(IS_FRENCH, P1, Literal("true", XSD_BOOLEAN)));
-    //    declareOWLDataPropertyAssertion("p1", "isFrench", "true", "xsd:boolean");
 
     SQWRLResult result = queryEngine.runSQWRLQuery("q1", "isFrench(p1, \"true\"^^xsd:boolean) -> sqwrl:select(0)");
 
@@ -466,7 +429,6 @@ public class SWRLCoreIT extends IntegrationTestBase
   @Test public void TestSWRLCoreRawBooleanLiteralFalseMatch() throws SWRLParseException, SQWRLException
   {
     addOWLAxioms(ontology, DataPropertyAssertion(IS_FRENCH, P1, Literal("false", XSD_BOOLEAN)));
-    //    declareOWLDataPropertyAssertion("p1", "isFrench", "false", "xsd:boolean");
 
     SQWRLResult result = queryEngine.runSQWRLQuery("q1", "isFrench(p1, false) -> sqwrl:select(0)");
 
@@ -476,7 +438,6 @@ public class SWRLCoreIT extends IntegrationTestBase
   @Test public void TestSWRLCoreQualifiedBooleanLiteralFalseMatch() throws SWRLParseException, SQWRLException
   {
     addOWLAxioms(ontology, DataPropertyAssertion(IS_FRENCH, P1, Literal("false", XSD_BOOLEAN)));
-    //    declareOWLDataPropertyAssertion("p1", "isFrench", "false", "xsd:boolean");
 
     SQWRLResult result = queryEngine.runSQWRLQuery("q1", "isFrench(p1, \"false\"^^xsd:boolean) -> sqwrl:select(0)");
 
@@ -486,7 +447,6 @@ public class SWRLCoreIT extends IntegrationTestBase
   @Test public void TestSWRLCoreBooleanLiteralBind() throws SWRLParseException, SQWRLException
   {
     addOWLAxioms(ontology, DataPropertyAssertion(IS_FRENCH, P1, Literal("true", XSD_BOOLEAN)));
-    //declareOWLDataPropertyAssertion("p1", "isFrench", "true", "xsd:boolean");
 
     SQWRLResult result = queryEngine.runSQWRLQuery("q1", "isFrench(p1, ?french) -> sqwrl:select(?french)");
 
@@ -498,7 +458,6 @@ public class SWRLCoreIT extends IntegrationTestBase
   @Test public void TestSWRLCoreStringLiteralBind() throws SWRLParseException, SQWRLException
   {
     addOWLAxioms(ontology, DataPropertyAssertion(HAS_NAME, P1, Literal("Bob", XSD_STRING)));
-    //    declareOWLDataPropertyAssertion("p1", "hasName", "Bob", "xsd:string");
 
     SQWRLResult result = queryEngine.runSQWRLQuery("q1", "hasName(p1, ?name) -> sqwrl:select(?name)");
 
@@ -510,7 +469,6 @@ public class SWRLCoreIT extends IntegrationTestBase
   @Test public void TestSWRLCoreRawStringLiteralMatch() throws SWRLParseException, SQWRLException
   {
     addOWLAxioms(ontology, DataPropertyAssertion(HAS_NAME, P1, Literal("Bob", XSD_STRING)));
-    //    declareOWLDataPropertyAssertion("p1", "hasName", "Bob", "xsd:string");
 
     SQWRLResult result = queryEngine.runSQWRLQuery("q1", "hasName(p1, \"Bob\") -> sqwrl:select(0)");
 
@@ -520,7 +478,6 @@ public class SWRLCoreIT extends IntegrationTestBase
   @Test public void TestSWRLCoreQualifiedStringLiteralMatch() throws SWRLParseException, SQWRLException
   {
     addOWLAxioms(ontology, DataPropertyAssertion(HAS_NAME, P1, Literal("Bob", XSD_STRING)));
-    //declareOWLDataPropertyAssertion("p1", "hasName", "Bob", "xsd:string");
 
     SQWRLResult result = queryEngine.runSQWRLQuery("q1", "hasName(p1, \"Bob\"^^xsd:string) -> sqwrl:select(0)");
 
@@ -532,7 +489,6 @@ public class SWRLCoreIT extends IntegrationTestBase
     String homePage = "http://stanford.edu/~fred";
 
     addOWLAxioms(ontology, DataPropertyAssertion(HAS_HOMEPAGE, P1, Literal(homePage, XSD_ANY_URI)));
-    //  declareOWLDataPropertyAssertion("p1", "hasHomePage", homePage, "xsd:anyURI");
 
     SQWRLResult result = queryEngine
         .runSQWRLQuery("q1", "hasHomePage(p1, \"" + homePage + "\"^^xsd:anyURI) -> sqwrl:select(0)");
@@ -545,7 +501,6 @@ public class SWRLCoreIT extends IntegrationTestBase
     String homePage = "http://stanford.edu/~fred";
 
     addOWLAxioms(ontology, DataPropertyAssertion(HAS_HOMEPAGE, P1, Literal(homePage, XSD_ANY_URI)));
-    //    declareOWLDataPropertyAssertion("p1", "hasHomePage", homePage, "xsd:anyURI");
 
     SQWRLResult result = queryEngine.runSQWRLQuery("q1", "hasHomePage(p1, ?home) -> sqwrl:select(?home)");
 
@@ -557,7 +512,6 @@ public class SWRLCoreIT extends IntegrationTestBase
   @Test public void TestSWRLCoreXSDDateLiteralMatch() throws SWRLParseException, SQWRLException
   {
     addOWLAxioms(ontology, DataPropertyAssertion(HAS_DOB, P1, Literal("2001-01-05", XSD_DATE)));
-    //  declareOWLDataPropertyAssertion("p1", "hasDOB", "2001-01-05", "xsd:date");
 
     SQWRLResult result = queryEngine.runSQWRLQuery("q1", "hasDOB(p1, \"2001-01-05\"^^xsd:date) -> sqwrl:select(0)");
 
@@ -567,7 +521,6 @@ public class SWRLCoreIT extends IntegrationTestBase
   @Test public void TestSWRLCoreXSDDateLiteralBind() throws SWRLParseException, SQWRLException
   {
     addOWLAxioms(ontology, DataPropertyAssertion(HAS_DOB, P1, Literal("2001-01-05", XSD_DATE)));
-    //    declareOWLDataPropertyAssertion("p1", "hasDOB", "2001-01-05", "xsd:date");
 
     SQWRLResult result = queryEngine.runSQWRLQuery("q1", "hasDOB(p1, ?dob) -> sqwrl:select(?dob)");
 
@@ -579,7 +532,6 @@ public class SWRLCoreIT extends IntegrationTestBase
   @Test public void TestSWRLCoreXSDDateTimeLiteralMatch() throws SWRLParseException, SQWRLException
   {
     addOWLAxioms(ontology, DataPropertyAssertion(HAS_TOB, P1, Literal("2001-01-05T10:10:10", XSD_DATETIME)));
-    //    declareOWLDataPropertyAssertion("p1", "hasTOB", "2001-01-05T10:10:10", "xsd:dateTime");
 
     SQWRLResult result = queryEngine
         .runSQWRLQuery("q1", "hasTOB(p1, \"2001-01-05T10:10:10\"^^xsd:dateTime) -> sqwrl:select(0)");
@@ -590,7 +542,6 @@ public class SWRLCoreIT extends IntegrationTestBase
   @Test public void TestSWRLCoreXSDDateTimeLiteralBind() throws SWRLParseException, SQWRLException
   {
     addOWLAxioms(ontology, DataPropertyAssertion(HAS_TOB, P1, Literal("2001-01-05T10:10:10", XSD_DATETIME)));
-    //    declareOWLDataPropertyAssertion("p1", "hasTOB", "2001-01-05T10:10:10", "xsd:dateTime");
 
     SQWRLResult result = queryEngine.runSQWRLQuery("q1", "hasTOB(p1, ?tob) -> sqwrl:select(?tob)");
 
@@ -602,7 +553,6 @@ public class SWRLCoreIT extends IntegrationTestBase
   @Test public void TestSWRLCoreXSDDurationLiteralMatch() throws SWRLParseException, SQWRLException
   {
     addOWLAxioms(ontology, DataPropertyAssertion(HAS_AGE, P1, Literal("P42Y", XSD_DURATION)));
-    //declareOWLDataPropertyAssertion("p1", "hasAge", "P42Y", "xsd:duration");
 
     SQWRLResult result = queryEngine.runSQWRLQuery("q1", "hasAge(p1, \"P42Y\"^^xsd:duration) -> sqwrl:select(0)");
 
@@ -612,7 +562,6 @@ public class SWRLCoreIT extends IntegrationTestBase
   @Test public void TestSWRLCoreXSDDurationLiteralBind() throws SWRLParseException, SQWRLException
   {
     addOWLAxioms(ontology, DataPropertyAssertion(HAS_AGE, P1, Literal("P42Y", XSD_DURATION)));
-    //    declareOWLDataPropertyAssertion("p1", "hasAge", "P42Y", "xsd:duration");
 
     SQWRLResult result = queryEngine.runSQWRLQuery("q1", "hasAge(p1, ?age) -> sqwrl:select(?age)");
 
@@ -624,7 +573,6 @@ public class SWRLCoreIT extends IntegrationTestBase
   @Test public void TestSWRLCoreXSDTimeLiteralMatch() throws SWRLParseException, SQWRLException
   {
     addOWLAxioms(ontology, DataPropertyAssertion(HAS_TOB, P1, Literal("10:10:10.33", XSD_TIME)));
-    //    declareOWLDataPropertyAssertion("p1", "hasTOB", "10:10:10.33", "xsd:time");
 
     SQWRLResult result = queryEngine
         .runSQWRLQuery("q1", "hasTOB(p1, \"10:10:10.33\"^^xsd:time) -> sqwrl:select(0)");
@@ -635,7 +583,6 @@ public class SWRLCoreIT extends IntegrationTestBase
   @Test public void TestSWRLCoreXSDTimeLiteralBind() throws SWRLParseException, SQWRLException
   {
     addOWLAxioms(ontology, DataPropertyAssertion(HAS_TOB, P1, Literal("10:10:10.33", XSD_TIME)));
-    //    declareOWLDataPropertyAssertion("p1", "hasTOB", "10:10:10.33", "xsd:time");
 
     SQWRLResult result = queryEngine.runSQWRLQuery("q1", "hasTOB(p1, ?bt) -> sqwrl:select(p1, ?bt)");
 
@@ -650,8 +597,6 @@ public class SWRLCoreIT extends IntegrationTestBase
   {
     addOWLAxioms(ontology, DataPropertyAssertion(HAS_AGE, P1, Literal("22", XSD_BYTE)),
         DataPropertyAssertion(HAS_AGE, P2, Literal("22", XSD_BYTE)));
-    //declareOWLDataPropertyAssertion("p1", "hasAge", "22", "xsd:byte");
-    //declareOWLDataPropertyAssertion("p2", "hasAge", "22", "xsd:byte");
 
     SQWRLResult result = queryEngine.runSQWRLQuery("q1", "hasAge(p1, ?age) ^ hasAge(p2, ?age) -> sqwrl:select(?age)");
 
@@ -664,8 +609,6 @@ public class SWRLCoreIT extends IntegrationTestBase
   {
     addOWLAxioms(ontology, DataPropertyAssertion(HAS_AGE, P1, Literal("22", XSD_SHORT)),
         DataPropertyAssertion(HAS_AGE, P2, Literal("22", XSD_SHORT)));
-    //    declareOWLDataPropertyAssertion("p1", "hasAge", "22", "xsd:short");
-    //    declareOWLDataPropertyAssertion("p2", "hasAge", "22", "xsd:short");
 
     SQWRLResult result = queryEngine.runSQWRLQuery("q1", "hasAge(p1, ?age) ^ hasAge(p2, ?age) -> sqwrl:select(?age)");
 
@@ -678,8 +621,6 @@ public class SWRLCoreIT extends IntegrationTestBase
   {
     addOWLAxioms(ontology, DataPropertyAssertion(HAS_AGE, P1, Literal("22", XSD_INT)),
         DataPropertyAssertion(HAS_AGE, P2, Literal("22", XSD_INT)));
-    //    declareOWLDataPropertyAssertion("p1", "hasAge", "22", "xsd:int");
-    //    declareOWLDataPropertyAssertion("p2", "hasAge", "22", "xsd:int");
 
     SQWRLResult result = queryEngine.runSQWRLQuery("q1", "hasAge(p1, ?age) ^ hasAge(p2, ?age) -> sqwrl:select(?age)");
 
@@ -692,8 +633,6 @@ public class SWRLCoreIT extends IntegrationTestBase
   {
     addOWLAxioms(ontology, DataPropertyAssertion(HAS_AGE, P1, Literal("22", XSD_LONG)),
         DataPropertyAssertion(HAS_AGE, P2, Literal("22", XSD_LONG)));
-    //    declareOWLDataPropertyAssertion("p1", "hasAge", "22", "xsd:long");
-    //    declareOWLDataPropertyAssertion("p2", "hasAge", "22", "xsd:long");
 
     SQWRLResult result = queryEngine.runSQWRLQuery("q1", "hasAge(p1, ?age) ^ hasAge(p2, ?age) -> sqwrl:select(?age)");
 
@@ -706,8 +645,6 @@ public class SWRLCoreIT extends IntegrationTestBase
   {
     addOWLAxioms(ontology, DataPropertyAssertion(HAS_HEIGHT, P1, Literal("122.0", XSD_FLOAT)),
         DataPropertyAssertion(HAS_HEIGHT, P2, Literal("122.0", XSD_FLOAT)));
-    //    declareOWLDataPropertyAssertion("p1", "hasHeight", "122.0", "xsd:float");
-    //    declareOWLDataPropertyAssertion("p2", "hasHeight", "122.0", "xsd:float");
 
     SQWRLResult result = queryEngine
         .runSQWRLQuery("q1", "hasHeight(p1, ?height) ^ hasHeight(p2, ?height) -> sqwrl:select(?height)");
@@ -721,8 +658,6 @@ public class SWRLCoreIT extends IntegrationTestBase
   {
     addOWLAxioms(ontology, DataPropertyAssertion(HAS_HEIGHT, P1, Literal("122.0", XSD_DOUBLE)),
         DataPropertyAssertion(HAS_HEIGHT, P2, Literal("122.0", XSD_DOUBLE)));
-    //    declareOWLDataPropertyAssertion("p1", "hasHeight", "122.0", "xsd:double");
-    //    declareOWLDataPropertyAssertion("p2", "hasHeight", "122.0", "xsd:double");
 
     SQWRLResult result = queryEngine
         .runSQWRLQuery("q1", "hasHeight(p1, ?age) ^ hasHeight(p2, ?age) -> sqwrl:select(?age)");
@@ -736,8 +671,6 @@ public class SWRLCoreIT extends IntegrationTestBase
   {
     addOWLAxioms(ontology, DataPropertyAssertion(IS_FRENCH, P1, Literal("true", XSD_BOOLEAN)),
         DataPropertyAssertion(IS_FRENCH, P2, Literal("true", XSD_BOOLEAN)));
-    //    declareOWLDataPropertyAssertion("p1", "isFrench", "true", "xsd:boolean");
-    //    declareOWLDataPropertyAssertion("p2", "isFrench", "true", "xsd:boolean");
 
     SQWRLResult result = queryEngine.runSQWRLQuery("q1", "isFrench(p1, ?f) ^ isFrench(p2, ?f) -> sqwrl:select(?f)");
 
@@ -750,8 +683,6 @@ public class SWRLCoreIT extends IntegrationTestBase
   {
     addOWLAxioms(ontology, DataPropertyAssertion(HAS_NAME, P1, Literal("Bob", XSD_STRING)),
         DataPropertyAssertion(HAS_NAME, P2, Literal("Bob", XSD_STRING)));
-    //    declareOWLDataPropertyAssertion("p1", "hasName", "Bob", "xsd:string");
-    //    declareOWLDataPropertyAssertion("p2", "hasName", "Bob", "xsd:string");
 
     SQWRLResult result = queryEngine
         .runSQWRLQuery("q1", "hasName(p1, ?name) ^ hasName(p2, ?name) -> sqwrl:select(?name)");
@@ -767,8 +698,6 @@ public class SWRLCoreIT extends IntegrationTestBase
 
     addOWLAxioms(ontology, DataPropertyAssertion(HAS_HOMEPAGE, P1, Literal(homePage, XSD_ANY_URI)),
         DataPropertyAssertion(HAS_HOMEPAGE, P2, Literal(homePage, XSD_ANY_URI)));
-    //    declareOWLDataPropertyAssertion("p1", "hasHomePage", homePage, "xsd:anyURI");
-    //    declareOWLDataPropertyAssertion("p2", "hasHomePage", homePage, "xsd:anyURI");
 
     SQWRLResult result = queryEngine
         .runSQWRLQuery("q1", "hasHomePage(p1, ?home) ^ hasHomePage(p2, ?home) -> sqwrl:select(?home)");
@@ -782,8 +711,6 @@ public class SWRLCoreIT extends IntegrationTestBase
   {
     addOWLAxioms(ontology, DataPropertyAssertion(HAS_DOB, P1, Literal("1999-01-02", XSD_DATE)),
         DataPropertyAssertion(HAS_DOB, P2, Literal("1999-01-02", XSD_DATE)));
-    //    declareOWLDataPropertyAssertion("p1", "hasDOB", "1999-01-02", "xsd:date");
-    //    declareOWLDataPropertyAssertion("p2", "hasDOB", "1999-01-02", "xsd:date");
 
     SQWRLResult result = queryEngine.runSQWRLQuery("q1", "hasDOB(p1, ?dob) ^ hasDOB(p2, ?dob) -> sqwrl:select(?dob)");
 
@@ -796,8 +723,6 @@ public class SWRLCoreIT extends IntegrationTestBase
   {
     addOWLAxioms(ontology, DataPropertyAssertion(HAS_TOB, P1, Literal("1999-01-02T10:10:10", XSD_DATETIME)),
         DataPropertyAssertion(HAS_TOB, P2, Literal("1999-01-02T10:10:10", XSD_DATETIME)));
-    //    declareOWLDataPropertyAssertion("p1", "hasTOB", "1999-01-02T10:10:10", "xsd:dateTime");
-    //    declareOWLDataPropertyAssertion("p2", "hasTOB", "1999-01-02T10:10:10", "xsd:dateTime");
 
     SQWRLResult result = queryEngine.runSQWRLQuery("q1", "hasTOB(p1, ?tob) ^ hasTOB(p2, ?tob) -> sqwrl:select(?tob)");
 
@@ -810,8 +735,6 @@ public class SWRLCoreIT extends IntegrationTestBase
   {
     addOWLAxioms(ontology, DataPropertyAssertion(HAS_TOB, P1, Literal("10:10:10", XSD_TIME)),
         DataPropertyAssertion(HAS_TOB, P2, Literal("10:10:10", XSD_TIME)));
-    declareOWLDataPropertyAssertion("p1", "hasTOB", "10:10:10", "xsd:time");
-    declareOWLDataPropertyAssertion("p2", "hasTOB", "10:10:10", "xsd:time");
 
     SQWRLResult result = queryEngine.runSQWRLQuery("q1", "hasTOB(p1, ?tob) ^ hasTOB(p2, ?tob) -> sqwrl:select(?tob)");
 
@@ -824,8 +747,6 @@ public class SWRLCoreIT extends IntegrationTestBase
   {
     addOWLAxioms(ontology, DataPropertyAssertion(HAS_AGE, P1, Literal("P42Y", XSD_DURATION)),
         DataPropertyAssertion(HAS_AGE, P2, Literal("P42Y", XSD_DURATION)));
-    //    declareOWLDataPropertyAssertion("p1", "hasAge", "P42Y", "xsd:duration");
-    //    declareOWLDataPropertyAssertion("p2", "hasAge", "P42Y", "xsd:duration");
 
     SQWRLResult result = queryEngine.runSQWRLQuery("q1", "hasAge(p1, ?age) ^ hasAge(p2, ?age) -> sqwrl:select(?age)");
 
