@@ -1,5 +1,6 @@
 package org.swrlapi;
 
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.semanticweb.owlapi.model.OWLAxiom;
@@ -30,6 +31,7 @@ import static org.semanticweb.owlapi.apibinding.OWLFunctionalSyntaxFactory.Named
 public class PublicAPIIT extends IntegrationTestBase
 {
   private static final OWLClass PERSON = Class(IRI(":Person"));
+  private static final OWLClass MALE = Class(IRI(":Male"));
   private static final OWLClass ADULT = Class(IRI(":Adult"));
   private static final OWLNamedIndividual P1 = NamedIndividual(IRI(":p1"));
   private static final OWLDataProperty HAS_AGE = DataProperty(IRI(":hasAge"));
@@ -56,7 +58,17 @@ public class PublicAPIIT extends IntegrationTestBase
 
     Set<OWLAxiom> axioms = ontology.getABoxAxioms(Imports.INCLUDED);
 
-//    Assert.assertTrue(axioms.contains(ClassAssertion(ADULT, P1)));
+    Assert.assertTrue(axioms.contains(ClassAssertion(ADULT, P1)));
+  }
+
+  @Test public void TestSQWRLQuery() throws SQWRLException, SWRLParseException
+  {
+    addOWLAxioms(ontology, ClassAssertion(MALE, P1));
+
+    SQWRLResult result = queryEngine.runSQWRLQuery("q1", "Male(p1) -> sqwrl:select(p1)");
+
+    Assert.assertTrue(result.next());
+    Assert.assertEquals(result.getIndividual(0).getShortName(), "p1");
   }
 
   @Test public void TestCascadingRuleAndQuery() throws SWRLParseException, SQWRLException
@@ -68,7 +80,7 @@ public class PublicAPIIT extends IntegrationTestBase
 
     SQWRLResult result = queryEngine.runSQWRLQuery("q1", "Adult(p1) -> sqwrl:select(p1)");
 
-//    Assert.assertTrue(result.next());
-//    Assert.assertEquals(result.getIndividual(0).getShortName(), "p1");
+    Assert.assertTrue(result.next());
+    Assert.assertEquals(result.getIndividual(0).getShortName(), "p1");
   }
 }
