@@ -8,6 +8,7 @@ import org.semanticweb.owlapi.model.OWLDataProperty;
 import org.semanticweb.owlapi.model.OWLNamedIndividual;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyCreationException;
+import org.semanticweb.owlapi.model.OWLOntologyManager;
 import org.semanticweb.owlapi.model.OWLOntologyStorageException;
 import org.swrlapi.core.SWRLRuleEngine;
 import org.swrlapi.factory.SWRLAPIFactory;
@@ -31,13 +32,15 @@ public class RoundTripIT extends IntegrationTestBase
   private static final OWLNamedIndividual P1 = NamedIndividual(IRI(":p1"));
   private static final OWLDataProperty HAS_AGE = DataProperty(IRI(":hasAge"));
 
+  private OWLOntologyManager ontologyManager;
   private SWRLRuleEngine ruleEngine;
   private SQWRLQueryEngine queryEngine;
   private OWLOntology ontology;
 
   @Before public void setUp() throws OWLOntologyCreationException
   {
-    ontology = OWLManager.createOWLOntologyManager().createOntology();
+    ontologyManager = OWLManager.createOWLOntologyManager();
+    ontology = ontologyManager.createOntology();
     queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
     ruleEngine = queryEngine;
   }
@@ -45,25 +48,24 @@ public class RoundTripIT extends IntegrationTestBase
   @Test public void TestRuleRoundTrip()
       throws SWRLParseException, SQWRLException, IOException, OWLOntologyCreationException, OWLOntologyStorageException
   {
-    // TODO Need to figure out proper namespace and prefix handling.
-    //    File file = File.createTempFile("temp", "owl");
-    //
-    //    addOWLAxioms(ontology, Declaration(ADULT), Declaration(PERSON), ClassAssertion(PERSON, P1),
-    //        DataPropertyAssertion(HAS_AGE, P1, Literal("18", XSD_INT)));
-    //
-    //    ruleEngine.createSWRLRule("R1", "Person(?p) ^ hasAge(?p, ?age) ^ swrlb:greaterThan(?age, 17) -> Adult(?p)");
-    //
-    //    ontology.saveOntology(IRI.create(file.toURI()));
-    //
-    //    ontology = ontologyManager.loadOntologyFromOntologyDocument(file);
-    //    queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
-    //    ruleEngine = queryEngine;
-    //
-    //    ruleEngine.infer();
-    //
-    //    Set<OWLAxiom> axioms = ontology.getABoxAxioms(Imports.INCLUDED);
-    //
-    //    Assert.assertTrue(axioms.contains(ClassAssertion(ADULT, P1)));
-    //
+    //   TODO Need to figure out proper namespace and prefix handling.
+//    File file = File.createTempFile("temp", "owl");
+//
+//    addOWLAxioms(ontology, Declaration(ADULT), Declaration(PERSON), ClassAssertion(PERSON, P1),
+//        DataPropertyAssertion(HAS_AGE, P1, Literal("18", XSD_INT)));
+//
+//    ruleEngine.createSWRLRule("R1", "Person(?p) ^ hasAge(?p, ?age) ^ swrlb:greaterThan(?age, 17) -> Adult(?p)");
+//
+//    ontology.saveOntology(org.semanticweb.owlapi.model.IRI.create(file.toURI()));
+//
+//    ontology = ontologyManager.loadOntologyFromOntologyDocument(file);
+//    queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
+//    ruleEngine = queryEngine;
+//
+//    ruleEngine.infer();
+//
+//    Set<OWLAxiom> axioms = ontology.getABoxAxioms(Imports.INCLUDED);
+//
+//    Assert.assertTrue(axioms.contains(ClassAssertion(ADULT, P1)));
   }
 }

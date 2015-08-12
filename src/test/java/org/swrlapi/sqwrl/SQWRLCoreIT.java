@@ -1,11 +1,12 @@
 package org.swrlapi.sqwrl;
 
-import java.net.URI;
-import java.net.URISyntaxException;
-
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.semanticweb.owlapi.model.OWLClass;
+import org.semanticweb.owlapi.model.OWLDataProperty;
+import org.semanticweb.owlapi.model.OWLNamedIndividual;
+import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyCreationException;
 import org.swrlapi.literal.XSDDate;
 import org.swrlapi.literal.XSDDateTime;
@@ -16,18 +17,52 @@ import org.swrlapi.sqwrl.exceptions.SQWRLException;
 import org.swrlapi.sqwrl.values.SQWRLLiteralResultValue;
 import org.swrlapi.test.IntegrationTestBase;
 
+import java.net.URI;
+import java.net.URISyntaxException;
+
+import static org.semanticweb.owlapi.apibinding.OWLFunctionalSyntaxFactory.Class;
+import static org.semanticweb.owlapi.apibinding.OWLFunctionalSyntaxFactory.ClassAssertion;
+import static org.semanticweb.owlapi.apibinding.OWLFunctionalSyntaxFactory.DataProperty;
+import static org.semanticweb.owlapi.apibinding.OWLFunctionalSyntaxFactory.DataPropertyAssertion;
+import static org.semanticweb.owlapi.apibinding.OWLFunctionalSyntaxFactory.IRI;
+import static org.semanticweb.owlapi.apibinding.OWLFunctionalSyntaxFactory.Literal;
+import static org.semanticweb.owlapi.apibinding.OWLFunctionalSyntaxFactory.NamedIndividual;
+
 public class SQWRLCoreIT extends IntegrationTestBase
 {
-  @Before
-  public void setUp() throws OWLOntologyCreationException
+  private static final OWLClass MALE = Class(IRI(":Male"));
+  private static final OWLNamedIndividual P1 = NamedIndividual(IRI(":p1"));
+  private static final OWLNamedIndividual P2 = NamedIndividual(IRI(":p2"));
+  private static final OWLNamedIndividual P3 = NamedIndividual(IRI(":p3"));
+  private static final OWLNamedIndividual P4 = NamedIndividual(IRI(":p4"));
+  private static final OWLNamedIndividual P5 = NamedIndividual(IRI(":p5"));
+  private static final OWLNamedIndividual P6 = NamedIndividual(IRI(":p6"));
+  private static final OWLDataProperty YEAR_OFFSET_TO_BIRTH = DataProperty(IRI(":yearOffsetToBirth"));
+  private static final OWLDataProperty HAS_AGE = DataProperty(IRI(":hasAge"));
+  private static final OWLDataProperty HAS_TOB = DataProperty(IRI(":hasTOB"));
+  private static final OWLDataProperty HAS_DOB = DataProperty(IRI(":hasDOB"));
+  private static final OWLDataProperty HAS_HOMEPAGE = DataProperty(IRI(":hasHomePage"));
+  private static final OWLDataProperty HAS_NAME = DataProperty(IRI(":hasName"));
+  private static final OWLDataProperty IS_FRENCH = DataProperty(IRI(":isFrench"));
+  private static final OWLDataProperty HAS_HEIGHT_IN_CM = DataProperty(IRI(":hasHeightInCM"));
+  private static final OWLDataProperty HAS_HEIGHT = DataProperty(IRI(":hasHeight"));
+  private static final OWLDataProperty HEIGHT_OFFET_IN_CM = DataProperty(IRI(":heightOffsetInCM"));
+
+  private SQWRLQueryEngine queryEngine;
+  private OWLOntology ontology;
+
+  @Before public void setUp() throws OWLOntologyCreationException
   {
+    queryEngine = createSQWRLQueryEngine();
+    ontology = queryEngine.getOWLOntology();
+
     createOWLOntologyAndSQWRLQueryEngine();
   }
 
   @Test
   public void TestSQWRLCoreColumnName() throws SWRLParseException, SQWRLException
   {
-    SQWRLResult result = executeSQWRLQuery("q1", "-> sqwrl:select(3, 4) ^ sqwrl:columnNames(\"col1\", \"col2\")");
+    SQWRLResult result = queryEngine.runSQWRLQuery("q1", "-> sqwrl:select(3, 4) ^ sqwrl:columnNames(\"col1\", \"col2\")");
 
     Assert.assertTrue(result.next());
     SQWRLLiteralResultValue literal1 = result.getLiteral("col1");
@@ -41,7 +76,7 @@ public class SQWRLCoreIT extends IntegrationTestBase
   @Test
   public void TestSQWRLCoreByteResult() throws SWRLParseException, SQWRLException
   {
-    SQWRLResult result = executeSQWRLQuery("q1", "-> sqwrl:select(\"34\"^^xsd:byte)");
+    SQWRLResult result = queryEngine.runSQWRLQuery("q1", "-> sqwrl:select(\"34\"^^xsd:byte)");
 
     Assert.assertTrue(result.next());
     SQWRLLiteralResultValue literal = result.getLiteral(0);
@@ -53,7 +88,7 @@ public class SQWRLCoreIT extends IntegrationTestBase
   @Test
   public void TestSQWRLCoreShortResult() throws SWRLParseException, SQWRLException
   {
-    SQWRLResult result = executeSQWRLQuery("q1", "-> sqwrl:select(\"34\"^^xsd:short)");
+    SQWRLResult result = queryEngine.runSQWRLQuery("q1", "-> sqwrl:select(\"34\"^^xsd:short)");
 
     Assert.assertTrue(result.next());
     SQWRLLiteralResultValue literal = result.getLiteral(0);
@@ -65,7 +100,7 @@ public class SQWRLCoreIT extends IntegrationTestBase
   @Test
   public void TestSQWRLCoreQualifiedIntResult() throws SWRLParseException, SQWRLException
   {
-    SQWRLResult result = executeSQWRLQuery("q1", "-> sqwrl:select(\"34\"^^xsd:int)");
+    SQWRLResult result = queryEngine.runSQWRLQuery("q1", "-> sqwrl:select(\"34\"^^xsd:int)");
 
     Assert.assertTrue(result.next());
     SQWRLLiteralResultValue literal = result.getLiteral(0);
@@ -77,7 +112,7 @@ public class SQWRLCoreIT extends IntegrationTestBase
   @Test
   public void TestSQWRLCoreRawIntResult() throws SWRLParseException, SQWRLException
   {
-    SQWRLResult result = executeSQWRLQuery("q1", "-> sqwrl:select(34)");
+    SQWRLResult result = queryEngine.runSQWRLQuery("q1", "-> sqwrl:select(34)");
 
     Assert.assertTrue(result.next());
     SQWRLLiteralResultValue literal = result.getLiteral(0);
@@ -89,7 +124,7 @@ public class SQWRLCoreIT extends IntegrationTestBase
   @Test
   public void TestSQWRLCoreLongResult() throws SWRLParseException, SQWRLException
   {
-    SQWRLResult result = executeSQWRLQuery("q1", "-> sqwrl:select(\"34\"^^xsd:long)");
+    SQWRLResult result = queryEngine.runSQWRLQuery("q1", "-> sqwrl:select(\"34\"^^xsd:long)");
 
     Assert.assertTrue(result.next());
     SQWRLLiteralResultValue literal = result.getLiteral(0);
@@ -101,7 +136,7 @@ public class SQWRLCoreIT extends IntegrationTestBase
   @Test
   public void TestSQWRLCoreRawFloatResult() throws SWRLParseException, SQWRLException
   {
-    SQWRLResult result = executeSQWRLQuery("q1", "-> sqwrl:select(34.0)");
+    SQWRLResult result = queryEngine.runSQWRLQuery("q1", "-> sqwrl:select(34.0)");
 
     Assert.assertTrue(result.next());
     SQWRLLiteralResultValue literal = result.getLiteral(0);
@@ -113,7 +148,7 @@ public class SQWRLCoreIT extends IntegrationTestBase
   @Test
   public void TestSQWRLCoreQualifiedFloatResult() throws SWRLParseException, SQWRLException
   {
-    SQWRLResult result = executeSQWRLQuery("q1", "-> sqwrl:select(\"34.0\"^^xsd:float)");
+    SQWRLResult result = queryEngine.runSQWRLQuery("q1", "-> sqwrl:select(\"34.0\"^^xsd:float)");
 
     Assert.assertTrue(result.next());
     SQWRLLiteralResultValue literal = result.getLiteral(0);
@@ -125,7 +160,7 @@ public class SQWRLCoreIT extends IntegrationTestBase
   @Test
   public void TestSQWRLCoreDoubleResult() throws SWRLParseException, SQWRLException
   {
-    SQWRLResult result = executeSQWRLQuery("q1", "-> sqwrl:select(\"34.0\"^^xsd:double)");
+    SQWRLResult result = queryEngine.runSQWRLQuery("q1", "-> sqwrl:select(\"34.0\"^^xsd:double)");
 
     Assert.assertTrue(result.next());
     SQWRLLiteralResultValue literal = result.getLiteral(0);
@@ -137,7 +172,7 @@ public class SQWRLCoreIT extends IntegrationTestBase
   @Test
   public void TestSQWRLCoreQualifiedBooleanResult() throws SWRLParseException, SQWRLException
   {
-    SQWRLResult result = executeSQWRLQuery("q1", "-> sqwrl:select(\"true\"^^xsd:boolean)");
+    SQWRLResult result = queryEngine.runSQWRLQuery("q1", "-> sqwrl:select(\"true\"^^xsd:boolean)");
 
     Assert.assertTrue(result.next());
     SQWRLLiteralResultValue literal = result.getLiteral(0);
@@ -149,7 +184,7 @@ public class SQWRLCoreIT extends IntegrationTestBase
   @Test
   public void TestSQWRLCoreRawBooleanResult() throws SWRLParseException, SQWRLException
   {
-    SQWRLResult result = executeSQWRLQuery("q1", "-> sqwrl:select(true)");
+    SQWRLResult result = queryEngine.runSQWRLQuery("q1", "-> sqwrl:select(true)");
 
     Assert.assertTrue(result.next());
     SQWRLLiteralResultValue literal = result.getLiteral(0);
@@ -161,7 +196,7 @@ public class SQWRLCoreIT extends IntegrationTestBase
   @Test
   public void TestSQWRLCoreQualifiedStringResult() throws SWRLParseException, SQWRLException
   {
-    SQWRLResult result = executeSQWRLQuery("q1", "-> sqwrl:select(\"Cat\"^^xsd:string)");
+    SQWRLResult result = queryEngine.runSQWRLQuery("q1", "-> sqwrl:select(\"Cat\"^^xsd:string)");
 
     Assert.assertTrue(result.next());
     SQWRLLiteralResultValue literal = result.getLiteral(0);
@@ -173,7 +208,7 @@ public class SQWRLCoreIT extends IntegrationTestBase
   @Test
   public void TestSQWRLCoreRawStringResult() throws SWRLParseException, SQWRLException
   {
-    SQWRLResult result = executeSQWRLQuery("q1", "-> sqwrl:select(\"Cat\")");
+    SQWRLResult result = queryEngine.runSQWRLQuery("q1", "-> sqwrl:select(\"Cat\")");
 
     Assert.assertTrue(result.next());
     SQWRLLiteralResultValue literal = result.getLiteral(0);
@@ -186,7 +221,7 @@ public class SQWRLCoreIT extends IntegrationTestBase
   public void TestSQWRLCoreURIResult() throws SWRLParseException, SQWRLException, URISyntaxException
   {
     String homepage = "http://stanford.edu/~fred";
-    SQWRLResult result = executeSQWRLQuery("q1", "-> sqwrl:select(\"" + homepage + "\"^^xsd:anyURI)");
+    SQWRLResult result = queryEngine.runSQWRLQuery("q1", "-> sqwrl:select(\"" + homepage + "\"^^xsd:anyURI)");
 
     Assert.assertTrue(result.next());
     SQWRLLiteralResultValue literal = result.getLiteral(0);
@@ -198,7 +233,7 @@ public class SQWRLCoreIT extends IntegrationTestBase
   @Test
   public void TestSQWRLCoreTimeResult() throws SWRLParseException, SQWRLException
   {
-    SQWRLResult result = executeSQWRLQuery("q1", "-> sqwrl:select(\"10:10:11\"^^xsd:time)");
+    SQWRLResult result = queryEngine.runSQWRLQuery("q1", "-> sqwrl:select(\"10:10:11\"^^xsd:time)");
 
     Assert.assertTrue(result.next());
     SQWRLLiteralResultValue literal = result.getLiteral(0);
@@ -210,7 +245,7 @@ public class SQWRLCoreIT extends IntegrationTestBase
   @Test
   public void TestSQWRLCoreDateResult() throws SWRLParseException, SQWRLException
   {
-    SQWRLResult result = executeSQWRLQuery("q1", "-> sqwrl:select(\"1999-01-01\"^^xsd:date\")");
+    SQWRLResult result = queryEngine.runSQWRLQuery("q1", "-> sqwrl:select(\"1999-01-01\"^^xsd:date\")");
 
     Assert.assertTrue(result.next());
     SQWRLLiteralResultValue literal = result.getLiteral(0);
@@ -222,7 +257,7 @@ public class SQWRLCoreIT extends IntegrationTestBase
   @Test
   public void TestSQWRLCoreDateTimeResult() throws SWRLParseException, SQWRLException
   {
-    SQWRLResult result = executeSQWRLQuery("q1", "-> sqwrl:select(\"1999-01-01T10:10:11\"^^xsd:dateTime)");
+    SQWRLResult result = queryEngine.runSQWRLQuery("q1", "-> sqwrl:select(\"1999-01-01T10:10:11\"^^xsd:dateTime)");
 
     Assert.assertTrue(result.next());
     SQWRLLiteralResultValue literal = result.getLiteral(0);
@@ -234,7 +269,7 @@ public class SQWRLCoreIT extends IntegrationTestBase
   @Test
   public void TestSQWRLCoreDurationResult() throws SWRLParseException, SQWRLException
   {
-    SQWRLResult result = executeSQWRLQuery("q1", "-> sqwrl:select(\"P24Y\"^^xsd:duration)");
+    SQWRLResult result = queryEngine.runSQWRLQuery("q1", "-> sqwrl:select(\"P24Y\"^^xsd:duration)");
 
     Assert.assertTrue(result.next());
     SQWRLLiteralResultValue literal = result.getLiteral(0);
@@ -246,10 +281,9 @@ public class SQWRLCoreIT extends IntegrationTestBase
   @Test
   public void TestSQWRLCoreCount() throws SWRLParseException, SQWRLException
   {
-    declareOWLClassAssertion("Male", "p1");
-    declareOWLClassAssertion("Male", "p2");
+    addOWLAxioms(ontology, ClassAssertion(MALE, P1), ClassAssertion(MALE, P2));
 
-    SQWRLResult result = executeSQWRLQuery("q1", "Male(?m) -> sqwrl:count(?m)");
+    SQWRLResult result = queryEngine.runSQWRLQuery("q1", "Male(?m) -> sqwrl:count(?m)");
 
     Assert.assertTrue(result.next());
     SQWRLLiteralResultValue literal = result.getLiteral(0);
@@ -260,14 +294,21 @@ public class SQWRLCoreIT extends IntegrationTestBase
   @Test
   public void TestSQWRLCoreSumShortWidest() throws SWRLParseException, SQWRLException
   {
-    declareOWLDataPropertyAssertion("p1", "hasAge", "10", "xsd:byte");
-    declareOWLDataPropertyAssertion("p2", "hasAge", "20", "xsd:short");
-    declareOWLDataPropertyAssertion("p3", "hasAge", "30", "xsd:short");
-    declareOWLDataPropertyAssertion("p4", "hasAge", "20", "xsd:short");
-    declareOWLDataPropertyAssertion("p5", "hasAge", "10", "xsd:short");
-    declareOWLDataPropertyAssertion("p6", "hasAge", "10", "xsd:short");
+    addOWLAxioms(ontology, DataPropertyAssertion(HAS_AGE, P1, Literal("10", XSD_BYTE)));
+    addOWLAxioms(ontology, DataPropertyAssertion(HAS_AGE, P2, Literal("20", XSD_SHORT)));
+    addOWLAxioms(ontology, DataPropertyAssertion(HAS_AGE, P3, Literal("30", XSD_SHORT)));
+    addOWLAxioms(ontology, DataPropertyAssertion(HAS_AGE, P4, Literal("20", XSD_SHORT)));
+    addOWLAxioms(ontology, DataPropertyAssertion(HAS_AGE, P5, Literal("10", XSD_SHORT)));
+    addOWLAxioms(ontology, DataPropertyAssertion(HAS_AGE, P6, Literal("10", XSD_SHORT)));
 
-    SQWRLResult result = executeSQWRLQuery("q1", "hasAge(?p, ?age)-> sqwrl:sum(?age)");
+//    declareOWLDataPropertyAssertion("p1", "hasAge", "10", "xsd:byte");
+//    declareOWLDataPropertyAssertion("p2", "hasAge", "20", "xsd:short");
+//    declareOWLDataPropertyAssertion("p3", "hasAge", "30", "xsd:short");
+//    declareOWLDataPropertyAssertion("p4", "hasAge", "20", "xsd:short");
+//    declareOWLDataPropertyAssertion("p5", "hasAge", "10", "xsd:short");
+//    declareOWLDataPropertyAssertion("p6", "hasAge", "10", "xsd:short");
+
+    SQWRLResult result = queryEngine.runSQWRLQuery("q1", "hasAge(?p, ?age)-> sqwrl:sum(?age)");
 
     Assert.assertTrue(result.next());
     SQWRLLiteralResultValue literal = result.getLiteral(0);
@@ -278,14 +319,20 @@ public class SQWRLCoreIT extends IntegrationTestBase
   @Test
   public void TestSQWRLCoreSumIntWidest() throws SWRLParseException, SQWRLException
   {
-    declareOWLDataPropertyAssertion("p1", "hasAge", "10", "xsd:byte");
-    declareOWLDataPropertyAssertion("p2", "hasAge", "20", "xsd:short");
-    declareOWLDataPropertyAssertion("p3", "hasAge", "30", "xsd:int");
-    declareOWLDataPropertyAssertion("p4", "hasAge", "20", "xsd:int");
-    declareOWLDataPropertyAssertion("p5", "hasAge", "10", "xsd:int");
-    declareOWLDataPropertyAssertion("p6", "hasAge", "10", "xsd:int");
+    addOWLAxioms(ontology, DataPropertyAssertion(HAS_AGE, P1, Literal("10", XSD_BYTE)));
+    addOWLAxioms(ontology, DataPropertyAssertion(HAS_AGE, P2, Literal("20", XSD_SHORT)));
+    addOWLAxioms(ontology, DataPropertyAssertion(HAS_AGE, P3, Literal("30", XSD_INT)));
+    addOWLAxioms(ontology, DataPropertyAssertion(HAS_AGE, P4, Literal("20", XSD_INT)));
+    addOWLAxioms(ontology, DataPropertyAssertion(HAS_AGE, P5, Literal("10", XSD_INT)));
+    addOWLAxioms(ontology, DataPropertyAssertion(HAS_AGE, P6, Literal("10", XSD_INT)));
+//    declareOWLDataPropertyAssertion("p1", "hasAge", "10", "xsd:byte");
+//    declareOWLDataPropertyAssertion("p2", "hasAge", "20", "xsd:short");
+//    declareOWLDataPropertyAssertion("p3", "hasAge", "30", "xsd:int");
+//    declareOWLDataPropertyAssertion("p4", "hasAge", "20", "xsd:int");
+//    declareOWLDataPropertyAssertion("p5", "hasAge", "10", "xsd:int");
+//    declareOWLDataPropertyAssertion("p6", "hasAge", "10", "xsd:int");
 
-    SQWRLResult result = executeSQWRLQuery("q1", "hasAge(?p, ?age)-> sqwrl:sum(?age)");
+    SQWRLResult result = queryEngine.runSQWRLQuery("q1", "hasAge(?p, ?age)-> sqwrl:sum(?age)");
 
     Assert.assertTrue(result.next());
     SQWRLLiteralResultValue literal = result.getLiteral(0);
@@ -296,14 +343,20 @@ public class SQWRLCoreIT extends IntegrationTestBase
   @Test
   public void TestSQWRLCoreSumLongWidest() throws SWRLParseException, SQWRLException
   {
-    declareOWLDataPropertyAssertion("p1", "hasAge", "10", "xsd:byte");
-    declareOWLDataPropertyAssertion("p2", "hasAge", "20", "xsd:short");
-    declareOWLDataPropertyAssertion("p3", "hasAge", "30", "xsd:int");
-    declareOWLDataPropertyAssertion("p4", "hasAge", "20", "xsd:long");
-    declareOWLDataPropertyAssertion("p5", "hasAge", "10", "xsd:long");
-    declareOWLDataPropertyAssertion("p6", "hasAge", "10", "xsd:long");
+    addOWLAxioms(ontology, DataPropertyAssertion(HAS_AGE, P1, Literal("10", XSD_BYTE)));
+    addOWLAxioms(ontology, DataPropertyAssertion(HAS_AGE, P2, Literal("20", XSD_SHORT)));
+    addOWLAxioms(ontology, DataPropertyAssertion(HAS_AGE, P3, Literal("30", XSD_INT)));
+    addOWLAxioms(ontology, DataPropertyAssertion(HAS_AGE, P4, Literal("20", XSD_LONG)));
+    addOWLAxioms(ontology, DataPropertyAssertion(HAS_AGE, P5, Literal("10", XSD_LONG)));
+    addOWLAxioms(ontology, DataPropertyAssertion(HAS_AGE, P6, Literal("10", XSD_LONG)));
+//    declareOWLDataPropertyAssertion("p1", "hasAge", "10", "xsd:byte");
+//    declareOWLDataPropertyAssertion("p2", "hasAge", "20", "xsd:short");
+//    declareOWLDataPropertyAssertion("p3", "hasAge", "30", "xsd:int");
+//    declareOWLDataPropertyAssertion("p4", "hasAge", "20", "xsd:long");
+//    declareOWLDataPropertyAssertion("p5", "hasAge", "10", "xsd:long");
+//    declareOWLDataPropertyAssertion("p6", "hasAge", "10", "xsd:long");
 
-    SQWRLResult result = executeSQWRLQuery("q1", "hasAge(?p, ?age)-> sqwrl:sum(?age)");
+    SQWRLResult result = queryEngine.runSQWRLQuery("q1", "hasAge(?p, ?age)-> sqwrl:sum(?age)");
 
     Assert.assertTrue(result.next());
     SQWRLLiteralResultValue literal = result.getLiteral(0);
@@ -314,14 +367,20 @@ public class SQWRLCoreIT extends IntegrationTestBase
   @Test
   public void TestSQWRLCoreSumFloatWidest() throws SWRLParseException, SQWRLException
   {
-    declareOWLDataPropertyAssertion("p1", "hasAge", "10", "xsd:byte");
-    declareOWLDataPropertyAssertion("p2", "hasAge", "20", "xsd:short");
-    declareOWLDataPropertyAssertion("p3", "hasAge", "30", "xsd:int");
-    declareOWLDataPropertyAssertion("p4", "hasAge", "20", "xsd:long");
-    declareOWLDataPropertyAssertion("p5", "hasAge", "10.0", "xsd:float");
-    declareOWLDataPropertyAssertion("p6", "hasAge", "10.0", "xsd:float");
+    addOWLAxioms(ontology, DataPropertyAssertion(HAS_AGE, P1, Literal("10", XSD_BYTE)));
+    addOWLAxioms(ontology, DataPropertyAssertion(HAS_AGE, P2, Literal("20", XSD_SHORT)));
+    addOWLAxioms(ontology, DataPropertyAssertion(HAS_AGE, P3, Literal("30", XSD_INT)));
+    addOWLAxioms(ontology, DataPropertyAssertion(HAS_AGE, P4, Literal("20", XSD_LONG)));
+    addOWLAxioms(ontology, DataPropertyAssertion(HAS_AGE, P5, Literal("10.0", XSD_FLOAT)));
+    addOWLAxioms(ontology, DataPropertyAssertion(HAS_AGE, P6, Literal("10.0", XSD_FLOAT)));
+//    declareOWLDataPropertyAssertion("p1", "hasAge", "10", "xsd:byte");
+//    declareOWLDataPropertyAssertion("p2", "hasAge", "20", "xsd:short");
+//    declareOWLDataPropertyAssertion("p3", "hasAge", "30", "xsd:int");
+//    declareOWLDataPropertyAssertion("p4", "hasAge", "20", "xsd:long");
+//    declareOWLDataPropertyAssertion("p5", "hasAge", "10.0", "xsd:float");
+//    declareOWLDataPropertyAssertion("p6", "hasAge", "10.0", "xsd:float");
 
-    SQWRLResult result = executeSQWRLQuery("q1", "hasAge(?p, ?age)-> sqwrl:sum(?age)");
+    SQWRLResult result = queryEngine.runSQWRLQuery("q1", "hasAge(?p, ?age)-> sqwrl:sum(?age)");
 
     Assert.assertTrue(result.next());
     SQWRLLiteralResultValue literal = result.getLiteral(0);
@@ -332,14 +391,20 @@ public class SQWRLCoreIT extends IntegrationTestBase
   @Test
   public void TestSQWRLCoreSumDoubleWidest() throws SWRLParseException, SQWRLException
   {
-    declareOWLDataPropertyAssertion("p1", "hasAge", "10", "xsd:byte");
-    declareOWLDataPropertyAssertion("p2", "hasAge", "20", "xsd:short");
-    declareOWLDataPropertyAssertion("p3", "hasAge", "30", "xsd:int");
-    declareOWLDataPropertyAssertion("p4", "hasAge", "20", "xsd:long");
-    declareOWLDataPropertyAssertion("p5", "hasAge", "10.0", "xsd:float");
-    declareOWLDataPropertyAssertion("p6", "hasAge", "10.0", "xsd:double");
+    addOWLAxioms(ontology, DataPropertyAssertion(HAS_AGE, P1, Literal("10", XSD_BYTE)));
+    addOWLAxioms(ontology, DataPropertyAssertion(HAS_AGE, P2, Literal("20", XSD_SHORT)));
+    addOWLAxioms(ontology, DataPropertyAssertion(HAS_AGE, P3, Literal("30", XSD_INT)));
+    addOWLAxioms(ontology, DataPropertyAssertion(HAS_AGE, P4, Literal("20", XSD_LONG)));
+    addOWLAxioms(ontology, DataPropertyAssertion(HAS_AGE, P5, Literal("10.0", XSD_FLOAT)));
+    addOWLAxioms(ontology, DataPropertyAssertion(HAS_AGE, P6, Literal("10.0", XSD_DOUBLE)));
+//    declareOWLDataPropertyAssertion("p1", "hasAge", "10", "xsd:byte");
+//    declareOWLDataPropertyAssertion("p2", "hasAge", "20", "xsd:short");
+//    declareOWLDataPropertyAssertion("p3", "hasAge", "30", "xsd:int");
+//    declareOWLDataPropertyAssertion("p4", "hasAge", "20", "xsd:long");
+//    declareOWLDataPropertyAssertion("p5", "hasAge", "10.0", "xsd:float");
+//    declareOWLDataPropertyAssertion("p6", "hasAge", "10.0", "xsd:double");
 
-    SQWRLResult result = executeSQWRLQuery("q1", "hasAge(?p, ?age)-> sqwrl:sum(?age)");
+    SQWRLResult result = queryEngine.runSQWRLQuery("q1", "hasAge(?p, ?age)-> sqwrl:sum(?age)");
 
     Assert.assertTrue(result.next());
     SQWRLLiteralResultValue literal = result.getLiteral(0);
@@ -350,11 +415,14 @@ public class SQWRLCoreIT extends IntegrationTestBase
   @Test
   public void TestSQWRLCoreByteSum() throws SWRLParseException, SQWRLException
   {
-    declareOWLDataPropertyAssertion("p1", "hasAge", "10", "xsd:byte");
-    declareOWLDataPropertyAssertion("p2", "hasAge", "20", "xsd:byte");
-    declareOWLDataPropertyAssertion("p3", "hasAge", "30", "xsd:byte");
+    addOWLAxioms(ontology, DataPropertyAssertion(HAS_AGE, P1, Literal("10", XSD_BYTE)));
+    addOWLAxioms(ontology, DataPropertyAssertion(HAS_AGE, P2, Literal("20", XSD_BYTE)));
+    addOWLAxioms(ontology, DataPropertyAssertion(HAS_AGE, P3, Literal("30", XSD_BYTE)));
+//    declareOWLDataPropertyAssertion("p1", "hasAge", "10", "xsd:byte");
+//    declareOWLDataPropertyAssertion("p2", "hasAge", "20", "xsd:byte");
+//    declareOWLDataPropertyAssertion("p3", "hasAge", "30", "xsd:byte");
 
-    SQWRLResult result = executeSQWRLQuery("q1", "hasAge(?p, ?age)-> sqwrl:sum(?age)");
+    SQWRLResult result = queryEngine.runSQWRLQuery("q1", "hasAge(?p, ?age)-> sqwrl:sum(?age)");
 
     Assert.assertTrue(result.next());
     SQWRLLiteralResultValue literal = result.getLiteral(0);
@@ -365,11 +433,14 @@ public class SQWRLCoreIT extends IntegrationTestBase
   @Test
   public void TestSQWRLCoreShortSum() throws SWRLParseException, SQWRLException
   {
-    declareOWLDataPropertyAssertion("p1", "hasAge", "10", "xsd:short");
-    declareOWLDataPropertyAssertion("p2", "hasAge", "20", "xsd:short");
-    declareOWLDataPropertyAssertion("p3", "hasAge", "30", "xsd:short");
+    addOWLAxioms(ontology, DataPropertyAssertion(HAS_AGE, P1, Literal("10", XSD_SHORT)));
+    addOWLAxioms(ontology, DataPropertyAssertion(HAS_AGE, P2, Literal("20", XSD_SHORT)));
+    addOWLAxioms(ontology, DataPropertyAssertion(HAS_AGE, P3, Literal("30", XSD_SHORT)));
+//    declareOWLDataPropertyAssertion("p1", "hasAge", "10", "xsd:short");
+//    declareOWLDataPropertyAssertion("p2", "hasAge", "20", "xsd:short");
+//    declareOWLDataPropertyAssertion("p3", "hasAge", "30", "xsd:short");
 
-    SQWRLResult result = executeSQWRLQuery("q1", "hasAge(?p, ?age)-> sqwrl:sum(?age)");
+    SQWRLResult result = queryEngine.runSQWRLQuery("q1", "hasAge(?p, ?age)-> sqwrl:sum(?age)");
 
     Assert.assertTrue(result.next());
     SQWRLLiteralResultValue literal = result.getLiteral(0);
@@ -380,11 +451,14 @@ public class SQWRLCoreIT extends IntegrationTestBase
   @Test
   public void TestSQWRLCoreIntSum() throws SWRLParseException, SQWRLException
   {
-    declareOWLDataPropertyAssertion("p1", "hasAge", "10", "xsd:int");
-    declareOWLDataPropertyAssertion("p2", "hasAge", "20", "xsd:int");
-    declareOWLDataPropertyAssertion("p3", "hasAge", "30", "xsd:int");
+    addOWLAxioms(ontology, DataPropertyAssertion(HAS_AGE, P1, Literal("10", XSD_INT)));
+    addOWLAxioms(ontology, DataPropertyAssertion(HAS_AGE, P2, Literal("20", XSD_INT)));
+    addOWLAxioms(ontology, DataPropertyAssertion(HAS_AGE, P3, Literal("30", XSD_INT)));
+//    declareOWLDataPropertyAssertion("p1", "hasAge", "10", "xsd:int");
+//    declareOWLDataPropertyAssertion("p2", "hasAge", "20", "xsd:int");
+//    declareOWLDataPropertyAssertion("p3", "hasAge", "30", "xsd:int");
 
-    SQWRLResult result = executeSQWRLQuery("q1", "hasAge(?p, ?age)-> sqwrl:sum(?age)");
+    SQWRLResult result = queryEngine.runSQWRLQuery("q1", "hasAge(?p, ?age)-> sqwrl:sum(?age)");
 
     Assert.assertTrue(result.next());
     SQWRLLiteralResultValue literal = result.getLiteral(0);
@@ -395,11 +469,14 @@ public class SQWRLCoreIT extends IntegrationTestBase
   @Test
   public void TestSQWRLCoreLongSum() throws SWRLParseException, SQWRLException
   {
-    declareOWLDataPropertyAssertion("p1", "hasAge", "10", "xsd:long");
-    declareOWLDataPropertyAssertion("p2", "hasAge", "20", "xsd:long");
-    declareOWLDataPropertyAssertion("p3", "hasAge", "30", "xsd:long");
+    addOWLAxioms(ontology, DataPropertyAssertion(HAS_AGE, P1, Literal("10", XSD_LONG)));
+    addOWLAxioms(ontology, DataPropertyAssertion(HAS_AGE, P2, Literal("20", XSD_LONG)));
+    addOWLAxioms(ontology, DataPropertyAssertion(HAS_AGE, P3, Literal("30", XSD_LONG)));
+//    declareOWLDataPropertyAssertion("p1", "hasAge", "10", "xsd:long");
+//    declareOWLDataPropertyAssertion("p2", "hasAge", "20", "xsd:long");
+//    declareOWLDataPropertyAssertion("p3", "hasAge", "30", "xsd:long");
 
-    SQWRLResult result = executeSQWRLQuery("q1", "hasAge(?p, ?age)-> sqwrl:sum(?age)");
+    SQWRLResult result = queryEngine.runSQWRLQuery("q1", "hasAge(?p, ?age)-> sqwrl:sum(?age)");
 
     Assert.assertTrue(result.next());
     SQWRLLiteralResultValue literal = result.getLiteral(0);
@@ -410,11 +487,14 @@ public class SQWRLCoreIT extends IntegrationTestBase
   @Test
   public void TestSQWRLCoreFloatSum() throws SWRLParseException, SQWRLException
   {
-    declareOWLDataPropertyAssertion("p1", "hasHeight", "100.1", "xsd:float");
-    declareOWLDataPropertyAssertion("p2", "hasHeight", "200.2", "xsd:float");
-    declareOWLDataPropertyAssertion("p3", "hasHeight", "300.2", "xsd:float");
+    addOWLAxioms(ontology, DataPropertyAssertion(HAS_HEIGHT, P1, Literal("100.1", XSD_FLOAT)));
+    addOWLAxioms(ontology, DataPropertyAssertion(HAS_HEIGHT, P2, Literal("200.2", XSD_FLOAT)));
+    addOWLAxioms(ontology, DataPropertyAssertion(HAS_HEIGHT, P3, Literal("300.2", XSD_FLOAT)));
+//    declareOWLDataPropertyAssertion("p1", "hasHeight", "100.1", "xsd:float");
+//    declareOWLDataPropertyAssertion("p2", "hasHeight", "200.2", "xsd:float");
+//    declareOWLDataPropertyAssertion("p3", "hasHeight", "300.2", "xsd:float");
 
-    SQWRLResult result = executeSQWRLQuery("q1", "hasHeight(?p, ?height)-> sqwrl:sum(?height)");
+    SQWRLResult result = queryEngine.runSQWRLQuery("q1", "hasHeight(?p, ?height)-> sqwrl:sum(?height)");
 
     Assert.assertTrue(result.next());
     SQWRLLiteralResultValue literal = result.getLiteral(0);
@@ -425,11 +505,14 @@ public class SQWRLCoreIT extends IntegrationTestBase
   @Test
   public void TestSQWRLCoreDoubleSum() throws SWRLParseException, SQWRLException
   {
-    declareOWLDataPropertyAssertion("p1", "hasHeight", "100.1", "xsd:double");
-    declareOWLDataPropertyAssertion("p2", "hasHeight", "200.2", "xsd:double");
-    declareOWLDataPropertyAssertion("p3", "hasHeight", "300.2", "xsd:double");
+    addOWLAxioms(ontology, DataPropertyAssertion(HAS_HEIGHT, P1, Literal("100.1", XSD_DOUBLE)));
+    addOWLAxioms(ontology, DataPropertyAssertion(HAS_HEIGHT, P2, Literal("200.2", XSD_DOUBLE)));
+    addOWLAxioms(ontology, DataPropertyAssertion(HAS_HEIGHT, P3, Literal("300.2", XSD_DOUBLE)));
+//    declareOWLDataPropertyAssertion("p1", "hasHeight", "100.1", "xsd:double");
+//    declareOWLDataPropertyAssertion("p2", "hasHeight", "200.2", "xsd:double");
+//    declareOWLDataPropertyAssertion("p3", "hasHeight", "300.2", "xsd:double");
 
-    SQWRLResult result = executeSQWRLQuery("q1", "hasHeight(?p, ?height)-> sqwrl:sum(?height)");
+    SQWRLResult result = queryEngine.runSQWRLQuery("q1", "hasHeight(?p, ?height)-> sqwrl:sum(?height)");
 
     Assert.assertTrue(result.next());
     SQWRLLiteralResultValue literal = result.getLiteral(0);
@@ -440,11 +523,14 @@ public class SQWRLCoreIT extends IntegrationTestBase
   @Test
   public void TestSQWRLCoreAvgShortBroadest() throws SWRLParseException, SQWRLException
   {
-    declareOWLDataPropertyAssertion("p1", "hasAge", "10", "xsd:byte");
-    declareOWLDataPropertyAssertion("p2", "hasAge", "20", "xsd:short");
-    declareOWLDataPropertyAssertion("p3", "hasAge", "30", "xsd:short");
+    addOWLAxioms(ontology, DataPropertyAssertion(HAS_AGE, P1, Literal("10", XSD_BYTE)));
+    addOWLAxioms(ontology, DataPropertyAssertion(HAS_AGE, P2, Literal("20", XSD_SHORT)));
+    addOWLAxioms(ontology, DataPropertyAssertion(HAS_AGE, P3, Literal("30", XSD_SHORT)));
+//    declareOWLDataPropertyAssertion("p1", "hasAge", "10", "xsd:byte");
+//    declareOWLDataPropertyAssertion("p2", "hasAge", "20", "xsd:short");
+//    declareOWLDataPropertyAssertion("p3", "hasAge", "30", "xsd:short");
 
-    SQWRLResult result = executeSQWRLQuery("q1", "hasAge(?p, ?age)-> sqwrl:avg(?age)");
+    SQWRLResult result = queryEngine.runSQWRLQuery("q1", "hasAge(?p, ?age)-> sqwrl:avg(?age)");
 
     Assert.assertTrue(result.next());
     SQWRLLiteralResultValue literal = result.getLiteral(0);
@@ -455,11 +541,14 @@ public class SQWRLCoreIT extends IntegrationTestBase
   @Test
   public void TestSQWRLCoreAvgIntBroadest() throws SWRLParseException, SQWRLException
   {
-    declareOWLDataPropertyAssertion("p1", "hasAge", "10", "xsd:byte");
-    declareOWLDataPropertyAssertion("p2", "hasAge", "20", "xsd:short");
-    declareOWLDataPropertyAssertion("p3", "hasAge", "30", "xsd:int");
+    addOWLAxioms(ontology, DataPropertyAssertion(HAS_AGE, P1, Literal("10", XSD_BYTE)));
+    addOWLAxioms(ontology, DataPropertyAssertion(HAS_AGE, P2, Literal("20", XSD_SHORT)));
+    addOWLAxioms(ontology, DataPropertyAssertion(HAS_AGE, P3, Literal("30", XSD_INT)));
+//    declareOWLDataPropertyAssertion("p1", "hasAge", "10", "xsd:byte");
+//    declareOWLDataPropertyAssertion("p2", "hasAge", "20", "xsd:short");
+//    declareOWLDataPropertyAssertion("p3", "hasAge", "30", "xsd:int");
 
-    SQWRLResult result = executeSQWRLQuery("q1", "hasAge(?p, ?age)-> sqwrl:avg(?age)");
+    SQWRLResult result = queryEngine.runSQWRLQuery("q1", "hasAge(?p, ?age)-> sqwrl:avg(?age)");
 
     Assert.assertTrue(result.next());
     SQWRLLiteralResultValue literal = result.getLiteral(0);
@@ -470,11 +559,14 @@ public class SQWRLCoreIT extends IntegrationTestBase
   @Test
   public void TestSQWRLCoreAvgLongBroadest() throws SWRLParseException, SQWRLException
   {
-    declareOWLDataPropertyAssertion("p1", "hasAge", "10", "xsd:short");
-    declareOWLDataPropertyAssertion("p2", "hasAge", "20", "xsd:int");
-    declareOWLDataPropertyAssertion("p3", "hasAge", "30", "xsd:long");
+    addOWLAxioms(ontology, DataPropertyAssertion(HAS_AGE, P1, Literal("10", XSD_SHORT)));
+    addOWLAxioms(ontology, DataPropertyAssertion(HAS_AGE, P2, Literal("20", XSD_INT)));
+    addOWLAxioms(ontology, DataPropertyAssertion(HAS_AGE, P3, Literal("30", XSD_LONG)));
+//    declareOWLDataPropertyAssertion("p1", "hasAge", "10", "xsd:short");
+//    declareOWLDataPropertyAssertion("p2", "hasAge", "20", "xsd:int");
+//    declareOWLDataPropertyAssertion("p3", "hasAge", "30", "xsd:long");
 
-    SQWRLResult result = executeSQWRLQuery("q1", "hasAge(?p, ?age)-> sqwrl:avg(?age)");
+    SQWRLResult result = queryEngine.runSQWRLQuery("q1", "hasAge(?p, ?age)-> sqwrl:avg(?age)");
 
     Assert.assertTrue(result.next());
     SQWRLLiteralResultValue literal = result.getLiteral(0);
@@ -485,11 +577,14 @@ public class SQWRLCoreIT extends IntegrationTestBase
   @Test
   public void TestSQWRLCoreAvgFloatBroadest() throws SWRLParseException, SQWRLException
   {
-    declareOWLDataPropertyAssertion("p1", "hasAge", "10", "xsd:int");
-    declareOWLDataPropertyAssertion("p2", "hasAge", "20", "xsd:long");
-    declareOWLDataPropertyAssertion("p3", "hasAge", "30.0", "xsd:float");
+    addOWLAxioms(ontology, DataPropertyAssertion(HAS_AGE, P1, Literal("10", XSD_INT)));
+    addOWLAxioms(ontology, DataPropertyAssertion(HAS_AGE, P2, Literal("20", XSD_LONG)));
+    addOWLAxioms(ontology, DataPropertyAssertion(HAS_AGE, P3, Literal("30.0", XSD_FLOAT)));
+//    declareOWLDataPropertyAssertion("p1", "hasAge", "10", "xsd:int");
+//    declareOWLDataPropertyAssertion("p2", "hasAge", "20", "xsd:long");
+//    declareOWLDataPropertyAssertion("p3", "hasAge", "30.0", "xsd:float");
 
-    SQWRLResult result = executeSQWRLQuery("q1", "hasAge(?p, ?age)-> sqwrl:avg(?age)");
+    SQWRLResult result = queryEngine.runSQWRLQuery("q1", "hasAge(?p, ?age)-> sqwrl:avg(?age)");
 
     Assert.assertTrue(result.next());
     SQWRLLiteralResultValue literal = result.getLiteral(0);
@@ -500,11 +595,14 @@ public class SQWRLCoreIT extends IntegrationTestBase
   @Test
   public void TestSQWRLCoreAvgDoubleBroadest() throws SWRLParseException, SQWRLException
   {
-    declareOWLDataPropertyAssertion("p1", "hasAge", "10", "xsd:long");
-    declareOWLDataPropertyAssertion("p2", "hasAge", "20.0", "xsd:float");
-    declareOWLDataPropertyAssertion("p3", "hasAge", "30.0", "xsd:double");
+    addOWLAxioms(ontology, DataPropertyAssertion(HAS_AGE, P1, Literal("10", XSD_LONG)));
+    addOWLAxioms(ontology, DataPropertyAssertion(HAS_AGE, P2, Literal("20.0", XSD_FLOAT)));
+    addOWLAxioms(ontology, DataPropertyAssertion(HAS_AGE, P3, Literal("30.0", XSD_DOUBLE)));
+//    declareOWLDataPropertyAssertion("p1", "hasAge", "10", "xsd:long");
+//    declareOWLDataPropertyAssertion("p2", "hasAge", "20.0", "xsd:float");
+//    declareOWLDataPropertyAssertion("p3", "hasAge", "30.0", "xsd:double");
 
-    SQWRLResult result = executeSQWRLQuery("q1", "hasAge(?p, ?age)-> sqwrl:avg(?age)");
+    SQWRLResult result = queryEngine.runSQWRLQuery("q1", "hasAge(?p, ?age)-> sqwrl:avg(?age)");
 
     Assert.assertTrue(result.next());
     SQWRLLiteralResultValue literal = result.getLiteral(0);
@@ -515,11 +613,14 @@ public class SQWRLCoreIT extends IntegrationTestBase
   @Test
   public void TestSQWRLCoreByteAvg() throws SWRLParseException, SQWRLException
   {
-    declareOWLDataPropertyAssertion("p1", "hasAge", "10", "xsd:byte");
-    declareOWLDataPropertyAssertion("p2", "hasAge", "20", "xsd:byte");
-    declareOWLDataPropertyAssertion("p3", "hasAge", "30", "xsd:byte");
+    addOWLAxioms(ontology, DataPropertyAssertion(HAS_AGE, P1, Literal("10", XSD_BYTE)));
+    addOWLAxioms(ontology, DataPropertyAssertion(HAS_AGE, P2, Literal("20", XSD_BYTE)));
+    addOWLAxioms(ontology, DataPropertyAssertion(HAS_AGE, P3, Literal("30", XSD_BYTE)));
+//    declareOWLDataPropertyAssertion("p1", "hasAge", "10", "xsd:byte");
+//    declareOWLDataPropertyAssertion("p2", "hasAge", "20", "xsd:byte");
+//    declareOWLDataPropertyAssertion("p3", "hasAge", "30", "xsd:byte");
 
-    SQWRLResult result = executeSQWRLQuery("q1", "hasAge(?p, ?age)-> sqwrl:avg(?age)");
+    SQWRLResult result = queryEngine.runSQWRLQuery("q1", "hasAge(?p, ?age)-> sqwrl:avg(?age)");
 
     Assert.assertTrue(result.next());
     SQWRLLiteralResultValue literal = result.getLiteral(0);
@@ -530,11 +631,14 @@ public class SQWRLCoreIT extends IntegrationTestBase
   @Test
   public void TestSQWRLCoreShortAvg() throws SWRLParseException, SQWRLException
   {
-    declareOWLDataPropertyAssertion("p1", "hasAge", "10", "xsd:short");
-    declareOWLDataPropertyAssertion("p2", "hasAge", "20", "xsd:short");
-    declareOWLDataPropertyAssertion("p3", "hasAge", "30", "xsd:short");
+    addOWLAxioms(ontology, DataPropertyAssertion(HAS_AGE, P1, Literal("10", XSD_SHORT)));
+    addOWLAxioms(ontology, DataPropertyAssertion(HAS_AGE, P2, Literal("20", XSD_SHORT)));
+    addOWLAxioms(ontology, DataPropertyAssertion(HAS_AGE, P3, Literal("30", XSD_SHORT)));
+//    declareOWLDataPropertyAssertion("p1", "hasAge", "10", "xsd:short");
+//    declareOWLDataPropertyAssertion("p2", "hasAge", "20", "xsd:short");
+//    declareOWLDataPropertyAssertion("p3", "hasAge", "30", "xsd:short");
 
-    SQWRLResult result = executeSQWRLQuery("q1", "hasAge(?p, ?age)-> sqwrl:avg(?age)");
+    SQWRLResult result = queryEngine.runSQWRLQuery("q1", "hasAge(?p, ?age)-> sqwrl:avg(?age)");
 
     Assert.assertTrue(result.next());
     SQWRLLiteralResultValue literal = result.getLiteral(0);
@@ -545,11 +649,14 @@ public class SQWRLCoreIT extends IntegrationTestBase
   @Test
   public void TestSQWRLCoreIntAvg() throws SWRLParseException, SQWRLException
   {
-    declareOWLDataPropertyAssertion("p1", "hasAge", "10", "xsd:int");
-    declareOWLDataPropertyAssertion("p2", "hasAge", "20", "xsd:int");
-    declareOWLDataPropertyAssertion("p3", "hasAge", "30", "xsd:int");
+    addOWLAxioms(ontology, DataPropertyAssertion(HAS_AGE, P1, Literal("10", XSD_INT)));
+    addOWLAxioms(ontology, DataPropertyAssertion(HAS_AGE, P2, Literal("20", XSD_INT)));
+    addOWLAxioms(ontology, DataPropertyAssertion(HAS_AGE, P3, Literal("30", XSD_INT)));
+//    declareOWLDataPropertyAssertion("p1", "hasAge", "10", "xsd:int");
+//    declareOWLDataPropertyAssertion("p2", "hasAge", "20", "xsd:int");
+//    declareOWLDataPropertyAssertion("p3", "hasAge", "30", "xsd:int");
 
-    SQWRLResult result = executeSQWRLQuery("q1", "hasAge(?p, ?age)-> sqwrl:avg(?age)");
+    SQWRLResult result = queryEngine.runSQWRLQuery("q1", "hasAge(?p, ?age)-> sqwrl:avg(?age)");
 
     Assert.assertTrue(result.next());
     SQWRLLiteralResultValue literal = result.getLiteral(0);
@@ -560,11 +667,14 @@ public class SQWRLCoreIT extends IntegrationTestBase
   @Test
   public void TestSQWRLCoreLongAvg() throws SWRLParseException, SQWRLException
   {
-    declareOWLDataPropertyAssertion("p1", "hasAge", "10", "xsd:long");
-    declareOWLDataPropertyAssertion("p2", "hasAge", "20", "xsd:long");
-    declareOWLDataPropertyAssertion("p3", "hasAge", "30", "xsd:long");
+    addOWLAxioms(ontology, DataPropertyAssertion(HAS_AGE, P1, Literal("10", XSD_LONG)));
+    addOWLAxioms(ontology, DataPropertyAssertion(HAS_AGE, P2, Literal("20", XSD_LONG)));
+    addOWLAxioms(ontology, DataPropertyAssertion(HAS_AGE, P3, Literal("30", XSD_LONG)));
+//    declareOWLDataPropertyAssertion("p1", "hasAge", "10", "xsd:long");
+//    declareOWLDataPropertyAssertion("p2", "hasAge", "20", "xsd:long");
+//    declareOWLDataPropertyAssertion("p3", "hasAge", "30", "xsd:long");
 
-    SQWRLResult result = executeSQWRLQuery("q1", "hasAge(?p, ?age)-> sqwrl:avg(?age)");
+    SQWRLResult result = queryEngine.runSQWRLQuery("q1", "hasAge(?p, ?age)-> sqwrl:avg(?age)");
 
     Assert.assertTrue(result.next());
     SQWRLLiteralResultValue literal = result.getLiteral(0);
@@ -575,11 +685,14 @@ public class SQWRLCoreIT extends IntegrationTestBase
   @Test
   public void TestSQWRLCoreFloatAvg() throws SWRLParseException, SQWRLException
   {
-    declareOWLDataPropertyAssertion("p1", "hasHeight", "10.3", "xsd:float");
-    declareOWLDataPropertyAssertion("p2", "hasHeight", "20.4", "xsd:float");
-    declareOWLDataPropertyAssertion("p3", "hasHeight", "30.5", "xsd:float");
+    addOWLAxioms(ontology, DataPropertyAssertion(HAS_HEIGHT, P1, Literal("10.3", XSD_FLOAT)));
+    addOWLAxioms(ontology, DataPropertyAssertion(HAS_HEIGHT, P2, Literal("20.4", XSD_FLOAT)));
+    addOWLAxioms(ontology, DataPropertyAssertion(HAS_HEIGHT, P3, Literal("30.5", XSD_FLOAT)));
+//    declareOWLDataPropertyAssertion("p1", "hasHeight", "10.3", "xsd:float");
+//    declareOWLDataPropertyAssertion("p2", "hasHeight", "20.4", "xsd:float");
+//    declareOWLDataPropertyAssertion("p3", "hasHeight", "30.5", "xsd:float");
 
-    SQWRLResult result = executeSQWRLQuery("q1", "hasHeight(?p, ?height)-> sqwrl:avg(?height)");
+    SQWRLResult result = queryEngine.runSQWRLQuery("q1", "hasHeight(?p, ?height)-> sqwrl:avg(?height)");
 
     Assert.assertTrue(result.next());
     SQWRLLiteralResultValue literal = result.getLiteral(0);
@@ -590,11 +703,14 @@ public class SQWRLCoreIT extends IntegrationTestBase
   @Test
   public void TestSQWRLCoreDoubleAvg() throws SWRLParseException, SQWRLException
   {
-    declareOWLDataPropertyAssertion("p1", "hasHeight", "10.3", "xsd:double");
-    declareOWLDataPropertyAssertion("p2", "hasHeight", "20.4", "xsd:double");
-    declareOWLDataPropertyAssertion("p3", "hasHeight", "30.5", "xsd:double");
+    addOWLAxioms(ontology, DataPropertyAssertion(HAS_HEIGHT, P1, Literal("10.3", XSD_DOUBLE)));
+    addOWLAxioms(ontology, DataPropertyAssertion(HAS_HEIGHT, P2, Literal("20.4", XSD_DOUBLE)));
+    addOWLAxioms(ontology, DataPropertyAssertion(HAS_HEIGHT, P3, Literal("30.5", XSD_DOUBLE)));
+//    declareOWLDataPropertyAssertion("p1", "hasHeight", "10.3", "xsd:double");
+//    declareOWLDataPropertyAssertion("p2", "hasHeight", "20.4", "xsd:double");
+//    declareOWLDataPropertyAssertion("p3", "hasHeight", "30.5", "xsd:double");
 
-    SQWRLResult result = executeSQWRLQuery("q1", "hasHeight(?p, ?height)-> sqwrl:avg(?height)");
+    SQWRLResult result = queryEngine.runSQWRLQuery("q1", "hasHeight(?p, ?height)-> sqwrl:avg(?height)");
 
     Assert.assertTrue(result.next());
     SQWRLLiteralResultValue literal = result.getLiteral(0);
@@ -605,13 +721,18 @@ public class SQWRLCoreIT extends IntegrationTestBase
   @Test
   public void TestSQWRLCoreMedianShortWidest() throws SWRLParseException, SQWRLException
   {
-    declareOWLDataPropertyAssertion("p1", "hasAge", "10", "xsd:byte");
-    declareOWLDataPropertyAssertion("p2", "hasAge", "15", "xsd:short");
-    declareOWLDataPropertyAssertion("p3", "hasAge", "20", "xsd:short");
-    declareOWLDataPropertyAssertion("p4", "hasAge", "30", "xsd:short");
-    declareOWLDataPropertyAssertion("p5", "hasAge", "35", "xsd:short");
+    addOWLAxioms(ontology, DataPropertyAssertion(HAS_AGE, P1, Literal("10", XSD_SHORT)));
+    addOWLAxioms(ontology, DataPropertyAssertion(HAS_AGE, P2, Literal("15", XSD_SHORT)));
+    addOWLAxioms(ontology, DataPropertyAssertion(HAS_AGE, P3, Literal("20", XSD_SHORT)));
+    addOWLAxioms(ontology, DataPropertyAssertion(HAS_AGE, P4, Literal("30", XSD_SHORT)));
+    addOWLAxioms(ontology, DataPropertyAssertion(HAS_AGE, P5, Literal("35", XSD_SHORT)));
+//    declareOWLDataPropertyAssertion("p1", "hasAge", "10", "xsd:byte");
+//    declareOWLDataPropertyAssertion("p2", "hasAge", "15", "xsd:short");
+//    declareOWLDataPropertyAssertion("p3", "hasAge", "20", "xsd:short");
+//    declareOWLDataPropertyAssertion("p4", "hasAge", "30", "xsd:short");
+//    declareOWLDataPropertyAssertion("p5", "hasAge", "35", "xsd:short");
 
-    SQWRLResult result = executeSQWRLQuery("q1", "hasAge(?p, ?age)-> sqwrl:median(?age)");
+    SQWRLResult result = queryEngine.runSQWRLQuery("q1", "hasAge(?p, ?age)-> sqwrl:median(?age)");
 
     Assert.assertTrue(result.next());
     SQWRLLiteralResultValue literal = result.getLiteral(0);
@@ -622,13 +743,18 @@ public class SQWRLCoreIT extends IntegrationTestBase
   @Test
   public void TestSQWRLCoreMedianIntWidest() throws SWRLParseException, SQWRLException
   {
-    declareOWLDataPropertyAssertion("p1", "hasAge", "10", "xsd:short");
-    declareOWLDataPropertyAssertion("p2", "hasAge", "15", "xsd:int");
-    declareOWLDataPropertyAssertion("p3", "hasAge", "20", "xsd:int");
-    declareOWLDataPropertyAssertion("p4", "hasAge", "30", "xsd:int");
-    declareOWLDataPropertyAssertion("p5", "hasAge", "35", "xsd:int");
+    addOWLAxioms(ontology, DataPropertyAssertion(HAS_AGE, P1, Literal("10", XSD_SHORT)));
+    addOWLAxioms(ontology, DataPropertyAssertion(HAS_AGE, P2, Literal("15", XSD_INT)));
+    addOWLAxioms(ontology, DataPropertyAssertion(HAS_AGE, P3, Literal("20", XSD_INT)));
+    addOWLAxioms(ontology, DataPropertyAssertion(HAS_AGE, P4, Literal("30", XSD_INT)));
+    addOWLAxioms(ontology, DataPropertyAssertion(HAS_AGE, P5, Literal("35", XSD_INT)));
+//    declareOWLDataPropertyAssertion("p1", "hasAge", "10", "xsd:short");
+//    declareOWLDataPropertyAssertion("p2", "hasAge", "15", "xsd:int");
+//    declareOWLDataPropertyAssertion("p3", "hasAge", "20", "xsd:int");
+//    declareOWLDataPropertyAssertion("p4", "hasAge", "30", "xsd:int");
+//    declareOWLDataPropertyAssertion("p5", "hasAge", "35", "xsd:int");
 
-    SQWRLResult result = executeSQWRLQuery("q1", "hasAge(?p, ?age)-> sqwrl:median(?age)");
+    SQWRLResult result = queryEngine.runSQWRLQuery("q1", "hasAge(?p, ?age)-> sqwrl:median(?age)");
 
     Assert.assertTrue(result.next());
     SQWRLLiteralResultValue literal = result.getLiteral(0);
@@ -639,13 +765,18 @@ public class SQWRLCoreIT extends IntegrationTestBase
   @Test
   public void TestSQWRLCoreMedianLongWidest() throws SWRLParseException, SQWRLException
   {
-    declareOWLDataPropertyAssertion("p1", "hasAge", "10", "xsd:short");
-    declareOWLDataPropertyAssertion("p2", "hasAge", "15", "xsd:int");
-    declareOWLDataPropertyAssertion("p3", "hasAge", "20", "xsd:long");
-    declareOWLDataPropertyAssertion("p4", "hasAge", "30", "xsd:long");
-    declareOWLDataPropertyAssertion("p5", "hasAge", "35", "xsd:long");
+    addOWLAxioms(ontology, DataPropertyAssertion(HAS_AGE, P1, Literal("10", XSD_SHORT)));
+    addOWLAxioms(ontology, DataPropertyAssertion(HAS_AGE, P2, Literal("15", XSD_INT)));
+    addOWLAxioms(ontology, DataPropertyAssertion(HAS_AGE, P3, Literal("20", XSD_LONG)));
+    addOWLAxioms(ontology, DataPropertyAssertion(HAS_AGE, P4, Literal("30", XSD_LONG)));
+    addOWLAxioms(ontology, DataPropertyAssertion(HAS_AGE, P5, Literal("35", XSD_LONG)));
+//    declareOWLDataPropertyAssertion("p1", "hasAge", "10", "xsd:short");
+//    declareOWLDataPropertyAssertion("p2", "hasAge", "15", "xsd:int");
+//    declareOWLDataPropertyAssertion("p3", "hasAge", "20", "xsd:long");
+//    declareOWLDataPropertyAssertion("p4", "hasAge", "30", "xsd:long");
+//    declareOWLDataPropertyAssertion("p5", "hasAge", "35", "xsd:long");
 
-    SQWRLResult result = executeSQWRLQuery("q1", "hasAge(?p, ?age)-> sqwrl:median(?age)");
+    SQWRLResult result = queryEngine.runSQWRLQuery("q1", "hasAge(?p, ?age)-> sqwrl:median(?age)");
 
     Assert.assertTrue(result.next());
     SQWRLLiteralResultValue literal = result.getLiteral(0);
@@ -656,13 +787,18 @@ public class SQWRLCoreIT extends IntegrationTestBase
   @Test
   public void TestSQWRLCoreMedianFloatWidest() throws SWRLParseException, SQWRLException
   {
-    declareOWLDataPropertyAssertion("p1", "hasAge", "10", "xsd:short");
-    declareOWLDataPropertyAssertion("p2", "hasAge", "15", "xsd:int");
-    declareOWLDataPropertyAssertion("p3", "hasAge", "20", "xsd:long");
-    declareOWLDataPropertyAssertion("p4", "hasAge", "30.0", "xsd:float");
-    declareOWLDataPropertyAssertion("p5", "hasAge", "35.0", "xsd:float");
+    addOWLAxioms(ontology, DataPropertyAssertion(HAS_AGE, P1, Literal("10", XSD_SHORT)));
+    addOWLAxioms(ontology, DataPropertyAssertion(HAS_AGE, P2, Literal("15", XSD_INT)));
+    addOWLAxioms(ontology, DataPropertyAssertion(HAS_AGE, P3, Literal("20", XSD_LONG)));
+    addOWLAxioms(ontology, DataPropertyAssertion(HAS_AGE, P4, Literal("30.0", XSD_FLOAT)));
+    addOWLAxioms(ontology, DataPropertyAssertion(HAS_AGE, P5, Literal("35.0", XSD_FLOAT)));
+//    declareOWLDataPropertyAssertion("p1", "hasAge", "10", "xsd:short");
+//    declareOWLDataPropertyAssertion("p2", "hasAge", "15", "xsd:int");
+//    declareOWLDataPropertyAssertion("p3", "hasAge", "20", "xsd:long");
+//    declareOWLDataPropertyAssertion("p4", "hasAge", "30.0", "xsd:float");
+//    declareOWLDataPropertyAssertion("p5", "hasAge", "35.0", "xsd:float");
 
-    SQWRLResult result = executeSQWRLQuery("q1", "hasAge(?p, ?age)-> sqwrl:median(?age)");
+    SQWRLResult result = queryEngine.runSQWRLQuery("q1", "hasAge(?p, ?age)-> sqwrl:median(?age)");
 
     Assert.assertTrue(result.next());
     SQWRLLiteralResultValue literal = result.getLiteral(0);
@@ -673,13 +809,18 @@ public class SQWRLCoreIT extends IntegrationTestBase
   @Test
   public void TestSQWRLCoreMedianDoubleWidest() throws SWRLParseException, SQWRLException
   {
-    declareOWLDataPropertyAssertion("p1", "hasAge", "10", "xsd:short");
-    declareOWLDataPropertyAssertion("p2", "hasAge", "15", "xsd:int");
-    declareOWLDataPropertyAssertion("p3", "hasAge", "20", "xsd:long");
-    declareOWLDataPropertyAssertion("p4", "hasAge", "30.0", "xsd:float");
-    declareOWLDataPropertyAssertion("p5", "hasAge", "35.0", "xsd:double");
+    addOWLAxioms(ontology, DataPropertyAssertion(HAS_AGE, P1, Literal("10", XSD_SHORT)));
+    addOWLAxioms(ontology, DataPropertyAssertion(HAS_AGE, P2, Literal("15", XSD_INT)));
+    addOWLAxioms(ontology, DataPropertyAssertion(HAS_AGE, P3, Literal("20", XSD_LONG)));
+    addOWLAxioms(ontology, DataPropertyAssertion(HAS_AGE, P4, Literal("30.0", XSD_FLOAT)));
+    addOWLAxioms(ontology, DataPropertyAssertion(HAS_AGE, P5, Literal("35.0", XSD_DOUBLE)));
+//    declareOWLDataPropertyAssertion("p1", "hasAge", "10", "xsd:short");
+//    declareOWLDataPropertyAssertion("p2", "hasAge", "15", "xsd:int");
+//    declareOWLDataPropertyAssertion("p3", "hasAge", "20", "xsd:long");
+//    declareOWLDataPropertyAssertion("p4", "hasAge", "30.0", "xsd:float");
+//    declareOWLDataPropertyAssertion("p5", "hasAge", "35.0", "xsd:double");
 
-    SQWRLResult result = executeSQWRLQuery("q1", "hasAge(?p, ?age)-> sqwrl:median(?age)");
+    SQWRLResult result = queryEngine.runSQWRLQuery("q1", "hasAge(?p, ?age)-> sqwrl:median(?age)");
 
     Assert.assertTrue(result.next());
     SQWRLLiteralResultValue literal = result.getLiteral(0);
@@ -690,13 +831,18 @@ public class SQWRLCoreIT extends IntegrationTestBase
   @Test
   public void TestSQWRLCoreByteMedian() throws SWRLParseException, SQWRLException
   {
-    declareOWLDataPropertyAssertion("p1", "hasAge", "10", "xsd:byte");
-    declareOWLDataPropertyAssertion("p2", "hasAge", "15", "xsd:byte");
-    declareOWLDataPropertyAssertion("p3", "hasAge", "20", "xsd:byte");
-    declareOWLDataPropertyAssertion("p4", "hasAge", "30", "xsd:byte");
-    declareOWLDataPropertyAssertion("p5", "hasAge", "35", "xsd:byte");
+    addOWLAxioms(ontology, DataPropertyAssertion(HAS_AGE, P1, Literal("10", XSD_BYTE)));
+    addOWLAxioms(ontology, DataPropertyAssertion(HAS_AGE, P2, Literal("15", XSD_BYTE)));
+    addOWLAxioms(ontology, DataPropertyAssertion(HAS_AGE, P3, Literal("20", XSD_BYTE)));
+    addOWLAxioms(ontology, DataPropertyAssertion(HAS_AGE, P4, Literal("30", XSD_BYTE)));
+    addOWLAxioms(ontology, DataPropertyAssertion(HAS_AGE, P5, Literal("35", XSD_BYTE)));
+//    declareOWLDataPropertyAssertion("p1", "hasAge", "10", "xsd:byte");
+//    declareOWLDataPropertyAssertion("p2", "hasAge", "15", "xsd:byte");
+//    declareOWLDataPropertyAssertion("p3", "hasAge", "20", "xsd:byte");
+//    declareOWLDataPropertyAssertion("p4", "hasAge", "30", "xsd:byte");
+//    declareOWLDataPropertyAssertion("p5", "hasAge", "35", "xsd:byte");
 
-    SQWRLResult result = executeSQWRLQuery("q1", "hasAge(?p, ?age)-> sqwrl:median(?age)");
+    SQWRLResult result = queryEngine.runSQWRLQuery("q1", "hasAge(?p, ?age)-> sqwrl:median(?age)");
 
     Assert.assertTrue(result.next());
     SQWRLLiteralResultValue literal = result.getLiteral(0);
@@ -707,13 +853,18 @@ public class SQWRLCoreIT extends IntegrationTestBase
   @Test
   public void TestSQWRLCoreShortMedian() throws SWRLParseException, SQWRLException
   {
-    declareOWLDataPropertyAssertion("p1", "hasAge", "10", "xsd:short");
-    declareOWLDataPropertyAssertion("p2", "hasAge", "15", "xsd:short");
-    declareOWLDataPropertyAssertion("p3", "hasAge", "20", "xsd:short");
-    declareOWLDataPropertyAssertion("p4", "hasAge", "30", "xsd:short");
-    declareOWLDataPropertyAssertion("p5", "hasAge", "35", "xsd:short");
+    addOWLAxioms(ontology, DataPropertyAssertion(HAS_AGE, P1, Literal("10", XSD_SHORT)));
+    addOWLAxioms(ontology, DataPropertyAssertion(HAS_AGE, P2, Literal("15", XSD_SHORT)));
+    addOWLAxioms(ontology, DataPropertyAssertion(HAS_AGE, P3, Literal("20", XSD_SHORT)));
+    addOWLAxioms(ontology, DataPropertyAssertion(HAS_AGE, P4, Literal("30", XSD_SHORT)));
+    addOWLAxioms(ontology, DataPropertyAssertion(HAS_AGE, P5, Literal("35", XSD_SHORT)));
+//    declareOWLDataPropertyAssertion("p1", "hasAge", "10", "xsd:short");
+//    declareOWLDataPropertyAssertion("p2", "hasAge", "15", "xsd:short");
+//    declareOWLDataPropertyAssertion("p3", "hasAge", "20", "xsd:short");
+//    declareOWLDataPropertyAssertion("p4", "hasAge", "30", "xsd:short");
+//    declareOWLDataPropertyAssertion("p5", "hasAge", "35", "xsd:short");
 
-    SQWRLResult result = executeSQWRLQuery("q1", "hasAge(?p, ?age)-> sqwrl:median(?age)");
+    SQWRLResult result = queryEngine.runSQWRLQuery("q1", "hasAge(?p, ?age)-> sqwrl:median(?age)");
 
     Assert.assertTrue(result.next());
     SQWRLLiteralResultValue literal = result.getLiteral(0);
@@ -724,13 +875,18 @@ public class SQWRLCoreIT extends IntegrationTestBase
   @Test
   public void TestSQWRLCoreIntMedian() throws SWRLParseException, SQWRLException
   {
-    declareOWLDataPropertyAssertion("p1", "hasAge", "10", "xsd:int");
-    declareOWLDataPropertyAssertion("p2", "hasAge", "15", "xsd:int");
-    declareOWLDataPropertyAssertion("p3", "hasAge", "20", "xsd:int");
-    declareOWLDataPropertyAssertion("p4", "hasAge", "30", "xsd:int");
-    declareOWLDataPropertyAssertion("p5", "hasAge", "35", "xsd:int");
+    addOWLAxioms(ontology, DataPropertyAssertion(HAS_AGE, P1, Literal("10", XSD_INT)));
+    addOWLAxioms(ontology, DataPropertyAssertion(HAS_AGE, P2, Literal("15", XSD_INT)));
+    addOWLAxioms(ontology, DataPropertyAssertion(HAS_AGE, P3, Literal("20", XSD_INT)));
+    addOWLAxioms(ontology, DataPropertyAssertion(HAS_AGE, P4, Literal("30", XSD_INT)));
+    addOWLAxioms(ontology, DataPropertyAssertion(HAS_AGE, P5, Literal("35", XSD_INT)));
+//    declareOWLDataPropertyAssertion("p1", "hasAge", "10", "xsd:int");
+//    declareOWLDataPropertyAssertion("p2", "hasAge", "15", "xsd:int");
+//    declareOWLDataPropertyAssertion("p3", "hasAge", "20", "xsd:int");
+//    declareOWLDataPropertyAssertion("p4", "hasAge", "30", "xsd:int");
+//    declareOWLDataPropertyAssertion("p5", "hasAge", "35", "xsd:int");
 
-    SQWRLResult result = executeSQWRLQuery("q1", "hasAge(?p, ?age)-> sqwrl:median(?age)");
+    SQWRLResult result = queryEngine.runSQWRLQuery("q1", "hasAge(?p, ?age)-> sqwrl:median(?age)");
 
     Assert.assertTrue(result.next());
     SQWRLLiteralResultValue literal = result.getLiteral(0);
@@ -741,13 +897,18 @@ public class SQWRLCoreIT extends IntegrationTestBase
   @Test
   public void TestSQWRLCoreLongMedian() throws SWRLParseException, SQWRLException
   {
-    declareOWLDataPropertyAssertion("p1", "hasAge", "10", "xsd:long");
-    declareOWLDataPropertyAssertion("p2", "hasAge", "15", "xsd:long");
-    declareOWLDataPropertyAssertion("p3", "hasAge", "20", "xsd:long");
-    declareOWLDataPropertyAssertion("p4", "hasAge", "30", "xsd:long");
-    declareOWLDataPropertyAssertion("p5", "hasAge", "35", "xsd:long");
+    addOWLAxioms(ontology, DataPropertyAssertion(HAS_AGE, P1, Literal("10", XSD_LONG)));
+    addOWLAxioms(ontology, DataPropertyAssertion(HAS_AGE, P2, Literal("15", XSD_LONG)));
+    addOWLAxioms(ontology, DataPropertyAssertion(HAS_AGE, P3, Literal("20", XSD_LONG)));
+    addOWLAxioms(ontology, DataPropertyAssertion(HAS_AGE, P4, Literal("30", XSD_LONG)));
+    addOWLAxioms(ontology, DataPropertyAssertion(HAS_AGE, P5, Literal("35", XSD_LONG)));
+//    declareOWLDataPropertyAssertion("p1", "hasAge", "10", "xsd:long");
+//    declareOWLDataPropertyAssertion("p2", "hasAge", "15", "xsd:long");
+//    declareOWLDataPropertyAssertion("p3", "hasAge", "20", "xsd:long");
+//    declareOWLDataPropertyAssertion("p4", "hasAge", "30", "xsd:long");
+//    declareOWLDataPropertyAssertion("p5", "hasAge", "35", "xsd:long");
 
-    SQWRLResult result = executeSQWRLQuery("q1", "hasAge(?p, ?age)-> sqwrl:median(?age)");
+    SQWRLResult result = queryEngine.runSQWRLQuery("q1", "hasAge(?p, ?age)-> sqwrl:median(?age)");
 
     Assert.assertTrue(result.next());
     SQWRLLiteralResultValue literal = result.getLiteral(0);
@@ -758,13 +919,18 @@ public class SQWRLCoreIT extends IntegrationTestBase
   @Test
   public void TestSQWRLCoreFloatMedian() throws SWRLParseException, SQWRLException
   {
-    declareOWLDataPropertyAssertion("p1", "hasHeight", "10.0", "xsd:float");
-    declareOWLDataPropertyAssertion("p2", "hasHeight", "15.3", "xsd:float");
-    declareOWLDataPropertyAssertion("p3", "hasHeight", "20.55", "xsd:float");
-    declareOWLDataPropertyAssertion("p4", "hasHeight", "30.32", "xsd:float");
-    declareOWLDataPropertyAssertion("p5", "hasHeight", "35.12", "xsd:float");
+    addOWLAxioms(ontology, DataPropertyAssertion(HAS_HEIGHT, P1, Literal("10.0", XSD_FLOAT)));
+    addOWLAxioms(ontology, DataPropertyAssertion(HAS_HEIGHT, P2, Literal("15.3", XSD_FLOAT)));
+    addOWLAxioms(ontology, DataPropertyAssertion(HAS_HEIGHT, P3, Literal("20.55", XSD_FLOAT)));
+    addOWLAxioms(ontology, DataPropertyAssertion(HAS_HEIGHT, P4, Literal("30.32", XSD_FLOAT)));
+    addOWLAxioms(ontology, DataPropertyAssertion(HAS_HEIGHT, P5, Literal("35.12", XSD_FLOAT)));
+//    declareOWLDataPropertyAssertion("p1", "hasHeight", "10.0", "xsd:float");
+//    declareOWLDataPropertyAssertion("p2", "hasHeight", "15.3", "xsd:float");
+//    declareOWLDataPropertyAssertion("p3", "hasHeight", "20.55", "xsd:float");
+//    declareOWLDataPropertyAssertion("p4", "hasHeight", "30.32", "xsd:float");
+//    declareOWLDataPropertyAssertion("p5", "hasHeight", "35.12", "xsd:float");
 
-    SQWRLResult result = executeSQWRLQuery("q1", "hasHeight(?p, ?height)-> sqwrl:median(?height)");
+    SQWRLResult result = queryEngine.runSQWRLQuery("q1", "hasHeight(?p, ?height)-> sqwrl:median(?height)");
 
     Assert.assertTrue(result.next());
     SQWRLLiteralResultValue literal = result.getLiteral(0);
@@ -775,13 +941,18 @@ public class SQWRLCoreIT extends IntegrationTestBase
   @Test
   public void TestSQWRLCoreDoubleMedian() throws SWRLParseException, SQWRLException
   {
-    declareOWLDataPropertyAssertion("p1", "hasHeight", "10.0", "xsd:double");
-    declareOWLDataPropertyAssertion("p2", "hasHeight", "15.3", "xsd:double");
-    declareOWLDataPropertyAssertion("p3", "hasHeight", "20.55", "xsd:double");
-    declareOWLDataPropertyAssertion("p4", "hasHeight", "30.32", "xsd:double");
-    declareOWLDataPropertyAssertion("p5", "hasHeight", "35.12", "xsd:double");
+    addOWLAxioms(ontology, DataPropertyAssertion(HAS_HEIGHT, P1, Literal("10.0", XSD_DOUBLE)));
+    addOWLAxioms(ontology, DataPropertyAssertion(HAS_HEIGHT, P2, Literal("15.3", XSD_DOUBLE)));
+    addOWLAxioms(ontology, DataPropertyAssertion(HAS_HEIGHT, P3, Literal("20.55", XSD_DOUBLE)));
+    addOWLAxioms(ontology, DataPropertyAssertion(HAS_HEIGHT, P4, Literal("30.32", XSD_DOUBLE)));
+    addOWLAxioms(ontology, DataPropertyAssertion(HAS_HEIGHT, P5, Literal("35.12", XSD_DOUBLE)));
+//    declareOWLDataPropertyAssertion("p1", "hasHeight", "10.0", "xsd:double");
+//    declareOWLDataPropertyAssertion("p2", "hasHeight", "15.3", "xsd:double");
+//    declareOWLDataPropertyAssertion("p3", "hasHeight", "20.55", "xsd:double");
+//    declareOWLDataPropertyAssertion("p4", "hasHeight", "30.32", "xsd:double");
+//    declareOWLDataPropertyAssertion("p5", "hasHeight", "35.12", "xsd:double");
 
-    SQWRLResult result = executeSQWRLQuery("q1", "hasHeight(?p, ?height)-> sqwrl:median(?height)");
+    SQWRLResult result = queryEngine.runSQWRLQuery("q1", "hasHeight(?p, ?height)-> sqwrl:median(?height)");
 
     Assert.assertTrue(result.next());
     SQWRLLiteralResultValue literal = result.getLiteral(0);
@@ -792,11 +963,14 @@ public class SQWRLCoreIT extends IntegrationTestBase
   @Test
   public void TestSQWRLCoreByteMin() throws SWRLParseException, SQWRLException
   {
-    declareOWLDataPropertyAssertion("p1", "hasAge", "10", "xsd:byte");
-    declareOWLDataPropertyAssertion("p2", "hasAge", "20", "xsd:byte");
-    declareOWLDataPropertyAssertion("p3", "hasAge", "30", "xsd:byte");
+    addOWLAxioms(ontology, DataPropertyAssertion(HAS_AGE, P1, Literal("10", XSD_BYTE)));
+    addOWLAxioms(ontology, DataPropertyAssertion(HAS_AGE, P2, Literal("20", XSD_BYTE)));
+    addOWLAxioms(ontology, DataPropertyAssertion(HAS_AGE, P3, Literal("30", XSD_BYTE)));
+//    declareOWLDataPropertyAssertion("p1", "hasAge", "10", "xsd:byte");
+//    declareOWLDataPropertyAssertion("p2", "hasAge", "20", "xsd:byte");
+//    declareOWLDataPropertyAssertion("p3", "hasAge", "30", "xsd:byte");
 
-    SQWRLResult result = executeSQWRLQuery("q1", "hasAge(?p, ?age)-> sqwrl:min(?age)");
+    SQWRLResult result = queryEngine.runSQWRLQuery("q1", "hasAge(?p, ?age)-> sqwrl:min(?age)");
 
     Assert.assertTrue(result.next());
     SQWRLLiteralResultValue literal = result.getLiteral(0);
@@ -807,11 +981,14 @@ public class SQWRLCoreIT extends IntegrationTestBase
   @Test
   public void TestSQWRLCoreShortMin() throws SWRLParseException, SQWRLException
   {
-    declareOWLDataPropertyAssertion("p1", "hasAge", "10", "xsd:short");
-    declareOWLDataPropertyAssertion("p2", "hasAge", "20", "xsd:short");
-    declareOWLDataPropertyAssertion("p3", "hasAge", "30", "xsd:short");
+    addOWLAxioms(ontology, DataPropertyAssertion(HAS_AGE, P1, Literal("10", XSD_SHORT)));
+    addOWLAxioms(ontology, DataPropertyAssertion(HAS_AGE, P2, Literal("20", XSD_SHORT)));
+    addOWLAxioms(ontology, DataPropertyAssertion(HAS_AGE, P3, Literal("30", XSD_SHORT)));
+//    declareOWLDataPropertyAssertion("p1", "hasAge", "10", "xsd:short");
+//    declareOWLDataPropertyAssertion("p2", "hasAge", "20", "xsd:short");
+//    declareOWLDataPropertyAssertion("p3", "hasAge", "30", "xsd:short");
 
-    SQWRLResult result = executeSQWRLQuery("q1", "hasAge(?p, ?age)-> sqwrl:min(?age)");
+    SQWRLResult result = queryEngine.runSQWRLQuery("q1", "hasAge(?p, ?age)-> sqwrl:min(?age)");
 
     Assert.assertTrue(result.next());
     SQWRLLiteralResultValue literal = result.getLiteral(0);
@@ -822,11 +999,14 @@ public class SQWRLCoreIT extends IntegrationTestBase
   @Test
   public void TestSQWRLCoreIntMin() throws SWRLParseException, SQWRLException
   {
-    declareOWLDataPropertyAssertion("p1", "hasAge", "10", "xsd:int");
-    declareOWLDataPropertyAssertion("p2", "hasAge", "20", "xsd:int");
-    declareOWLDataPropertyAssertion("p3", "hasAge", "30", "xsd:int");
+    addOWLAxioms(ontology, DataPropertyAssertion(HAS_AGE, P1, Literal("10", XSD_INT)));
+    addOWLAxioms(ontology, DataPropertyAssertion(HAS_AGE, P2, Literal("20", XSD_INT)));
+    addOWLAxioms(ontology, DataPropertyAssertion(HAS_AGE, P3, Literal("30", XSD_INT)));
+//    declareOWLDataPropertyAssertion("p1", "hasAge", "10", "xsd:int");
+//    declareOWLDataPropertyAssertion("p2", "hasAge", "20", "xsd:int");
+//    declareOWLDataPropertyAssertion("p3", "hasAge", "30", "xsd:int");
 
-    SQWRLResult result = executeSQWRLQuery("q1", "hasAge(?p, ?age)-> sqwrl:min(?age)");
+    SQWRLResult result = queryEngine.runSQWRLQuery("q1", "hasAge(?p, ?age)-> sqwrl:min(?age)");
 
     Assert.assertTrue(result.next());
     SQWRLLiteralResultValue literal = result.getLiteral(0);
@@ -837,11 +1017,14 @@ public class SQWRLCoreIT extends IntegrationTestBase
   @Test
   public void TestSQWRLCoreLongMin() throws SWRLParseException, SQWRLException
   {
-    declareOWLDataPropertyAssertion("p1", "hasAge", "10", "xsd:long");
-    declareOWLDataPropertyAssertion("p2", "hasAge", "20", "xsd:long");
-    declareOWLDataPropertyAssertion("p3", "hasAge", "30", "xsd:long");
+    addOWLAxioms(ontology, DataPropertyAssertion(HAS_AGE, P1, Literal("10", XSD_LONG)));
+    addOWLAxioms(ontology, DataPropertyAssertion(HAS_AGE, P2, Literal("20", XSD_LONG)));
+    addOWLAxioms(ontology, DataPropertyAssertion(HAS_AGE, P3, Literal("30", XSD_LONG)));
+//    declareOWLDataPropertyAssertion("p1", "hasAge", "10", "xsd:long");
+//    declareOWLDataPropertyAssertion("p2", "hasAge", "20", "xsd:long");
+//    declareOWLDataPropertyAssertion("p3", "hasAge", "30", "xsd:long");
 
-    SQWRLResult result = executeSQWRLQuery("q1", "hasAge(?p, ?age)-> sqwrl:min(?age)");
+    SQWRLResult result = queryEngine.runSQWRLQuery("q1", "hasAge(?p, ?age)-> sqwrl:min(?age)");
 
     Assert.assertTrue(result.next());
     SQWRLLiteralResultValue literal = result.getLiteral(0);
@@ -852,11 +1035,14 @@ public class SQWRLCoreIT extends IntegrationTestBase
   @Test
   public void TestSQWRLCoreFloatMin() throws SWRLParseException, SQWRLException
   {
-    declareOWLDataPropertyAssertion("p1", "hasHeight", "101.0", "xsd:float");
-    declareOWLDataPropertyAssertion("p2", "hasHeight", "102.3", "xsd:float");
-    declareOWLDataPropertyAssertion("p3", "hasHeight", "104.2", "xsd:float");
+    addOWLAxioms(ontology, DataPropertyAssertion(HAS_HEIGHT, P1, Literal("101.0", XSD_FLOAT)));
+    addOWLAxioms(ontology, DataPropertyAssertion(HAS_HEIGHT, P2, Literal("102.3", XSD_FLOAT)));
+    addOWLAxioms(ontology, DataPropertyAssertion(HAS_HEIGHT, P3, Literal("104.2", XSD_FLOAT)));
+//    declareOWLDataPropertyAssertion("p1", "hasHeight", "101.0", "xsd:float");
+//    declareOWLDataPropertyAssertion("p2", "hasHeight", "102.3", "xsd:float");
+//    declareOWLDataPropertyAssertion("p3", "hasHeight", "104.2", "xsd:float");
 
-    SQWRLResult result = executeSQWRLQuery("q1", "hasHeight(?p, ?height)-> sqwrl:min(?height)");
+    SQWRLResult result = queryEngine.runSQWRLQuery("q1", "hasHeight(?p, ?height)-> sqwrl:min(?height)");
 
     Assert.assertTrue(result.next());
     SQWRLLiteralResultValue literal = result.getLiteral(0);
