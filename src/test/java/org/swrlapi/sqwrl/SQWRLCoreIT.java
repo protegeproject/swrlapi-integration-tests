@@ -969,20 +969,20 @@ public class SQWRLCoreIT extends IntegrationTestBase
       .runSQWRLQuery("q1", "hasAge(?p, ?age)-> sqwrl:select(?p, ?age) ^ sqwrl:orderBy(?age)");
 
     Assert.assertTrue(result.next());
-    Assert.assertTrue(result.getIndividual("p").isNamedIndividual());
-    Assert.assertEquals(result.getIndividual("p").getShortName(), "p2");
+    Assert.assertTrue(result.getNamedIndividual("p").isNamedIndividual());
+    Assert.assertEquals(result.getNamedIndividual("p").getShortName(), "p2");
     Assert.assertTrue(result.getLiteral("age").isByte());
     Assert.assertEquals(result.getLiteral("age").getByte(), 10);
 
     Assert.assertTrue(result.next());
-    Assert.assertTrue(result.getIndividual("p").isNamedIndividual());
-    Assert.assertEquals(result.getIndividual("p").getShortName(), "p1");
+    Assert.assertTrue(result.getNamedIndividual("p").isNamedIndividual());
+    Assert.assertEquals(result.getNamedIndividual("p").getShortName(), "p1");
     Assert.assertTrue(result.getLiteral("age").isByte());
     Assert.assertEquals(result.getLiteral("age").getByte(), 20);
 
     Assert.assertTrue(result.next());
-    Assert.assertTrue(result.getIndividual("p").isNamedIndividual());
-    Assert.assertEquals(result.getIndividual("p").getShortName(), "p3");
+    Assert.assertTrue(result.getNamedIndividual("p").isNamedIndividual());
+    Assert.assertEquals(result.getNamedIndividual("p").getShortName(), "p3");
     Assert.assertTrue(result.getLiteral("age").isByte());
     Assert.assertEquals(result.getLiteral("age").getByte(), 30);
   }
@@ -997,20 +997,20 @@ public class SQWRLCoreIT extends IntegrationTestBase
       .runSQWRLQuery("q1", "hasAge(?p, ?age)-> sqwrl:select(?p, ?age) ^ sqwrl:orderBy(?age)");
 
     Assert.assertTrue(result.next());
-    Assert.assertTrue(result.getIndividual("p").isNamedIndividual());
-    Assert.assertEquals(result.getIndividual("p").getShortName(), "p2");
+    Assert.assertTrue(result.getNamedIndividual("p").isNamedIndividual());
+    Assert.assertEquals(result.getNamedIndividual("p").getShortName(), "p2");
     Assert.assertTrue(result.getLiteral("age").isShort());
     Assert.assertEquals(result.getLiteral("age").getShort(), 10);
 
     Assert.assertTrue(result.next());
-    Assert.assertTrue(result.getIndividual("p").isNamedIndividual());
-    Assert.assertEquals(result.getIndividual("p").getShortName(), "p1");
+    Assert.assertTrue(result.getNamedIndividual("p").isNamedIndividual());
+    Assert.assertEquals(result.getNamedIndividual("p").getShortName(), "p1");
     Assert.assertTrue(result.getLiteral("age").isShort());
     Assert.assertEquals(result.getLiteral("age").getShort(), 20);
 
     Assert.assertTrue(result.next());
-    Assert.assertTrue(result.getIndividual("p").isNamedIndividual());
-    Assert.assertEquals(result.getIndividual("p").getShortName(), "p3");
+    Assert.assertTrue(result.getNamedIndividual("p").isNamedIndividual());
+    Assert.assertEquals(result.getNamedIndividual("p").getShortName(), "p3");
     Assert.assertTrue(result.getLiteral("age").isShort());
     Assert.assertEquals(result.getLiteral("age").getShort(), 30);
   }
@@ -1025,20 +1025,20 @@ public class SQWRLCoreIT extends IntegrationTestBase
       .runSQWRLQuery("q1", "hasAge(?p, ?age)-> sqwrl:select(?p, ?age) ^ sqwrl:orderBy(?age)");
 
     Assert.assertTrue(result.next());
-    Assert.assertTrue(result.getIndividual("p").isNamedIndividual());
-    Assert.assertEquals(result.getIndividual("p").getShortName(), "p2");
+    Assert.assertTrue(result.getNamedIndividual("p").isNamedIndividual());
+    Assert.assertEquals(result.getNamedIndividual("p").getShortName(), "p2");
     Assert.assertTrue(result.getLiteral("age").isInt());
     Assert.assertEquals(result.getLiteral("age").getInt(), 10);
 
     Assert.assertTrue(result.next());
-    Assert.assertTrue(result.getIndividual("p").isNamedIndividual());
-    Assert.assertEquals(result.getIndividual("p").getShortName(), "p1");
+    Assert.assertTrue(result.getNamedIndividual("p").isNamedIndividual());
+    Assert.assertEquals(result.getNamedIndividual("p").getShortName(), "p1");
     Assert.assertTrue(result.getLiteral("age").isInt());
     Assert.assertEquals(result.getLiteral("age").getInt(), 20);
 
     Assert.assertTrue(result.next());
-    Assert.assertTrue(result.getIndividual("p").isNamedIndividual());
-    Assert.assertEquals(result.getIndividual("p").getShortName(), "p3");
+    Assert.assertTrue(result.getNamedIndividual("p").isNamedIndividual());
+    Assert.assertEquals(result.getNamedIndividual("p").getShortName(), "p3");
     Assert.assertTrue(result.getLiteral("age").isInt());
     Assert.assertEquals(result.getLiteral("age").getInt(), 30);
   }
@@ -1053,20 +1053,20 @@ public class SQWRLCoreIT extends IntegrationTestBase
       .runSQWRLQuery("q1", "hasAge(?p, ?age)-> sqwrl:select(?p, ?age) ^ sqwrl:orderBy(?age)");
 
     Assert.assertTrue(result.next());
-    Assert.assertTrue(result.getIndividual("p").isNamedIndividual());
-    Assert.assertEquals(result.getIndividual("p").getShortName(), "p2");
+    Assert.assertTrue(result.getNamedIndividual("p").isNamedIndividual());
+    Assert.assertEquals(result.getNamedIndividual("p").getShortName(), "p2");
     Assert.assertTrue(result.getLiteral("age").isLong());
     Assert.assertEquals(result.getLiteral("age").getLong(), 10);
 
     Assert.assertTrue(result.next());
-    Assert.assertTrue(result.getIndividual("p").isNamedIndividual());
-    Assert.assertEquals(result.getIndividual("p").getShortName(), "p1");
+    Assert.assertTrue(result.getNamedIndividual("p").isNamedIndividual());
+    Assert.assertEquals(result.getNamedIndividual("p").getShortName(), "p1");
     Assert.assertTrue(result.getLiteral("age").isLong());
     Assert.assertEquals(result.getLiteral("age").getLong(), 20);
 
     Assert.assertTrue(result.next());
-    Assert.assertTrue(result.getIndividual("p").isNamedIndividual());
-    Assert.assertEquals(result.getIndividual("p").getShortName(), "p3");
+    Assert.assertTrue(result.getNamedIndividual("p").isNamedIndividual());
+    Assert.assertEquals(result.getNamedIndividual("p").getShortName(), "p3");
     Assert.assertTrue(result.getLiteral("age").isLong());
     Assert.assertEquals(result.getLiteral("age").getLong(), 30);
   }
@@ -1081,20 +1081,20 @@ public class SQWRLCoreIT extends IntegrationTestBase
       .runSQWRLQuery("q1", "hasHeight(?p, ?height)-> sqwrl:select(?p, ?height) ^ sqwrl:orderBy(?height)");
 
     Assert.assertTrue(result.next());
-    Assert.assertTrue(result.getIndividual("p").isNamedIndividual());
-    Assert.assertEquals(result.getIndividual("p").getShortName(), "p2");
+    Assert.assertTrue(result.getNamedIndividual("p").isNamedIndividual());
+    Assert.assertEquals(result.getNamedIndividual("p").getShortName(), "p2");
     Assert.assertTrue(result.getLiteral("height").isFloat());
     Assert.assertEquals(result.getLiteral("height").getFloat(), 100.0f, this.DELTA);
 
     Assert.assertTrue(result.next());
-    Assert.assertTrue(result.getIndividual("p").isNamedIndividual());
-    Assert.assertEquals(result.getIndividual("p").getShortName(), "p1");
+    Assert.assertTrue(result.getNamedIndividual("p").isNamedIndividual());
+    Assert.assertEquals(result.getNamedIndividual("p").getShortName(), "p1");
     Assert.assertTrue(result.getLiteral("height").isFloat());
     Assert.assertEquals(result.getLiteral("height").getFloat(), 200.0f, this.DELTA);
 
     Assert.assertTrue(result.next());
-    Assert.assertTrue(result.getIndividual("p").isNamedIndividual());
-    Assert.assertEquals(result.getIndividual("p").getShortName(), "p3");
+    Assert.assertTrue(result.getNamedIndividual("p").isNamedIndividual());
+    Assert.assertEquals(result.getNamedIndividual("p").getShortName(), "p3");
     Assert.assertTrue(result.getLiteral("height").isFloat());
     Assert.assertEquals(result.getLiteral("height").getFloat(), 300.0f, this.DELTA);
   }
@@ -1109,20 +1109,20 @@ public class SQWRLCoreIT extends IntegrationTestBase
       .runSQWRLQuery("q1", "hasHeight(?p, ?height)-> sqwrl:select(?p, ?height) ^ sqwrl:orderBy(?height)");
 
     Assert.assertTrue(result.next());
-    Assert.assertTrue(result.getIndividual("p").isNamedIndividual());
-    Assert.assertEquals(result.getIndividual("p").getShortName(), "p2");
+    Assert.assertTrue(result.getNamedIndividual("p").isNamedIndividual());
+    Assert.assertEquals(result.getNamedIndividual("p").getShortName(), "p2");
     Assert.assertTrue(result.getLiteral("height").isDouble());
     Assert.assertEquals(result.getLiteral("height").getDouble(), 100.0d, this.DELTA);
 
     Assert.assertTrue(result.next());
-    Assert.assertTrue(result.getIndividual("p").isNamedIndividual());
-    Assert.assertEquals(result.getIndividual("p").getShortName(), "p1");
+    Assert.assertTrue(result.getNamedIndividual("p").isNamedIndividual());
+    Assert.assertEquals(result.getNamedIndividual("p").getShortName(), "p1");
     Assert.assertTrue(result.getLiteral("height").isDouble());
     Assert.assertEquals(result.getLiteral("height").getDouble(), 200.0d, this.DELTA);
 
     Assert.assertTrue(result.next());
-    Assert.assertTrue(result.getIndividual("p").isNamedIndividual());
-    Assert.assertEquals(result.getIndividual("p").getShortName(), "p3");
+    Assert.assertTrue(result.getNamedIndividual("p").isNamedIndividual());
+    Assert.assertEquals(result.getNamedIndividual("p").getShortName(), "p3");
     Assert.assertTrue(result.getLiteral("height").isDouble());
     Assert.assertEquals(result.getLiteral("height").getDouble(), 300.0d, this.DELTA);
   }
@@ -1137,20 +1137,20 @@ public class SQWRLCoreIT extends IntegrationTestBase
       .runSQWRLQuery("q1", "hasName(?p, ?name)-> sqwrl:select(?p, ?name) ^ sqwrl:orderBy(?name)");
 
     Assert.assertTrue(result.next());
-    Assert.assertTrue(result.getIndividual("p").isNamedIndividual());
-    Assert.assertEquals(result.getIndividual("p").getShortName(), "p3");
+    Assert.assertTrue(result.getNamedIndividual("p").isNamedIndividual());
+    Assert.assertEquals(result.getNamedIndividual("p").getShortName(), "p3");
     Assert.assertTrue(result.getLiteral("name").isString());
     Assert.assertEquals(result.getLiteral("name").getString(), "Ann");
 
     Assert.assertTrue(result.next());
-    Assert.assertTrue(result.getIndividual("p").isNamedIndividual());
-    Assert.assertEquals(result.getIndividual("p").getShortName(), "p2");
+    Assert.assertTrue(result.getNamedIndividual("p").isNamedIndividual());
+    Assert.assertEquals(result.getNamedIndividual("p").getShortName(), "p2");
     Assert.assertTrue(result.getLiteral("name").isString());
     Assert.assertEquals(result.getLiteral("name").getString(), "Bob");
 
     Assert.assertTrue(result.next());
-    Assert.assertTrue(result.getIndividual("p").isNamedIndividual());
-    Assert.assertEquals(result.getIndividual("p").getShortName(), "p1");
+    Assert.assertTrue(result.getNamedIndividual("p").isNamedIndividual());
+    Assert.assertEquals(result.getNamedIndividual("p").getShortName(), "p1");
     Assert.assertTrue(result.getLiteral("name").isString());
     Assert.assertEquals(result.getLiteral("name").getString(), "Fred");
   }
@@ -1169,20 +1169,20 @@ public class SQWRLCoreIT extends IntegrationTestBase
       .runSQWRLQuery("q1", "hasHomePage(?p, ?homepage)-> sqwrl:select(?p, ?homepage) ^ sqwrl:orderBy(?homepage)");
 
     Assert.assertTrue(result.next());
-    Assert.assertTrue(result.getIndividual("p").isNamedIndividual());
-    Assert.assertEquals(result.getIndividual("p").getShortName(), "p3");
+    Assert.assertTrue(result.getNamedIndividual("p").isNamedIndividual());
+    Assert.assertEquals(result.getNamedIndividual("p").getShortName(), "p3");
     Assert.assertTrue(result.getLiteral("homepage").isAnyURI());
     Assert.assertEquals(result.getLiteral("homepage").getAnyURI(), new URI(p3HomePage));
 
     Assert.assertTrue(result.next());
-    Assert.assertTrue(result.getIndividual("p").isNamedIndividual());
-    Assert.assertEquals(result.getIndividual("p").getShortName(), "p2");
+    Assert.assertTrue(result.getNamedIndividual("p").isNamedIndividual());
+    Assert.assertEquals(result.getNamedIndividual("p").getShortName(), "p2");
     Assert.assertTrue(result.getLiteral("homepage").isAnyURI());
     Assert.assertEquals(result.getLiteral("homepage").getAnyURI(), new URI(p2HomePage));
 
     Assert.assertTrue(result.next());
-    Assert.assertTrue(result.getIndividual("p").isNamedIndividual());
-    Assert.assertEquals(result.getIndividual("p").getShortName(), "p1");
+    Assert.assertTrue(result.getNamedIndividual("p").isNamedIndividual());
+    Assert.assertEquals(result.getNamedIndividual("p").getShortName(), "p1");
     Assert.assertTrue(result.getLiteral("homepage").isAnyURI());
     Assert.assertEquals(result.getLiteral("homepage").getAnyURI(), new URI(p1HomePage));
   }
@@ -1197,20 +1197,20 @@ public class SQWRLCoreIT extends IntegrationTestBase
       .runSQWRLQuery("q1", "hasDOB(?p, ?dob)-> sqwrl:select(?p, ?dob) ^ sqwrl:orderBy(?dob)");
 
     Assert.assertTrue(result.next());
-    Assert.assertTrue(result.getIndividual("p").isNamedIndividual());
-    Assert.assertEquals(result.getIndividual("p").getShortName(), "p2");
+    Assert.assertTrue(result.getNamedIndividual("p").isNamedIndividual());
+    Assert.assertEquals(result.getNamedIndividual("p").getShortName(), "p2");
     Assert.assertTrue(result.getLiteral("dob").isDate());
     Assert.assertEquals(result.getLiteral("dob").getDate(), new XSDDate("1989-10-10"));
 
     Assert.assertTrue(result.next());
-    Assert.assertTrue(result.getIndividual("p").isNamedIndividual());
-    Assert.assertEquals(result.getIndividual("p").getShortName(), "p1");
+    Assert.assertTrue(result.getNamedIndividual("p").isNamedIndividual());
+    Assert.assertEquals(result.getNamedIndividual("p").getShortName(), "p1");
     Assert.assertTrue(result.getLiteral("dob").isDate());
     Assert.assertEquals(result.getLiteral("dob").getDate(), new XSDDate("1990-01-02"));
 
     Assert.assertTrue(result.next());
-    Assert.assertTrue(result.getIndividual("p").isNamedIndividual());
-    Assert.assertEquals(result.getIndividual("p").getShortName(), "p3");
+    Assert.assertTrue(result.getNamedIndividual("p").isNamedIndividual());
+    Assert.assertEquals(result.getNamedIndividual("p").getShortName(), "p3");
     Assert.assertTrue(result.getLiteral("dob").isDate());
     Assert.assertEquals(result.getLiteral("dob").getDate(), new XSDDate("1991-01-10"));
   }
@@ -1225,20 +1225,20 @@ public class SQWRLCoreIT extends IntegrationTestBase
       .runSQWRLQuery("q1", "hasTOB(?p, ?tob)-> sqwrl:select(?p, ?tob) ^ sqwrl:orderBy(?tob)");
 
     Assert.assertTrue(result.next());
-    Assert.assertTrue(result.getIndividual("p").isNamedIndividual());
-    Assert.assertEquals(result.getIndividual("p").getShortName(), "p2");
+    Assert.assertTrue(result.getNamedIndividual("p").isNamedIndividual());
+    Assert.assertEquals(result.getNamedIndividual("p").getShortName(), "p2");
     Assert.assertTrue(result.getLiteral("tob").isDateTime());
     Assert.assertEquals(result.getLiteral("tob").getDateTime(), new XSDDateTime("1989-10-10T09:08:08.3"));
 
     Assert.assertTrue(result.next());
-    Assert.assertTrue(result.getIndividual("p").isNamedIndividual());
-    Assert.assertEquals(result.getIndividual("p").getShortName(), "p1");
+    Assert.assertTrue(result.getNamedIndividual("p").isNamedIndividual());
+    Assert.assertEquals(result.getNamedIndividual("p").getShortName(), "p1");
     Assert.assertTrue(result.getLiteral("tob").isDateTime());
     Assert.assertEquals(result.getLiteral("tob").getDateTime(), new XSDDateTime("1990-01-02T10:10:09.2"));
 
     Assert.assertTrue(result.next());
-    Assert.assertTrue(result.getIndividual("p").isNamedIndividual());
-    Assert.assertEquals(result.getIndividual("p").getShortName(), "p3");
+    Assert.assertTrue(result.getNamedIndividual("p").isNamedIndividual());
+    Assert.assertEquals(result.getNamedIndividual("p").getShortName(), "p3");
     Assert.assertTrue(result.getLiteral("tob").isDateTime());
     Assert.assertEquals(result.getLiteral("tob").getDateTime(), new XSDDateTime("1991-01-10T11:11:11.11"));
   }
@@ -1253,20 +1253,20 @@ public class SQWRLCoreIT extends IntegrationTestBase
       .runSQWRLQuery("q1", "hasTOB(?p, ?tob)-> sqwrl:select(?p, ?tob) ^ sqwrl:orderBy(?tob)");
 
     Assert.assertTrue(result.next());
-    Assert.assertTrue(result.getIndividual("p").isNamedIndividual());
-    Assert.assertEquals(result.getIndividual("p").getShortName(), "p2");
+    Assert.assertTrue(result.getNamedIndividual("p").isNamedIndividual());
+    Assert.assertEquals(result.getNamedIndividual("p").getShortName(), "p2");
     Assert.assertTrue(result.getLiteral("tob").isTime());
     Assert.assertEquals(result.getLiteral("tob").getTime(), new XSDTime("09:08:08.3"));
 
     Assert.assertTrue(result.next());
-    Assert.assertTrue(result.getIndividual("p").isNamedIndividual());
-    Assert.assertEquals(result.getIndividual("p").getShortName(), "p1");
+    Assert.assertTrue(result.getNamedIndividual("p").isNamedIndividual());
+    Assert.assertEquals(result.getNamedIndividual("p").getShortName(), "p1");
     Assert.assertTrue(result.getLiteral("tob").isTime());
     Assert.assertEquals(result.getLiteral("tob").getTime(), new XSDTime("10:10:09.2"));
 
     Assert.assertTrue(result.next());
-    Assert.assertTrue(result.getIndividual("p").isNamedIndividual());
-    Assert.assertEquals(result.getIndividual("p").getShortName(), "p3");
+    Assert.assertTrue(result.getNamedIndividual("p").isNamedIndividual());
+    Assert.assertEquals(result.getNamedIndividual("p").getShortName(), "p3");
     Assert.assertTrue(result.getLiteral("tob").isTime());
     Assert.assertEquals(result.getLiteral("tob").getTime(), new XSDTime("11:11:11.11"));
   }
@@ -1281,20 +1281,20 @@ public class SQWRLCoreIT extends IntegrationTestBase
       .runSQWRLQuery("q1", "hasAge(?p, ?age)-> sqwrl:select(?p, ?age) ^ sqwrl:orderBy(?age)");
 
     Assert.assertTrue(result.next());
-    Assert.assertTrue(result.getIndividual("p").isNamedIndividual());
-    Assert.assertEquals(result.getIndividual("p").getShortName(), "p2");
+    Assert.assertTrue(result.getNamedIndividual("p").isNamedIndividual());
+    Assert.assertEquals(result.getNamedIndividual("p").getShortName(), "p2");
     Assert.assertTrue(result.getLiteral("age").isDuration());
     Assert.assertEquals(result.getLiteral("age").getDuration(), new XSDDuration("P21Y"));
 
     Assert.assertTrue(result.next());
-    Assert.assertTrue(result.getIndividual("p").isNamedIndividual());
-    Assert.assertEquals(result.getIndividual("p").getShortName(), "p1");
+    Assert.assertTrue(result.getNamedIndividual("p").isNamedIndividual());
+    Assert.assertEquals(result.getNamedIndividual("p").getShortName(), "p1");
     Assert.assertTrue(result.getLiteral("age").isDuration());
     Assert.assertEquals(result.getLiteral("age").getDuration(), new XSDDuration("P23Y"));
 
     Assert.assertTrue(result.next());
-    Assert.assertTrue(result.getIndividual("p").isNamedIndividual());
-    Assert.assertEquals(result.getIndividual("p").getShortName(), "p3");
+    Assert.assertTrue(result.getNamedIndividual("p").isNamedIndividual());
+    Assert.assertEquals(result.getNamedIndividual("p").getShortName(), "p3");
     Assert.assertTrue(result.getLiteral("age").isDuration());
     Assert.assertEquals(result.getLiteral("age").getDuration(), new XSDDuration("P30Y"));
   }
@@ -1309,20 +1309,20 @@ public class SQWRLCoreIT extends IntegrationTestBase
       .runSQWRLQuery("q1", "hasAge(?p, ?age)-> sqwrl:select(?p, ?age) ^ sqwrl:orderByDescending(?age)");
 
     Assert.assertTrue(result.next());
-    Assert.assertTrue(result.getIndividual("p").isNamedIndividual());
-    Assert.assertEquals(result.getIndividual("p").getShortName(), "p3");
+    Assert.assertTrue(result.getNamedIndividual("p").isNamedIndividual());
+    Assert.assertEquals(result.getNamedIndividual("p").getShortName(), "p3");
     Assert.assertTrue(result.getLiteral("age").isByte());
     Assert.assertEquals(result.getLiteral("age").getByte(), 30);
 
     Assert.assertTrue(result.next());
-    Assert.assertTrue(result.getIndividual("p").isNamedIndividual());
-    Assert.assertEquals(result.getIndividual("p").getShortName(), "p1");
+    Assert.assertTrue(result.getNamedIndividual("p").isNamedIndividual());
+    Assert.assertEquals(result.getNamedIndividual("p").getShortName(), "p1");
     Assert.assertTrue(result.getLiteral("age").isByte());
     Assert.assertEquals(result.getLiteral("age").getByte(), 20);
 
     Assert.assertTrue(result.next());
-    Assert.assertTrue(result.getIndividual("p").isNamedIndividual());
-    Assert.assertEquals(result.getIndividual("p").getShortName(), "p2");
+    Assert.assertTrue(result.getNamedIndividual("p").isNamedIndividual());
+    Assert.assertEquals(result.getNamedIndividual("p").getShortName(), "p2");
     Assert.assertTrue(result.getLiteral("age").isByte());
     Assert.assertEquals(result.getLiteral("age").getByte(), 10);
   }
@@ -1337,20 +1337,20 @@ public class SQWRLCoreIT extends IntegrationTestBase
       .runSQWRLQuery("q1", "hasAge(?p, ?age)-> sqwrl:select(?p, ?age) ^ sqwrl:orderByDescending(?age)");
 
     Assert.assertTrue(result.next());
-    Assert.assertTrue(result.getIndividual("p").isNamedIndividual());
-    Assert.assertEquals(result.getIndividual("p").getShortName(), "p3");
+    Assert.assertTrue(result.getNamedIndividual("p").isNamedIndividual());
+    Assert.assertEquals(result.getNamedIndividual("p").getShortName(), "p3");
     Assert.assertTrue(result.getLiteral("age").isShort());
     Assert.assertEquals(result.getLiteral("age").getShort(), 30);
 
     Assert.assertTrue(result.next());
-    Assert.assertTrue(result.getIndividual("p").isNamedIndividual());
-    Assert.assertEquals(result.getIndividual("p").getShortName(), "p1");
+    Assert.assertTrue(result.getNamedIndividual("p").isNamedIndividual());
+    Assert.assertEquals(result.getNamedIndividual("p").getShortName(), "p1");
     Assert.assertTrue(result.getLiteral("age").isShort());
     Assert.assertEquals(result.getLiteral("age").getShort(), 20);
 
     Assert.assertTrue(result.next());
-    Assert.assertTrue(result.getIndividual("p").isNamedIndividual());
-    Assert.assertEquals(result.getIndividual("p").getShortName(), "p2");
+    Assert.assertTrue(result.getNamedIndividual("p").isNamedIndividual());
+    Assert.assertEquals(result.getNamedIndividual("p").getShortName(), "p2");
     Assert.assertTrue(result.getLiteral("age").isShort());
     Assert.assertEquals(result.getLiteral("age").getShort(), 10);
   }
@@ -1365,20 +1365,20 @@ public class SQWRLCoreIT extends IntegrationTestBase
       .runSQWRLQuery("q1", "hasAge(?p, ?age)-> sqwrl:select(?p, ?age) ^ sqwrl:orderByDescending(?age)");
 
     Assert.assertTrue(result.next());
-    Assert.assertTrue(result.getIndividual("p").isNamedIndividual());
-    Assert.assertEquals(result.getIndividual("p").getShortName(), "p3");
+    Assert.assertTrue(result.getNamedIndividual("p").isNamedIndividual());
+    Assert.assertEquals(result.getNamedIndividual("p").getShortName(), "p3");
     Assert.assertTrue(result.getLiteral("age").isInt());
     Assert.assertEquals(result.getLiteral("age").getInt(), 30);
 
     Assert.assertTrue(result.next());
-    Assert.assertTrue(result.getIndividual("p").isNamedIndividual());
-    Assert.assertEquals(result.getIndividual("p").getShortName(), "p1");
+    Assert.assertTrue(result.getNamedIndividual("p").isNamedIndividual());
+    Assert.assertEquals(result.getNamedIndividual("p").getShortName(), "p1");
     Assert.assertTrue(result.getLiteral("age").isInt());
     Assert.assertEquals(result.getLiteral("age").getInt(), 20);
 
     Assert.assertTrue(result.next());
-    Assert.assertTrue(result.getIndividual("p").isNamedIndividual());
-    Assert.assertEquals(result.getIndividual("p").getShortName(), "p2");
+    Assert.assertTrue(result.getNamedIndividual("p").isNamedIndividual());
+    Assert.assertEquals(result.getNamedIndividual("p").getShortName(), "p2");
     Assert.assertTrue(result.getLiteral("age").isInt());
     Assert.assertEquals(result.getLiteral("age").getInt(), 10);
   }
@@ -1393,20 +1393,20 @@ public class SQWRLCoreIT extends IntegrationTestBase
       .runSQWRLQuery("q1", "hasAge(?p, ?age)-> sqwrl:select(?p, ?age) ^ sqwrl:orderByDescending(?age)");
 
     Assert.assertTrue(result.next());
-    Assert.assertTrue(result.getIndividual("p").isNamedIndividual());
-    Assert.assertEquals(result.getIndividual("p").getShortName(), "p3");
+    Assert.assertTrue(result.getNamedIndividual("p").isNamedIndividual());
+    Assert.assertEquals(result.getNamedIndividual("p").getShortName(), "p3");
     Assert.assertTrue(result.getLiteral("age").isLong());
     Assert.assertEquals(result.getLiteral("age").getLong(), 30L);
 
     Assert.assertTrue(result.next());
-    Assert.assertTrue(result.getIndividual("p").isNamedIndividual());
-    Assert.assertEquals(result.getIndividual("p").getShortName(), "p1");
+    Assert.assertTrue(result.getNamedIndividual("p").isNamedIndividual());
+    Assert.assertEquals(result.getNamedIndividual("p").getShortName(), "p1");
     Assert.assertTrue(result.getLiteral("age").isLong());
     Assert.assertEquals(result.getLiteral("age").getLong(), 20L);
 
     Assert.assertTrue(result.next());
-    Assert.assertTrue(result.getIndividual("p").isNamedIndividual());
-    Assert.assertEquals(result.getIndividual("p").getShortName(), "p2");
+    Assert.assertTrue(result.getNamedIndividual("p").isNamedIndividual());
+    Assert.assertEquals(result.getNamedIndividual("p").getShortName(), "p2");
     Assert.assertTrue(result.getLiteral("age").isLong());
     Assert.assertEquals(result.getLiteral("age").getLong(), 10L);
   }
@@ -1421,20 +1421,20 @@ public class SQWRLCoreIT extends IntegrationTestBase
       .runSQWRLQuery("q1", "hasName(?p, ?name)-> sqwrl:select(?p, ?name) ^ sqwrl:orderByDescending(?name)");
 
     Assert.assertTrue(result.next());
-    Assert.assertTrue(result.getIndividual("p").isNamedIndividual());
-    Assert.assertEquals(result.getIndividual("p").getShortName(), "p1");
+    Assert.assertTrue(result.getNamedIndividual("p").isNamedIndividual());
+    Assert.assertEquals(result.getNamedIndividual("p").getShortName(), "p1");
     Assert.assertTrue(result.getLiteral("name").isString());
     Assert.assertEquals(result.getLiteral("name").getString(), "Fred");
 
     Assert.assertTrue(result.next());
-    Assert.assertTrue(result.getIndividual("p").isNamedIndividual());
-    Assert.assertEquals(result.getIndividual("p").getShortName(), "p2");
+    Assert.assertTrue(result.getNamedIndividual("p").isNamedIndividual());
+    Assert.assertEquals(result.getNamedIndividual("p").getShortName(), "p2");
     Assert.assertTrue(result.getLiteral("name").isString());
     Assert.assertEquals(result.getLiteral("name").getString(), "Bob");
 
     Assert.assertTrue(result.next());
-    Assert.assertTrue(result.getIndividual("p").isNamedIndividual());
-    Assert.assertEquals(result.getIndividual("p").getShortName(), "p3");
+    Assert.assertTrue(result.getNamedIndividual("p").isNamedIndividual());
+    Assert.assertEquals(result.getNamedIndividual("p").getShortName(), "p3");
     Assert.assertTrue(result.getLiteral("name").isString());
     Assert.assertEquals(result.getLiteral("name").getString(), "Ann");
   }

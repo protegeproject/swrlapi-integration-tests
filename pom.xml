@@ -85,8 +85,7 @@
         <artifactId>maven-failsafe-plugin</artifactId>
         <version>${maven.failsafe.plugin.version}</version>
         <configuration>
-          <!-- SWRLAPIIntegrationTestBase not currently set up to allow parallel tests -->
-          <!-- <parallel>methods</parallel> -->
+          <!-- <parallel>classes</parallel> -->
           <encoding>UTF-8</encoding>
         </configuration>
         <executions>

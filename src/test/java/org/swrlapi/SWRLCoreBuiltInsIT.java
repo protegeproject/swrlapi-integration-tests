@@ -106,8 +106,8 @@ public class SWRLCoreBuiltInsIT extends IntegrationTestBase
       "hasAge(p1, ?age) ^ swrlb:equal(?age, \"42\"^^xsd:short) -> sqwrl:select(p1)");
 
     Assert.assertTrue(result.next());
-    Assert.assertTrue(result.getIndividual(0).isNamedIndividual());
-    Assert.assertEquals(result.getIndividual(0).getShortName(), "p1");
+    Assert.assertTrue(result.getNamedIndividual(0).isNamedIndividual());
+    Assert.assertEquals(result.getNamedIndividual(0).getShortName(), "p1");
   }
 
   @Test
@@ -140,8 +140,8 @@ public class SWRLCoreBuiltInsIT extends IntegrationTestBase
     SQWRLResult result = queryEngine.runSQWRLQuery("q1", "hasAge(p1, ?age) ^ swrlb:equal(?age, 42) -> sqwrl:select(p1)");
 
     Assert.assertTrue(result.next());
-    Assert.assertTrue(result.getIndividual(0).isNamedIndividual());
-    Assert.assertEquals(result.getIndividual(0).getShortName(), "p1");
+    Assert.assertTrue(result.getNamedIndividual(0).isNamedIndividual());
+    Assert.assertEquals(result.getNamedIndividual(0).getShortName(), "p1");
   }
 
   @Test
@@ -175,8 +175,8 @@ public class SWRLCoreBuiltInsIT extends IntegrationTestBase
       "hasAge(p1, ?age) ^ swrlb:equal(?age, \"42\"^^xsd:long) -> sqwrl:select(p1)");
 
     Assert.assertTrue(result.next());
-    Assert.assertTrue(result.getIndividual(0).isNamedIndividual());
-    Assert.assertEquals(result.getIndividual(0).getShortName(), "p1");
+    Assert.assertTrue(result.getNamedIndividual(0).isNamedIndividual());
+    Assert.assertEquals(result.getNamedIndividual(0).getShortName(), "p1");
   }
 
   @Test
@@ -199,8 +199,8 @@ public class SWRLCoreBuiltInsIT extends IntegrationTestBase
       "hasHeightInCM(p1, ?height) ^ swrlb:equal(?height, 177.0) -> sqwrl:select(p1)");
 
     Assert.assertTrue(result.next());
-    Assert.assertTrue(result.getIndividual(0).isNamedIndividual());
-    Assert.assertEquals(result.getIndividual(0).getShortName(), "p1");
+    Assert.assertTrue(result.getNamedIndividual(0).isNamedIndividual());
+    Assert.assertEquals(result.getNamedIndividual(0).getShortName(), "p1");
   }
 
   @Test
@@ -256,8 +256,8 @@ public class SWRLCoreBuiltInsIT extends IntegrationTestBase
       "isFrench(p1, ?french) ^ swrlb:equal(?french, true)-> sqwrl:select(p1)");
 
     Assert.assertTrue(result.next());
-    Assert.assertTrue(result.getIndividual(0).isNamedIndividual());
-    Assert.assertEquals(result.getIndividual(0).getShortName(), "p1");
+    Assert.assertTrue(result.getNamedIndividual(0).isNamedIndividual());
+    Assert.assertEquals(result.getNamedIndividual(0).getShortName(), "p1");
   }
 
   @Test
