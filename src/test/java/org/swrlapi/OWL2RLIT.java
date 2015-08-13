@@ -3,12 +3,14 @@ package org.swrlapi;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.semanticweb.owlapi.apibinding.OWLManager;
 import org.semanticweb.owlapi.model.OWLClass;
 import org.semanticweb.owlapi.model.OWLDataProperty;
 import org.semanticweb.owlapi.model.OWLNamedIndividual;
 import org.semanticweb.owlapi.model.OWLObjectProperty;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyCreationException;
+import org.swrlapi.factory.SWRLAPIFactory;
 import org.swrlapi.parser.SWRLParseException;
 import org.swrlapi.sqwrl.SQWRLQueryEngine;
 import org.swrlapi.sqwrl.SQWRLResult;
@@ -43,14 +45,13 @@ public class OWL2RLIT extends IntegrationTestBase
   private static final OWLObjectProperty OP = ObjectProperty(IRI(":op"));
   private static final OWLDataProperty DP = DataProperty(IRI(":dp"));
 
-  private SQWRLQueryEngine queryEngine;
   private OWLOntology ontology;
+  private SQWRLQueryEngine queryEngine;
 
-  @Before
-  public void setUp() throws OWLOntologyCreationException
+  @Before public void setUp() throws OWLOntologyCreationException
   {
-    queryEngine = createSQWRLQueryEngine();
-    ontology = queryEngine.getOWLOntology();
+    ontology = OWLManager.createOWLOntologyManager().createOntology();
+    queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
   }
 
   @Test

@@ -8,7 +8,6 @@ import org.semanticweb.owlapi.model.OWLDataProperty;
 import org.semanticweb.owlapi.model.OWLNamedIndividual;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyCreationException;
-import org.semanticweb.owlapi.model.OWLOntologyManager;
 import org.semanticweb.owlapi.model.OWLOntologyStorageException;
 import org.swrlapi.core.SWRLRuleEngine;
 import org.swrlapi.factory.SWRLAPIFactory;
@@ -32,15 +31,13 @@ public class RoundTripIT extends IntegrationTestBase
   private static final OWLNamedIndividual P1 = NamedIndividual(IRI(":p1"));
   private static final OWLDataProperty HAS_AGE = DataProperty(IRI(":hasAge"));
 
-  private OWLOntologyManager ontologyManager;
+  private OWLOntology ontology;
   private SWRLRuleEngine ruleEngine;
   private SQWRLQueryEngine queryEngine;
-  private OWLOntology ontology;
 
   @Before public void setUp() throws OWLOntologyCreationException
   {
-    ontologyManager = OWLManager.createOWLOntologyManager();
-    ontology = ontologyManager.createOntology();
+    ontology = OWLManager.createOWLOntologyManager().createOntology();
     queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
     ruleEngine = queryEngine;
   }

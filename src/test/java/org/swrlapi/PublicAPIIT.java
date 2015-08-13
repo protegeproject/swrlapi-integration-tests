@@ -3,6 +3,7 @@ package org.swrlapi;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.semanticweb.owlapi.apibinding.OWLManager;
 import org.semanticweb.owlapi.model.OWLAxiom;
 import org.semanticweb.owlapi.model.OWLClass;
 import org.semanticweb.owlapi.model.OWLDataProperty;
@@ -11,6 +12,7 @@ import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyCreationException;
 import org.semanticweb.owlapi.model.parameters.Imports;
 import org.swrlapi.core.SWRLRuleEngine;
+import org.swrlapi.factory.SWRLAPIFactory;
 import org.swrlapi.parser.SWRLParseException;
 import org.swrlapi.sqwrl.SQWRLQueryEngine;
 import org.swrlapi.sqwrl.SQWRLResult;
@@ -36,15 +38,15 @@ public class PublicAPIIT extends IntegrationTestBase
   private static final OWLNamedIndividual P1 = NamedIndividual(IRI(":p1"));
   private static final OWLDataProperty HAS_AGE = DataProperty(IRI(":hasAge"));
 
+  private OWLOntology ontology;
   private SWRLRuleEngine ruleEngine;
   private SQWRLQueryEngine queryEngine;
-  private OWLOntology ontology;
 
   @Before public void setUp() throws OWLOntologyCreationException
   {
-    queryEngine = createSQWRLQueryEngine();
+    ontology = OWLManager.createOWLOntologyManager().createOntology();
+    queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
     ruleEngine = queryEngine;
-    ontology = queryEngine.getOWLOntology();
   }
 
   @Test public void TestSWRLRuleEngineInfer() throws SWRLParseException, SQWRLException

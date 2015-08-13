@@ -3,10 +3,14 @@ package org.swrlapi;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.semanticweb.owlapi.apibinding.OWLManager;
+import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyCreationException;
+import org.swrlapi.factory.SWRLAPIFactory;
 import org.swrlapi.literal.XSDDateTime;
 import org.swrlapi.literal.XSDDuration;
 import org.swrlapi.parser.SWRLParseException;
+import org.swrlapi.sqwrl.SQWRLQueryEngine;
 import org.swrlapi.sqwrl.SQWRLResult;
 import org.swrlapi.sqwrl.exceptions.SQWRLException;
 import org.swrlapi.sqwrl.values.SQWRLLiteralResultValue;
@@ -14,16 +18,18 @@ import org.swrlapi.test.IntegrationTestBase;
 
 public class SWRLBuiltInsIT extends IntegrationTestBase
 {
-  @Before
-  public void setUp() throws OWLOntologyCreationException
-  {
-    createOWLOntologyAndSQWRLQueryEngine();
-  }
+  private OWLOntology ontology;
+  private SQWRLQueryEngine queryEngine;
 
+  @Before public void setUp() throws OWLOntologyCreationException
+  {
+    ontology = OWLManager.createOWLOntologyManager().createOntology();
+    queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
+  }
   @Test
   public void TestSWRLBuiltInsBasicInvocation() throws SWRLParseException, SQWRLException
   {
-    SQWRLResult result = executeSQWRLQuery("q1", "swrlb:add(4, 2, 2) -> sqwrl:select(0)");
+    SQWRLResult result = queryEngine.runSQWRLQuery("q1", "swrlb:add(4, 2, 2) -> sqwrl:select(0)");
 
     Assert.assertTrue(result.next());
   }
@@ -32,7 +38,7 @@ public class SWRLBuiltInsIT extends IntegrationTestBase
   public void TestSWRLBuiltInsByteBoundResult() throws SWRLParseException, SQWRLException
   {
     String query = "swrlb:add(?r, \"2\"^^xsd:byte, \"2\"^^xsd:byte) -> sqwrl:select(?r)";
-    SQWRLResult result = executeSQWRLQuery("q1", query);
+    SQWRLResult result = queryEngine.runSQWRLQuery("q1", query);
 
     Assert.assertTrue(result.next());
     SQWRLLiteralResultValue literal = result.getLiteral("r");
@@ -44,7 +50,7 @@ public class SWRLBuiltInsIT extends IntegrationTestBase
   public void TestSWRLBuiltInsShortBoundResult() throws SWRLParseException, SQWRLException
   {
     String query = "swrlb:add(?r, \"2\"^^xsd:short, \"2\"^^xsd:short) -> sqwrl:select(?r)";
-    SQWRLResult result = executeSQWRLQuery("q1", query);
+    SQWRLResult result = queryEngine.runSQWRLQuery("q1", query);
 
     Assert.assertTrue(result.next());
     SQWRLLiteralResultValue literal = result.getLiteral("r");
@@ -55,7 +61,7 @@ public class SWRLBuiltInsIT extends IntegrationTestBase
   @Test
   public void TestSWRLBuiltInsIntBoundResult() throws SWRLParseException, SQWRLException
   {
-    SQWRLResult result = executeSQWRLQuery("q1", "swrlb:add(?r, 2, 2) -> sqwrl:select(?r)");
+    SQWRLResult result = queryEngine.runSQWRLQuery("q1", "swrlb:add(?r, 2, 2) -> sqwrl:select(?r)");
 
     Assert.assertTrue(result.next());
     SQWRLLiteralResultValue literal = result.getLiteral("r");
@@ -66,7 +72,7 @@ public class SWRLBuiltInsIT extends IntegrationTestBase
   @Test
   public void TestSWRLBuiltInsFloatBoundResult() throws SWRLParseException, SQWRLException
   {
-    SQWRLResult result = executeSQWRLQuery("q1", "swrlb:add(?r, 2.1, 2.0) -> sqwrl:select(?r)");
+    SQWRLResult result = queryEngine.runSQWRLQuery("q1", "swrlb:add(?r, 2.1, 2.0) -> sqwrl:select(?r)");
 
     Assert.assertTrue(result.next());
     SQWRLLiteralResultValue literal = result.getLiteral("r");
@@ -78,7 +84,7 @@ public class SWRLBuiltInsIT extends IntegrationTestBase
   public void TestSWRLBuiltInsLongBoundResult() throws SWRLParseException, SQWRLException
   {
     String query = "swrlb:add(?r, \"2\"^^xsd:long, \"2\"^^xsd:long) -> sqwrl:select(?r)";
-    SQWRLResult result = executeSQWRLQuery("q1", query);
+    SQWRLResult result = queryEngine.runSQWRLQuery("q1", query);
 
     Assert.assertTrue(result.next());
     SQWRLLiteralResultValue literal = result.getLiteral("r");
@@ -90,7 +96,7 @@ public class SWRLBuiltInsIT extends IntegrationTestBase
   public void TestSWRLBuiltInsDoubleBoundResult() throws SWRLParseException, SQWRLException
   {
     String query = "swrlb:add(?r, \"2.0\"^^xsd:double, \"2.0\"^^xsd:double) -> sqwrl:select(?r)";
-    SQWRLResult result = executeSQWRLQuery("q1", query);
+    SQWRLResult result = queryEngine.runSQWRLQuery("q1", query);
 
     Assert.assertTrue(result.next());
     SQWRLLiteralResultValue literal = result.getLiteral("r");
@@ -101,7 +107,7 @@ public class SWRLBuiltInsIT extends IntegrationTestBase
   @Test
   public void TestSWRLBuiltInsBooleanBoundTrueResult() throws SWRLParseException, SQWRLException
   {
-    SQWRLResult result = executeSQWRLQuery("q1", "swrlb:booleanNot(?r, false) -> sqwrl:select(?r)");
+    SQWRLResult result = queryEngine.runSQWRLQuery("q1", "swrlb:booleanNot(?r, false) -> sqwrl:select(?r)");
 
     Assert.assertTrue(result.next());
     SQWRLLiteralResultValue literal = result.getLiteral("r");
@@ -112,7 +118,7 @@ public class SWRLBuiltInsIT extends IntegrationTestBase
   @Test
   public void TestSWRLBuiltInsBooleanBoundFalseResult() throws SWRLParseException, SQWRLException
   {
-    SQWRLResult result = executeSQWRLQuery("q1", "swrlb:booleanNot(?r, true) -> sqwrl:select(?r)");
+    SQWRLResult result = queryEngine.runSQWRLQuery("q1", "swrlb:booleanNot(?r, true) -> sqwrl:select(?r)");
 
     Assert.assertTrue(result.next());
     SQWRLLiteralResultValue literal = result.getLiteral("r");
@@ -123,7 +129,7 @@ public class SWRLBuiltInsIT extends IntegrationTestBase
   @Test
   public void TestSWRLBuiltInsDateTimeBoundResult() throws SWRLParseException, SQWRLException
   {
-    SQWRLResult result = executeSQWRLQuery("q1",
+    SQWRLResult result = queryEngine.runSQWRLQuery("q1",
         "temporal:add(?r, \"1999-11-01T10:00:01.0\"^^xsd:dateTime, 0, \"Years\") -> sqwrl:select(?r)");
 
     Assert.assertTrue(result.next());
@@ -135,7 +141,7 @@ public class SWRLBuiltInsIT extends IntegrationTestBase
   public void TestSWRLBuiltInsDurationBoundResult() throws SWRLParseException, SQWRLException
   {
     String query = "swrlb:yearMonthDuration(?x, 3, 4) -> sqwrl:select(?x)";
-    SQWRLResult result = executeSQWRLQuery("q1", query);
+    SQWRLResult result = queryEngine.runSQWRLQuery("q1", query);
 
     Assert.assertTrue(result.next());
     Assert.assertTrue(result.getLiteral("x").isDuration());
@@ -147,7 +153,7 @@ public class SWRLBuiltInsIT extends IntegrationTestBase
   {
     String query = "swrlb:add(?x, \"2\"^^xsd:short, \"2\"^^xsd:short) ^ "
         + "swrlb:multiply(?y, ?x, \"2\"^^xsd:short) -> sqwrl:select(?y)";
-    SQWRLResult result = executeSQWRLQuery("q1", query);
+    SQWRLResult result = queryEngine.runSQWRLQuery("q1", query);
 
     Assert.assertTrue(result.next());
     Assert.assertTrue(result.getLiteral("y").isShort());
@@ -158,7 +164,7 @@ public class SWRLBuiltInsIT extends IntegrationTestBase
   public void TestSWRLBuiltInsCascadingIntVariable() throws SWRLParseException, SQWRLException
   {
     String query = "swrlb:add(?x, 2, 2) ^ swrlb:multiply(?y, ?x, 2) -> sqwrl:select(?y)";
-    SQWRLResult result = executeSQWRLQuery("q1", query);
+    SQWRLResult result = queryEngine.runSQWRLQuery("q1", query);
 
     Assert.assertTrue(result.next());
     Assert.assertTrue(result.getLiteral("y").isInt());
@@ -170,7 +176,7 @@ public class SWRLBuiltInsIT extends IntegrationTestBase
   {
     String query = "swrlb:add(?x, \"2\"^^xsd:long, \"2\"^^xsd:long) ^ "
         + "swrlb:multiply(?y, ?x, \"2\"^^xsd:long) -> sqwrl:select(?y)";
-    SQWRLResult result = executeSQWRLQuery("q1", query);
+    SQWRLResult result = queryEngine.runSQWRLQuery("q1", query);
 
     Assert.assertTrue(result.next());
     Assert.assertTrue(result.getLiteral("y").isLong());
@@ -181,7 +187,7 @@ public class SWRLBuiltInsIT extends IntegrationTestBase
   public void TestSWRLBuiltInsCascadingFloatVariable() throws SWRLParseException, SQWRLException
   {
     String query = "swrlb:add(?x, 2.0, 2.0) ^ swrlb:multiply(?y, ?x, 2.0) -> sqwrl:select(?y)";
-    SQWRLResult result = executeSQWRLQuery("q1", query);
+    SQWRLResult result = queryEngine.runSQWRLQuery("q1", query);
 
     Assert.assertTrue(result.next());
     Assert.assertTrue(result.getLiteral("y").isFloat());
@@ -193,7 +199,7 @@ public class SWRLBuiltInsIT extends IntegrationTestBase
   {
     String query = "swrlb:add(?x, \"2.0\"^^xsd:double, \"2.0\"^^xsd:double) ^ "
         + "swrlb:multiply(?y, ?x, \"2.0\"^^xsd:double) -> sqwrl:select(?y)";
-    SQWRLResult result = executeSQWRLQuery("q1", query);
+    SQWRLResult result = queryEngine.runSQWRLQuery("q1", query);
 
     Assert.assertTrue(result.next());
     Assert.assertTrue(result.getLiteral("y").isDouble());
@@ -204,7 +210,7 @@ public class SWRLBuiltInsIT extends IntegrationTestBase
   public void TestSWRLBuiltInsCascadingBooleanVariable() throws SWRLParseException, SQWRLException
   {
     String query = "swrlb:booleanNot(?x, true) ^ swrlb:booleanNot(?y, ?x) -> sqwrl:select(?y)";
-    SQWRLResult result = executeSQWRLQuery("q1", query);
+    SQWRLResult result = queryEngine.runSQWRLQuery("q1", query);
 
     Assert.assertTrue(result.next());
     Assert.assertTrue(result.getLiteral("y").isBoolean());
@@ -215,7 +221,7 @@ public class SWRLBuiltInsIT extends IntegrationTestBase
   public void TestSWRLBuiltInsCascadingStringVariable() throws SWRLParseException, SQWRLException
   {
     String query = "swrlb:stringConcat(?x, \"The\", \"Cat\") ^ swrlb:stringConcat(?y, ?x, \"Sat\") -> sqwrl:select(?y)";
-    SQWRLResult result = executeSQWRLQuery("q1", query);
+    SQWRLResult result = queryEngine.runSQWRLQuery("q1", query);
 
     Assert.assertTrue(result.next());
     Assert.assertTrue(result.getLiteral("y").isString());

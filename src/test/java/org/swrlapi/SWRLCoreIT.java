@@ -3,12 +3,14 @@ package org.swrlapi;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.semanticweb.owlapi.apibinding.OWLManager;
 import org.semanticweb.owlapi.model.OWLClass;
 import org.semanticweb.owlapi.model.OWLDataProperty;
 import org.semanticweb.owlapi.model.OWLNamedIndividual;
 import org.semanticweb.owlapi.model.OWLObjectProperty;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyCreationException;
+import org.swrlapi.factory.SWRLAPIFactory;
 import org.swrlapi.literal.XSDDate;
 import org.swrlapi.literal.XSDDateTime;
 import org.swrlapi.literal.XSDDuration;
@@ -51,13 +53,13 @@ public class SWRLCoreIT extends IntegrationTestBase
   private static final OWLDataProperty HAS_HEIGHT = DataProperty(IRI(":hasHeight"));
   private static final OWLDataProperty HEIGHT_OFFET_IN_CM = DataProperty(IRI(":heightOffsetInCM"));
 
-  private SQWRLQueryEngine queryEngine;
   private OWLOntology ontology;
+  private SQWRLQueryEngine queryEngine;
 
   @Before public void setUp() throws OWLOntologyCreationException
   {
-    queryEngine = createSQWRLQueryEngine();
-    ontology = queryEngine.getOWLOntology();
+    ontology = OWLManager.createOWLOntologyManager().createOntology();
+    queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
   }
 
   @Test public void TestSWRLCoreClassAtomInAntecedentWithNamedIndividual() throws SWRLParseException, SQWRLException
