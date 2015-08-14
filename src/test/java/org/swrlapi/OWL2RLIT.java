@@ -1,7 +1,6 @@
 package org.swrlapi;
 
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 import org.semanticweb.owlapi.apibinding.OWLManager;
 import org.semanticweb.owlapi.model.OWLClass;
@@ -45,18 +44,11 @@ public class OWL2RLIT extends IntegrationTestBase
   private static final OWLObjectProperty OP = ObjectProperty(IRI(":op"));
   private static final OWLDataProperty DP = DataProperty(IRI(":dp"));
 
-  private OWLOntology ontology;
-  private SQWRLQueryEngine queryEngine;
-
-  @Before public void setUp() throws OWLOntologyCreationException
+  @Test public void TEST_EQU_REF_C() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
   {
-    ontology = OWLManager.createOWLOntologyManager().createOntology();
-    queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
-  }
+    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
 
-  @Test
-  public void TEST_EQU_REF_C() throws SWRLParseException, SQWRLException
-  {
     addOWLAxioms(ontology, ClassAssertion(C, I));
 
     SQWRLResult result = queryEngine.runSQWRLQuery("q1", "sameAs(i, i) -> sqwrl:select(0)");
@@ -64,9 +56,11 @@ public class OWL2RLIT extends IntegrationTestBase
     Assert.assertTrue(result.next());
   }
 
-  @Test
-  public void TEST_EQU_REF_OP() throws SWRLParseException, SQWRLException
+  @Test public void TEST_EQU_REF_OP() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
   {
+    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
+
     addOWLAxioms(ontology, ObjectPropertyAssertion(OP, S, O));
 
     SQWRLResult result = queryEngine.runSQWRLQuery("q1", "sameAs(s, s) ^ sameAs(o, o) -> sqwrl:select(0)");
@@ -74,9 +68,11 @@ public class OWL2RLIT extends IntegrationTestBase
     Assert.assertTrue(result.next());
   }
 
-  @Test
-  public void TEST_EQU_REF_DP() throws SWRLParseException, SQWRLException
+  @Test public void TEST_EQU_REF_DP() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
   {
+    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
+
     addOWLAxioms(ontology, DataPropertyAssertion(DP, S, Literal("1", XSD_INT)));
 
     SQWRLResult result = queryEngine.runSQWRLQuery("q1", "sameAs(s, s) -> sqwrl:select(0)");
@@ -84,9 +80,11 @@ public class OWL2RLIT extends IntegrationTestBase
     Assert.assertTrue(result.next());
   }
 
-  @Test
-  public void TEST_EQU_SYM() throws SWRLParseException, SQWRLException
+  @Test public void TEST_EQU_SYM() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
   {
+    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
+
     addOWLAxioms(ontology, SameIndividual(I1, I2));
 
     SQWRLResult result = queryEngine.runSQWRLQuery("q1", "sameAs(i2, i1) -> sqwrl:select(0)");
@@ -94,9 +92,11 @@ public class OWL2RLIT extends IntegrationTestBase
     Assert.assertTrue(result.next());
   }
 
-  @Test
-  public void TEST_EQU_TRANS() throws SWRLParseException, SQWRLException
+  @Test public void TEST_EQU_TRANS() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
   {
+    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
+
     addOWLAxioms(ontology, SameIndividual(I1, I2), SameIndividual(I2, I3));
 
     SQWRLResult result = queryEngine.runSQWRLQuery("q1", "sameAs(i1, i3) -> sqwrl:select(0)");
@@ -104,9 +104,11 @@ public class OWL2RLIT extends IntegrationTestBase
     Assert.assertTrue(result.next());
   }
 
-  @Test
-  public void TEST_EQU_REP_S_C() throws SWRLParseException, SQWRLException
+  @Test public void TEST_EQU_REP_S_C() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
   {
+    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
+
     addOWLAxioms(ontology, SameIndividual(I1, I2), ClassAssertion(C, I1));
 
     SQWRLResult result = queryEngine.runSQWRLQuery("q1", "C(i2) -> sqwrl:select(0)");
@@ -114,9 +116,11 @@ public class OWL2RLIT extends IntegrationTestBase
     Assert.assertTrue(result.next());
   }
 
-  @Test
-  public void TEST_EQU_REP_S_OP() throws SWRLParseException, SQWRLException
+  @Test public void TEST_EQU_REP_S_OP() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
   {
+    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
+
     addOWLAxioms(ontology, SameIndividual(I1, I2), ObjectPropertyAssertion(OP, I1, O));
 
     SQWRLResult result = queryEngine.runSQWRLQuery("q1", "op(i2, o) -> sqwrl:select(0)");
@@ -124,9 +128,11 @@ public class OWL2RLIT extends IntegrationTestBase
     Assert.assertTrue(result.next());
   }
 
-  @Test
-  public void TEST_EQU_REP_S_DP() throws SWRLParseException, SQWRLException
+  @Test public void TEST_EQU_REP_S_DP() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
   {
+    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
+
     addOWLAxioms(ontology, SameIndividual(I1, I2), DataPropertyAssertion(DP, I1, Literal("3", XSD_INT)));
 
     SQWRLResult result = queryEngine.runSQWRLQuery("q1", "dp(i2, 3) -> sqwrl:select(0)");
@@ -134,9 +140,11 @@ public class OWL2RLIT extends IntegrationTestBase
     Assert.assertTrue(result.next());
   }
 
-  @Test
-  public void TEST_EQU_REP_O() throws SWRLParseException, SQWRLException
+  @Test public void TEST_EQU_REP_O() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
   {
+    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
+
     addOWLAxioms(ontology, SameIndividual(I1, I2), ObjectPropertyAssertion(OP, S, I2));
 
     SQWRLResult result = queryEngine.runSQWRLQuery("q1", "op(s, i1) -> sqwrl:select(0)");
@@ -144,9 +152,11 @@ public class OWL2RLIT extends IntegrationTestBase
     Assert.assertTrue(result.next());
   }
 
-  @Test
-  public void TEST_PRP_DOM_OP() throws SWRLParseException, SQWRLException
+  @Test public void TEST_PRP_DOM_OP() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
   {
+    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
+
     addOWLAxioms(ontology, ObjectPropertyDomain(OP, C), ObjectPropertyAssertion(OP, S, O));
 
     SQWRLResult result = queryEngine.runSQWRLQuery("q1", "C(s) -> sqwrl:select(0)");
@@ -154,9 +164,11 @@ public class OWL2RLIT extends IntegrationTestBase
     Assert.assertTrue(result.next());
   }
 
-  @Test
-  public void TEST_PRP_DOM_DP() throws SWRLParseException, SQWRLException
+  @Test public void TEST_PRP_DOM_DP() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
   {
+    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
+
     addOWLAxioms(ontology, DataPropertyDomain(DP, C), DataPropertyAssertion(DP, S, Literal("1", XSD_INT)));
 
     SQWRLResult result = queryEngine.runSQWRLQuery("q1", "C(s) -> sqwrl:select(0)");
@@ -256,9 +268,11 @@ public class OWL2RLIT extends IntegrationTestBase
   // createOWL2RLRuleDefinition(OWL2RLNames.Rule.CLS_OO, "cls_oo",
   // "rule cls_oo when OOOCE($c:ceid, $y1:i1, $y2:i2) then CAA caa1=new CAA($c, $y1); CAA caa2=new CAA($c, $y2); inferrer.infer(caa1, caa2); end");
 
-  @Test
-  public void CAX_SCO() throws SWRLParseException, SQWRLException
+  @Test public void CAX_SCO() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
   {
+    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
+
     addOWLAxioms(ontology, SubClassOf(C1, C2), ClassAssertion(C1, I));
 
     SQWRLResult result = queryEngine.runSQWRLQuery("q1", "C2(i) -> sqwrl:select(0)");

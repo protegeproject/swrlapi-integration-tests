@@ -1,7 +1,6 @@
 package org.swrlapi;
 
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 import org.semanticweb.owlapi.apibinding.OWLManager;
 import org.semanticweb.owlapi.model.OWLAxiom;
@@ -38,19 +37,12 @@ public class PublicAPIIT extends IntegrationTestBase
   private static final OWLNamedIndividual P1 = NamedIndividual(IRI(":p1"));
   private static final OWLDataProperty HAS_AGE = DataProperty(IRI(":hasAge"));
 
-  private OWLOntology ontology;
-  private SWRLRuleEngine ruleEngine;
-  private SQWRLQueryEngine queryEngine;
-
-  @Before public void setUp() throws OWLOntologyCreationException
+  @Test public void TestSWRLRuleEngineInfer() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
   {
-    ontology = OWLManager.createOWLOntologyManager().createOntology();
-    queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
-    ruleEngine = queryEngine;
-  }
+    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
+    SWRLRuleEngine ruleEngine = queryEngine;
 
-  @Test public void TestSWRLRuleEngineInfer() throws SWRLParseException, SQWRLException
-  {
     addOWLAxioms(ontology, Declaration(ADULT), Declaration(PERSON), ClassAssertion(PERSON, P1),
         DataPropertyAssertion(HAS_AGE, P1, Literal("18", XSD_INT)));
 
@@ -63,8 +55,12 @@ public class PublicAPIIT extends IntegrationTestBase
     Assert.assertTrue(axioms.contains(ClassAssertion(ADULT, P1)));
   }
 
-  @Test public void TestSQWRLQuery() throws SQWRLException, SWRLParseException
+  @Test public void TestSQWRLQuery() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
   {
+    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
+    SWRLRuleEngine ruleEngine = queryEngine;
+
     addOWLAxioms(ontology, ClassAssertion(MALE, P1));
 
     SQWRLResult result = queryEngine.runSQWRLQuery("q1", "Male(p1) -> sqwrl:select(p1)");
@@ -73,8 +69,12 @@ public class PublicAPIIT extends IntegrationTestBase
     Assert.assertEquals(result.getNamedIndividual(0).getShortName(), "p1");
   }
 
-  @Test public void TestCascadingRuleAndQuery() throws SWRLParseException, SQWRLException
+  @Test public void TestCascadingRuleAndQuery() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
   {
+    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
+    SWRLRuleEngine ruleEngine = queryEngine;
+
     addOWLAxioms(ontology, Declaration(ADULT), Declaration(PERSON), ClassAssertion(PERSON, P1),
         DataPropertyAssertion(HAS_AGE, P1, Literal("18", XSD_INT)));
 

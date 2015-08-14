@@ -1,7 +1,6 @@
 package org.swrlapi;
 
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 import org.semanticweb.owlapi.apibinding.OWLManager;
 import org.semanticweb.owlapi.model.OWLOntology;
@@ -16,34 +15,36 @@ import org.swrlapi.test.IntegrationTestBase;
 
 public class SWRLTemporalBuiltInsIT extends IntegrationTestBase
 {
-  private OWLOntology ontology;
-  private SQWRLQueryEngine queryEngine;
+  @Test public void TestSWRLTemporalBeforeBuiltIn()
+      throws SWRLParseException, SQWRLException, OWLOntologyCreationException
+  {
+    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
 
-  @Before public void setUp() throws OWLOntologyCreationException
-  {
-    ontology = OWLManager.createOWLOntologyManager().createOntology();
-    queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
-  }
-  
-  @Test
-  public void TestSWRLTemporalBeforeBuiltIn() throws SWRLParseException, SQWRLException
-  {
-    SQWRLResult result = queryEngine.runSQWRLQuery("q1", "temporal:before(\"01-01-10\", \"01-01-13\") -> sqwrl:select(0)");
+    SQWRLResult result = queryEngine
+        .runSQWRLQuery("q1", "temporal:before(\"01-01-10\", \"01-01-13\") -> sqwrl:select(0)");
 
     Assert.assertTrue(result.next());
   }
 
-  @Test
-  public void TestSWRLTemporalAfterBuiltIn() throws SWRLParseException, SQWRLException
+  @Test public void TestSWRLTemporalAfterBuiltIn()
+      throws SWRLParseException, SQWRLException, OWLOntologyCreationException
   {
-    SQWRLResult result = queryEngine.runSQWRLQuery("q1", "temporal:after(\"01-01-13\", \"01-01-10\") -> sqwrl:select(0)");
+    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
+
+    SQWRLResult result = queryEngine
+        .runSQWRLQuery("q1", "temporal:after(\"01-01-13\", \"01-01-10\") -> sqwrl:select(0)");
 
     Assert.assertTrue(result.next());
   }
 
-  @Test
-  public void TestSWRLTemporalDurationBuiltIn() throws SWRLParseException, SQWRLException
+  @Test public void TestSWRLTemporalDurationBuiltIn()
+      throws SWRLParseException, SQWRLException, OWLOntologyCreationException
   {
+    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
+
     SQWRLResult result = queryEngine.runSQWRLQuery("q1",
         "temporal:duration(?r, \"1999-11-01T10:00:01.3\", \"2000-19-01T10:00:01.3\", \"Years\") -> sqwrl:select(?r)");
 
@@ -52,38 +53,49 @@ public class SWRLTemporalBuiltInsIT extends IntegrationTestBase
     Assert.assertEquals(result.getLiteral("r").getLong(), 1);
   }
 
-  @Test
-  public void TestSWRLTemporalEqualsBuiltIn() throws SWRLParseException, SQWRLException
+  @Test public void TestSWRLTemporalEqualsBuiltIn()
+      throws SWRLParseException, SQWRLException, OWLOntologyCreationException
   {
+    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
+
     SQWRLResult result = queryEngine.runSQWRLQuery("q1",
         "temporal:equals(\"1999-11-01T10:00:01.3\", \"1999-11-01T10:00:01.3\", \"Years\") -> sqwrl:select(0)");
 
     Assert.assertTrue(result.next());
   }
 
-  @Test
-  public void TestSWRLTemporalEqualsBuiltInYearsGranularity() throws SWRLParseException, SQWRLException
+  @Test public void TestSWRLTemporalEqualsBuiltInYearsGranularity()
+      throws SWRLParseException, SQWRLException, OWLOntologyCreationException
   {
+    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
+
     SQWRLResult result = queryEngine.runSQWRLQuery("q1",
         "temporal:equals(\"1999-10-10T11:10:22.1\", \"1999-11-01T10:00:01.3\", \"Years\") -> sqwrl:select(0)");
 
     Assert.assertTrue(result.next());
   }
 
-  @Test
-  public void TestSWRLTemporalEqualsBuiltInMonthsGranularity() throws SWRLParseException, SQWRLException
+  @Test public void TestSWRLTemporalEqualsBuiltInMonthsGranularity()
+      throws SWRLParseException, SQWRLException, OWLOntologyCreationException
   {
+    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
+
     SQWRLResult result = queryEngine.runSQWRLQuery("q1",
         "temporal:equals(\"1999-10-10T11:10:22.1\", \"1999-10-01T10:00:01.3\", \"Years\") -> sqwrl:select(0)");
 
     Assert.assertTrue(result.next());
   }
 
-  @Test
-  public void TestSWRLTemporalAddBuiltIn() throws SWRLParseException, SQWRLException
+  @Test public void TestSWRLTemporalAddBuiltIn() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
   {
-    SQWRLResult result = queryEngine.runSQWRLQuery("q1",
-        "temporal:add(?r, \"1999-11-01T10:00\", 4, \"Years\") -> sqwrl:select(?r)");
+    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
+
+    SQWRLResult result = queryEngine
+        .runSQWRLQuery("q1", "temporal:add(?r, \"1999-11-01T10:00\", 4, \"Years\") -> sqwrl:select(?r)");
 
     Assert.assertTrue(result.next());
     Assert.assertTrue(result.getLiteral("r").isDateTime());
