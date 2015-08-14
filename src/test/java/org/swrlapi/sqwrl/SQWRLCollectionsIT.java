@@ -315,7 +315,7 @@ public class SQWRLCollectionsIT extends IntegrationTestBase
         ". sqwrl:makeBag(?s1, Fred) ^ sqwrl:makeBag(?s1, Bob) . sqwrl:first(?first, ?s1) -> sqwrl:select(?first)");
 
     Assert.assertTrue(result.next());
-    Assert.assertEquals(result.getNamedIndividual("first").getShortName(), "BOB");
+    Assert.assertEquals(result.getNamedIndividual("first").getShortName(), "Bob");
   }
 
   @Test public void TestSQWRLByteBagMin() throws SWRLParseException, SQWRLException
