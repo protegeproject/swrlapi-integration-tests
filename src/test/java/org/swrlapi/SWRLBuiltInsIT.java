@@ -5,6 +5,7 @@ import org.junit.Test;
 import org.semanticweb.owlapi.apibinding.OWLManager;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyCreationException;
+import org.semanticweb.owlapi.util.DefaultPrefixManager;
 import org.swrlapi.factory.SWRLAPIFactory;
 import org.swrlapi.literal.XSDDateTime;
 import org.swrlapi.literal.XSDDuration;
@@ -21,7 +22,8 @@ public class SWRLBuiltInsIT extends IntegrationTestBase
       throws SWRLParseException, SQWRLException, OWLOntologyCreationException
   {
     OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
+    DefaultPrefixManager prefixManager = createPrefixManager(ontology);
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology, prefixManager);
 
     SQWRLResult result = queryEngine.runSQWRLQuery("q1", "swrlb:add(4, 2, 2) -> sqwrl:select(0)");
 
@@ -32,7 +34,8 @@ public class SWRLBuiltInsIT extends IntegrationTestBase
       throws SWRLParseException, SQWRLException, OWLOntologyCreationException
   {
     OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
+    DefaultPrefixManager prefixManager = createPrefixManager(ontology);
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology, prefixManager);
 
     String query = "swrlb:add(?r, \"2\"^^xsd:byte, \"2\"^^xsd:byte) -> sqwrl:select(?r)";
     SQWRLResult result = queryEngine.runSQWRLQuery("q1", query);
@@ -47,7 +50,8 @@ public class SWRLBuiltInsIT extends IntegrationTestBase
       throws SWRLParseException, SQWRLException, OWLOntologyCreationException
   {
     OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
+    DefaultPrefixManager prefixManager = createPrefixManager(ontology);
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology, prefixManager);
 
     String query = "swrlb:add(?r, \"2\"^^xsd:short, \"2\"^^xsd:short) -> sqwrl:select(?r)";
     SQWRLResult result = queryEngine.runSQWRLQuery("q1", query);
@@ -62,7 +66,8 @@ public class SWRLBuiltInsIT extends IntegrationTestBase
       throws SWRLParseException, SQWRLException, OWLOntologyCreationException
   {
     OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
+    DefaultPrefixManager prefixManager = createPrefixManager(ontology);
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology, prefixManager);
 
     SQWRLResult result = queryEngine.runSQWRLQuery("q1", "swrlb:add(?r, 2, 2) -> sqwrl:select(?r)");
 
@@ -76,7 +81,8 @@ public class SWRLBuiltInsIT extends IntegrationTestBase
       throws SWRLParseException, SQWRLException, OWLOntologyCreationException
   {
     OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
+    DefaultPrefixManager prefixManager = createPrefixManager(ontology);
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology, prefixManager);
 
     SQWRLResult result = queryEngine.runSQWRLQuery("q1", "swrlb:add(?r, 2.1, 2.0) -> sqwrl:select(?r)");
 
@@ -90,7 +96,8 @@ public class SWRLBuiltInsIT extends IntegrationTestBase
       throws SWRLParseException, SQWRLException, OWLOntologyCreationException
   {
     OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
+    DefaultPrefixManager prefixManager = createPrefixManager(ontology);
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology, prefixManager);
 
     String query = "swrlb:add(?r, \"2\"^^xsd:long, \"2\"^^xsd:long) -> sqwrl:select(?r)";
     SQWRLResult result = queryEngine.runSQWRLQuery("q1", query);
@@ -105,7 +112,8 @@ public class SWRLBuiltInsIT extends IntegrationTestBase
       throws SWRLParseException, SQWRLException, OWLOntologyCreationException
   {
     OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
+    DefaultPrefixManager prefixManager = createPrefixManager(ontology);
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology, prefixManager);
 
     String query = "swrlb:add(?r, \"2.0\"^^xsd:double, \"2.0\"^^xsd:double) -> sqwrl:select(?r)";
     SQWRLResult result = queryEngine.runSQWRLQuery("q1", query);
@@ -120,7 +128,8 @@ public class SWRLBuiltInsIT extends IntegrationTestBase
       throws SWRLParseException, SQWRLException, OWLOntologyCreationException
   {
     OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
+    DefaultPrefixManager prefixManager = createPrefixManager(ontology);
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology, prefixManager);
 
     SQWRLResult result = queryEngine.runSQWRLQuery("q1", "swrlb:booleanNot(?r, false) -> sqwrl:select(?r)");
 
@@ -134,7 +143,8 @@ public class SWRLBuiltInsIT extends IntegrationTestBase
       throws SWRLParseException, SQWRLException, OWLOntologyCreationException
   {
     OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
+    DefaultPrefixManager prefixManager = createPrefixManager(ontology);
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology, prefixManager);
 
     SQWRLResult result = queryEngine.runSQWRLQuery("q1", "swrlb:booleanNot(?r, true) -> sqwrl:select(?r)");
 
@@ -148,7 +158,8 @@ public class SWRLBuiltInsIT extends IntegrationTestBase
       throws SWRLParseException, SQWRLException, OWLOntologyCreationException
   {
     OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
+    DefaultPrefixManager prefixManager = createPrefixManager(ontology);
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology, prefixManager);
 
     SQWRLResult result = queryEngine.runSQWRLQuery("q1",
         "temporal:add(?r, \"1999-11-01T10:00:01.0\"^^xsd:dateTime, 0, \"Years\") -> sqwrl:select(?r)");
@@ -162,7 +173,8 @@ public class SWRLBuiltInsIT extends IntegrationTestBase
       throws SWRLParseException, SQWRLException, OWLOntologyCreationException
   {
     OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
+    DefaultPrefixManager prefixManager = createPrefixManager(ontology);
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology, prefixManager);
 
     String query = "swrlb:yearMonthDuration(?x, 3, 4) -> sqwrl:select(?x)";
     SQWRLResult result = queryEngine.runSQWRLQuery("q1", query);
@@ -176,7 +188,8 @@ public class SWRLBuiltInsIT extends IntegrationTestBase
       throws SWRLParseException, SQWRLException, OWLOntologyCreationException
   {
     OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
+    DefaultPrefixManager prefixManager = createPrefixManager(ontology);
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology, prefixManager);
 
     String query = "swrlb:add(?x, \"2\"^^xsd:short, \"2\"^^xsd:short) ^ "
         + "swrlb:multiply(?y, ?x, \"2\"^^xsd:short) -> sqwrl:select(?y)";
@@ -191,7 +204,8 @@ public class SWRLBuiltInsIT extends IntegrationTestBase
       throws SWRLParseException, SQWRLException, OWLOntologyCreationException
   {
     OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
+    DefaultPrefixManager prefixManager = createPrefixManager(ontology);
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology, prefixManager);
 
     String query = "swrlb:add(?x, 2, 2) ^ swrlb:multiply(?y, ?x, 2) -> sqwrl:select(?y)";
     SQWRLResult result = queryEngine.runSQWRLQuery("q1", query);
@@ -205,7 +219,8 @@ public class SWRLBuiltInsIT extends IntegrationTestBase
       throws SWRLParseException, SQWRLException, OWLOntologyCreationException
   {
     OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
+    DefaultPrefixManager prefixManager = createPrefixManager(ontology);
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology, prefixManager);
 
     String query = "swrlb:add(?x, \"2\"^^xsd:long, \"2\"^^xsd:long) ^ "
         + "swrlb:multiply(?y, ?x, \"2\"^^xsd:long) -> sqwrl:select(?y)";
@@ -220,7 +235,8 @@ public class SWRLBuiltInsIT extends IntegrationTestBase
       throws SWRLParseException, SQWRLException, OWLOntologyCreationException
   {
     OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
+    DefaultPrefixManager prefixManager = createPrefixManager(ontology);
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology, prefixManager);
 
     String query = "swrlb:add(?x, 2.0, 2.0) ^ swrlb:multiply(?y, ?x, 2.0) -> sqwrl:select(?y)";
     SQWRLResult result = queryEngine.runSQWRLQuery("q1", query);
@@ -234,7 +250,8 @@ public class SWRLBuiltInsIT extends IntegrationTestBase
       throws SWRLParseException, SQWRLException, OWLOntologyCreationException
   {
     OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
+    DefaultPrefixManager prefixManager = createPrefixManager(ontology);
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology, prefixManager);
 
     String query = "swrlb:add(?x, \"2.0\"^^xsd:double, \"2.0\"^^xsd:double) ^ "
         + "swrlb:multiply(?y, ?x, \"2.0\"^^xsd:double) -> sqwrl:select(?y)";
@@ -249,7 +266,8 @@ public class SWRLBuiltInsIT extends IntegrationTestBase
       throws SWRLParseException, SQWRLException, OWLOntologyCreationException
   {
     OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
+    DefaultPrefixManager prefixManager = createPrefixManager(ontology);
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology, prefixManager);
 
     String query = "swrlb:booleanNot(?x, true) ^ swrlb:booleanNot(?y, ?x) -> sqwrl:select(?y)";
     SQWRLResult result = queryEngine.runSQWRLQuery("q1", query);
@@ -263,7 +281,8 @@ public class SWRLBuiltInsIT extends IntegrationTestBase
       throws SWRLParseException, SQWRLException, OWLOntologyCreationException
   {
     OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
+    DefaultPrefixManager prefixManager = createPrefixManager(ontology);
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology, prefixManager);
 
     String query = "swrlb:stringConcat(?x, \"The\", \"Cat\") ^ swrlb:stringConcat(?y, ?x, \"Sat\") -> sqwrl:select(?y)";
     SQWRLResult result = queryEngine.runSQWRLQuery("q1", query);

@@ -7,6 +7,7 @@ import org.semanticweb.owlapi.model.OWLDataProperty;
 import org.semanticweb.owlapi.model.OWLNamedIndividual;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyCreationException;
+import org.semanticweb.owlapi.util.DefaultPrefixManager;
 import org.swrlapi.factory.SWRLAPIFactory;
 import org.swrlapi.parser.SWRLParseException;
 import org.swrlapi.sqwrl.SQWRLQueryEngine;
@@ -16,20 +17,20 @@ import org.swrlapi.test.IntegrationTestBase;
 
 import static org.semanticweb.owlapi.apibinding.OWLFunctionalSyntaxFactory.DataProperty;
 import static org.semanticweb.owlapi.apibinding.OWLFunctionalSyntaxFactory.DataPropertyAssertion;
-import static org.semanticweb.owlapi.apibinding.OWLFunctionalSyntaxFactory.IRI;
 import static org.semanticweb.owlapi.apibinding.OWLFunctionalSyntaxFactory.Literal;
 import static org.semanticweb.owlapi.apibinding.OWLFunctionalSyntaxFactory.NamedIndividual;
 
 public class SWRLMathematicalBuiltInsIT extends IntegrationTestBase
 {
-  private static final OWLNamedIndividual P1 = NamedIndividual(IRI(":p1"));
-  private static final OWLDataProperty HAS_AGE = DataProperty(IRI(":hasAge"));
+  private static final OWLNamedIndividual P1 = NamedIndividual(iri("p1"));
+  private static final OWLDataProperty HAS_AGE = DataProperty(iri("hasAge"));
 
   @Test public void TestSWRLCoreLessThanBuiltInWithShort()
       throws SWRLParseException, SQWRLException, OWLOntologyCreationException
   {
     OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
+    DefaultPrefixManager prefixManager = createPrefixManager(ontology);
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology, prefixManager);
 
     addOWLAxioms(ontology, DataPropertyAssertion(HAS_AGE, P1, Literal("42", XSD_INT)));
 

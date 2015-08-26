@@ -1,7 +1,6 @@
 package org.swrlapi;
 
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 import org.semanticweb.owlapi.apibinding.OWLManager;
 import org.semanticweb.owlapi.io.RDFXMLOntologyFormat;
@@ -37,27 +36,19 @@ import static org.semanticweb.owlapi.apibinding.OWLFunctionalSyntaxFactory.Named
 public class RoundTripIT extends IntegrationTestBase
 {
   private static final OWLClass PERSON = Class(iri("Person"));
-  private static final OWLClass MALE = Class(iri("Male"));
   private static final OWLClass ADULT = Class(iri("Adult"));
   private static final OWLNamedIndividual P1 = NamedIndividual(iri("p1"));
   private static final OWLDataProperty HAS_AGE = DataProperty(iri("hasAge"));
 
-  private OWLOntologyManager ontologyManager = OWLManager.createOWLOntologyManager();
-  RDFXMLOntologyFormat format = new RDFXMLOntologyFormat();
-
-  @Before public void setUp() throws OWLOntologyCreationException
-  {
-    DefaultPrefixManager pm = new DefaultPrefixManager();
-    pm.setPrefix(":", NS);
-    format.setPrefixManager(pm);
-  }
-
   @Test public void TestRuleRoundTrip()
       throws SWRLParseException, SQWRLException, IOException, OWLOntologyCreationException, OWLOntologyStorageException
   {
+    OWLOntologyManager ontologyManager = OWLManager.createOWLOntologyManager();
+    RDFXMLOntologyFormat format = new RDFXMLOntologyFormat();
     OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
-    SWRLRuleEngine ruleEngine = queryEngine;
+    DefaultPrefixManager prefixManager = createPrefixManager(ontology);
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology, prefixManager);
+    SWRLRuleEngine ruleEngine = queryEngine.getSWRLRuleEngine();
 
     File file = File.createTempFile("temp", "owl");
 
@@ -66,11 +57,12 @@ public class RoundTripIT extends IntegrationTestBase
 
     ruleEngine.createSWRLRule("R1", "Person(?p) ^ hasAge(?p, ?age) ^ swrlb:greaterThan(?age, 17) -> Adult(?p)");
 
+    format.setPrefixManager(prefixManager);
     ontology.saveOntology(format, org.semanticweb.owlapi.model.IRI.create(file.toURI()));
 
     ontology = ontologyManager.loadOntologyFromOntologyDocument(file);
-    queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
-    ruleEngine = queryEngine;
+    queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology, prefixManager);
+    ruleEngine = queryEngine.getSWRLRuleEngine();
 
     ruleEngine.infer();
 

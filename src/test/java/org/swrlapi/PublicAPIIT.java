@@ -10,6 +10,7 @@ import org.semanticweb.owlapi.model.OWLNamedIndividual;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyCreationException;
 import org.semanticweb.owlapi.model.parameters.Imports;
+import org.semanticweb.owlapi.util.DefaultPrefixManager;
 import org.swrlapi.core.SWRLRuleEngine;
 import org.swrlapi.factory.SWRLAPIFactory;
 import org.swrlapi.parser.SWRLParseException;
@@ -25,26 +26,26 @@ import static org.semanticweb.owlapi.apibinding.OWLFunctionalSyntaxFactory.Class
 import static org.semanticweb.owlapi.apibinding.OWLFunctionalSyntaxFactory.DataProperty;
 import static org.semanticweb.owlapi.apibinding.OWLFunctionalSyntaxFactory.DataPropertyAssertion;
 import static org.semanticweb.owlapi.apibinding.OWLFunctionalSyntaxFactory.Declaration;
-import static org.semanticweb.owlapi.apibinding.OWLFunctionalSyntaxFactory.IRI;
 import static org.semanticweb.owlapi.apibinding.OWLFunctionalSyntaxFactory.Literal;
 import static org.semanticweb.owlapi.apibinding.OWLFunctionalSyntaxFactory.NamedIndividual;
 
 public class PublicAPIIT extends IntegrationTestBase
 {
-  private static final OWLClass PERSON = Class(IRI(":Person"));
-  private static final OWLClass MALE = Class(IRI(":Male"));
-  private static final OWLClass ADULT = Class(IRI(":Adult"));
-  private static final OWLNamedIndividual P1 = NamedIndividual(IRI(":p1"));
-  private static final OWLDataProperty HAS_AGE = DataProperty(IRI(":hasAge"));
+  private static final OWLClass PERSON = Class(iri("Person"));
+  private static final OWLClass MALE = Class(iri("Male"));
+  private static final OWLClass ADULT = Class(iri("Adult"));
+  private static final OWLNamedIndividual P1 = NamedIndividual(iri("p1"));
+  private static final OWLDataProperty HAS_AGE = DataProperty(iri("hasAge"));
 
   @Test public void TestSWRLRuleEngineInfer() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
   {
     OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
-    SWRLRuleEngine ruleEngine = queryEngine;
+    DefaultPrefixManager prefixManager = createPrefixManager(ontology);
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology, prefixManager);
+    SWRLRuleEngine ruleEngine = queryEngine.getSWRLRuleEngine();
 
     addOWLAxioms(ontology, Declaration(ADULT), Declaration(PERSON), ClassAssertion(PERSON, P1),
-        DataPropertyAssertion(HAS_AGE, P1, Literal("18", XSD_INT)));
+      DataPropertyAssertion(HAS_AGE, P1, Literal("18", XSD_INT)));
 
     ruleEngine.createSWRLRule("R1", "Person(?p) ^ hasAge(?p, ?age) ^ swrlb:greaterThan(?age, 17) -> Adult(?p)");
 
@@ -58,8 +59,8 @@ public class PublicAPIIT extends IntegrationTestBase
   @Test public void TestSQWRLQuery() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
   {
     OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
-    SWRLRuleEngine ruleEngine = queryEngine;
+    DefaultPrefixManager prefixManager = createPrefixManager(ontology);
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology, prefixManager);
 
     addOWLAxioms(ontology, ClassAssertion(MALE, P1));
 
@@ -72,11 +73,12 @@ public class PublicAPIIT extends IntegrationTestBase
   @Test public void TestCascadingRuleAndQuery() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
   {
     OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
-    SWRLRuleEngine ruleEngine = queryEngine;
+    DefaultPrefixManager prefixManager = createPrefixManager(ontology);
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology, prefixManager);
+    SWRLRuleEngine ruleEngine = queryEngine.getSWRLRuleEngine();
 
     addOWLAxioms(ontology, Declaration(ADULT), Declaration(PERSON), ClassAssertion(PERSON, P1),
-        DataPropertyAssertion(HAS_AGE, P1, Literal("18", XSD_INT)));
+      DataPropertyAssertion(HAS_AGE, P1, Literal("18", XSD_INT)));
 
     ruleEngine.createSWRLRule("R1", "Person(?p) ^ hasAge(?p, ?age)^ swrlb:greaterThan(?age, 17) -> Adult(?p)");
 
