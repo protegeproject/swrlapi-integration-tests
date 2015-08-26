@@ -20,6 +20,9 @@ import static org.semanticweb.owlapi.apibinding.OWLFunctionalSyntaxFactory.DataP
 import static org.semanticweb.owlapi.apibinding.OWLFunctionalSyntaxFactory.Literal;
 import static org.semanticweb.owlapi.apibinding.OWLFunctionalSyntaxFactory.NamedIndividual;
 
+/**
+ * NOTE: All tests are designed for parallel execution.
+ */
 public class SWRLMathematicalBuiltInsIT extends IntegrationTestBase
 {
   private static final OWLNamedIndividual P1 = NamedIndividual(iri("p1"));

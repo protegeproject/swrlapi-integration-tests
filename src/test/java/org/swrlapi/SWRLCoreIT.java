@@ -35,6 +35,9 @@ import static org.semanticweb.owlapi.apibinding.OWLFunctionalSyntaxFactory.Objec
 import static org.semanticweb.owlapi.apibinding.OWLFunctionalSyntaxFactory.ObjectPropertyAssertion;
 import static org.semanticweb.owlapi.apibinding.OWLFunctionalSyntaxFactory.SameIndividual;
 
+/**
+ * NOTE: All tests are designed for parallel execution.
+ */
 public class SWRLCoreIT extends IntegrationTestBase
 {
   private static final OWLClass MALE = Class(iri("Male"));
@@ -79,7 +82,6 @@ public class SWRLCoreIT extends IntegrationTestBase
     SQWRLResult result = queryEngine.runSQWRLQuery("q1", "Male(?m) -> sqwrl:select(?m)");
 
     Assert.assertTrue(result.next());
-
     Assert.assertEquals(result.getNamedIndividual("m").getShortName(), "p1");
   }
 

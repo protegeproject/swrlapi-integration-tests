@@ -18,6 +18,7 @@ import org.swrlapi.core.SWRLRuleEngine;
 import org.swrlapi.factory.SWRLAPIFactory;
 import org.swrlapi.parser.SWRLParseException;
 import org.swrlapi.sqwrl.SQWRLQueryEngine;
+import org.swrlapi.sqwrl.SQWRLResult;
 import org.swrlapi.sqwrl.exceptions.SQWRLException;
 import org.swrlapi.test.IntegrationTestBase;
 
@@ -33,6 +34,9 @@ import static org.semanticweb.owlapi.apibinding.OWLFunctionalSyntaxFactory.Decla
 import static org.semanticweb.owlapi.apibinding.OWLFunctionalSyntaxFactory.Literal;
 import static org.semanticweb.owlapi.apibinding.OWLFunctionalSyntaxFactory.NamedIndividual;
 
+/**
+ * NOTE: All tests are designed for parallel execution.
+ */
 public class RoundTripIT extends IntegrationTestBase
 {
   private static final OWLClass PERSON = Class(iri("Person"));
@@ -40,15 +44,14 @@ public class RoundTripIT extends IntegrationTestBase
   private static final OWLNamedIndividual P1 = NamedIndividual(iri("p1"));
   private static final OWLDataProperty HAS_AGE = DataProperty(iri("hasAge"));
 
-  @Test public void TestRuleRoundTrip()
+  @Test public void TestSWRLRuleRoundTrip()
       throws SWRLParseException, SQWRLException, IOException, OWLOntologyCreationException, OWLOntologyStorageException
   {
     OWLOntologyManager ontologyManager = OWLManager.createOWLOntologyManager();
     RDFXMLOntologyFormat format = new RDFXMLOntologyFormat();
     OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
     DefaultPrefixManager prefixManager = createPrefixManager(ontology);
-    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology, prefixManager);
-    SWRLRuleEngine ruleEngine = queryEngine.getSWRLRuleEngine();
+    SWRLRuleEngine ruleEngine = SWRLAPIFactory.createSWRLRuleEngine(ontology, prefixManager);
 
     File file = File.createTempFile("temp", "owl");
 
@@ -57,17 +60,50 @@ public class RoundTripIT extends IntegrationTestBase
 
     ruleEngine.createSWRLRule("R1", "Person(?p) ^ hasAge(?p, ?age) ^ swrlb:greaterThan(?age, 17) -> Adult(?p)");
 
+    Set<OWLAxiom> axioms = ontology.getABoxAxioms(Imports.INCLUDED);
+    Assert.assertFalse(axioms.contains(ClassAssertion(ADULT, P1)));
+
     format.setPrefixManager(prefixManager);
     ontology.saveOntology(format, org.semanticweb.owlapi.model.IRI.create(file.toURI()));
 
     ontology = ontologyManager.loadOntologyFromOntologyDocument(file);
-    queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology, prefixManager);
-    ruleEngine = queryEngine.getSWRLRuleEngine();
+    prefixManager = createPrefixManager(ontology);
+    ruleEngine = SWRLAPIFactory.createSWRLRuleEngine(ontology, prefixManager);
 
     ruleEngine.infer();
 
-    Set<OWLAxiom> axioms = ontology.getABoxAxioms(Imports.INCLUDED);
+    axioms = ontology.getABoxAxioms(Imports.INCLUDED);
 
     Assert.assertTrue(axioms.contains(ClassAssertion(ADULT, P1)));
+  }
+
+  @Test public void TestSQWRLQueryRoundTrip()
+      throws SWRLParseException, SQWRLException, IOException, OWLOntologyCreationException, OWLOntologyStorageException
+  {
+    OWLOntologyManager ontologyManager = OWLManager.createOWLOntologyManager();
+    RDFXMLOntologyFormat format = new RDFXMLOntologyFormat();
+    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
+    DefaultPrefixManager prefixManager = createPrefixManager(ontology);
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology, prefixManager);
+
+    File file = File.createTempFile("temp", "owl");
+
+    addOWLAxioms(ontology, Declaration(ADULT), Declaration(PERSON), ClassAssertion(PERSON, P1),
+        DataPropertyAssertion(HAS_AGE, P1, Literal("18", XSD_INT)));
+
+    queryEngine
+        .createSQWRLQuery("Q1", "Person(?p) ^ hasAge(?p, ?age) ^ swrlb:greaterThan(?age, 17) -> sqwrl:select(?p)");
+
+    format.setPrefixManager(prefixManager);
+    ontology.saveOntology(format, org.semanticweb.owlapi.model.IRI.create(file.toURI()));
+
+    ontology = ontologyManager.loadOntologyFromOntologyDocument(file);
+    prefixManager = createPrefixManager(ontology);
+    queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology, prefixManager);
+
+    SQWRLResult result = queryEngine.runSQWRLQuery("Q1");
+
+    Assert.assertTrue(result.next());
+    Assert.assertEquals(result.getNamedIndividual("p").getShortName(), "p1");
   }
 }

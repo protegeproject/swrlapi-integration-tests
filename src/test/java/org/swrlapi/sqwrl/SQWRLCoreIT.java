@@ -29,6 +29,9 @@ import static org.semanticweb.owlapi.apibinding.OWLFunctionalSyntaxFactory.DataP
 import static org.semanticweb.owlapi.apibinding.OWLFunctionalSyntaxFactory.Literal;
 import static org.semanticweb.owlapi.apibinding.OWLFunctionalSyntaxFactory.NamedIndividual;
 
+/**
+ * NOTE: All tests are designed for parallel execution.
+ */
 public class SQWRLCoreIT extends IntegrationTestBase
 {
   private static final OWLClass MALE = Class(iri("Male"));

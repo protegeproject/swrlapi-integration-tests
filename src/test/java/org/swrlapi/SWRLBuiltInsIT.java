@@ -16,6 +16,9 @@ import org.swrlapi.sqwrl.exceptions.SQWRLException;
 import org.swrlapi.sqwrl.values.SQWRLLiteralResultValue;
 import org.swrlapi.test.IntegrationTestBase;
 
+/**
+ * NOTE: All tests are designed for parallel execution.
+ */
 public class SWRLBuiltInsIT extends IntegrationTestBase
 {
   @Test public void TestSWRLBuiltInsBasicInvocation()

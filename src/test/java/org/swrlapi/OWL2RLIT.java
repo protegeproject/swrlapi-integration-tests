@@ -30,6 +30,9 @@ import static org.semanticweb.owlapi.apibinding.OWLFunctionalSyntaxFactory.Objec
 import static org.semanticweb.owlapi.apibinding.OWLFunctionalSyntaxFactory.SameIndividual;
 import static org.semanticweb.owlapi.apibinding.OWLFunctionalSyntaxFactory.SubClassOf;
 
+/**
+ * NOTE: All tests are designed for parallel execution.
+ */
 public class OWL2RLIT extends IntegrationTestBase
 {
   private static final OWLClass C = Class(iri("C"));

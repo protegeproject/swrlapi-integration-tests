@@ -18,6 +18,9 @@ import static org.semanticweb.owlapi.apibinding.OWLFunctionalSyntaxFactory.Class
 import static org.semanticweb.owlapi.apibinding.OWLFunctionalSyntaxFactory.Declaration;
 import static org.semanticweb.owlapi.apibinding.OWLFunctionalSyntaxFactory.NamedIndividual;
 
+/**
+ * NOTE: All tests are designed for parallel execution.
+ */
 public class SQWRLCollectionsIT extends IntegrationTestBase
 {
   private static final OWLClass AZT = Class(iri("AZT"));
