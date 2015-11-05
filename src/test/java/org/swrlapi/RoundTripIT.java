@@ -3,7 +3,7 @@ package org.swrlapi;
 import org.junit.Assert;
 import org.junit.Test;
 import org.semanticweb.owlapi.apibinding.OWLManager;
-import org.semanticweb.owlapi.io.RDFXMLOntologyFormat;
+import org.semanticweb.owlapi.formats.RDFXMLDocumentFormat;
 import org.semanticweb.owlapi.model.OWLAxiom;
 import org.semanticweb.owlapi.model.OWLClass;
 import org.semanticweb.owlapi.model.OWLDataProperty;
@@ -45,10 +45,10 @@ public class RoundTripIT extends IntegrationTestBase
   private static final OWLDataProperty HAS_AGE = DataProperty(iri("hasAge"));
 
   @Test public void TestSWRLRuleRoundTrip()
-      throws SWRLParseException, SQWRLException, IOException, OWLOntologyCreationException, OWLOntologyStorageException
+    throws SWRLParseException, SQWRLException, IOException, OWLOntologyCreationException, OWLOntologyStorageException
   {
     OWLOntologyManager ontologyManager = OWLManager.createOWLOntologyManager();
-    RDFXMLOntologyFormat format = new RDFXMLOntologyFormat();
+    RDFXMLDocumentFormat format = new RDFXMLDocumentFormat();
     OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
     DefaultPrefixManager prefixManager = createPrefixManager(ontology);
     SWRLRuleEngine ruleEngine = SWRLAPIFactory.createSWRLRuleEngine(ontology, prefixManager);
@@ -56,7 +56,7 @@ public class RoundTripIT extends IntegrationTestBase
     File file = File.createTempFile("temp", "owl");
 
     addOWLAxioms(ontology, Declaration(ADULT), Declaration(PERSON), ClassAssertion(PERSON, P1),
-        DataPropertyAssertion(HAS_AGE, P1, Literal("18", XSD_INT)));
+      DataPropertyAssertion(HAS_AGE, P1, Literal("18", XSD_INT)));
 
     ruleEngine.createSWRLRule("R1", "Person(?p) ^ hasAge(?p, ?age) ^ swrlb:greaterThan(?age, 17) -> Adult(?p)");
 
@@ -78,10 +78,10 @@ public class RoundTripIT extends IntegrationTestBase
   }
 
   @Test public void TestSQWRLQueryRoundTrip()
-      throws SWRLParseException, SQWRLException, IOException, OWLOntologyCreationException, OWLOntologyStorageException
+    throws SWRLParseException, SQWRLException, IOException, OWLOntologyCreationException, OWLOntologyStorageException
   {
     OWLOntologyManager ontologyManager = OWLManager.createOWLOntologyManager();
-    RDFXMLOntologyFormat format = new RDFXMLOntologyFormat();
+    RDFXMLDocumentFormat format = new RDFXMLDocumentFormat();
     OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
     DefaultPrefixManager prefixManager = createPrefixManager(ontology);
     SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology, prefixManager);
@@ -89,10 +89,10 @@ public class RoundTripIT extends IntegrationTestBase
     File file = File.createTempFile("temp", "owl");
 
     addOWLAxioms(ontology, Declaration(ADULT), Declaration(PERSON), ClassAssertion(PERSON, P1),
-        DataPropertyAssertion(HAS_AGE, P1, Literal("18", XSD_INT)));
+      DataPropertyAssertion(HAS_AGE, P1, Literal("18", XSD_INT)));
 
     queryEngine
-        .createSQWRLQuery("Q1", "Person(?p) ^ hasAge(?p, ?age) ^ swrlb:greaterThan(?age, 17) -> sqwrl:select(?p)");
+      .createSQWRLQuery("Q1", "Person(?p) ^ hasAge(?p, ?age) ^ swrlb:greaterThan(?age, 17) -> sqwrl:select(?p)");
 
     format.setPrefixManager(prefixManager);
     ontology.saveOntology(format, org.semanticweb.owlapi.model.IRI.create(file.toURI()));
