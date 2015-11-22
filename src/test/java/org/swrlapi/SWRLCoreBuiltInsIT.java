@@ -637,7 +637,7 @@ public class SWRLCoreBuiltInsIT extends IntegrationTestBase
     Assert.assertTrue(result.next());
   }
 
-  // TODO Built-in implementation not correct
+  // TODO swrlb:translate built-in implementation not correct
   // @Test
   // public void TestSWRLCoreTranslateBuiltIn() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
   // {
