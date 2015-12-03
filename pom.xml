@@ -13,7 +13,7 @@
   <properties>
 
     <swrlapi.version>1.0.0</swrlapi.version>
-    <owlapi.version>4.1.1</owlapi.version> 
+    <owlapi.version>4.1.3</owlapi.version> 
 
     <junit.version>4.7</junit.version>
 
