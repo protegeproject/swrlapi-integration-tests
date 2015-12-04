@@ -5,14 +5,14 @@
 
   <groupId>edu.stanford.swrl</groupId>
   <artifactId>swrlapi-integration-tests</artifactId>
-  <version>1.0.0</version>
+  <version>1.0.0-SNAPSHOT</version>
   <packaging>jar</packaging>
   <name>SWRLAPI Integration Tests</name>
   <description>Integration tests for the SWRLAPI</description>
 
   <properties>
 
-    <swrlapi.version>1.0.0</swrlapi.version>
+    <swrlapi.version>1.0.0-SNAPSHOT</swrlapi.version>
     <owlapi.version>4.1.3</owlapi.version> 
 
     <junit.version>4.7</junit.version>
