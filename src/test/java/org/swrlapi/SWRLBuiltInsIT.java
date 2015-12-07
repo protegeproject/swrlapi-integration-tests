@@ -21,277 +21,289 @@ import org.swrlapi.test.IntegrationTestBase;
  */
 public class SWRLBuiltInsIT extends IntegrationTestBase
 {
-  @Test public void TestSWRLBuiltInsBasicInvocation()
-      throws SWRLParseException, SQWRLException, OWLOntologyCreationException
-  {
-    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-    DefaultPrefixManager prefixManager = createPrefixManager(ontology);
-    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology, prefixManager);
+	@Test
+	public void TestSWRLBuiltInsBasicInvocation() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
+	{
+		OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
+		DefaultPrefixManager prefixManager = createPrefixManager(ontology);
+		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology, prefixManager);
 
-    SQWRLResult result = queryEngine.runSQWRLQuery("q1", "swrlb:add(4, 2, 2) -> sqwrl:select(0)");
+		SQWRLResult result = queryEngine.runSQWRLQuery("q1", "swrlb:add(4, 2, 2) -> sqwrl:select(0)");
 
-    Assert.assertTrue(result.next());
-  }
+		Assert.assertTrue(result.next());
+	}
 
-  @Test public void TestSWRLBuiltInsByteBoundResult()
-      throws SWRLParseException, SQWRLException, OWLOntologyCreationException
-  {
-    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-    DefaultPrefixManager prefixManager = createPrefixManager(ontology);
-    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology, prefixManager);
+	@Test
+	public void TestSWRLBuiltInsByteBoundResult() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
+	{
+		OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
+		DefaultPrefixManager prefixManager = createPrefixManager(ontology);
+		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology, prefixManager);
 
-    String query = "swrlb:add(?r, \"2\"^^xsd:byte, \"2\"^^xsd:byte) -> sqwrl:select(?r)";
-    SQWRLResult result = queryEngine.runSQWRLQuery("q1", query);
+		String query = "swrlb:add(?r, \"2\"^^xsd:byte, \"2\"^^xsd:byte) -> sqwrl:select(?r)";
+		SQWRLResult result = queryEngine.runSQWRLQuery("q1", query);
 
-    Assert.assertTrue(result.next());
-    SQWRLLiteralResultValue literal = result.getLiteral("r");
-    Assert.assertTrue(literal.isByte());
-    Assert.assertEquals(literal.getByte(), 4);
-  }
+		Assert.assertTrue(result.next());
+		SQWRLLiteralResultValue literal = result.getLiteral("r");
+		Assert.assertTrue(literal.isByte());
+		Assert.assertEquals(literal.getByte(), 4);
+	}
 
-  @Test public void TestSWRLBuiltInsShortBoundResult()
-      throws SWRLParseException, SQWRLException, OWLOntologyCreationException
-  {
-    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-    DefaultPrefixManager prefixManager = createPrefixManager(ontology);
-    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology, prefixManager);
+	@Test
+	public void TestSWRLBuiltInsShortBoundResult() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
+	{
+		OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
+		DefaultPrefixManager prefixManager = createPrefixManager(ontology);
+		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology, prefixManager);
 
-    String query = "swrlb:add(?r, \"2\"^^xsd:short, \"2\"^^xsd:short) -> sqwrl:select(?r)";
-    SQWRLResult result = queryEngine.runSQWRLQuery("q1", query);
+		String query = "swrlb:add(?r, \"2\"^^xsd:short, \"2\"^^xsd:short) -> sqwrl:select(?r)";
+		SQWRLResult result = queryEngine.runSQWRLQuery("q1", query);
 
-    Assert.assertTrue(result.next());
-    SQWRLLiteralResultValue literal = result.getLiteral("r");
-    Assert.assertTrue(literal.isShort());
-    Assert.assertEquals(literal.getShort(), 4);
-  }
+		Assert.assertTrue(result.next());
+		SQWRLLiteralResultValue literal = result.getLiteral("r");
+		Assert.assertTrue(literal.isShort());
+		Assert.assertEquals(literal.getShort(), 4);
+	}
 
-  @Test public void TestSWRLBuiltInsIntBoundResult()
-      throws SWRLParseException, SQWRLException, OWLOntologyCreationException
-  {
-    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-    DefaultPrefixManager prefixManager = createPrefixManager(ontology);
-    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology, prefixManager);
+	@Test
+	public void TestSWRLBuiltInsIntBoundResult() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
+	{
+		OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
+		DefaultPrefixManager prefixManager = createPrefixManager(ontology);
+		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology, prefixManager);
 
-    SQWRLResult result = queryEngine.runSQWRLQuery("q1", "swrlb:add(?r, 2, 2) -> sqwrl:select(?r)");
+		SQWRLResult result = queryEngine.runSQWRLQuery("q1", "swrlb:add(?r, 2, 2) -> sqwrl:select(?r)");
 
-    Assert.assertTrue(result.next());
-    SQWRLLiteralResultValue literal = result.getLiteral("r");
-    Assert.assertTrue(literal.isInt());
-    Assert.assertEquals(literal.getInt(), 4);
-  }
+		Assert.assertTrue(result.next());
+		SQWRLLiteralResultValue literal = result.getLiteral("r");
+		Assert.assertTrue(literal.isInt());
+		Assert.assertEquals(literal.getInt(), 4);
+	}
 
-  @Test public void TestSWRLBuiltInsFloatBoundResult()
-      throws SWRLParseException, SQWRLException, OWLOntologyCreationException
-  {
-    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-    DefaultPrefixManager prefixManager = createPrefixManager(ontology);
-    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology, prefixManager);
+	@Test
+	public void TestSWRLBuiltInsFloatBoundResult() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
+	{
+		OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
+		DefaultPrefixManager prefixManager = createPrefixManager(ontology);
+		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology, prefixManager);
 
-    SQWRLResult result = queryEngine.runSQWRLQuery("q1", "swrlb:add(?r, 2.1, 2.0) -> sqwrl:select(?r)");
+		SQWRLResult result = queryEngine.runSQWRLQuery("q1", "swrlb:add(?r, 2.1, 2.0) -> sqwrl:select(?r)");
 
-    Assert.assertTrue(result.next());
-    SQWRLLiteralResultValue literal = result.getLiteral("r");
-    Assert.assertTrue(literal.isFloat());
-    Assert.assertEquals(literal.getFloat(), 4.1f, this.DELTA);
-  }
+		Assert.assertTrue(result.next());
+		SQWRLLiteralResultValue literal = result.getLiteral("r");
+		Assert.assertTrue(literal.isFloat());
+		Assert.assertEquals(literal.getFloat(), 4.1f, IntegrationTestBase.DELTA);
+	}
 
-  @Test public void TestSWRLBuiltInsLongBoundResult()
-      throws SWRLParseException, SQWRLException, OWLOntologyCreationException
-  {
-    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-    DefaultPrefixManager prefixManager = createPrefixManager(ontology);
-    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology, prefixManager);
+	@Test
+	public void TestSWRLBuiltInsLongBoundResult() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
+	{
+		OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
+		DefaultPrefixManager prefixManager = createPrefixManager(ontology);
+		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology, prefixManager);
 
-    String query = "swrlb:add(?r, \"2\"^^xsd:long, \"2\"^^xsd:long) -> sqwrl:select(?r)";
-    SQWRLResult result = queryEngine.runSQWRLQuery("q1", query);
+		String query = "swrlb:add(?r, \"2\"^^xsd:long, \"2\"^^xsd:long) -> sqwrl:select(?r)";
+		SQWRLResult result = queryEngine.runSQWRLQuery("q1", query);
 
-    Assert.assertTrue(result.next());
-    SQWRLLiteralResultValue literal = result.getLiteral("r");
-    Assert.assertTrue(literal.isLong());
-    Assert.assertEquals(literal.getLong(), 4);
-  }
+		Assert.assertTrue(result.next());
+		SQWRLLiteralResultValue literal = result.getLiteral("r");
+		Assert.assertTrue(literal.isLong());
+		Assert.assertEquals(literal.getLong(), 4);
+	}
 
-  @Test public void TestSWRLBuiltInsDoubleBoundResult()
-      throws SWRLParseException, SQWRLException, OWLOntologyCreationException
-  {
-    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-    DefaultPrefixManager prefixManager = createPrefixManager(ontology);
-    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology, prefixManager);
+	@Test
+	public void TestSWRLBuiltInsDoubleBoundResult()
+			throws SWRLParseException, SQWRLException, OWLOntologyCreationException
+	{
+		OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
+		DefaultPrefixManager prefixManager = createPrefixManager(ontology);
+		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology, prefixManager);
 
-    String query = "swrlb:add(?r, \"2.0\"^^xsd:double, \"2.0\"^^xsd:double) -> sqwrl:select(?r)";
-    SQWRLResult result = queryEngine.runSQWRLQuery("q1", query);
+		String query = "swrlb:add(?r, \"2.0\"^^xsd:double, \"2.0\"^^xsd:double) -> sqwrl:select(?r)";
+		SQWRLResult result = queryEngine.runSQWRLQuery("q1", query);
 
-    Assert.assertTrue(result.next());
-    SQWRLLiteralResultValue literal = result.getLiteral("r");
-    Assert.assertTrue(literal.isDouble());
-    Assert.assertEquals(literal.getDouble(), 4.0d, this.DELTA);
-  }
+		Assert.assertTrue(result.next());
+		SQWRLLiteralResultValue literal = result.getLiteral("r");
+		Assert.assertTrue(literal.isDouble());
+		Assert.assertEquals(literal.getDouble(), 4.0d, IntegrationTestBase.DELTA);
+	}
 
-  @Test public void TestSWRLBuiltInsBooleanBoundTrueResult()
-      throws SWRLParseException, SQWRLException, OWLOntologyCreationException
-  {
-    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-    DefaultPrefixManager prefixManager = createPrefixManager(ontology);
-    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology, prefixManager);
+	@Test
+	public void TestSWRLBuiltInsBooleanBoundTrueResult()
+			throws SWRLParseException, SQWRLException, OWLOntologyCreationException
+	{
+		OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
+		DefaultPrefixManager prefixManager = createPrefixManager(ontology);
+		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology, prefixManager);
 
-    SQWRLResult result = queryEngine.runSQWRLQuery("q1", "swrlb:booleanNot(?r, false) -> sqwrl:select(?r)");
+		SQWRLResult result = queryEngine.runSQWRLQuery("q1", "swrlb:booleanNot(?r, false) -> sqwrl:select(?r)");
 
-    Assert.assertTrue(result.next());
-    SQWRLLiteralResultValue literal = result.getLiteral("r");
-    Assert.assertTrue(literal.isBoolean());
-    Assert.assertEquals(literal.getBoolean(), true);
-  }
+		Assert.assertTrue(result.next());
+		SQWRLLiteralResultValue literal = result.getLiteral("r");
+		Assert.assertTrue(literal.isBoolean());
+		Assert.assertEquals(literal.getBoolean(), true);
+	}
 
-  @Test public void TestSWRLBuiltInsBooleanBoundFalseResult()
-      throws SWRLParseException, SQWRLException, OWLOntologyCreationException
-  {
-    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-    DefaultPrefixManager prefixManager = createPrefixManager(ontology);
-    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology, prefixManager);
+	@Test
+	public void TestSWRLBuiltInsBooleanBoundFalseResult()
+			throws SWRLParseException, SQWRLException, OWLOntologyCreationException
+	{
+		OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
+		DefaultPrefixManager prefixManager = createPrefixManager(ontology);
+		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology, prefixManager);
 
-    SQWRLResult result = queryEngine.runSQWRLQuery("q1", "swrlb:booleanNot(?r, true) -> sqwrl:select(?r)");
+		SQWRLResult result = queryEngine.runSQWRLQuery("q1", "swrlb:booleanNot(?r, true) -> sqwrl:select(?r)");
 
-    Assert.assertTrue(result.next());
-    SQWRLLiteralResultValue literal = result.getLiteral("r");
-    Assert.assertTrue(literal.isBoolean());
-    Assert.assertEquals(literal.getBoolean(), false);
-  }
+		Assert.assertTrue(result.next());
+		SQWRLLiteralResultValue literal = result.getLiteral("r");
+		Assert.assertTrue(literal.isBoolean());
+		Assert.assertEquals(literal.getBoolean(), false);
+	}
 
-  @Test public void TestSWRLBuiltInsDateTimeBoundResult()
-      throws SWRLParseException, SQWRLException, OWLOntologyCreationException
-  {
-    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-    DefaultPrefixManager prefixManager = createPrefixManager(ontology);
-    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology, prefixManager);
+	@Test
+	public void TestSWRLBuiltInsDateTimeBoundResult()
+			throws SWRLParseException, SQWRLException, OWLOntologyCreationException
+	{
+		OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
+		DefaultPrefixManager prefixManager = createPrefixManager(ontology);
+		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology, prefixManager);
 
-    SQWRLResult result = queryEngine.runSQWRLQuery("q1",
-        "temporal:add(?r, \"1999-11-01T10:00:01.0\"^^xsd:dateTime, 0, \"Years\") -> sqwrl:select(?r)");
+		SQWRLResult result = queryEngine.runSQWRLQuery("q1",
+				"temporal:add(?r, \"1999-11-01T10:00:01.0\"^^xsd:dateTime, 0, \"Years\") -> sqwrl:select(?r)");
 
-    Assert.assertTrue(result.next());
-    Assert.assertTrue(result.getLiteral("r").isDateTime());
-    Assert.assertEquals(result.getLiteral("r").getDateTime(), new XSDDateTime("1999-11-01T10:00:01.0"));
-  }
+		Assert.assertTrue(result.next());
+		Assert.assertTrue(result.getLiteral("r").isDateTime());
+		Assert.assertEquals(result.getLiteral("r").getDateTime(), new XSDDateTime("1999-11-01T10:00:01.0"));
+	}
 
-  @Test public void TestSWRLBuiltInsDurationBoundResult()
-      throws SWRLParseException, SQWRLException, OWLOntologyCreationException
-  {
-    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-    DefaultPrefixManager prefixManager = createPrefixManager(ontology);
-    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology, prefixManager);
+	@Test
+	public void TestSWRLBuiltInsDurationBoundResult()
+			throws SWRLParseException, SQWRLException, OWLOntologyCreationException
+	{
+		OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
+		DefaultPrefixManager prefixManager = createPrefixManager(ontology);
+		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology, prefixManager);
 
-    String query = "swrlb:yearMonthDuration(?x, 3, 4) -> sqwrl:select(?x)";
-    SQWRLResult result = queryEngine.runSQWRLQuery("q1", query);
+		String query = "swrlb:yearMonthDuration(?x, 3, 4) -> sqwrl:select(?x)";
+		SQWRLResult result = queryEngine.runSQWRLQuery("q1", query);
 
-    Assert.assertTrue(result.next());
-    Assert.assertTrue(result.getLiteral("x").isDuration());
-    Assert.assertEquals(result.getLiteral("x").getDuration(), new XSDDuration("P3Y4M"));
-  }
+		Assert.assertTrue(result.next());
+		Assert.assertTrue(result.getLiteral("x").isDuration());
+		Assert.assertEquals(result.getLiteral("x").getDuration(), new XSDDuration("P3Y4M"));
+	}
 
-  @Test public void TestSWRLBuiltInsCascadingShortVariable()
-      throws SWRLParseException, SQWRLException, OWLOntologyCreationException
-  {
-    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-    DefaultPrefixManager prefixManager = createPrefixManager(ontology);
-    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology, prefixManager);
+	@Test
+	public void TestSWRLBuiltInsCascadingShortVariable()
+			throws SWRLParseException, SQWRLException, OWLOntologyCreationException
+	{
+		OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
+		DefaultPrefixManager prefixManager = createPrefixManager(ontology);
+		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology, prefixManager);
 
-    String query = "swrlb:add(?x, \"2\"^^xsd:short, \"2\"^^xsd:short) ^ "
-        + "swrlb:multiply(?y, ?x, \"2\"^^xsd:short) -> sqwrl:select(?y)";
-    SQWRLResult result = queryEngine.runSQWRLQuery("q1", query);
+		String query = "swrlb:add(?x, \"2\"^^xsd:short, \"2\"^^xsd:short) ^ "
+				+ "swrlb:multiply(?y, ?x, \"2\"^^xsd:short) -> sqwrl:select(?y)";
+		SQWRLResult result = queryEngine.runSQWRLQuery("q1", query);
 
-    Assert.assertTrue(result.next());
-    Assert.assertTrue(result.getLiteral("y").isShort());
-    Assert.assertEquals(result.getLiteral("y").getShort(), 8);
-  }
+		Assert.assertTrue(result.next());
+		Assert.assertTrue(result.getLiteral("y").isShort());
+		Assert.assertEquals(result.getLiteral("y").getShort(), 8);
+	}
 
-  @Test public void TestSWRLBuiltInsCascadingIntVariable()
-      throws SWRLParseException, SQWRLException, OWLOntologyCreationException
-  {
-    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-    DefaultPrefixManager prefixManager = createPrefixManager(ontology);
-    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology, prefixManager);
+	@Test
+	public void TestSWRLBuiltInsCascadingIntVariable()
+			throws SWRLParseException, SQWRLException, OWLOntologyCreationException
+	{
+		OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
+		DefaultPrefixManager prefixManager = createPrefixManager(ontology);
+		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology, prefixManager);
 
-    String query = "swrlb:add(?x, 2, 2) ^ swrlb:multiply(?y, ?x, 2) -> sqwrl:select(?y)";
-    SQWRLResult result = queryEngine.runSQWRLQuery("q1", query);
+		String query = "swrlb:add(?x, 2, 2) ^ swrlb:multiply(?y, ?x, 2) -> sqwrl:select(?y)";
+		SQWRLResult result = queryEngine.runSQWRLQuery("q1", query);
 
-    Assert.assertTrue(result.next());
-    Assert.assertTrue(result.getLiteral("y").isInt());
-    Assert.assertEquals(result.getLiteral("y").getInt(), 8);
-  }
+		Assert.assertTrue(result.next());
+		Assert.assertTrue(result.getLiteral("y").isInt());
+		Assert.assertEquals(result.getLiteral("y").getInt(), 8);
+	}
 
-  @Test public void TestSWRLBuiltInsCascadingLongVariable()
-      throws SWRLParseException, SQWRLException, OWLOntologyCreationException
-  {
-    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-    DefaultPrefixManager prefixManager = createPrefixManager(ontology);
-    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology, prefixManager);
+	@Test
+	public void TestSWRLBuiltInsCascadingLongVariable()
+			throws SWRLParseException, SQWRLException, OWLOntologyCreationException
+	{
+		OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
+		DefaultPrefixManager prefixManager = createPrefixManager(ontology);
+		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology, prefixManager);
 
-    String query = "swrlb:add(?x, \"2\"^^xsd:long, \"2\"^^xsd:long) ^ "
-        + "swrlb:multiply(?y, ?x, \"2\"^^xsd:long) -> sqwrl:select(?y)";
-    SQWRLResult result = queryEngine.runSQWRLQuery("q1", query);
+		String query = "swrlb:add(?x, \"2\"^^xsd:long, \"2\"^^xsd:long) ^ "
+				+ "swrlb:multiply(?y, ?x, \"2\"^^xsd:long) -> sqwrl:select(?y)";
+		SQWRLResult result = queryEngine.runSQWRLQuery("q1", query);
 
-    Assert.assertTrue(result.next());
-    Assert.assertTrue(result.getLiteral("y").isLong());
-    Assert.assertEquals(result.getLiteral("y").getLong(), 8L);
-  }
+		Assert.assertTrue(result.next());
+		Assert.assertTrue(result.getLiteral("y").isLong());
+		Assert.assertEquals(result.getLiteral("y").getLong(), 8L);
+	}
 
-  @Test public void TestSWRLBuiltInsCascadingFloatVariable()
-      throws SWRLParseException, SQWRLException, OWLOntologyCreationException
-  {
-    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-    DefaultPrefixManager prefixManager = createPrefixManager(ontology);
-    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology, prefixManager);
+	@Test
+	public void TestSWRLBuiltInsCascadingFloatVariable()
+			throws SWRLParseException, SQWRLException, OWLOntologyCreationException
+	{
+		OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
+		DefaultPrefixManager prefixManager = createPrefixManager(ontology);
+		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology, prefixManager);
 
-    String query = "swrlb:add(?x, 2.0, 2.0) ^ swrlb:multiply(?y, ?x, 2.0) -> sqwrl:select(?y)";
-    SQWRLResult result = queryEngine.runSQWRLQuery("q1", query);
+		String query = "swrlb:add(?x, 2.0, 2.0) ^ swrlb:multiply(?y, ?x, 2.0) -> sqwrl:select(?y)";
+		SQWRLResult result = queryEngine.runSQWRLQuery("q1", query);
 
-    Assert.assertTrue(result.next());
-    Assert.assertTrue(result.getLiteral("y").isFloat());
-    Assert.assertEquals(result.getLiteral("y").getFloat(), 8.0f, this.DELTA);
-  }
+		Assert.assertTrue(result.next());
+		Assert.assertTrue(result.getLiteral("y").isFloat());
+		Assert.assertEquals(result.getLiteral("y").getFloat(), 8.0f, this.DELTA);
+	}
 
-  @Test public void TestSWRLBuiltInsCascadingDoubleVariable()
-      throws SWRLParseException, SQWRLException, OWLOntologyCreationException
-  {
-    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-    DefaultPrefixManager prefixManager = createPrefixManager(ontology);
-    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology, prefixManager);
+	@Test
+	public void TestSWRLBuiltInsCascadingDoubleVariable()
+			throws SWRLParseException, SQWRLException, OWLOntologyCreationException
+	{
+		OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
+		DefaultPrefixManager prefixManager = createPrefixManager(ontology);
+		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology, prefixManager);
 
-    String query = "swrlb:add(?x, \"2.0\"^^xsd:double, \"2.0\"^^xsd:double) ^ "
-        + "swrlb:multiply(?y, ?x, \"2.0\"^^xsd:double) -> sqwrl:select(?y)";
-    SQWRLResult result = queryEngine.runSQWRLQuery("q1", query);
+		String query = "swrlb:add(?x, \"2.0\"^^xsd:double, \"2.0\"^^xsd:double) ^ "
+				+ "swrlb:multiply(?y, ?x, \"2.0\"^^xsd:double) -> sqwrl:select(?y)";
+		SQWRLResult result = queryEngine.runSQWRLQuery("q1", query);
 
-    Assert.assertTrue(result.next());
-    Assert.assertTrue(result.getLiteral("y").isDouble());
-    Assert.assertEquals(result.getLiteral("y").getDouble(), 8.0d, this.DELTA);
-  }
+		Assert.assertTrue(result.next());
+		Assert.assertTrue(result.getLiteral("y").isDouble());
+		Assert.assertEquals(result.getLiteral("y").getDouble(), 8.0d, this.DELTA);
+	}
 
-  @Test public void TestSWRLBuiltInsCascadingBooleanVariable()
-      throws SWRLParseException, SQWRLException, OWLOntologyCreationException
-  {
-    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-    DefaultPrefixManager prefixManager = createPrefixManager(ontology);
-    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology, prefixManager);
+	@Test
+	public void TestSWRLBuiltInsCascadingBooleanVariable()
+			throws SWRLParseException, SQWRLException, OWLOntologyCreationException
+	{
+		OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
+		DefaultPrefixManager prefixManager = createPrefixManager(ontology);
+		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology, prefixManager);
 
-    String query = "swrlb:booleanNot(?x, true) ^ swrlb:booleanNot(?y, ?x) -> sqwrl:select(?y)";
-    SQWRLResult result = queryEngine.runSQWRLQuery("q1", query);
+		String query = "swrlb:booleanNot(?x, true) ^ swrlb:booleanNot(?y, ?x) -> sqwrl:select(?y)";
+		SQWRLResult result = queryEngine.runSQWRLQuery("q1", query);
 
-    Assert.assertTrue(result.next());
-    Assert.assertTrue(result.getLiteral("y").isBoolean());
-    Assert.assertEquals(result.getLiteral("y").getBoolean(), true);
-  }
+		Assert.assertTrue(result.next());
+		Assert.assertTrue(result.getLiteral("y").isBoolean());
+		Assert.assertEquals(result.getLiteral("y").getBoolean(), true);
+	}
 
-  @Test public void TestSWRLBuiltInsCascadingStringVariable()
-      throws SWRLParseException, SQWRLException, OWLOntologyCreationException
-  {
-    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-    DefaultPrefixManager prefixManager = createPrefixManager(ontology);
-    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology, prefixManager);
+	@Test
+	public void TestSWRLBuiltInsCascadingStringVariable()
+			throws SWRLParseException, SQWRLException, OWLOntologyCreationException
+	{
+		OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
+		DefaultPrefixManager prefixManager = createPrefixManager(ontology);
+		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology, prefixManager);
 
-    String query = "swrlb:stringConcat(?x, \"The\", \"Cat\") ^ swrlb:stringConcat(?y, ?x, \"Sat\") -> sqwrl:select(?y)";
-    SQWRLResult result = queryEngine.runSQWRLQuery("q1", query);
+		String query = "swrlb:stringConcat(?x, \"The\", \"Cat\") ^ swrlb:stringConcat(?y, ?x, \"Sat\") -> sqwrl:select(?y)";
+		SQWRLResult result = queryEngine.runSQWRLQuery("q1", query);
 
-    Assert.assertTrue(result.next());
-    Assert.assertTrue(result.getLiteral("y").isString());
-    Assert.assertEquals(result.getLiteral("y").getString(), "TheCatSat");
-  }
+		Assert.assertTrue(result.next());
+		Assert.assertTrue(result.getLiteral("y").isString());
+		Assert.assertEquals(result.getLiteral("y").getString(), "TheCatSat");
+	}
 }
