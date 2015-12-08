@@ -507,7 +507,7 @@ public class SWRLCoreIT extends IntegrationTestBase
 
 		Assert.assertTrue(result.next());
 		Assert.assertTrue(result.getLiteral("height").isFloat());
-		Assert.assertEquals(result.getLiteral("height").getFloat(), 177.0f, this.DELTA);
+		Assert.assertEquals(result.getLiteral("height").getFloat(), 177.0f, IntegrationTestBase.DELTA);
 	}
 
 	@Test
@@ -524,7 +524,7 @@ public class SWRLCoreIT extends IntegrationTestBase
 
 		Assert.assertTrue(result.next());
 		Assert.assertTrue(result.getLiteral("offset").isFloat());
-		Assert.assertEquals(result.getLiteral("offset").getFloat(), -177.0f, this.DELTA);
+		Assert.assertEquals(result.getLiteral("offset").getFloat(), -177.0f, IntegrationTestBase.DELTA);
 	}
 
 	@Test
@@ -570,7 +570,7 @@ public class SWRLCoreIT extends IntegrationTestBase
 
 		Assert.assertTrue(result.next());
 		Assert.assertTrue(result.getLiteral("height").isDouble());
-		Assert.assertEquals(result.getLiteral("height").getDouble(), 177.0d, this.DELTA);
+		Assert.assertEquals(result.getLiteral("height").getDouble(), 177.0d, IntegrationTestBase.DELTA);
 	}
 
 	@Test
@@ -587,7 +587,7 @@ public class SWRLCoreIT extends IntegrationTestBase
 
 		Assert.assertTrue(result.next());
 		Assert.assertTrue(result.getLiteral("offset").isDouble());
-		Assert.assertEquals(result.getLiteral("offset").getDouble(), -177.0d, this.DELTA);
+		Assert.assertEquals(result.getLiteral("offset").getDouble(), -177.0d, IntegrationTestBase.DELTA);
 	}
 
 	@Test

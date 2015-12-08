@@ -255,7 +255,7 @@ public class SWRLBuiltInsIT extends IntegrationTestBase
 
 		Assert.assertTrue(result.next());
 		Assert.assertTrue(result.getLiteral("y").isFloat());
-		Assert.assertEquals(result.getLiteral("y").getFloat(), 8.0f, this.DELTA);
+		Assert.assertEquals(result.getLiteral("y").getFloat(), 8.0f, IntegrationTestBase.DELTA);
 	}
 
 	@Test
@@ -272,7 +272,7 @@ public class SWRLBuiltInsIT extends IntegrationTestBase
 
 		Assert.assertTrue(result.next());
 		Assert.assertTrue(result.getLiteral("y").isDouble());
-		Assert.assertEquals(result.getLiteral("y").getDouble(), 8.0d, this.DELTA);
+		Assert.assertEquals(result.getLiteral("y").getDouble(), 8.0d, IntegrationTestBase.DELTA);
 	}
 
 	@Test
