@@ -1,5 +1,6 @@
 package org.swrlapi;
 
+import checkers.nullness.quals.NonNull;
 import org.junit.Assert;
 import org.junit.Test;
 import org.semanticweb.owlapi.apibinding.OWLManager;
@@ -54,7 +55,7 @@ public class PublicAPIIT extends IntegrationTestBase
 
     ruleEngine.infer();
 
-    Set<OWLAxiom> axioms = ontology.getABoxAxioms(Imports.INCLUDED);
+    Set<@NonNull OWLAxiom> axioms = ontology.getABoxAxioms(Imports.INCLUDED);
 
     Assert.assertTrue(axioms.contains(ClassAssertion(ADULT, P1)));
   }

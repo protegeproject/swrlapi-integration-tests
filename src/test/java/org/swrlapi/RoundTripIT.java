@@ -1,5 +1,6 @@
 package org.swrlapi;
 
+import checkers.nullness.quals.NonNull;
 import org.junit.Assert;
 import org.junit.Test;
 import org.semanticweb.owlapi.apibinding.OWLManager;
@@ -60,7 +61,7 @@ public class RoundTripIT extends IntegrationTestBase
 
     ruleEngine.createSWRLRule("R1", "Person(?p) ^ hasAge(?p, ?age) ^ swrlb:greaterThan(?age, 17) -> Adult(?p)");
 
-    Set<OWLAxiom> axioms = ontology.getABoxAxioms(Imports.INCLUDED);
+    Set<@NonNull OWLAxiom> axioms = ontology.getABoxAxioms(Imports.INCLUDED);
     Assert.assertFalse(axioms.contains(ClassAssertion(ADULT, P1)));
 
     format.setPrefixManager(prefixManager);
