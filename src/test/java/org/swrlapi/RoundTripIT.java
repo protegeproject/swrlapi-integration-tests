@@ -14,7 +14,6 @@ import org.semanticweb.owlapi.model.OWLOntologyCreationException;
 import org.semanticweb.owlapi.model.OWLOntologyManager;
 import org.semanticweb.owlapi.model.OWLOntologyStorageException;
 import org.semanticweb.owlapi.model.parameters.Imports;
-import org.semanticweb.owlapi.util.DefaultPrefixManager;
 import org.swrlapi.core.SWRLRuleEngine;
 import org.swrlapi.factory.SWRLAPIFactory;
 import org.swrlapi.parser.SWRLParseException;
@@ -51,8 +50,7 @@ public class RoundTripIT extends IntegrationTestBase
     OWLOntologyManager ontologyManager = OWLManager.createOWLOntologyManager();
     RDFXMLDocumentFormat format = new RDFXMLDocumentFormat();
     OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-    DefaultPrefixManager prefixManager = createPrefixManager(ontology);
-    SWRLRuleEngine ruleEngine = SWRLAPIFactory.createSWRLRuleEngine(ontology, prefixManager);
+    SWRLRuleEngine ruleEngine = SWRLAPIFactory.createSWRLRuleEngine(ontology);
 
     File file = File.createTempFile("temp", "owl");
 
@@ -64,12 +62,10 @@ public class RoundTripIT extends IntegrationTestBase
     Set<@NonNull OWLAxiom> axioms = ontology.getABoxAxioms(Imports.INCLUDED);
     Assert.assertFalse(axioms.contains(ClassAssertion(ADULT, P1)));
 
-    format.setPrefixManager(prefixManager);
     ontology.saveOntology(format, org.semanticweb.owlapi.model.IRI.create(file.toURI()));
 
     ontology = ontologyManager.loadOntologyFromOntologyDocument(file);
-    prefixManager = createPrefixManager(ontology);
-    ruleEngine = SWRLAPIFactory.createSWRLRuleEngine(ontology, prefixManager);
+    ruleEngine = SWRLAPIFactory.createSWRLRuleEngine(ontology);
 
     ruleEngine.infer();
 
@@ -84,8 +80,7 @@ public class RoundTripIT extends IntegrationTestBase
     OWLOntologyManager ontologyManager = OWLManager.createOWLOntologyManager();
     RDFXMLDocumentFormat format = new RDFXMLDocumentFormat();
     OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-    DefaultPrefixManager prefixManager = createPrefixManager(ontology);
-    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology, prefixManager);
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
 
     File file = File.createTempFile("temp", "owl");
 
@@ -95,12 +90,10 @@ public class RoundTripIT extends IntegrationTestBase
     queryEngine
       .createSQWRLQuery("Q1", "Person(?p) ^ hasAge(?p, ?age) ^ swrlb:greaterThan(?age, 17) -> sqwrl:select(?p)");
 
-    format.setPrefixManager(prefixManager);
     ontology.saveOntology(format, org.semanticweb.owlapi.model.IRI.create(file.toURI()));
 
     ontology = ontologyManager.loadOntologyFromOntologyDocument(file);
-    prefixManager = createPrefixManager(ontology);
-    queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology, prefixManager);
+    queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
 
     SQWRLResult result = queryEngine.runSQWRLQuery("Q1");
 

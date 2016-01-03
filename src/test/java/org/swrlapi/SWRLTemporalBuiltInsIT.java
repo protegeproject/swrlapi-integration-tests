@@ -5,7 +5,6 @@ import org.junit.Test;
 import org.semanticweb.owlapi.apibinding.OWLManager;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyCreationException;
-import org.semanticweb.owlapi.util.DefaultPrefixManager;
 import org.swrlapi.factory.SWRLAPIFactory;
 import org.swrlapi.literal.XSDDateTime;
 import org.swrlapi.parser.SWRLParseException;
@@ -23,8 +22,7 @@ public class SWRLTemporalBuiltInsIT extends IntegrationTestBase
     throws SWRLParseException, SQWRLException, OWLOntologyCreationException
   {
     OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-    DefaultPrefixManager prefixManager = createPrefixManager(ontology);
-    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology, prefixManager);
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
 
     SQWRLResult result = queryEngine
       .runSQWRLQuery("q1", "temporal:before(\"01-01-10\", \"01-01-13\") -> sqwrl:select(0)");
@@ -36,8 +34,7 @@ public class SWRLTemporalBuiltInsIT extends IntegrationTestBase
     throws SWRLParseException, SQWRLException, OWLOntologyCreationException
   {
     OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-    DefaultPrefixManager prefixManager = createPrefixManager(ontology);
-    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology, prefixManager);
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
 
     SQWRLResult result = queryEngine
       .runSQWRLQuery("q1", "temporal:after(\"01-01-13\", \"01-01-10\") -> sqwrl:select(0)");
@@ -49,8 +46,7 @@ public class SWRLTemporalBuiltInsIT extends IntegrationTestBase
     throws SWRLParseException, SQWRLException, OWLOntologyCreationException
   {
     OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-    DefaultPrefixManager prefixManager = createPrefixManager(ontology);
-    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology, prefixManager);
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
 
     SQWRLResult result = queryEngine.runSQWRLQuery("q1",
       "temporal:duration(?r, \"1999-11-01T10:00:01.3\", \"2000-19-01T10:00:01.3\", \"Years\") -> sqwrl:select(?r)");
@@ -64,8 +60,7 @@ public class SWRLTemporalBuiltInsIT extends IntegrationTestBase
     throws SWRLParseException, SQWRLException, OWLOntologyCreationException
   {
     OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-    DefaultPrefixManager prefixManager = createPrefixManager(ontology);
-    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology, prefixManager);
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
 
     SQWRLResult result = queryEngine.runSQWRLQuery("q1",
       "temporal:equals(\"1999-11-01T10:00:01.3\", \"1999-11-01T10:00:01.3\", \"Years\") -> sqwrl:select(0)");
@@ -77,8 +72,7 @@ public class SWRLTemporalBuiltInsIT extends IntegrationTestBase
     throws SWRLParseException, SQWRLException, OWLOntologyCreationException
   {
     OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-    DefaultPrefixManager prefixManager = createPrefixManager(ontology);
-    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology, prefixManager);
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
 
     SQWRLResult result = queryEngine.runSQWRLQuery("q1",
       "temporal:equals(\"1999-10-10T11:10:22.1\", \"1999-11-01T10:00:01.3\", \"Years\") -> sqwrl:select(0)");
@@ -90,8 +84,7 @@ public class SWRLTemporalBuiltInsIT extends IntegrationTestBase
     throws SWRLParseException, SQWRLException, OWLOntologyCreationException
   {
     OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-    DefaultPrefixManager prefixManager = createPrefixManager(ontology);
-    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology, prefixManager);
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
 
     SQWRLResult result = queryEngine.runSQWRLQuery("q1",
       "temporal:equals(\"1999-10-10T11:10:22.1\", \"1999-10-01T10:00:01.3\", \"Years\") -> sqwrl:select(0)");
@@ -102,8 +95,7 @@ public class SWRLTemporalBuiltInsIT extends IntegrationTestBase
   @Test public void TestSWRLTemporalAddBuiltIn() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
   {
     OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-    DefaultPrefixManager prefixManager = createPrefixManager(ontology);
-    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology, prefixManager);
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
 
     SQWRLResult result = queryEngine
       .runSQWRLQuery("q1", "temporal:add(?r, \"1999-11-01T10:00\", 4, \"Years\") -> sqwrl:select(?r)");

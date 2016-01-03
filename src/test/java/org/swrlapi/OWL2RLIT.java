@@ -9,7 +9,6 @@ import org.semanticweb.owlapi.model.OWLNamedIndividual;
 import org.semanticweb.owlapi.model.OWLObjectProperty;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyCreationException;
-import org.semanticweb.owlapi.util.DefaultPrefixManager;
 import org.swrlapi.factory.SWRLAPIFactory;
 import org.swrlapi.parser.SWRLParseException;
 import org.swrlapi.sqwrl.SQWRLQueryEngine;
@@ -50,8 +49,7 @@ public class OWL2RLIT extends IntegrationTestBase
   @Test public void TEST_EQU_REF_C() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
   {
     OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-    DefaultPrefixManager prefixManager = createPrefixManager(ontology);
-    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology, prefixManager);
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
 
     addOWLAxioms(ontology, ClassAssertion(C, I));
 
@@ -63,8 +61,7 @@ public class OWL2RLIT extends IntegrationTestBase
   @Test public void TEST_EQU_REF_OP() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
   {
     OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-    DefaultPrefixManager prefixManager = createPrefixManager(ontology);
-    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology, prefixManager);
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
 
     addOWLAxioms(ontology, ObjectPropertyAssertion(OP, S, O));
 
@@ -76,8 +73,7 @@ public class OWL2RLIT extends IntegrationTestBase
   @Test public void TEST_EQU_REF_DP() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
   {
     OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-    DefaultPrefixManager prefixManager = createPrefixManager(ontology);
-    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology, prefixManager);
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
 
     addOWLAxioms(ontology, DataPropertyAssertion(DP, S, Literal("1", XSD_INT)));
 
@@ -89,8 +85,7 @@ public class OWL2RLIT extends IntegrationTestBase
   @Test public void TEST_EQU_SYM() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
   {
     OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-    DefaultPrefixManager prefixManager = createPrefixManager(ontology);
-    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology, prefixManager);
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
 
     addOWLAxioms(ontology, SameIndividual(I1, I2));
 
@@ -102,8 +97,7 @@ public class OWL2RLIT extends IntegrationTestBase
   @Test public void TEST_EQU_TRANS() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
   {
     OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-    DefaultPrefixManager prefixManager = createPrefixManager(ontology);
-    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology, prefixManager);
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
 
     addOWLAxioms(ontology, SameIndividual(I1, I2), SameIndividual(I2, I3));
 
@@ -115,8 +109,7 @@ public class OWL2RLIT extends IntegrationTestBase
   @Test public void TEST_EQU_REP_S_C() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
   {
     OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-    DefaultPrefixManager prefixManager = createPrefixManager(ontology);
-    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology, prefixManager);
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
 
     addOWLAxioms(ontology, SameIndividual(I1, I2), ClassAssertion(C, I1));
 
@@ -128,8 +121,7 @@ public class OWL2RLIT extends IntegrationTestBase
   @Test public void TEST_EQU_REP_S_OP() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
   {
     OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-    DefaultPrefixManager prefixManager = createPrefixManager(ontology);
-    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology, prefixManager);
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
 
     addOWLAxioms(ontology, SameIndividual(I1, I2), ObjectPropertyAssertion(OP, I1, O));
 
@@ -141,8 +133,7 @@ public class OWL2RLIT extends IntegrationTestBase
   @Test public void TEST_EQU_REP_S_DP() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
   {
     OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-    DefaultPrefixManager prefixManager = createPrefixManager(ontology);
-    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology, prefixManager);
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
 
     addOWLAxioms(ontology, SameIndividual(I1, I2), DataPropertyAssertion(DP, I1, Literal("3", XSD_INT)));
 
@@ -154,8 +145,7 @@ public class OWL2RLIT extends IntegrationTestBase
   @Test public void TEST_EQU_REP_O() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
   {
     OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-    DefaultPrefixManager prefixManager = createPrefixManager(ontology);
-    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology, prefixManager);
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
 
     addOWLAxioms(ontology, SameIndividual(I1, I2), ObjectPropertyAssertion(OP, S, I2));
 
@@ -167,8 +157,7 @@ public class OWL2RLIT extends IntegrationTestBase
   @Test public void TEST_PRP_DOM_OP() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
   {
     OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-    DefaultPrefixManager prefixManager = createPrefixManager(ontology);
-    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology, prefixManager);
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
 
     addOWLAxioms(ontology, ObjectPropertyDomain(OP, C), ObjectPropertyAssertion(OP, S, O));
 
@@ -180,8 +169,7 @@ public class OWL2RLIT extends IntegrationTestBase
   @Test public void TEST_PRP_DOM_DP() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
   {
     OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-    DefaultPrefixManager prefixManager = createPrefixManager(ontology);
-    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology, prefixManager);
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
 
     addOWLAxioms(ontology, DataPropertyDomain(DP, C), DataPropertyAssertion(DP, S, Literal("1", XSD_INT)));
 
@@ -285,8 +273,7 @@ public class OWL2RLIT extends IntegrationTestBase
   @Test public void CAX_SCO() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
   {
     OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-    DefaultPrefixManager prefixManager = createPrefixManager(ontology);
-    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology, prefixManager);
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
 
     addOWLAxioms(ontology, SubClassOf(C1, C2), ClassAssertion(C1, I));
 

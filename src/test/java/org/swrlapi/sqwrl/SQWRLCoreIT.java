@@ -1,15 +1,5 @@
 package org.swrlapi.sqwrl;
 
-import static org.semanticweb.owlapi.apibinding.OWLFunctionalSyntaxFactory.Class;
-import static org.semanticweb.owlapi.apibinding.OWLFunctionalSyntaxFactory.ClassAssertion;
-import static org.semanticweb.owlapi.apibinding.OWLFunctionalSyntaxFactory.DataProperty;
-import static org.semanticweb.owlapi.apibinding.OWLFunctionalSyntaxFactory.DataPropertyAssertion;
-import static org.semanticweb.owlapi.apibinding.OWLFunctionalSyntaxFactory.Literal;
-import static org.semanticweb.owlapi.apibinding.OWLFunctionalSyntaxFactory.NamedIndividual;
-
-import java.net.URI;
-import java.net.URISyntaxException;
-
 import org.junit.Assert;
 import org.junit.Test;
 import org.semanticweb.owlapi.apibinding.OWLManager;
@@ -18,7 +8,6 @@ import org.semanticweb.owlapi.model.OWLDataProperty;
 import org.semanticweb.owlapi.model.OWLNamedIndividual;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyCreationException;
-import org.semanticweb.owlapi.util.DefaultPrefixManager;
 import org.swrlapi.factory.SWRLAPIFactory;
 import org.swrlapi.literal.XSDDate;
 import org.swrlapi.literal.XSDDateTime;
@@ -28,6 +17,16 @@ import org.swrlapi.parser.SWRLParseException;
 import org.swrlapi.sqwrl.exceptions.SQWRLException;
 import org.swrlapi.sqwrl.values.SQWRLLiteralResultValue;
 import org.swrlapi.test.IntegrationTestBase;
+
+import java.net.URI;
+import java.net.URISyntaxException;
+
+import static org.semanticweb.owlapi.apibinding.OWLFunctionalSyntaxFactory.Class;
+import static org.semanticweb.owlapi.apibinding.OWLFunctionalSyntaxFactory.ClassAssertion;
+import static org.semanticweb.owlapi.apibinding.OWLFunctionalSyntaxFactory.DataProperty;
+import static org.semanticweb.owlapi.apibinding.OWLFunctionalSyntaxFactory.DataPropertyAssertion;
+import static org.semanticweb.owlapi.apibinding.OWLFunctionalSyntaxFactory.Literal;
+import static org.semanticweb.owlapi.apibinding.OWLFunctionalSyntaxFactory.NamedIndividual;
 
 /**
  * NOTE: All tests are designed for parallel execution.
@@ -52,8 +51,7 @@ public class SQWRLCoreIT extends IntegrationTestBase
 	public void TestSQWRLCoreColumnName() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
 	{
 		OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-		DefaultPrefixManager prefixManager = createPrefixManager(ontology);
-		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology, prefixManager);
+		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
 
 		SQWRLResult result = queryEngine.runSQWRLQuery("q1",
 				"-> sqwrl:select(3, 4) ^ sqwrl:columnNames(\"col1\", \"col2\")");
@@ -71,8 +69,7 @@ public class SQWRLCoreIT extends IntegrationTestBase
 	public void TestSQWRLCoreByteResult() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
 	{
 		OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-		DefaultPrefixManager prefixManager = createPrefixManager(ontology);
-		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology, prefixManager);
+		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
 
 		SQWRLResult result = queryEngine.runSQWRLQuery("q1", "-> sqwrl:select(\"34\"^^xsd:byte)");
 
@@ -87,8 +84,7 @@ public class SQWRLCoreIT extends IntegrationTestBase
 	public void TestSQWRLCoreShortResult() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
 	{
 		OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-		DefaultPrefixManager prefixManager = createPrefixManager(ontology);
-		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology, prefixManager);
+		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
 
 		SQWRLResult result = queryEngine.runSQWRLQuery("q1", "-> sqwrl:select(\"34\"^^xsd:short)");
 
@@ -103,8 +99,7 @@ public class SQWRLCoreIT extends IntegrationTestBase
 	public void TestSQWRLCoreQualifiedIntResult() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
 	{
 		OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-		DefaultPrefixManager prefixManager = createPrefixManager(ontology);
-		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology, prefixManager);
+		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
 
 		SQWRLResult result = queryEngine.runSQWRLQuery("q1", "-> sqwrl:select(\"34\"^^xsd:int)");
 
@@ -119,8 +114,7 @@ public class SQWRLCoreIT extends IntegrationTestBase
 	public void TestSQWRLCoreRawIntResult() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
 	{
 		OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-		DefaultPrefixManager prefixManager = createPrefixManager(ontology);
-		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology, prefixManager);
+		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
 
 		SQWRLResult result = queryEngine.runSQWRLQuery("q1", "-> sqwrl:select(34)");
 
@@ -135,8 +129,7 @@ public class SQWRLCoreIT extends IntegrationTestBase
 	public void TestSQWRLCoreLongResult() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
 	{
 		OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-		DefaultPrefixManager prefixManager = createPrefixManager(ontology);
-		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology, prefixManager);
+		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
 
 		SQWRLResult result = queryEngine.runSQWRLQuery("q1", "-> sqwrl:select(\"34\"^^xsd:long)");
 
@@ -151,8 +144,7 @@ public class SQWRLCoreIT extends IntegrationTestBase
 	public void TestSQWRLCoreRawFloatResult() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
 	{
 		OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-		DefaultPrefixManager prefixManager = createPrefixManager(ontology);
-		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology, prefixManager);
+		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
 
 		SQWRLResult result = queryEngine.runSQWRLQuery("q1", "-> sqwrl:select(34.0)");
 
@@ -168,8 +160,7 @@ public class SQWRLCoreIT extends IntegrationTestBase
 			throws SWRLParseException, SQWRLException, OWLOntologyCreationException
 	{
 		OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-		DefaultPrefixManager prefixManager = createPrefixManager(ontology);
-		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology, prefixManager);
+		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
 
 		SQWRLResult result = queryEngine.runSQWRLQuery("q1", "-> sqwrl:select(\"34.0\"^^xsd:float)");
 
@@ -184,8 +175,7 @@ public class SQWRLCoreIT extends IntegrationTestBase
 	public void TestSQWRLCoreDoubleResult() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
 	{
 		OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-		DefaultPrefixManager prefixManager = createPrefixManager(ontology);
-		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology, prefixManager);
+		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
 
 		SQWRLResult result = queryEngine.runSQWRLQuery("q1", "-> sqwrl:select(\"34.0\"^^xsd:double)");
 
@@ -201,8 +191,7 @@ public class SQWRLCoreIT extends IntegrationTestBase
 			throws SWRLParseException, SQWRLException, OWLOntologyCreationException
 	{
 		OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-		DefaultPrefixManager prefixManager = createPrefixManager(ontology);
-		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology, prefixManager);
+		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
 
 		SQWRLResult result = queryEngine.runSQWRLQuery("q1", "-> sqwrl:select(\"true\"^^xsd:boolean)");
 
@@ -217,8 +206,7 @@ public class SQWRLCoreIT extends IntegrationTestBase
 	public void TestSQWRLCoreRawBooleanResult() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
 	{
 		OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-		DefaultPrefixManager prefixManager = createPrefixManager(ontology);
-		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology, prefixManager);
+		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
 
 		SQWRLResult result = queryEngine.runSQWRLQuery("q1", "-> sqwrl:select(true)");
 
@@ -234,8 +222,7 @@ public class SQWRLCoreIT extends IntegrationTestBase
 			throws SWRLParseException, SQWRLException, OWLOntologyCreationException
 	{
 		OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-		DefaultPrefixManager prefixManager = createPrefixManager(ontology);
-		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology, prefixManager);
+		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
 
 		SQWRLResult result = queryEngine.runSQWRLQuery("q1", "-> sqwrl:select(\"Cat\"^^xsd:string)");
 
@@ -250,8 +237,7 @@ public class SQWRLCoreIT extends IntegrationTestBase
 	public void TestSQWRLCoreRawStringResult() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
 	{
 		OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-		DefaultPrefixManager prefixManager = createPrefixManager(ontology);
-		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology, prefixManager);
+		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
 
 		SQWRLResult result = queryEngine.runSQWRLQuery("q1", "-> sqwrl:select(\"Cat\")");
 
@@ -267,8 +253,7 @@ public class SQWRLCoreIT extends IntegrationTestBase
 			throws SWRLParseException, SQWRLException, OWLOntologyCreationException, URISyntaxException
 	{
 		OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-		DefaultPrefixManager prefixManager = createPrefixManager(ontology);
-		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology, prefixManager);
+		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
 
 		String homepage = "http://stanford.edu/~fred";
 		SQWRLResult result = queryEngine.runSQWRLQuery("q1", "-> sqwrl:select(\"" + homepage + "\"^^xsd:anyURI)");
@@ -284,8 +269,7 @@ public class SQWRLCoreIT extends IntegrationTestBase
 	public void TestSQWRLCoreTimeResult() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
 	{
 		OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-		DefaultPrefixManager prefixManager = createPrefixManager(ontology);
-		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology, prefixManager);
+		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
 
 		SQWRLResult result = queryEngine.runSQWRLQuery("q1", "-> sqwrl:select(\"10:10:11\"^^xsd:time)");
 
@@ -300,8 +284,7 @@ public class SQWRLCoreIT extends IntegrationTestBase
 	public void TestSQWRLCoreDateResult() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
 	{
 		OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-		DefaultPrefixManager prefixManager = createPrefixManager(ontology);
-		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology, prefixManager);
+		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
 
 		SQWRLResult result = queryEngine.runSQWRLQuery("q1", "-> sqwrl:select(\"1999-01-01\"^^xsd:date\")");
 
@@ -316,8 +299,7 @@ public class SQWRLCoreIT extends IntegrationTestBase
 	public void TestSQWRLCoreDateTimeResult() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
 	{
 		OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-		DefaultPrefixManager prefixManager = createPrefixManager(ontology);
-		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology, prefixManager);
+		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
 
 		SQWRLResult result = queryEngine.runSQWRLQuery("q1", "-> sqwrl:select(\"1999-01-01T10:10:11\"^^xsd:dateTime)");
 
@@ -332,8 +314,7 @@ public class SQWRLCoreIT extends IntegrationTestBase
 	public void TestSQWRLCoreDurationResult() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
 	{
 		OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-		DefaultPrefixManager prefixManager = createPrefixManager(ontology);
-		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology, prefixManager);
+		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
 
 		SQWRLResult result = queryEngine.runSQWRLQuery("q1", "-> sqwrl:select(\"P24Y\"^^xsd:duration)");
 
@@ -348,8 +329,7 @@ public class SQWRLCoreIT extends IntegrationTestBase
 	public void TestSQWRLCoreCount() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
 	{
 		OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-		DefaultPrefixManager prefixManager = createPrefixManager(ontology);
-		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology, prefixManager);
+		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
 
 		addOWLAxioms(ontology, ClassAssertion(MALE, P1), ClassAssertion(MALE, P2));
 
@@ -365,8 +345,7 @@ public class SQWRLCoreIT extends IntegrationTestBase
 	public void TestSQWRLCoreSumShortWidest() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
 	{
 		OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-		DefaultPrefixManager prefixManager = createPrefixManager(ontology);
-		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology, prefixManager);
+		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
 
 		addOWLAxioms(ontology, DataPropertyAssertion(HAS_AGE, P1, Literal("10", XSD_BYTE)));
 		addOWLAxioms(ontology, DataPropertyAssertion(HAS_AGE, P2, Literal("20", XSD_SHORT)));
@@ -387,8 +366,7 @@ public class SQWRLCoreIT extends IntegrationTestBase
 	public void TestSQWRLCoreSumIntWidest() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
 	{
 		OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-		DefaultPrefixManager prefixManager = createPrefixManager(ontology);
-		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology, prefixManager);
+		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
 
 		addOWLAxioms(ontology, DataPropertyAssertion(HAS_AGE, P1, Literal("10", XSD_BYTE)));
 		addOWLAxioms(ontology, DataPropertyAssertion(HAS_AGE, P2, Literal("20", XSD_SHORT)));
@@ -409,8 +387,7 @@ public class SQWRLCoreIT extends IntegrationTestBase
 	public void TestSQWRLCoreSumLongWidest() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
 	{
 		OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-		DefaultPrefixManager prefixManager = createPrefixManager(ontology);
-		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology, prefixManager);
+		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
 
 		addOWLAxioms(ontology, DataPropertyAssertion(HAS_AGE, P1, Literal("10", XSD_BYTE)));
 		addOWLAxioms(ontology, DataPropertyAssertion(HAS_AGE, P2, Literal("20", XSD_SHORT)));
@@ -431,8 +408,7 @@ public class SQWRLCoreIT extends IntegrationTestBase
 	public void TestSQWRLCoreSumFloatWidest() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
 	{
 		OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-		DefaultPrefixManager prefixManager = createPrefixManager(ontology);
-		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology, prefixManager);
+		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
 
 		addOWLAxioms(ontology, DataPropertyAssertion(HAS_AGE, P1, Literal("10", XSD_BYTE)));
 		addOWLAxioms(ontology, DataPropertyAssertion(HAS_AGE, P2, Literal("20", XSD_SHORT)));
@@ -453,8 +429,7 @@ public class SQWRLCoreIT extends IntegrationTestBase
 	public void TestSQWRLCoreSumDoubleWidest() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
 	{
 		OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-		DefaultPrefixManager prefixManager = createPrefixManager(ontology);
-		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology, prefixManager);
+		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
 
 		addOWLAxioms(ontology, DataPropertyAssertion(HAS_AGE, P1, Literal("10", XSD_BYTE)));
 		addOWLAxioms(ontology, DataPropertyAssertion(HAS_AGE, P2, Literal("20", XSD_SHORT)));
@@ -475,8 +450,7 @@ public class SQWRLCoreIT extends IntegrationTestBase
 	public void TestSQWRLCoreByteSum() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
 	{
 		OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-		DefaultPrefixManager prefixManager = createPrefixManager(ontology);
-		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology, prefixManager);
+		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
 
 		addOWLAxioms(ontology, DataPropertyAssertion(HAS_AGE, P1, Literal("10", XSD_BYTE)));
 		addOWLAxioms(ontology, DataPropertyAssertion(HAS_AGE, P2, Literal("20", XSD_BYTE)));
@@ -494,8 +468,7 @@ public class SQWRLCoreIT extends IntegrationTestBase
 	public void TestSQWRLCoreShortSum() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
 	{
 		OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-		DefaultPrefixManager prefixManager = createPrefixManager(ontology);
-		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology, prefixManager);
+		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
 
 		addOWLAxioms(ontology, DataPropertyAssertion(HAS_AGE, P1, Literal("10", XSD_SHORT)));
 		addOWLAxioms(ontology, DataPropertyAssertion(HAS_AGE, P2, Literal("20", XSD_SHORT)));
@@ -513,8 +486,7 @@ public class SQWRLCoreIT extends IntegrationTestBase
 	public void TestSQWRLCoreIntSum() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
 	{
 		OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-		DefaultPrefixManager prefixManager = createPrefixManager(ontology);
-		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology, prefixManager);
+		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
 
 		addOWLAxioms(ontology, DataPropertyAssertion(HAS_AGE, P1, Literal("10", XSD_INT)));
 		addOWLAxioms(ontology, DataPropertyAssertion(HAS_AGE, P2, Literal("20", XSD_INT)));
@@ -532,8 +504,7 @@ public class SQWRLCoreIT extends IntegrationTestBase
 	public void TestSQWRLCoreLongSum() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
 	{
 		OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-		DefaultPrefixManager prefixManager = createPrefixManager(ontology);
-		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology, prefixManager);
+		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
 
 		addOWLAxioms(ontology, DataPropertyAssertion(HAS_AGE, P1, Literal("10", XSD_LONG)));
 		addOWLAxioms(ontology, DataPropertyAssertion(HAS_AGE, P2, Literal("20", XSD_LONG)));
@@ -551,8 +522,7 @@ public class SQWRLCoreIT extends IntegrationTestBase
 	public void TestSQWRLCoreFloatSum() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
 	{
 		OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-		DefaultPrefixManager prefixManager = createPrefixManager(ontology);
-		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology, prefixManager);
+		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
 
 		addOWLAxioms(ontology, DataPropertyAssertion(HAS_HEIGHT, P1, Literal("100.1", XSD_FLOAT)));
 		addOWLAxioms(ontology, DataPropertyAssertion(HAS_HEIGHT, P2, Literal("200.2", XSD_FLOAT)));
@@ -570,8 +540,7 @@ public class SQWRLCoreIT extends IntegrationTestBase
 	public void TestSQWRLCoreDoubleSum() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
 	{
 		OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-		DefaultPrefixManager prefixManager = createPrefixManager(ontology);
-		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology, prefixManager);
+		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
 
 		addOWLAxioms(ontology, DataPropertyAssertion(HAS_HEIGHT, P1, Literal("100.1", XSD_DOUBLE)));
 		addOWLAxioms(ontology, DataPropertyAssertion(HAS_HEIGHT, P2, Literal("200.2", XSD_DOUBLE)));
@@ -589,8 +558,7 @@ public class SQWRLCoreIT extends IntegrationTestBase
 	public void TestSQWRLCoreAvgShortBroadest() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
 	{
 		OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-		DefaultPrefixManager prefixManager = createPrefixManager(ontology);
-		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology, prefixManager);
+		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
 
 		addOWLAxioms(ontology, DataPropertyAssertion(HAS_AGE, P1, Literal("10", XSD_BYTE)));
 		addOWLAxioms(ontology, DataPropertyAssertion(HAS_AGE, P2, Literal("20", XSD_SHORT)));
@@ -608,8 +576,7 @@ public class SQWRLCoreIT extends IntegrationTestBase
 	public void TestSQWRLCoreAvgIntBroadest() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
 	{
 		OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-		DefaultPrefixManager prefixManager = createPrefixManager(ontology);
-		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology, prefixManager);
+		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
 
 		addOWLAxioms(ontology, DataPropertyAssertion(HAS_AGE, P1, Literal("10", XSD_BYTE)));
 		addOWLAxioms(ontology, DataPropertyAssertion(HAS_AGE, P2, Literal("20", XSD_SHORT)));
@@ -627,8 +594,7 @@ public class SQWRLCoreIT extends IntegrationTestBase
 	public void TestSQWRLCoreAvgLongBroadest() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
 	{
 		OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-		DefaultPrefixManager prefixManager = createPrefixManager(ontology);
-		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology, prefixManager);
+		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
 
 		addOWLAxioms(ontology, DataPropertyAssertion(HAS_AGE, P1, Literal("10", XSD_SHORT)));
 		addOWLAxioms(ontology, DataPropertyAssertion(HAS_AGE, P2, Literal("20", XSD_INT)));
@@ -646,8 +612,7 @@ public class SQWRLCoreIT extends IntegrationTestBase
 	public void TestSQWRLCoreAvgFloatBroadest() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
 	{
 		OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-		DefaultPrefixManager prefixManager = createPrefixManager(ontology);
-		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology, prefixManager);
+		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
 
 		addOWLAxioms(ontology, DataPropertyAssertion(HAS_AGE, P1, Literal("10", XSD_INT)));
 		addOWLAxioms(ontology, DataPropertyAssertion(HAS_AGE, P2, Literal("20", XSD_LONG)));
@@ -665,8 +630,7 @@ public class SQWRLCoreIT extends IntegrationTestBase
 	public void TestSQWRLCoreAvgDoubleBroadest() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
 	{
 		OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-		DefaultPrefixManager prefixManager = createPrefixManager(ontology);
-		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology, prefixManager);
+		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
 
 		addOWLAxioms(ontology, DataPropertyAssertion(HAS_AGE, P1, Literal("10", XSD_LONG)));
 		addOWLAxioms(ontology, DataPropertyAssertion(HAS_AGE, P2, Literal("20.0", XSD_FLOAT)));
@@ -684,8 +648,7 @@ public class SQWRLCoreIT extends IntegrationTestBase
 	public void TestSQWRLCoreByteAvg() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
 	{
 		OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-		DefaultPrefixManager prefixManager = createPrefixManager(ontology);
-		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology, prefixManager);
+		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
 
 		addOWLAxioms(ontology, DataPropertyAssertion(HAS_AGE, P1, Literal("10", XSD_BYTE)));
 		addOWLAxioms(ontology, DataPropertyAssertion(HAS_AGE, P2, Literal("20", XSD_BYTE)));
@@ -703,8 +666,7 @@ public class SQWRLCoreIT extends IntegrationTestBase
 	public void TestSQWRLCoreShortAvg() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
 	{
 		OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-		DefaultPrefixManager prefixManager = createPrefixManager(ontology);
-		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology, prefixManager);
+		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
 
 		addOWLAxioms(ontology, DataPropertyAssertion(HAS_AGE, P1, Literal("10", XSD_SHORT)));
 		addOWLAxioms(ontology, DataPropertyAssertion(HAS_AGE, P2, Literal("20", XSD_SHORT)));
@@ -722,8 +684,7 @@ public class SQWRLCoreIT extends IntegrationTestBase
 	public void TestSQWRLCoreIntAvg() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
 	{
 		OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-		DefaultPrefixManager prefixManager = createPrefixManager(ontology);
-		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology, prefixManager);
+		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
 
 		addOWLAxioms(ontology, DataPropertyAssertion(HAS_AGE, P1, Literal("10", XSD_INT)));
 		addOWLAxioms(ontology, DataPropertyAssertion(HAS_AGE, P2, Literal("20", XSD_INT)));
@@ -741,8 +702,7 @@ public class SQWRLCoreIT extends IntegrationTestBase
 	public void TestSQWRLCoreLongAvg() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
 	{
 		OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-		DefaultPrefixManager prefixManager = createPrefixManager(ontology);
-		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology, prefixManager);
+		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
 
 		addOWLAxioms(ontology, DataPropertyAssertion(HAS_AGE, P1, Literal("10", XSD_LONG)));
 		addOWLAxioms(ontology, DataPropertyAssertion(HAS_AGE, P2, Literal("20", XSD_LONG)));
@@ -760,8 +720,7 @@ public class SQWRLCoreIT extends IntegrationTestBase
 	public void TestSQWRLCoreFloatAvg() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
 	{
 		OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-		DefaultPrefixManager prefixManager = createPrefixManager(ontology);
-		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology, prefixManager);
+		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
 
 		addOWLAxioms(ontology, DataPropertyAssertion(HAS_HEIGHT, P1, Literal("10.3", XSD_FLOAT)));
 		addOWLAxioms(ontology, DataPropertyAssertion(HAS_HEIGHT, P2, Literal("20.4", XSD_FLOAT)));
@@ -779,8 +738,7 @@ public class SQWRLCoreIT extends IntegrationTestBase
 	public void TestSQWRLCoreDoubleAvg() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
 	{
 		OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-		DefaultPrefixManager prefixManager = createPrefixManager(ontology);
-		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology, prefixManager);
+		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
 
 		addOWLAxioms(ontology, DataPropertyAssertion(HAS_HEIGHT, P1, Literal("10.3", XSD_DOUBLE)));
 		addOWLAxioms(ontology, DataPropertyAssertion(HAS_HEIGHT, P2, Literal("20.4", XSD_DOUBLE)));
@@ -798,8 +756,7 @@ public class SQWRLCoreIT extends IntegrationTestBase
 	public void TestSQWRLCoreMedianShortWidest() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
 	{
 		OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-		DefaultPrefixManager prefixManager = createPrefixManager(ontology);
-		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology, prefixManager);
+		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
 
 		addOWLAxioms(ontology, DataPropertyAssertion(HAS_AGE, P1, Literal("10", XSD_SHORT)));
 		addOWLAxioms(ontology, DataPropertyAssertion(HAS_AGE, P2, Literal("15", XSD_SHORT)));
@@ -819,8 +776,7 @@ public class SQWRLCoreIT extends IntegrationTestBase
 	public void TestSQWRLCoreMedianIntWidest() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
 	{
 		OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-		DefaultPrefixManager prefixManager = createPrefixManager(ontology);
-		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology, prefixManager);
+		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
 
 		addOWLAxioms(ontology, DataPropertyAssertion(HAS_AGE, P1, Literal("10", XSD_SHORT)));
 		addOWLAxioms(ontology, DataPropertyAssertion(HAS_AGE, P2, Literal("15", XSD_INT)));
@@ -840,8 +796,7 @@ public class SQWRLCoreIT extends IntegrationTestBase
 	public void TestSQWRLCoreMedianLongWidest() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
 	{
 		OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-		DefaultPrefixManager prefixManager = createPrefixManager(ontology);
-		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology, prefixManager);
+		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
 
 		addOWLAxioms(ontology, DataPropertyAssertion(HAS_AGE, P1, Literal("10", XSD_SHORT)));
 		addOWLAxioms(ontology, DataPropertyAssertion(HAS_AGE, P2, Literal("15", XSD_INT)));
@@ -861,8 +816,7 @@ public class SQWRLCoreIT extends IntegrationTestBase
 	public void TestSQWRLCoreMedianFloatWidest() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
 	{
 		OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-		DefaultPrefixManager prefixManager = createPrefixManager(ontology);
-		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology, prefixManager);
+		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
 
 		addOWLAxioms(ontology, DataPropertyAssertion(HAS_AGE, P1, Literal("10", XSD_SHORT)));
 		addOWLAxioms(ontology, DataPropertyAssertion(HAS_AGE, P2, Literal("15", XSD_INT)));
@@ -882,8 +836,7 @@ public class SQWRLCoreIT extends IntegrationTestBase
 	public void TestSQWRLCoreMedianDoubleWidest() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
 	{
 		OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-		DefaultPrefixManager prefixManager = createPrefixManager(ontology);
-		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology, prefixManager);
+		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
 
 		addOWLAxioms(ontology, DataPropertyAssertion(HAS_AGE, P1, Literal("10", XSD_SHORT)));
 		addOWLAxioms(ontology, DataPropertyAssertion(HAS_AGE, P2, Literal("15", XSD_INT)));
@@ -903,8 +856,7 @@ public class SQWRLCoreIT extends IntegrationTestBase
 	public void TestSQWRLCoreByteMedian() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
 	{
 		OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-		DefaultPrefixManager prefixManager = createPrefixManager(ontology);
-		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology, prefixManager);
+		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
 
 		addOWLAxioms(ontology, DataPropertyAssertion(HAS_AGE, P1, Literal("10", XSD_BYTE)));
 		addOWLAxioms(ontology, DataPropertyAssertion(HAS_AGE, P2, Literal("15", XSD_BYTE)));
@@ -924,8 +876,7 @@ public class SQWRLCoreIT extends IntegrationTestBase
 	public void TestSQWRLCoreShortMedian() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
 	{
 		OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-		DefaultPrefixManager prefixManager = createPrefixManager(ontology);
-		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology, prefixManager);
+		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
 
 		addOWLAxioms(ontology, DataPropertyAssertion(HAS_AGE, P1, Literal("10", XSD_SHORT)));
 		addOWLAxioms(ontology, DataPropertyAssertion(HAS_AGE, P2, Literal("15", XSD_SHORT)));
@@ -945,8 +896,7 @@ public class SQWRLCoreIT extends IntegrationTestBase
 	public void TestSQWRLCoreIntMedian() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
 	{
 		OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-		DefaultPrefixManager prefixManager = createPrefixManager(ontology);
-		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology, prefixManager);
+		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
 
 		addOWLAxioms(ontology, DataPropertyAssertion(HAS_AGE, P1, Literal("10", XSD_INT)));
 		addOWLAxioms(ontology, DataPropertyAssertion(HAS_AGE, P2, Literal("15", XSD_INT)));
@@ -966,8 +916,7 @@ public class SQWRLCoreIT extends IntegrationTestBase
 	public void TestSQWRLCoreLongMedian() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
 	{
 		OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-		DefaultPrefixManager prefixManager = createPrefixManager(ontology);
-		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology, prefixManager);
+		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
 
 		addOWLAxioms(ontology, DataPropertyAssertion(HAS_AGE, P1, Literal("10", XSD_LONG)));
 		addOWLAxioms(ontology, DataPropertyAssertion(HAS_AGE, P2, Literal("15", XSD_LONG)));
@@ -987,8 +936,7 @@ public class SQWRLCoreIT extends IntegrationTestBase
 	public void TestSQWRLCoreFloatMedian() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
 	{
 		OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-		DefaultPrefixManager prefixManager = createPrefixManager(ontology);
-		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology, prefixManager);
+		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
 
 		addOWLAxioms(ontology, DataPropertyAssertion(HAS_HEIGHT, P1, Literal("10.0", XSD_FLOAT)));
 		addOWLAxioms(ontology, DataPropertyAssertion(HAS_HEIGHT, P2, Literal("15.3", XSD_FLOAT)));
@@ -1008,8 +956,7 @@ public class SQWRLCoreIT extends IntegrationTestBase
 	public void TestSQWRLCoreDoubleMedian() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
 	{
 		OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-		DefaultPrefixManager prefixManager = createPrefixManager(ontology);
-		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology, prefixManager);
+		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
 
 		addOWLAxioms(ontology, DataPropertyAssertion(HAS_HEIGHT, P1, Literal("10.0", XSD_DOUBLE)));
 		addOWLAxioms(ontology, DataPropertyAssertion(HAS_HEIGHT, P2, Literal("15.3", XSD_DOUBLE)));
@@ -1029,8 +976,7 @@ public class SQWRLCoreIT extends IntegrationTestBase
 	public void TestSQWRLCoreByteMin() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
 	{
 		OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-		DefaultPrefixManager prefixManager = createPrefixManager(ontology);
-		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology, prefixManager);
+		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
 
 		addOWLAxioms(ontology, DataPropertyAssertion(HAS_AGE, P1, Literal("10", XSD_BYTE)));
 		addOWLAxioms(ontology, DataPropertyAssertion(HAS_AGE, P2, Literal("20", XSD_BYTE)));
@@ -1048,8 +994,7 @@ public class SQWRLCoreIT extends IntegrationTestBase
 	public void TestSQWRLCoreShortMin() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
 	{
 		OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-		DefaultPrefixManager prefixManager = createPrefixManager(ontology);
-		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology, prefixManager);
+		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
 
 		addOWLAxioms(ontology, DataPropertyAssertion(HAS_AGE, P1, Literal("10", XSD_SHORT)));
 		addOWLAxioms(ontology, DataPropertyAssertion(HAS_AGE, P2, Literal("20", XSD_SHORT)));
@@ -1067,8 +1012,7 @@ public class SQWRLCoreIT extends IntegrationTestBase
 	public void TestSQWRLCoreIntMin() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
 	{
 		OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-		DefaultPrefixManager prefixManager = createPrefixManager(ontology);
-		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology, prefixManager);
+		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
 
 		addOWLAxioms(ontology, DataPropertyAssertion(HAS_AGE, P1, Literal("10", XSD_INT)));
 		addOWLAxioms(ontology, DataPropertyAssertion(HAS_AGE, P2, Literal("20", XSD_INT)));
@@ -1086,8 +1030,7 @@ public class SQWRLCoreIT extends IntegrationTestBase
 	public void TestSQWRLCoreLongMin() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
 	{
 		OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-		DefaultPrefixManager prefixManager = createPrefixManager(ontology);
-		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology, prefixManager);
+		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
 
 		addOWLAxioms(ontology, DataPropertyAssertion(HAS_AGE, P1, Literal("10", XSD_LONG)));
 		addOWLAxioms(ontology, DataPropertyAssertion(HAS_AGE, P2, Literal("20", XSD_LONG)));
@@ -1105,8 +1048,7 @@ public class SQWRLCoreIT extends IntegrationTestBase
 	public void TestSQWRLCoreFloatMin() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
 	{
 		OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-		DefaultPrefixManager prefixManager = createPrefixManager(ontology);
-		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology, prefixManager);
+		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
 
 		addOWLAxioms(ontology, DataPropertyAssertion(HAS_HEIGHT, P1, Literal("101.0", XSD_FLOAT)));
 		addOWLAxioms(ontology, DataPropertyAssertion(HAS_HEIGHT, P2, Literal("102.3", XSD_FLOAT)));
@@ -1124,8 +1066,7 @@ public class SQWRLCoreIT extends IntegrationTestBase
 	public void TestSQWRLCoreDoubleMin() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
 	{
 		OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-		DefaultPrefixManager prefixManager = createPrefixManager(ontology);
-		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology, prefixManager);
+		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
 
 		addOWLAxioms(ontology, DataPropertyAssertion(HAS_HEIGHT, P1, Literal("101.0", XSD_DOUBLE)));
 		addOWLAxioms(ontology, DataPropertyAssertion(HAS_HEIGHT, P2, Literal("102.3", XSD_DOUBLE)));
@@ -1143,8 +1084,7 @@ public class SQWRLCoreIT extends IntegrationTestBase
 	public void TestSQWRLCoreMixedTypesMin() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
 	{
 		OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-		DefaultPrefixManager prefixManager = createPrefixManager(ontology);
-		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology, prefixManager);
+		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
 
 		addOWLAxioms(ontology, DataPropertyAssertion(HAS_AGE, P1, Literal("23", XSD_BYTE)));
 		addOWLAxioms(ontology, DataPropertyAssertion(HAS_AGE, P2, Literal("44", XSD_SHORT)));
@@ -1162,8 +1102,7 @@ public class SQWRLCoreIT extends IntegrationTestBase
 	public void TestSQWRLCoreInvalidMin() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
 	{
 		OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-		DefaultPrefixManager prefixManager = createPrefixManager(ontology);
-		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology, prefixManager);
+		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
 
 		addOWLAxioms(ontology, DataPropertyAssertion(HAS_NAME, P1, Literal("Bob", XSD_STRING)));
 		addOWLAxioms(ontology, DataPropertyAssertion(HAS_NAME, P2, Literal("Fred", XSD_STRING)));
@@ -1176,8 +1115,7 @@ public class SQWRLCoreIT extends IntegrationTestBase
 	public void TestSQWRLCoreByteMax() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
 	{
 		OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-		DefaultPrefixManager prefixManager = createPrefixManager(ontology);
-		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology, prefixManager);
+		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
 
 		addOWLAxioms(ontology, DataPropertyAssertion(HAS_AGE, P1, Literal("10", XSD_BYTE)));
 		addOWLAxioms(ontology, DataPropertyAssertion(HAS_AGE, P2, Literal("20", XSD_BYTE)));
@@ -1195,8 +1133,7 @@ public class SQWRLCoreIT extends IntegrationTestBase
 	public void TestSQWRLCoreShortMax() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
 	{
 		OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-		DefaultPrefixManager prefixManager = createPrefixManager(ontology);
-		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology, prefixManager);
+		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
 
 		addOWLAxioms(ontology, DataPropertyAssertion(HAS_AGE, P1, Literal("10", XSD_SHORT)));
 		addOWLAxioms(ontology, DataPropertyAssertion(HAS_AGE, P2, Literal("20", XSD_SHORT)));
@@ -1214,8 +1151,7 @@ public class SQWRLCoreIT extends IntegrationTestBase
 	public void TestSQWRLCoreIntMax() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
 	{
 		OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-		DefaultPrefixManager prefixManager = createPrefixManager(ontology);
-		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology, prefixManager);
+		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
 
 		addOWLAxioms(ontology, DataPropertyAssertion(HAS_AGE, P1, Literal("10", XSD_INT)));
 		addOWLAxioms(ontology, DataPropertyAssertion(HAS_AGE, P2, Literal("20", XSD_INT)));
@@ -1233,8 +1169,7 @@ public class SQWRLCoreIT extends IntegrationTestBase
 	public void TestSQWRLCoreFloatMax() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
 	{
 		OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-		DefaultPrefixManager prefixManager = createPrefixManager(ontology);
-		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology, prefixManager);
+		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
 
 		addOWLAxioms(ontology, DataPropertyAssertion(HAS_HEIGHT, P1, Literal("101.0", XSD_FLOAT)));
 		addOWLAxioms(ontology, DataPropertyAssertion(HAS_HEIGHT, P2, Literal("102.3", XSD_FLOAT)));
@@ -1252,8 +1187,7 @@ public class SQWRLCoreIT extends IntegrationTestBase
 	public void TestSQWRLCoreDoubleMax() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
 	{
 		OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-		DefaultPrefixManager prefixManager = createPrefixManager(ontology);
-		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology, prefixManager);
+		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
 
 		addOWLAxioms(ontology, DataPropertyAssertion(HAS_HEIGHT, P1, Literal("101.0", XSD_DOUBLE)));
 		addOWLAxioms(ontology, DataPropertyAssertion(HAS_HEIGHT, P2, Literal("102.3", XSD_DOUBLE)));
@@ -1271,8 +1205,7 @@ public class SQWRLCoreIT extends IntegrationTestBase
 	public void TestSQWRLCoreMixedTypesMax() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
 	{
 		OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-		DefaultPrefixManager prefixManager = createPrefixManager(ontology);
-		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology, prefixManager);
+		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
 
 		addOWLAxioms(ontology, DataPropertyAssertion(HAS_AGE, P1, Literal("23", XSD_BYTE)));
 		addOWLAxioms(ontology, DataPropertyAssertion(HAS_AGE, P2, Literal("44", XSD_SHORT)));
@@ -1290,8 +1223,7 @@ public class SQWRLCoreIT extends IntegrationTestBase
 	public void TestSQWRLCoreOrderByByte() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
 	{
 		OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-		DefaultPrefixManager prefixManager = createPrefixManager(ontology);
-		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology, prefixManager);
+		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
 
 		addOWLAxioms(ontology, DataPropertyAssertion(HAS_AGE, P1, Literal("20", XSD_BYTE)));
 		addOWLAxioms(ontology, DataPropertyAssertion(HAS_AGE, P2, Literal("10", XSD_BYTE)));
@@ -1323,8 +1255,7 @@ public class SQWRLCoreIT extends IntegrationTestBase
 	public void TestSQWRLCoreOrderByShort() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
 	{
 		OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-		DefaultPrefixManager prefixManager = createPrefixManager(ontology);
-		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology, prefixManager);
+		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
 
 		addOWLAxioms(ontology, DataPropertyAssertion(HAS_AGE, P1, Literal("20", XSD_SHORT)));
 		addOWLAxioms(ontology, DataPropertyAssertion(HAS_AGE, P2, Literal("10", XSD_SHORT)));
@@ -1356,8 +1287,7 @@ public class SQWRLCoreIT extends IntegrationTestBase
 	public void TestSQWRLOrderByInt() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
 	{
 		OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-		DefaultPrefixManager prefixManager = createPrefixManager(ontology);
-		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology, prefixManager);
+		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
 
 		addOWLAxioms(ontology, DataPropertyAssertion(HAS_AGE, P1, Literal("20", XSD_INT)));
 		addOWLAxioms(ontology, DataPropertyAssertion(HAS_AGE, P2, Literal("10", XSD_INT)));
@@ -1389,8 +1319,7 @@ public class SQWRLCoreIT extends IntegrationTestBase
 	public void TestSQWRLOrderByLong() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
 	{
 		OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-		DefaultPrefixManager prefixManager = createPrefixManager(ontology);
-		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology, prefixManager);
+		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
 
 		addOWLAxioms(ontology, DataPropertyAssertion(HAS_AGE, P1, Literal("20", XSD_LONG)));
 		addOWLAxioms(ontology, DataPropertyAssertion(HAS_AGE, P2, Literal("10", XSD_LONG)));
@@ -1422,8 +1351,7 @@ public class SQWRLCoreIT extends IntegrationTestBase
 	public void TestSQWRLOrderByFloat() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
 	{
 		OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-		DefaultPrefixManager prefixManager = createPrefixManager(ontology);
-		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology, prefixManager);
+		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
 
 		addOWLAxioms(ontology, DataPropertyAssertion(HAS_HEIGHT, P1, Literal("200.0", XSD_FLOAT)));
 		addOWLAxioms(ontology, DataPropertyAssertion(HAS_HEIGHT, P2, Literal("100.0", XSD_FLOAT)));
@@ -1455,8 +1383,7 @@ public class SQWRLCoreIT extends IntegrationTestBase
 	public void TestSQWRLOrderByDouble() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
 	{
 		OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-		DefaultPrefixManager prefixManager = createPrefixManager(ontology);
-		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology, prefixManager);
+		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
 
 		addOWLAxioms(ontology, DataPropertyAssertion(HAS_HEIGHT, P1, Literal("200.0", XSD_DOUBLE)));
 		addOWLAxioms(ontology, DataPropertyAssertion(HAS_HEIGHT, P2, Literal("100.0", XSD_DOUBLE)));
@@ -1488,8 +1415,7 @@ public class SQWRLCoreIT extends IntegrationTestBase
 	public void TestSQWRLCoreOrderByString() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
 	{
 		OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-		DefaultPrefixManager prefixManager = createPrefixManager(ontology);
-		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology, prefixManager);
+		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
 
 		addOWLAxioms(ontology, DataPropertyAssertion(HAS_NAME, P1, Literal("Fred", XSD_STRING)));
 		addOWLAxioms(ontology, DataPropertyAssertion(HAS_NAME, P2, Literal("Bob", XSD_STRING)));
@@ -1522,8 +1448,7 @@ public class SQWRLCoreIT extends IntegrationTestBase
 			throws SWRLParseException, SQWRLException, OWLOntologyCreationException, URISyntaxException
 	{
 		OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-		DefaultPrefixManager prefixManager = createPrefixManager(ontology);
-		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology, prefixManager);
+		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
 
 		String p1HomePage = "http://stanford.edu/~joe";
 		String p2HomePage = "http://stanford.edu/~fred";
@@ -1559,8 +1484,7 @@ public class SQWRLCoreIT extends IntegrationTestBase
 	public void TestSQWRLOrderByDate() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
 	{
 		OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-		DefaultPrefixManager prefixManager = createPrefixManager(ontology);
-		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology, prefixManager);
+		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
 
 		addOWLAxioms(ontology, DataPropertyAssertion(HAS_DOB, P1, Literal("1990-01-02", XSD_DATE)));
 		addOWLAxioms(ontology, DataPropertyAssertion(HAS_DOB, P2, Literal("1989-10-10", XSD_DATE)));
@@ -1592,8 +1516,7 @@ public class SQWRLCoreIT extends IntegrationTestBase
 	public void TestSQWRLOrderByDateTime() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
 	{
 		OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-		DefaultPrefixManager prefixManager = createPrefixManager(ontology);
-		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology, prefixManager);
+		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
 
 		addOWLAxioms(ontology, DataPropertyAssertion(HAS_TOB, P1, Literal("1990-01-02T10:10:09.2", XSD_DATETIME)));
 		addOWLAxioms(ontology, DataPropertyAssertion(HAS_TOB, P2, Literal("1989-10-10T09:08:08.3", XSD_DATETIME)));
@@ -1625,8 +1548,7 @@ public class SQWRLCoreIT extends IntegrationTestBase
 	public void TestSQWRLOrderByTime() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
 	{
 		OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-		DefaultPrefixManager prefixManager = createPrefixManager(ontology);
-		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology, prefixManager);
+		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
 
 		addOWLAxioms(ontology, DataPropertyAssertion(HAS_TOB, P1, Literal("10:10:09.2", XSD_TIME)));
 		addOWLAxioms(ontology, DataPropertyAssertion(HAS_TOB, P2, Literal("09:08:08.3", XSD_TIME)));
@@ -1658,8 +1580,7 @@ public class SQWRLCoreIT extends IntegrationTestBase
 	public void TestSQWRLOrderByDuration() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
 	{
 		OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-		DefaultPrefixManager prefixManager = createPrefixManager(ontology);
-		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology, prefixManager);
+		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
 
 		addOWLAxioms(ontology, DataPropertyAssertion(HAS_AGE, P1, Literal("P23Y", XSD_DURATION)));
 		addOWLAxioms(ontology, DataPropertyAssertion(HAS_AGE, P2, Literal("P21Y", XSD_DURATION)));
@@ -1691,8 +1612,7 @@ public class SQWRLCoreIT extends IntegrationTestBase
 	public void TestSQWRLOrderByDescendingByte() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
 	{
 		OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-		DefaultPrefixManager prefixManager = createPrefixManager(ontology);
-		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology, prefixManager);
+		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
 
 		addOWLAxioms(ontology, DataPropertyAssertion(HAS_AGE, P1, Literal("20", XSD_BYTE)));
 		addOWLAxioms(ontology, DataPropertyAssertion(HAS_AGE, P2, Literal("10", XSD_BYTE)));
@@ -1724,8 +1644,7 @@ public class SQWRLCoreIT extends IntegrationTestBase
 	public void TestSQWRLOrderByDescendingShort() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
 	{
 		OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-		DefaultPrefixManager prefixManager = createPrefixManager(ontology);
-		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology, prefixManager);
+		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
 
 		addOWLAxioms(ontology, DataPropertyAssertion(HAS_AGE, P1, Literal("20", XSD_SHORT)));
 		addOWLAxioms(ontology, DataPropertyAssertion(HAS_AGE, P2, Literal("10", XSD_SHORT)));
@@ -1757,8 +1676,7 @@ public class SQWRLCoreIT extends IntegrationTestBase
 	public void TestSQWRLOrderByDescendingInt() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
 	{
 		OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-		DefaultPrefixManager prefixManager = createPrefixManager(ontology);
-		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology, prefixManager);
+		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
 
 		addOWLAxioms(ontology, DataPropertyAssertion(HAS_AGE, P1, Literal("20", XSD_INT)));
 		addOWLAxioms(ontology, DataPropertyAssertion(HAS_AGE, P2, Literal("10", XSD_INT)));
@@ -1790,8 +1708,7 @@ public class SQWRLCoreIT extends IntegrationTestBase
 	public void TestSQWRLOrderByDescendingLong() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
 	{
 		OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-		DefaultPrefixManager prefixManager = createPrefixManager(ontology);
-		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology, prefixManager);
+		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
 
 		addOWLAxioms(ontology, DataPropertyAssertion(HAS_AGE, P1, Literal("20", XSD_LONG)));
 		addOWLAxioms(ontology, DataPropertyAssertion(HAS_AGE, P2, Literal("10", XSD_LONG)));
@@ -1823,8 +1740,7 @@ public class SQWRLCoreIT extends IntegrationTestBase
 	public void TestSQWRLOrderByDescendingString() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
 	{
 		OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-		DefaultPrefixManager prefixManager = createPrefixManager(ontology);
-		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology, prefixManager);
+		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
 
 		addOWLAxioms(ontology, DataPropertyAssertion(HAS_NAME, P1, Literal("Fred", XSD_STRING)));
 		addOWLAxioms(ontology, DataPropertyAssertion(HAS_NAME, P2, Literal("Bob", XSD_STRING)));

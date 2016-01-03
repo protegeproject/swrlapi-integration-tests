@@ -1,9 +1,5 @@
 package org.swrlapi.sqwrl;
 
-import static org.semanticweb.owlapi.apibinding.OWLFunctionalSyntaxFactory.Class;
-import static org.semanticweb.owlapi.apibinding.OWLFunctionalSyntaxFactory.Declaration;
-import static org.semanticweb.owlapi.apibinding.OWLFunctionalSyntaxFactory.NamedIndividual;
-
 import org.junit.Assert;
 import org.junit.Test;
 import org.semanticweb.owlapi.apibinding.OWLManager;
@@ -11,12 +7,15 @@ import org.semanticweb.owlapi.model.OWLClass;
 import org.semanticweb.owlapi.model.OWLNamedIndividual;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyCreationException;
-import org.semanticweb.owlapi.util.DefaultPrefixManager;
 import org.swrlapi.factory.SWRLAPIFactory;
 import org.swrlapi.parser.SWRLParseException;
 import org.swrlapi.sqwrl.exceptions.SQWRLException;
 import org.swrlapi.sqwrl.values.SQWRLLiteralResultValue;
 import org.swrlapi.test.IntegrationTestBase;
+
+import static org.semanticweb.owlapi.apibinding.OWLFunctionalSyntaxFactory.Class;
+import static org.semanticweb.owlapi.apibinding.OWLFunctionalSyntaxFactory.Declaration;
+import static org.semanticweb.owlapi.apibinding.OWLFunctionalSyntaxFactory.NamedIndividual;
 
 /**
  * NOTE: All tests are designed for parallel execution.
@@ -33,8 +32,7 @@ public class SQWRLCollectionsIT extends IntegrationTestBase
 	public void TestSQWRLClassBagsEqual() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
 	{
 		OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-		DefaultPrefixManager prefixManager = createPrefixManager(ontology);
-		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology, prefixManager);
+		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
 
 		addOWLAxioms(ontology, Declaration(DDI), Declaration(AZT));
 
@@ -48,8 +46,7 @@ public class SQWRLCollectionsIT extends IntegrationTestBase
 	public void TestSQWRLClassSetsEqual() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
 	{
 		OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-		DefaultPrefixManager prefixManager = createPrefixManager(ontology);
-		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology, prefixManager);
+		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
 
 		addOWLAxioms(ontology, Declaration(DDI), Declaration(AZT));
 
@@ -63,8 +60,7 @@ public class SQWRLCollectionsIT extends IntegrationTestBase
 	public void TestSQWRLIndividualBagsEqual() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
 	{
 		OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-		DefaultPrefixManager prefixManager = createPrefixManager(ontology);
-		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology, prefixManager);
+		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
 
 		addOWLAxioms(ontology, Declaration(DDI), Declaration(AZT));
 
@@ -78,8 +74,7 @@ public class SQWRLCollectionsIT extends IntegrationTestBase
 	public void TestSQWRLIndividualSetsEqual() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
 	{
 		OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-		DefaultPrefixManager prefixManager = createPrefixManager(ontology);
-		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology, prefixManager);
+		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
 
 		addOWLAxioms(ontology, Declaration(DDI), Declaration(AZT));
 
@@ -93,8 +88,7 @@ public class SQWRLCollectionsIT extends IntegrationTestBase
 	public void TestSQWRLByteBagsEqual() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
 	{
 		OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-		DefaultPrefixManager prefixManager = createPrefixManager(ontology);
-		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology, prefixManager);
+		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
 
 		SQWRLResult result = queryEngine.runSQWRLQuery("q1",
 				". sqwrl:makeBag(?s1, \"32\"^^xsd:byte) ^ sqwrl:makeBag(?s2, \"39\"^^xsd:byte)"
@@ -107,8 +101,7 @@ public class SQWRLCollectionsIT extends IntegrationTestBase
 	public void TestSQWRLByteSetsEqual() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
 	{
 		OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-		DefaultPrefixManager prefixManager = createPrefixManager(ontology);
-		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology, prefixManager);
+		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
 
 		SQWRLResult result = queryEngine.runSQWRLQuery("q1",
 				". sqwrl:makeSet(?s1, \"32\"^^xsd:byte) ^ sqwrl:makeSet(?s2, \"39\"^^xsd:byte)"
@@ -121,8 +114,7 @@ public class SQWRLCollectionsIT extends IntegrationTestBase
 	public void TestSQWRLShortBagsEqual() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
 	{
 		OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-		DefaultPrefixManager prefixManager = createPrefixManager(ontology);
-		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology, prefixManager);
+		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
 
 		SQWRLResult result = queryEngine.runSQWRLQuery("q1",
 				". sqwrl:makeBag(?s1, \"32\"^^xsd:short) ^ sqwrl:makeBag(?s2, \"39\"^^xsd:short)"
@@ -136,8 +128,7 @@ public class SQWRLCollectionsIT extends IntegrationTestBase
 	public void TestSQWRLShortSetsEqual() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
 	{
 		OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-		DefaultPrefixManager prefixManager = createPrefixManager(ontology);
-		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology, prefixManager);
+		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
 
 		SQWRLResult result = queryEngine.runSQWRLQuery("q1",
 				". sqwrl:makeSet(?s1, \"32\"^^xsd:short) ^ sqwrl:makeSet(?s2, \"39\"^^xsd:short)"
@@ -151,8 +142,7 @@ public class SQWRLCollectionsIT extends IntegrationTestBase
 	public void TestSQWRLIntBagsEqual() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
 	{
 		OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-		DefaultPrefixManager prefixManager = createPrefixManager(ontology);
-		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology, prefixManager);
+		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
 
 		SQWRLResult result = queryEngine.runSQWRLQuery("q1", ". sqwrl:makeBag(?s1, 3) ^ sqwrl:makeBag(?s1, 5)"
 				+ " ^ sqwrl:makeBag(?s2, 3) ^ sqwrl:makeBag(?s2, 5) . sqwrl:equal(?s1, ?s2) -> sqwrl:select(0)");
@@ -164,8 +154,7 @@ public class SQWRLCollectionsIT extends IntegrationTestBase
 	public void TestSQWRLIntSetsEqual() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
 	{
 		OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-		DefaultPrefixManager prefixManager = createPrefixManager(ontology);
-		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology, prefixManager);
+		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
 
 		SQWRLResult result = queryEngine.runSQWRLQuery("q1", ". sqwrl:makeSet(?s1, 3) ^ sqwrl:makeSet(?s1, 5)"
 				+ " ^ sqwrl:makeSet(?s2, 3) ^ sqwrl:makeSet(?s2, 5) . sqwrl:equal(?s1, ?s2) -> sqwrl:select(0)");
@@ -177,8 +166,7 @@ public class SQWRLCollectionsIT extends IntegrationTestBase
 	public void TestSQWRLLongBagsEqual() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
 	{
 		OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-		DefaultPrefixManager prefixManager = createPrefixManager(ontology);
-		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology, prefixManager);
+		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
 
 		SQWRLResult result = queryEngine.runSQWRLQuery("q1",
 				". sqwrl:makeBag(?s1, \"32\"^^xsd:long) ^ sqwrl:makeBag(?s2, \"39\"^^xsd:long)"
@@ -191,8 +179,7 @@ public class SQWRLCollectionsIT extends IntegrationTestBase
 	public void TestSQWRLLongSetsEqual() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
 	{
 		OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-		DefaultPrefixManager prefixManager = createPrefixManager(ontology);
-		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology, prefixManager);
+		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
 
 		SQWRLResult result = queryEngine.runSQWRLQuery("q1",
 				". sqwrl:makeSet(?s1, \"32\"^^xsd:long) ^ sqwrl:makeSet(?s1, \"39\"^^xsd:long)"
@@ -206,8 +193,7 @@ public class SQWRLCollectionsIT extends IntegrationTestBase
 	public void TestSQWRLFloatBagsEqual() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
 	{
 		OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-		DefaultPrefixManager prefixManager = createPrefixManager(ontology);
-		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology, prefixManager);
+		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
 
 		SQWRLResult result = queryEngine.runSQWRLQuery("q1",
 				". sqwrl:makeBag(?s1, 3.1) ^ sqwrl:makeBag(?s1, 5.1)"
@@ -221,8 +207,7 @@ public class SQWRLCollectionsIT extends IntegrationTestBase
 	public void TestSQWRLFloatSetsEqual() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
 	{
 		OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-		DefaultPrefixManager prefixManager = createPrefixManager(ontology);
-		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology, prefixManager);
+		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
 
 		SQWRLResult result = queryEngine.runSQWRLQuery("q1",
 				". sqwrl:makeSet(?s1, 3.1) ^ sqwrl:makeSet(?s1, 5.1)"
@@ -236,8 +221,7 @@ public class SQWRLCollectionsIT extends IntegrationTestBase
 	public void TestSQWRLDoubleBagsEqual() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
 	{
 		OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-		DefaultPrefixManager prefixManager = createPrefixManager(ontology);
-		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology, prefixManager);
+		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
 
 		SQWRLResult result = queryEngine.runSQWRLQuery("q1",
 				". sqwrl:makeBag(?s1, \"32.1\"^^xsd:double) ^ sqwrl:makeBag(?s2, \"39.3\"^^xsd:double)"
@@ -250,8 +234,7 @@ public class SQWRLCollectionsIT extends IntegrationTestBase
 	public void TestSQWRLDoubleSetsEqual() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
 	{
 		OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-		DefaultPrefixManager prefixManager = createPrefixManager(ontology);
-		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology, prefixManager);
+		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
 
 		SQWRLResult result = queryEngine.runSQWRLQuery("q1",
 				". sqwrl:makeBag(?s1, \"32.1\"^^xsd:double) ^ sqwrl:makeBag(?s1, \"39.3\"^^xsd:double)"
@@ -265,8 +248,7 @@ public class SQWRLCollectionsIT extends IntegrationTestBase
 	public void TestSQWRLStringBagsEqual() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
 	{
 		OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-		DefaultPrefixManager prefixManager = createPrefixManager(ontology);
-		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology, prefixManager);
+		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
 
 		SQWRLResult result = queryEngine.runSQWRLQuery("q1", ". sqwrl:makeBag(?s1, \"A\") ^ sqwrl:makeBag(?s1, \"B\")"
 				+ " ^ sqwrl:makeBag(?s2, \"A\") ^ sqwrl:makeBag(?s2, \"B\") . sqwrl:equal(?s1, ?s2) -> sqwrl:select(0)");
@@ -278,8 +260,7 @@ public class SQWRLCollectionsIT extends IntegrationTestBase
 	public void TestSQWRLStringSetsEqual() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
 	{
 		OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-		DefaultPrefixManager prefixManager = createPrefixManager(ontology);
-		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology, prefixManager);
+		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
 
 		SQWRLResult result = queryEngine.runSQWRLQuery("q1",
 				". sqwrl:makeSet(?s1, \"A\") ^ sqwrl:makeSet(?s1, \"B\")"
@@ -293,8 +274,7 @@ public class SQWRLCollectionsIT extends IntegrationTestBase
 	public void TestSQWRLBooleanBagsEqual() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
 	{
 		OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-		DefaultPrefixManager prefixManager = createPrefixManager(ontology);
-		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology, prefixManager);
+		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
 
 		SQWRLResult result = queryEngine.runSQWRLQuery("q1", ". sqwrl:makeBag(?s1, true) ^ sqwrl:makeBag(?s1, false)"
 				+ " ^ sqwrl:makeBag(?s2, true) ^ sqwrl:makeBag(?s2, false) . sqwrl:equal(?s1, ?s2) -> sqwrl:select(0)");
@@ -306,8 +286,7 @@ public class SQWRLCollectionsIT extends IntegrationTestBase
 	public void TestSQWRLBooleanSetsEqual() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
 	{
 		OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-		DefaultPrefixManager prefixManager = createPrefixManager(ontology);
-		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology, prefixManager);
+		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
 
 		SQWRLResult result = queryEngine.runSQWRLQuery("q1",
 				". sqwrl:makeSet(?s1, true) ^ sqwrl:makeSet(?s1, false)"
@@ -321,8 +300,7 @@ public class SQWRLCollectionsIT extends IntegrationTestBase
 	public void TestSQWRLURIBagsEqual() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
 	{
 		OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-		DefaultPrefixManager prefixManager = createPrefixManager(ontology);
-		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology, prefixManager);
+		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
 
 		String homePage1 = "http://stanford.edu/~fred";
 		String homePage2 = "http://stanford.edu/~bob";
@@ -339,8 +317,7 @@ public class SQWRLCollectionsIT extends IntegrationTestBase
 	public void TestSQWRLURISetsEqual() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
 	{
 		OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-		DefaultPrefixManager prefixManager = createPrefixManager(ontology);
-		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology, prefixManager);
+		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
 
 		String homePage1 = "http://stanford.edu/~fred";
 		String homePage2 = "http://stanford.edu/~bob";
@@ -358,8 +335,7 @@ public class SQWRLCollectionsIT extends IntegrationTestBase
 	public void TestSQWRLBagsSize() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
 	{
 		OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-		DefaultPrefixManager prefixManager = createPrefixManager(ontology);
-		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology, prefixManager);
+		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
 
 		addOWLAxioms(ontology, Declaration(DDI), Declaration(AZT));
 
@@ -376,8 +352,7 @@ public class SQWRLCollectionsIT extends IntegrationTestBase
 	public void TestSQWRLSetsSize() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
 	{
 		OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-		DefaultPrefixManager prefixManager = createPrefixManager(ontology);
-		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology, prefixManager);
+		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
 
 		addOWLAxioms(ontology, Declaration(DDI), Declaration(AZT));
 
@@ -395,8 +370,7 @@ public class SQWRLCollectionsIT extends IntegrationTestBase
 	public void TestSQWRLBagsSizeEqual() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
 	{
 		OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-		DefaultPrefixManager prefixManager = createPrefixManager(ontology);
-		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology, prefixManager);
+		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
 
 		addOWLAxioms(ontology, Declaration(DDI), Declaration(AZT));
 
@@ -411,8 +385,7 @@ public class SQWRLCollectionsIT extends IntegrationTestBase
 	public void TestSQWRLSetSizeEqual() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
 	{
 		OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-		DefaultPrefixManager prefixManager = createPrefixManager(ontology);
-		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology, prefixManager);
+		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
 
 		addOWLAxioms(ontology, Declaration(DDI), Declaration(AZT));
 
@@ -427,8 +400,7 @@ public class SQWRLCollectionsIT extends IntegrationTestBase
 	public void TestSQWRLClassesBagFirst() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
 	{
 		OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-		DefaultPrefixManager prefixManager = createPrefixManager(ontology);
-		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology, prefixManager);
+		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
 
 		addOWLAxioms(ontology, Declaration(DDI), Declaration(AZT));
 
@@ -444,8 +416,7 @@ public class SQWRLCollectionsIT extends IntegrationTestBase
 			throws SWRLParseException, SQWRLException, OWLOntologyCreationException
 	{
 		OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-		DefaultPrefixManager prefixManager = createPrefixManager(ontology);
-		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology, prefixManager);
+		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
 
 		addOWLAxioms(ontology, Declaration(FRED), Declaration(BOB));
 
@@ -460,8 +431,7 @@ public class SQWRLCollectionsIT extends IntegrationTestBase
 	public void TestSQWRLByteBagMin() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
 	{
 		OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-		DefaultPrefixManager prefixManager = createPrefixManager(ontology);
-		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology, prefixManager);
+		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
 
 		SQWRLResult result = queryEngine.runSQWRLQuery("q1",
 				". sqwrl:makeBag(?s1, \"77\"^^xsd:byte) ^ sqwrl:makeBag(?s1, \"23\"^^xsd:byte) "
@@ -476,8 +446,7 @@ public class SQWRLCollectionsIT extends IntegrationTestBase
 	public void TestSQWRLShortBagMin() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
 	{
 		OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-		DefaultPrefixManager prefixManager = createPrefixManager(ontology);
-		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology, prefixManager);
+		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
 
 		SQWRLResult result = queryEngine.runSQWRLQuery("q1",
 				". sqwrl:makeBag(?s1, \"77\"^^xsd:short) ^ sqwrl:makeBag(?s1, \"23\"^^xsd:short) "
@@ -492,8 +461,7 @@ public class SQWRLCollectionsIT extends IntegrationTestBase
 	public void TestSQWRLIntBagMin() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
 	{
 		OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-		DefaultPrefixManager prefixManager = createPrefixManager(ontology);
-		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology, prefixManager);
+		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
 
 		SQWRLResult result = queryEngine.runSQWRLQuery("q1",
 				". sqwrl:makeBag(?s1, 77) ^ sqwrl:makeBag(?s1, 23) . sqwrl:min(?min, ?s1) -> sqwrl:select(?min)");
@@ -507,8 +475,7 @@ public class SQWRLCollectionsIT extends IntegrationTestBase
 	public void TestSQWRLLongBagMin() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
 	{
 		OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-		DefaultPrefixManager prefixManager = createPrefixManager(ontology);
-		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology, prefixManager);
+		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
 
 		SQWRLResult result = queryEngine.runSQWRLQuery("q1",
 				". sqwrl:makeBag(?s1, \"77\"^^xsd:long) ^ sqwrl:makeBag(?s1, \"23\"^^xsd:long) "
@@ -523,8 +490,7 @@ public class SQWRLCollectionsIT extends IntegrationTestBase
 	public void TestSQWRLFloatBagMin() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
 	{
 		OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-		DefaultPrefixManager prefixManager = createPrefixManager(ontology);
-		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology, prefixManager);
+		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
 
 		SQWRLResult result = queryEngine.runSQWRLQuery("q1",
 				". sqwrl:makeBag(?s1, 77.4) ^ sqwrl:makeBag(?s1, 23.3) . sqwrl:min(?min, ?s1) -> sqwrl:select(?min)");
@@ -538,8 +504,7 @@ public class SQWRLCollectionsIT extends IntegrationTestBase
 	public void TestSQWRLDoubleBagMin() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
 	{
 		OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-		DefaultPrefixManager prefixManager = createPrefixManager(ontology);
-		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology, prefixManager);
+		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
 
 		SQWRLResult result = queryEngine.runSQWRLQuery("q1",
 				". sqwrl:makeBag(?s1, \"77.32\"^^xsd:double) ^ sqwrl:makeBag(?s1, \"23.3\"^^xsd:double) "
@@ -554,8 +519,7 @@ public class SQWRLCollectionsIT extends IntegrationTestBase
 	public void TestSQWRLStringBagFirst() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
 	{
 		OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-		DefaultPrefixManager prefixManager = createPrefixManager(ontology);
-		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology, prefixManager);
+		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
 
 		SQWRLResult result = queryEngine.runSQWRLQuery("q1",
 				". sqwrl:makeBag(?s1, \"Fred\"^^xsd:string) ^ sqwrl:makeBag(?s1, \"Bob\"^^xsd:string) "
@@ -570,8 +534,7 @@ public class SQWRLCollectionsIT extends IntegrationTestBase
 	public void TestSQWRLStringSetFirst() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
 	{
 		OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-		DefaultPrefixManager prefixManager = createPrefixManager(ontology);
-		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology, prefixManager);
+		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
 
 		SQWRLResult result = queryEngine.runSQWRLQuery("q1",
 				". sqwrl:makeSet(?s1, \"Fred\"^^xsd:string) ^ sqwrl:makeSet(?s1, \"Bob\"^^xsd:string) "
@@ -586,8 +549,7 @@ public class SQWRLCollectionsIT extends IntegrationTestBase
 	public void TestSQWRLBagSumShortBroadest() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
 	{
 		OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-		DefaultPrefixManager prefixManager = createPrefixManager(ontology);
-		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology, prefixManager);
+		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
 
 		SQWRLResult result = queryEngine.runSQWRLQuery("q1",
 				". sqwrl:makeBag(?s1, \"24\"^^xsd:byte) ^ "
@@ -603,8 +565,7 @@ public class SQWRLCollectionsIT extends IntegrationTestBase
 	public void TestSQWRLSetSumShortBroadest() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
 	{
 		OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-		DefaultPrefixManager prefixManager = createPrefixManager(ontology);
-		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology, prefixManager);
+		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
 
 		SQWRLResult result = queryEngine.runSQWRLQuery("q1",
 				". sqwrl:makeSet(?s1, \"24\"^^xsd:byte) ^ "
@@ -620,8 +581,7 @@ public class SQWRLCollectionsIT extends IntegrationTestBase
 	public void TestSQWRLBagSumIntBroadest() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
 	{
 		OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-		DefaultPrefixManager prefixManager = createPrefixManager(ontology);
-		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology, prefixManager);
+		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
 
 		SQWRLResult result = queryEngine.runSQWRLQuery("q1",
 				". sqwrl:makeBag(?s1, \"24\"^^xsd:byte) ^ "
@@ -637,8 +597,7 @@ public class SQWRLCollectionsIT extends IntegrationTestBase
 	public void TestSQWRLBagSumLongBroadest() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
 	{
 		OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-		DefaultPrefixManager prefixManager = createPrefixManager(ontology);
-		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology, prefixManager);
+		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
 
 		SQWRLResult result = queryEngine.runSQWRLQuery("q1",
 				". sqwrl:makeBag(?s1, \"24\"^^xsd:byte) ^ "
@@ -654,8 +613,7 @@ public class SQWRLCollectionsIT extends IntegrationTestBase
 	public void TestSQWRLBagSumFloatBroadest() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
 	{
 		OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-		DefaultPrefixManager prefixManager = createPrefixManager(ontology);
-		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology, prefixManager);
+		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
 
 		SQWRLResult result = queryEngine.runSQWRLQuery("q1",
 				". sqwrl:makeBag(?s1, \"24\"^^xsd:byte) ^ "
@@ -672,8 +630,7 @@ public class SQWRLCollectionsIT extends IntegrationTestBase
 			throws SWRLParseException, SQWRLException, OWLOntologyCreationException
 	{
 		OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-		DefaultPrefixManager prefixManager = createPrefixManager(ontology);
-		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology, prefixManager);
+		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
 
 		SQWRLResult result = queryEngine.runSQWRLQuery("q1",
 				". sqwrl:makeBag(?s1, \"24\"^^xsd:byte) ^ "
@@ -689,8 +646,7 @@ public class SQWRLCollectionsIT extends IntegrationTestBase
 	public void TestSQWRLByteBagSum() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
 	{
 		OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-		DefaultPrefixManager prefixManager = createPrefixManager(ontology);
-		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology, prefixManager);
+		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
 
 		SQWRLResult result = queryEngine.runSQWRLQuery("q1",
 				". sqwrl:makeBag(?s1, \"24\"^^xsd:byte) ^ "
@@ -706,8 +662,7 @@ public class SQWRLCollectionsIT extends IntegrationTestBase
 	public void TestSQWRLShortBagSum() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
 	{
 		OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-		DefaultPrefixManager prefixManager = createPrefixManager(ontology);
-		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology, prefixManager);
+		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
 
 		SQWRLResult result = queryEngine.runSQWRLQuery("q1",
 				". sqwrl:makeBag(?s1, \"24\"^^xsd:short) ^ "
@@ -723,8 +678,7 @@ public class SQWRLCollectionsIT extends IntegrationTestBase
 	public void TestSQWRLIntBagSum() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
 	{
 		OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-		DefaultPrefixManager prefixManager = createPrefixManager(ontology);
-		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology, prefixManager);
+		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
 
 		SQWRLResult result = queryEngine.runSQWRLQuery("q1",
 				". sqwrl:makeBag(?s1, \"24\"^^xsd:int) ^ "
@@ -740,8 +694,7 @@ public class SQWRLCollectionsIT extends IntegrationTestBase
 	public void TestSQWRLLongBagSum() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
 	{
 		OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-		DefaultPrefixManager prefixManager = createPrefixManager(ontology);
-		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology, prefixManager);
+		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
 
 		SQWRLResult result = queryEngine.runSQWRLQuery("q1",
 				". sqwrl:makeBag(?s1, \"24\"^^xsd:long) ^ "
@@ -757,8 +710,7 @@ public class SQWRLCollectionsIT extends IntegrationTestBase
 	public void TestSQWRLFloatBagSum() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
 	{
 		OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-		DefaultPrefixManager prefixManager = createPrefixManager(ontology);
-		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology, prefixManager);
+		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
 
 		SQWRLResult result = queryEngine.runSQWRLQuery("q1",
 				". sqwrl:makeBag(?s1, \"24.0\"^^xsd:float) ^ "
@@ -774,8 +726,7 @@ public class SQWRLCollectionsIT extends IntegrationTestBase
 	public void TestSQWRLDoubleBagSum() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
 	{
 		OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-		DefaultPrefixManager prefixManager = createPrefixManager(ontology);
-		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology, prefixManager);
+		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
 
 		SQWRLResult result = queryEngine.runSQWRLQuery("q1",
 				". sqwrl:makeBag(?s1, \"24.0\"^^xsd:double) ^ "
@@ -791,8 +742,7 @@ public class SQWRLCollectionsIT extends IntegrationTestBase
 	public void TestSQWRLBagAvgShortBroadest() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
 	{
 		OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-		DefaultPrefixManager prefixManager = createPrefixManager(ontology);
-		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology, prefixManager);
+		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
 
 		SQWRLResult result = queryEngine.runSQWRLQuery("q1",
 				". sqwrl:makeBag(?s1, \"24\"^^xsd:byte) ^ "
@@ -808,8 +758,7 @@ public class SQWRLCollectionsIT extends IntegrationTestBase
 	public void TestSQWRLBagAvgIntBroadest() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
 	{
 		OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-		DefaultPrefixManager prefixManager = createPrefixManager(ontology);
-		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology, prefixManager);
+		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
 
 		SQWRLResult result = queryEngine.runSQWRLQuery("q1",
 				". sqwrl:makeBag(?s1, \"24\"^^xsd:byte) ^ "
@@ -825,8 +774,7 @@ public class SQWRLCollectionsIT extends IntegrationTestBase
 	public void TestSQWRLBagAvgLongBroadest() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
 	{
 		OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-		DefaultPrefixManager prefixManager = createPrefixManager(ontology);
-		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology, prefixManager);
+		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
 
 		SQWRLResult result = queryEngine.runSQWRLQuery("q1",
 				". sqwrl:makeBag(?s1, \"24\"^^xsd:byte) ^ "
@@ -842,8 +790,7 @@ public class SQWRLCollectionsIT extends IntegrationTestBase
 	public void TestSQWRLBagAvgFloatBroadest() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
 	{
 		OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-		DefaultPrefixManager prefixManager = createPrefixManager(ontology);
-		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology, prefixManager);
+		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
 
 		SQWRLResult result = queryEngine.runSQWRLQuery("q1",
 				". sqwrl:makeBag(?s1, \"24\"^^xsd:byte) ^ "
@@ -859,8 +806,7 @@ public class SQWRLCollectionsIT extends IntegrationTestBase
 	public void TestSQWRLBagDoubleBroadest() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
 	{
 		OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-		DefaultPrefixManager prefixManager = createPrefixManager(ontology);
-		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology, prefixManager);
+		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
 
 		SQWRLResult result = queryEngine.runSQWRLQuery("q1",
 				". sqwrl:makeBag(?s1, \"24\"^^xsd:byte) ^ "
@@ -876,8 +822,7 @@ public class SQWRLCollectionsIT extends IntegrationTestBase
 	public void TestSQWRLByteBagAvg() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
 	{
 		OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-		DefaultPrefixManager prefixManager = createPrefixManager(ontology);
-		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology, prefixManager);
+		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
 
 		SQWRLResult result = queryEngine.runSQWRLQuery("q1",
 				". sqwrl:makeBag(?s1, \"24\"^^xsd:byte) ^ "
@@ -893,8 +838,7 @@ public class SQWRLCollectionsIT extends IntegrationTestBase
 	public void TestSQWRLByteSetAvg() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
 	{
 		OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-		DefaultPrefixManager prefixManager = createPrefixManager(ontology);
-		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology, prefixManager);
+		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
 
 		SQWRLResult result = queryEngine.runSQWRLQuery("q1",
 				". sqwrl:makeSet(?s1, \"24\"^^xsd:byte) ^ "
@@ -910,8 +854,7 @@ public class SQWRLCollectionsIT extends IntegrationTestBase
 	public void TestSQWRLShortBagAvg() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
 	{
 		OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-		DefaultPrefixManager prefixManager = createPrefixManager(ontology);
-		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology, prefixManager);
+		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
 
 		SQWRLResult result = queryEngine.runSQWRLQuery("q1",
 				". sqwrl:makeBag(?s1, \"24\"^^xsd:short) ^ "
@@ -927,8 +870,7 @@ public class SQWRLCollectionsIT extends IntegrationTestBase
 	public void TestSQWRLShortSetAvg() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
 	{
 		OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-		DefaultPrefixManager prefixManager = createPrefixManager(ontology);
-		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology, prefixManager);
+		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
 
 		SQWRLResult result = queryEngine.runSQWRLQuery("q1",
 				". sqwrl:makeBag(?s1, \"24\"^^xsd:short) ^ "
@@ -944,8 +886,7 @@ public class SQWRLCollectionsIT extends IntegrationTestBase
 	public void TestSQWRLIntBagAvg() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
 	{
 		OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-		DefaultPrefixManager prefixManager = createPrefixManager(ontology);
-		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology, prefixManager);
+		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
 
 		SQWRLResult result = queryEngine.runSQWRLQuery("q1", ". sqwrl:makeBag(?s1, 24) ^ " + "sqwrl:makeBag(?s1, 23) "
 				+ "sqwrl:makeBag(?s1, 25) " + ". sqwrl:avg(?avg, ?s1) -> sqwrl:select(?avg)");
@@ -959,8 +900,7 @@ public class SQWRLCollectionsIT extends IntegrationTestBase
 	public void TestSQWRLIntSetAvg() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
 	{
 		OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-		DefaultPrefixManager prefixManager = createPrefixManager(ontology);
-		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology, prefixManager);
+		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
 
 		SQWRLResult result = queryEngine.runSQWRLQuery("q1", ". sqwrl:makeSet(?s1, 24) ^ sqwrl:makeSet(?s1, 23) "
 				+ "^ sqwrl:makeSet(?s1, 25) ^ sqwrl:makeSet(?s1, 25) . sqwrl:avg(?avg, ?s1) -> sqwrl:select(?avg)");
@@ -974,8 +914,7 @@ public class SQWRLCollectionsIT extends IntegrationTestBase
 	public void TestSQWRLLongBagAvg() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
 	{
 		OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-		DefaultPrefixManager prefixManager = createPrefixManager(ontology);
-		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology, prefixManager);
+		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
 
 		SQWRLResult result = queryEngine.runSQWRLQuery("q1",
 				". sqwrl:makeBag(?s1, \"24\"^^xsd:long) ^ " + "sqwrl:makeBag(?s1, \"23\"^^xsd:long) "
@@ -990,8 +929,7 @@ public class SQWRLCollectionsIT extends IntegrationTestBase
 	public void TestSQWRLLongSetAvg() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
 	{
 		OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-		DefaultPrefixManager prefixManager = createPrefixManager(ontology);
-		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology, prefixManager);
+		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
 
 		SQWRLResult result = queryEngine.runSQWRLQuery("q1",
 				". sqwrl:makeSet(?s1, \"24\"^^xsd:long) ^ "
@@ -1007,8 +945,7 @@ public class SQWRLCollectionsIT extends IntegrationTestBase
 	public void TestSQWRLFloatBagAvg() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
 	{
 		OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-		DefaultPrefixManager prefixManager = createPrefixManager(ontology);
-		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology, prefixManager);
+		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
 
 		SQWRLResult result = queryEngine.runSQWRLQuery("q1", ". sqwrl:makeBag(?s1, 24.2) ^ " + "sqwrl:makeBag(?s1, 23.2) "
 				+ "sqwrl:makeBag(?s1, 25.2) " + ". sqwrl:avg(?avg, ?s1) -> sqwrl:select(?avg)");
@@ -1023,8 +960,7 @@ public class SQWRLCollectionsIT extends IntegrationTestBase
 	public void TestSQWRLFloatSetAvg() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
 	{
 		OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-		DefaultPrefixManager prefixManager = createPrefixManager(ontology);
-		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology, prefixManager);
+		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
 
 		SQWRLResult result = queryEngine.runSQWRLQuery("q1", ". sqwrl:makeSet(?s1, 24.2) ^ " + "sqwrl:makeSet(?s1, 23.2) "
 				+ "sqwrl:makeBag(?s1, 25.2) ^ sqwrl:makeBag(?s1, 25.2) . sqwrl:avg(?avg, ?s1) -> sqwrl:select(?avg)");
@@ -1038,8 +974,7 @@ public class SQWRLCollectionsIT extends IntegrationTestBase
 	public void TestSQWRLDoubleBagAvg() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
 	{
 		OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-		DefaultPrefixManager prefixManager = createPrefixManager(ontology);
-		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology, prefixManager);
+		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
 
 		SQWRLResult result = queryEngine.runSQWRLQuery("q1",
 				". sqwrl:makeBag(?s1, \"24.2\"^^xsd:double) ^ "
@@ -1055,8 +990,7 @@ public class SQWRLCollectionsIT extends IntegrationTestBase
 	public void TestSQWRLDoubleSetAvg() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
 	{
 		OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-		DefaultPrefixManager prefixManager = createPrefixManager(ontology);
-		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology, prefixManager);
+		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
 
 		SQWRLResult result = queryEngine.runSQWRLQuery("q1",
 				". sqwrl:makeBag(?s1, \"24.2\"^^xsd:double) ^ "
@@ -1072,8 +1006,7 @@ public class SQWRLCollectionsIT extends IntegrationTestBase
 	public void TestSQWRLBagClassesLast() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
 	{
 		OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-		DefaultPrefixManager prefixManager = createPrefixManager(ontology);
-		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology, prefixManager);
+		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
 
 		addOWLAxioms(ontology, Declaration(DDI), Declaration(AZT));
 
@@ -1088,8 +1021,7 @@ public class SQWRLCollectionsIT extends IntegrationTestBase
 	public void TestSQWRLBagNamedIndividualLast() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
 	{
 		OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-		DefaultPrefixManager prefixManager = createPrefixManager(ontology);
-		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology, prefixManager);
+		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
 
 		addOWLAxioms(ontology, Declaration(FRED), Declaration(BOB));
 
@@ -1104,8 +1036,7 @@ public class SQWRLCollectionsIT extends IntegrationTestBase
 	public void TestSQWRLNth() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
 	{
 		OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-		DefaultPrefixManager prefixManager = createPrefixManager(ontology);
-		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology, prefixManager);
+		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
 
 		addOWLAxioms(ontology, Declaration(DDI), Declaration(AZT), Declaration(BBT));
 
@@ -1121,8 +1052,7 @@ public class SQWRLCollectionsIT extends IntegrationTestBase
 	public void TestSQWRLNthLast() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
 	{
 		OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-		DefaultPrefixManager prefixManager = createPrefixManager(ontology);
-		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology, prefixManager);
+		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
 
 		addOWLAxioms(ontology, Declaration(DDI), Declaration(AZT), Declaration(BBT));
 
