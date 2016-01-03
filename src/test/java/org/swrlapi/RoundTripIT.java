@@ -39,6 +39,7 @@ import static org.semanticweb.owlapi.apibinding.OWLFunctionalSyntaxFactory.Named
  */
 public class RoundTripIT extends IntegrationTestBase
 {
+  private static final String BASE_IRI = "http://swrlapi.org/it/";
   private static final OWLClass PERSON = Class(iri("Person"));
   private static final OWLClass ADULT = Class(iri("Adult"));
   private static final OWLNamedIndividual P1 = NamedIndividual(iri("p1"));
@@ -49,10 +50,10 @@ public class RoundTripIT extends IntegrationTestBase
   {
     OWLOntologyManager ontologyManager = OWLManager.createOWLOntologyManager();
     RDFXMLDocumentFormat format = new RDFXMLDocumentFormat();
-    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
+    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology(iri(BASE_IRI));
     SWRLRuleEngine ruleEngine = SWRLAPIFactory.createSWRLRuleEngine(ontology);
 
-    File file = File.createTempFile("temp", "owl");
+    File file = File.createTempFile("temp", ".owl");
 
     addOWLAxioms(ontology, Declaration(ADULT), Declaration(PERSON), ClassAssertion(PERSON, P1),
       DataPropertyAssertion(HAS_AGE, P1, Literal("18", XSD_INT)));
@@ -79,7 +80,7 @@ public class RoundTripIT extends IntegrationTestBase
   {
     OWLOntologyManager ontologyManager = OWLManager.createOWLOntologyManager();
     RDFXMLDocumentFormat format = new RDFXMLDocumentFormat();
-    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
+    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology(iri(BASE_IRI));
     SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
 
     File file = File.createTempFile("temp", "owl");
