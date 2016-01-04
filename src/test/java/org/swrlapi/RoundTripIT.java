@@ -40,10 +40,10 @@ import static org.semanticweb.owlapi.apibinding.OWLFunctionalSyntaxFactory.Named
 public class RoundTripIT extends IntegrationTestBase
 {
   private static final String BASE_IRI = "http://swrlapi.org/it/";
-  private static final OWLClass PERSON = Class(iri("Person"));
-  private static final OWLClass ADULT = Class(iri("Adult"));
-  private static final OWLNamedIndividual P1 = NamedIndividual(iri("p1"));
-  private static final OWLDataProperty HAS_AGE = DataProperty(iri("hasAge"));
+  private static final OWLClass PERSON = Class(iri(BASE_IRI + "Person"));
+  private static final OWLClass ADULT = Class(iri(BASE_IRI + "Adult"));
+  private static final OWLNamedIndividual P1 = NamedIndividual(iri(BASE_IRI + "p1"));
+  private static final OWLDataProperty HAS_AGE = DataProperty(iri(BASE_IRI + "hasAge"));
 
   @Test public void TestSWRLRuleRoundTrip()
     throws SWRLParseException, SQWRLException, IOException, OWLOntologyCreationException, OWLOntologyStorageException
