@@ -145,7 +145,7 @@
         </configuration>
       </plugin>
 
-      <plugin>
+      <plugin> 
         <artifactId>maven-release-plugin</artifactId>
         <version>${maven.release.plugin.version}</version>
         <dependencies>
