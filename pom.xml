@@ -45,16 +45,15 @@
       <name>BSD 2-Clause License</name>
       <url>http://opensource.org/licenses/BSD-2-Clause</url>
     </license>
-  </licenses>  
-
+  </licenses>
+  
   <scm>
-    <connection>scm:git:git@github.com:protegeproject/swrlapi-drools-engine.git</connection>
-    <developerConnection>scm:git:git@github.com:protegeproject/swrlapi-drools-engine.git</developerConnection>
-    <url>https://github.com/protegeproject/swrlapi</url>
+    <connection>scm:git:git@github.com:protegeproject/swrlapi-integration-tests.git</connection>
+    <developerConnection>scm:git:git@github.com:protegeproject/swrlapi-integration-tests.git</developerConnection>
+    <url>https://github.com/protegeproject/swrlapi-integration-tests</url>
     <tag>HEAD</tag>
   </scm>
 
-  
   <dependencies>
 
     <dependency>
