@@ -13,7 +13,7 @@
   <properties>
 
     <swrlapi.version>1.0.0-beta-4-SNAPSHOT</swrlapi.version>
-    <swrlapi.drools.version>1.0.0-beta-2-SNAPSHOT</swrlapi.drools.version>
+    <swrlapi.drools.version>1.0.0-beta-3-SNAPSHOT</swrlapi.drools.version>
     <owlapi.version>4.1.3</owlapi.version> 
 
     <junit.version>4.7</junit.version>
