@@ -2,7 +2,15 @@
 
 Integration tests for the [SWRLAPI](https://github.com/protegeproject/swrlapi).
 
-#### Building and Running Tests
+### Downloading
+
+You can get a copy of the latests JAR from the [project's GitHub Release area](https://github.com/protegeproject/swrlapi-integration-tests/releases).
+
+This JAR will have a name of the form:
+
+    swrlapi-integration-tests-${version}.jar
+
+#### Building 
 
 To build and run the tests you must have the following items installed:
 
