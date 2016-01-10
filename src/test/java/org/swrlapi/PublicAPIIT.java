@@ -68,7 +68,7 @@ public class PublicAPIIT extends IntegrationTestBase
     SQWRLResult result = queryEngine.runSQWRLQuery("q1", "Male(p1) -> sqwrl:select(p1)");
 
     Assert.assertTrue(result.next());
-    Assert.assertEquals(result.getNamedIndividual(0).getShortName(), "p1");
+    Assert.assertEquals("p1", result.getNamedIndividual(0).getShortName());
   }
 
   @Test public void TestCascadingRuleAndQuery() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
@@ -85,6 +85,6 @@ public class PublicAPIIT extends IntegrationTestBase
     SQWRLResult result = queryEngine.runSQWRLQuery("q1", "Adult(p1) -> sqwrl:select(p1)");
 
     Assert.assertTrue(result.next());
-    Assert.assertEquals(result.getNamedIndividual(0).getShortName(), "p1");
+    Assert.assertEquals("p1", result.getNamedIndividual(0).getShortName());
   }
 }

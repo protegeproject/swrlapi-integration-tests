@@ -65,7 +65,7 @@ public class SWRLCoreIT extends IntegrationTestBase
     SQWRLResult result = queryEngine.runSQWRLQuery("q1", "Male(p1) -> sqwrl:select(p1)");
 
     Assert.assertTrue(result.next());
-    Assert.assertEquals(result.getNamedIndividual(0).getShortName(), "p1");
+    Assert.assertEquals("p1", result.getNamedIndividual(0).getShortName());
   }
 
   @Test public void TestSWRLCoreClassAtomInAntecedentWithVariable()
@@ -79,7 +79,7 @@ public class SWRLCoreIT extends IntegrationTestBase
     SQWRLResult result = queryEngine.runSQWRLQuery("q1", "Male(?m) -> sqwrl:select(?m)");
 
     Assert.assertTrue(result.next());
-    Assert.assertEquals(result.getNamedIndividual("m").getShortName(), "p1");
+    Assert.assertEquals("p1", result.getNamedIndividual("m").getShortName());
   }
 
   @Test public void TestSWRLCoreSameAs() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
@@ -118,9 +118,9 @@ public class SWRLCoreIT extends IntegrationTestBase
 
     Assert.assertTrue(result.next());
     Assert.assertTrue(result.getNamedIndividual(0).isNamedIndividual());
-    Assert.assertEquals(result.getNamedIndividual(0).getShortName(), "p1");
+    Assert.assertEquals("p1", result.getNamedIndividual(0).getShortName());
     Assert.assertTrue(result.getNamedIndividual(1).isNamedIndividual());
-    Assert.assertEquals(result.getNamedIndividual(1).getShortName(), "p2");
+    Assert.assertEquals("p2", result.getNamedIndividual(1).getShortName());
   }
 
   @Test public void TestSWRLCoreIndividualShortNameBind()
@@ -135,7 +135,7 @@ public class SWRLCoreIT extends IntegrationTestBase
 
     Assert.assertTrue(result.next());
     Assert.assertTrue(result.getNamedIndividual("uncle").isNamedIndividual());
-    Assert.assertEquals(result.getNamedIndividual("uncle").getShortName(), "p2");
+    Assert.assertEquals("p2", result.getNamedIndividual("uncle").getShortName());
   }
 
   @Test public void TestSWRLCoreByteLiteralMatch()
@@ -176,7 +176,7 @@ public class SWRLCoreIT extends IntegrationTestBase
 
     Assert.assertTrue(result.next());
     Assert.assertTrue(result.getLiteral("age").isByte());
-    Assert.assertEquals(result.getLiteral("age").getByte(), 42);
+    Assert.assertEquals(42, result.getLiteral("age").getByte());
   }
 
   @Test public void TestSWRLCoreShortLiteralMatch()
@@ -218,7 +218,7 @@ public class SWRLCoreIT extends IntegrationTestBase
 
     Assert.assertTrue(result.next());
     Assert.assertTrue(result.getLiteral("age").isShort());
-    Assert.assertEquals(result.getLiteral("age").getShort(), 42);
+    Assert.assertEquals(42, result.getLiteral("age").getShort());
   }
 
   @Test public void TestSWRLCoreNegativeShortLiteralBind()
@@ -233,7 +233,7 @@ public class SWRLCoreIT extends IntegrationTestBase
 
     Assert.assertTrue(result.next());
     Assert.assertTrue(result.getLiteral("offset").isShort());
-    Assert.assertEquals(result.getLiteral("offset").getShort(), -42);
+    Assert.assertEquals(-42, result.getLiteral("offset").getShort());
   }
 
   @Test public void TestSWRLCoreRawIntLiteralMatch()
@@ -299,7 +299,7 @@ public class SWRLCoreIT extends IntegrationTestBase
 
     Assert.assertTrue(result.next());
     Assert.assertTrue(result.getLiteral("age").isInt());
-    Assert.assertEquals(result.getLiteral("age").getInt(), 42);
+    Assert.assertEquals(42, result.getLiteral("age").getInt());
   }
 
   @Test public void TestSWRLCoreNegativeIntLiteralBind()
@@ -314,7 +314,7 @@ public class SWRLCoreIT extends IntegrationTestBase
 
     Assert.assertTrue(result.next());
     Assert.assertTrue(result.getLiteral("offset").isInt());
-    Assert.assertEquals(result.getLiteral("offset").getInt(), -42);
+    Assert.assertEquals(-42, result.getLiteral("offset").getInt());
   }
 
   @Test public void TestSWRLCoreLongLiteralMatch()
@@ -355,9 +355,9 @@ public class SWRLCoreIT extends IntegrationTestBase
 
     Assert.assertTrue(result.next());
     Assert.assertTrue(result.getNamedIndividual(0).isNamedIndividual());
-    Assert.assertEquals(result.getNamedIndividual(0).getShortName(), "p1");
+    Assert.assertEquals("p1", result.getNamedIndividual(0).getShortName());
     Assert.assertTrue(result.getLiteral("age").isLong());
-    Assert.assertEquals(result.getLiteral("age").getLong(), 42L);
+    Assert.assertEquals(42L, result.getLiteral("age").getLong());
   }
 
   @Test public void TestSWRLCoreNegativeLongLiteralBind()
@@ -372,7 +372,7 @@ public class SWRLCoreIT extends IntegrationTestBase
 
     Assert.assertTrue(result.next());
     Assert.assertTrue(result.getLiteral("offset").isLong());
-    Assert.assertEquals(result.getLiteral("offset").getLong(), -42L);
+    Assert.assertEquals(-42L, result.getLiteral("offset").getLong());
   }
 
   @Test public void TestSWRLCoreRawFloatLiteralMatch()
@@ -440,7 +440,7 @@ public class SWRLCoreIT extends IntegrationTestBase
 
     Assert.assertTrue(result.next());
     Assert.assertTrue(result.getLiteral("height").isFloat());
-    Assert.assertEquals(result.getLiteral("height").getFloat(), 177.0f, IntegrationTestBase.DELTA);
+    Assert.assertEquals(177.0f, result.getLiteral("height").getFloat(), IntegrationTestBase.DELTA);
   }
 
   @Test public void TestSWRLCoreNegativeFloatLiteralBind()
@@ -455,7 +455,7 @@ public class SWRLCoreIT extends IntegrationTestBase
 
     Assert.assertTrue(result.next());
     Assert.assertTrue(result.getLiteral("offset").isFloat());
-    Assert.assertEquals(result.getLiteral("offset").getFloat(), -177.0f, IntegrationTestBase.DELTA);
+    Assert.assertEquals(-177.0f, result.getLiteral("offset").getFloat(), IntegrationTestBase.DELTA);
   }
 
   @Test public void TestSWRLCoreDoubleLiteralMatch()
@@ -497,7 +497,7 @@ public class SWRLCoreIT extends IntegrationTestBase
 
     Assert.assertTrue(result.next());
     Assert.assertTrue(result.getLiteral("height").isDouble());
-    Assert.assertEquals(result.getLiteral("height").getDouble(), 177.0d, IntegrationTestBase.DELTA);
+    Assert.assertEquals(177.0d, result.getLiteral("height").getDouble(), IntegrationTestBase.DELTA);
   }
 
   @Test public void TestSWRLCoreNegativeDoubleLiteralBind()
@@ -512,7 +512,7 @@ public class SWRLCoreIT extends IntegrationTestBase
 
     Assert.assertTrue(result.next());
     Assert.assertTrue(result.getLiteral("offset").isDouble());
-    Assert.assertEquals(result.getLiteral("offset").getDouble(), -177.0d, IntegrationTestBase.DELTA);
+    Assert.assertEquals(-177.0d, result.getLiteral("offset").getDouble(), IntegrationTestBase.DELTA);
   }
 
   @Test public void TestSWRLCoreRawBooleanLiteralTrueMatch()
@@ -527,7 +527,7 @@ public class SWRLCoreIT extends IntegrationTestBase
 
     Assert.assertTrue(result.next());
     Assert.assertTrue(result.getNamedIndividual(0).isNamedIndividual());
-    Assert.assertEquals(result.getNamedIndividual(0).getShortName(), "p1");
+    Assert.assertEquals("p1", result.getNamedIndividual(0).getShortName());
   }
 
   @Test public void TestSWRLCoreQualifiedBooleanLiteralTrueMatch()
@@ -581,7 +581,7 @@ public class SWRLCoreIT extends IntegrationTestBase
 
     Assert.assertTrue(result.next());
     Assert.assertTrue(result.getLiteral("french").isBoolean());
-    Assert.assertEquals(result.getLiteral("french").getBoolean(), true);
+    Assert.assertEquals(true, result.getLiteral("french").getBoolean());
   }
 
   @Test public void TestSWRLCoreStringLiteralBind()
@@ -596,7 +596,7 @@ public class SWRLCoreIT extends IntegrationTestBase
 
     Assert.assertTrue(result.next());
     Assert.assertTrue(result.getLiteral("name").isString());
-    Assert.assertEquals(result.getLiteral("name").getString(), "Bob");
+    Assert.assertEquals("Bob", result.getLiteral("name").getString());
   }
 
   @Test public void TestSWRLCoreRawStringLiteralMatch()
@@ -655,7 +655,7 @@ public class SWRLCoreIT extends IntegrationTestBase
 
     Assert.assertTrue(result.next());
     Assert.assertTrue(result.getLiteral("home").isAnyURI());
-    Assert.assertEquals(result.getLiteral("home").getAnyURI(), new URI(homePage));
+    Assert.assertEquals(new URI(homePage), result.getLiteral("home").getAnyURI());
   }
 
   @Test public void TestSWRLCoreXSDDateLiteralMatch()
@@ -683,7 +683,7 @@ public class SWRLCoreIT extends IntegrationTestBase
 
     Assert.assertTrue(result.next());
     Assert.assertTrue(result.getLiteral("dob").isDate());
-    Assert.assertEquals(result.getLiteral("dob").getDate(), new XSDDate("2001-01-05"));
+    Assert.assertEquals(new XSDDate("2001-01-05"), result.getLiteral("dob").getDate());
   }
 
   @Test public void TestSWRLCoreXSDDateTimeLiteralMatch()
@@ -712,7 +712,7 @@ public class SWRLCoreIT extends IntegrationTestBase
 
     Assert.assertTrue(result.next());
     Assert.assertTrue(result.getLiteral("tob").isDateTime());
-    Assert.assertEquals(result.getLiteral("tob").getDateTime(), new XSDDateTime("2001-01-05T10:10:10"));
+    Assert.assertEquals(new XSDDateTime("2001-01-05T10:10:10"), result.getLiteral("tob").getDateTime());
   }
 
   @Test public void TestSWRLCoreXSDDurationLiteralMatch()
@@ -740,7 +740,7 @@ public class SWRLCoreIT extends IntegrationTestBase
 
     Assert.assertTrue(result.next());
     Assert.assertTrue(result.getLiteral("age").isDuration());
-    Assert.assertEquals(result.getLiteral("age").getDuration(), new XSDDuration("P42Y"));
+    Assert.assertEquals(new XSDDuration("P42Y"), result.getLiteral("age").getDuration());
   }
 
   @Test public void TestSWRLCoreXSDTimeLiteralMatch()
@@ -768,9 +768,9 @@ public class SWRLCoreIT extends IntegrationTestBase
 
     Assert.assertTrue(result.next());
     Assert.assertTrue(result.getNamedIndividual(0).isNamedIndividual());
-    Assert.assertEquals(result.getNamedIndividual(0).getShortName(), "p1");
+    Assert.assertEquals("p1", result.getNamedIndividual(0).getShortName());
     Assert.assertTrue(result.getLiteral("bt").isTime());
-    Assert.assertEquals(result.getLiteral("bt").getTime(), new XSDTime("10:10:10.33"));
+    Assert.assertEquals(new XSDTime("10:10:10.33"), result.getLiteral("bt").getTime());
   }
 
   @Test public void TestSWRLCoreCascadingByteVariable()
@@ -786,7 +786,7 @@ public class SWRLCoreIT extends IntegrationTestBase
 
     Assert.assertTrue(result.next());
     Assert.assertTrue(result.getLiteral("age").isByte());
-    Assert.assertEquals(result.getLiteral("age").getByte(), 22);
+    Assert.assertEquals(22, result.getLiteral("age").getByte());
   }
 
   @Test public void TestSWRLCoreCascadingShortVariable()
@@ -802,7 +802,7 @@ public class SWRLCoreIT extends IntegrationTestBase
 
     Assert.assertTrue(result.next());
     Assert.assertTrue(result.getLiteral("age").isShort());
-    Assert.assertEquals(result.getLiteral("age").getShort(), 22);
+    Assert.assertEquals(22, result.getLiteral("age").getShort());
   }
 
   @Test public void TestSWRLCoreCascadingIntVariable()
@@ -818,7 +818,7 @@ public class SWRLCoreIT extends IntegrationTestBase
 
     Assert.assertTrue(result.next());
     Assert.assertTrue(result.getLiteral("age").isInt());
-    Assert.assertEquals(result.getLiteral("age").getInt(), 22);
+    Assert.assertEquals(22, result.getLiteral("age").getInt());
   }
 
   @Test public void TestSWRLCoreCascadingLongVariable()
@@ -834,7 +834,7 @@ public class SWRLCoreIT extends IntegrationTestBase
 
     Assert.assertTrue(result.next());
     Assert.assertTrue(result.getLiteral("age").isLong());
-    Assert.assertEquals(result.getLiteral("age").getLong(), 22L);
+    Assert.assertEquals(22L, result.getLiteral("age").getLong());
   }
 
   @Test public void TestSWRLCoreCascadingFloatVariable()
@@ -851,7 +851,7 @@ public class SWRLCoreIT extends IntegrationTestBase
 
     Assert.assertTrue(result.next());
     Assert.assertTrue(result.getLiteral("height").isFloat());
-    Assert.assertEquals(result.getLiteral("height").getFloat(), 122.0f, IntegrationTestBase.DELTA);
+    Assert.assertEquals(122.0f, result.getLiteral("height").getFloat(), IntegrationTestBase.DELTA);
   }
 
   @Test public void TestSWRLCoreCascadingDoubleVariable()
@@ -868,7 +868,7 @@ public class SWRLCoreIT extends IntegrationTestBase
 
     Assert.assertTrue(result.next());
     Assert.assertTrue(result.getLiteral("age").isDouble());
-    Assert.assertEquals(result.getLiteral("age").getDouble(), 122.0d, IntegrationTestBase.DELTA);
+    Assert.assertEquals(122.0d, result.getLiteral("age").getDouble(), IntegrationTestBase.DELTA);
   }
 
   @Test public void TestSWRLCoreCascadingBooleanVariable()
@@ -884,7 +884,7 @@ public class SWRLCoreIT extends IntegrationTestBase
 
     Assert.assertTrue(result.next());
     Assert.assertTrue(result.getLiteral("f").isBoolean());
-    Assert.assertEquals(result.getLiteral("f").getBoolean(), true);
+    Assert.assertEquals(true, result.getLiteral("f").getBoolean());
   }
 
   @Test public void TestSWRLCoreCascadingStringVariable()
@@ -901,7 +901,7 @@ public class SWRLCoreIT extends IntegrationTestBase
 
     Assert.assertTrue(result.next());
     Assert.assertTrue(result.getLiteral("name").isString());
-    Assert.assertEquals(result.getLiteral("name").getString(), "Bob");
+    Assert.assertEquals("Bob", result.getLiteral("name").getString());
   }
 
   @Test public void TestSWRLCoreCascadingURIVariable()
@@ -920,7 +920,7 @@ public class SWRLCoreIT extends IntegrationTestBase
 
     Assert.assertTrue(result.next());
     Assert.assertTrue(result.getLiteral("home").isAnyURI());
-    Assert.assertEquals(result.getLiteral("home").getAnyURI(), new URI(homePage));
+    Assert.assertEquals(new URI(homePage), result.getLiteral("home").getAnyURI());
   }
 
   @Test public void TestSWRLCoreCascadingXSDDateVariable()
@@ -936,7 +936,7 @@ public class SWRLCoreIT extends IntegrationTestBase
 
     Assert.assertTrue(result.next());
     Assert.assertTrue(result.getLiteral("dob").isDate());
-    Assert.assertEquals(result.getLiteral("dob").getDate(), new XSDDate("1999-01-02"));
+    Assert.assertEquals(new XSDDate("1999-01-02"), result.getLiteral("dob").getDate());
   }
 
   @Test public void TestSWRLCoreCascadingXSDDateTimeVariable()
@@ -952,7 +952,7 @@ public class SWRLCoreIT extends IntegrationTestBase
 
     Assert.assertTrue(result.next());
     Assert.assertTrue(result.getLiteral("tob").isDateTime());
-    Assert.assertEquals(result.getLiteral("tob").getDateTime(), new XSDDateTime("1999-01-02T10:10:10"));
+    Assert.assertEquals(new XSDDateTime("1999-01-02T10:10:10"), result.getLiteral("tob").getDateTime());
   }
 
   @Test public void TestSWRLCoreCascadingXSDTimeVariable()
@@ -968,7 +968,7 @@ public class SWRLCoreIT extends IntegrationTestBase
 
     Assert.assertTrue(result.next());
     Assert.assertTrue(result.getLiteral("tob").isTime());
-    Assert.assertEquals(result.getLiteral("tob").getTime(), new XSDTime("10:10:10"));
+    Assert.assertEquals(new XSDTime("10:10:10"), result.getLiteral("tob").getTime());
   }
 
   @Test public void TestSWRLCoreCascadingXSDDurationVariable()
@@ -984,6 +984,6 @@ public class SWRLCoreIT extends IntegrationTestBase
 
     Assert.assertTrue(result.next());
     Assert.assertTrue(result.getLiteral("age").isDuration());
-    Assert.assertEquals(result.getLiteral("age").getDuration(), new XSDDuration("P42Y"));
+    Assert.assertEquals(new XSDDuration("P42Y"), result.getLiteral("age").getDuration());
   }
 }

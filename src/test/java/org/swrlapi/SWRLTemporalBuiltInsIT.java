@@ -53,7 +53,7 @@ public class SWRLTemporalBuiltInsIT extends IntegrationTestBase
 
     Assert.assertTrue(result.next());
     Assert.assertTrue(result.getLiteral("r").isLong());
-    Assert.assertEquals(result.getLiteral("r").getLong(), 1);
+    Assert.assertEquals(1, result.getLiteral("r").getLong());
   }
 
   @Test public void TestSWRLTemporalEqualsBuiltIn()
@@ -102,6 +102,6 @@ public class SWRLTemporalBuiltInsIT extends IntegrationTestBase
 
     Assert.assertTrue(result.next());
     Assert.assertTrue(result.getLiteral("r").isDateTime());
-    Assert.assertEquals(result.getLiteral("r").getDateTime(), new XSDDateTime("2003-11-01T10:00:00.0"));
+    Assert.assertEquals(new XSDDateTime("2003-11-01T10:00:00.0"), result.getLiteral("r").getDateTime());
   }
 }

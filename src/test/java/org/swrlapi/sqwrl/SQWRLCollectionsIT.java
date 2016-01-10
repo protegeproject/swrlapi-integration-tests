@@ -22,1045 +22,960 @@ import static org.semanticweb.owlapi.apibinding.OWLFunctionalSyntaxFactory.Named
  */
 public class SQWRLCollectionsIT extends IntegrationTestBase
 {
-	private static final OWLClass AZT = Class(iri("AZT"));
-	private static final OWLClass DDI = Class(iri("DDI"));
-	private static final OWLClass BBT = Class(iri("BBT"));
-	private static final OWLNamedIndividual BOB = NamedIndividual(iri("Bob"));
-	private static final OWLNamedIndividual FRED = NamedIndividual(iri("Fred"));
-
-	@Test
-	public void TestSQWRLClassBagsEqual() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
-	{
-		OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
-
-		addOWLAxioms(ontology, Declaration(DDI), Declaration(AZT));
-
-		SQWRLResult result = queryEngine.runSQWRLQuery("q1", ". sqwrl:makeBag(?s1, DDI) ^ sqwrl:makeBag(?s1, AZT)"
-				+ " ^ sqwrl:makeBag(?s2, AZT) ^ sqwrl:makeBag(?s2, AZT) . sqwrl:equal(?s1, ?s2) -> sqwrl:select(0)");
+  private static final OWLClass AZT = Class(iri("AZT"));
+  private static final OWLClass DDI = Class(iri("DDI"));
+  private static final OWLClass BBT = Class(iri("BBT"));
+  private static final OWLNamedIndividual BOB = NamedIndividual(iri("Bob"));
+  private static final OWLNamedIndividual FRED = NamedIndividual(iri("Fred"));
 
-		Assert.assertTrue(result.next());
-	}
-
-	@Test
-	public void TestSQWRLClassSetsEqual() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
-	{
-		OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
-
-		addOWLAxioms(ontology, Declaration(DDI), Declaration(AZT));
-
-		SQWRLResult result = queryEngine.runSQWRLQuery("q1", ". sqwrl:makeSet(?s1, DDI) ^ sqwrl:makeSet(?s1, AZT)"
-				+ " ^ sqwrl:makeSet(?s2, AZT) ^ sqwrl:makeSet(?s2, AZT) . sqwrl:equal(?s1, ?s2) -> sqwrl:select(0)");
-
-		Assert.assertTrue(result.next());
-	}
-
-	@Test
-	public void TestSQWRLIndividualBagsEqual() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
-	{
-		OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
-
-		addOWLAxioms(ontology, Declaration(DDI), Declaration(AZT));
-
-		SQWRLResult result = queryEngine.runSQWRLQuery("q1", ". sqwrl:makeBag(?s1, DDI) ^ sqwrl:makeBag(?s1, AZT)"
-				+ " ^ sqwrl:makeBag(?s2, AZT) ^ sqwrl:makeBag(?s2, AZT) . sqwrl:equal(?s1, ?s2) -> sqwrl:select(0)");
-
-		Assert.assertTrue(result.next());
-	}
-
-	@Test
-	public void TestSQWRLIndividualSetsEqual() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
-	{
-		OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
-
-		addOWLAxioms(ontology, Declaration(DDI), Declaration(AZT));
-
-		SQWRLResult result = queryEngine.runSQWRLQuery("q1", ". sqwrl:makeSet(?s1, DDI) ^ sqwrl:makeSet(?s1, AZT)"
-				+ " ^ sqwrl:makeSet(?s2, AZT) ^ sqwrl:makeSet(?s2, AZT) . sqwrl:equal(?s1, ?s2) -> sqwrl:select(0)");
-
-		Assert.assertTrue(result.next());
-	}
-
-	@Test
-	public void TestSQWRLByteBagsEqual() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
-	{
-		OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
-
-		SQWRLResult result = queryEngine.runSQWRLQuery("q1",
-				". sqwrl:makeBag(?s1, \"32\"^^xsd:byte) ^ sqwrl:makeBag(?s2, \"39\"^^xsd:byte)"
-						+ " ^ sqwrl:makeBag(?s1, \"32\"^^xsd:byte) ^ sqwrl:makeBag(?s1, \"39\"^^xsd:byte) . sqwrl:equal(?s1, ?s2) -> sqwrl:select(0)");
-
-		Assert.assertTrue(result.next());
-	}
-
-	@Test
-	public void TestSQWRLByteSetsEqual() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
-	{
-		OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
-
-		SQWRLResult result = queryEngine.runSQWRLQuery("q1",
-				". sqwrl:makeSet(?s1, \"32\"^^xsd:byte) ^ sqwrl:makeSet(?s2, \"39\"^^xsd:byte)"
-						+ " ^ sqwrl:makeSet(?s1, \"32\"^^xsd:byte) ^ sqwrl:makeSet(?s1, \"39\"^^xsd:byte) . sqwrl:equal(?s1, ?s2) -> sqwrl:select(0)");
-
-		Assert.assertTrue(result.next());
-	}
-
-	@Test
-	public void TestSQWRLShortBagsEqual() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
-	{
-		OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
-
-		SQWRLResult result = queryEngine.runSQWRLQuery("q1",
-				". sqwrl:makeBag(?s1, \"32\"^^xsd:short) ^ sqwrl:makeBag(?s2, \"39\"^^xsd:short)"
-						+ " ^ sqwrl:makeBag(?s1, \"32\"^^xsd:short) ^ sqwrl:makeBag(?s1, \"39\"^^xsd:short) "
-						+ " . sqwrl:equal(?s1, ?s2) -> sqwrl:select(0)");
-
-		Assert.assertTrue(result.next());
-	}
-
-	@Test
-	public void TestSQWRLShortSetsEqual() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
-	{
-		OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
-
-		SQWRLResult result = queryEngine.runSQWRLQuery("q1",
-				". sqwrl:makeSet(?s1, \"32\"^^xsd:short) ^ sqwrl:makeSet(?s2, \"39\"^^xsd:short)"
-						+ " ^ sqwrl:makeSet(?s1, \"32\"^^xsd:short) ^ sqwrl:makeSet(?s1, \"39\"^^xsd:short) . "
-						+ " sqwrl:equal(?s1, ?s2) -> sqwrl:select(0)");
-
-		Assert.assertTrue(result.next());
-	}
-
-	@Test
-	public void TestSQWRLIntBagsEqual() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
-	{
-		OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
-
-		SQWRLResult result = queryEngine.runSQWRLQuery("q1", ". sqwrl:makeBag(?s1, 3) ^ sqwrl:makeBag(?s1, 5)"
-				+ " ^ sqwrl:makeBag(?s2, 3) ^ sqwrl:makeBag(?s2, 5) . sqwrl:equal(?s1, ?s2) -> sqwrl:select(0)");
-
-		Assert.assertTrue(result.next());
-	}
-
-	@Test
-	public void TestSQWRLIntSetsEqual() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
-	{
-		OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
-
-		SQWRLResult result = queryEngine.runSQWRLQuery("q1", ". sqwrl:makeSet(?s1, 3) ^ sqwrl:makeSet(?s1, 5)"
-				+ " ^ sqwrl:makeSet(?s2, 3) ^ sqwrl:makeSet(?s2, 5) . sqwrl:equal(?s1, ?s2) -> sqwrl:select(0)");
-
-		Assert.assertTrue(result.next());
-	}
-
-	@Test
-	public void TestSQWRLLongBagsEqual() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
-	{
-		OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
-
-		SQWRLResult result = queryEngine.runSQWRLQuery("q1",
-				". sqwrl:makeBag(?s1, \"32\"^^xsd:long) ^ sqwrl:makeBag(?s2, \"39\"^^xsd:long)"
-						+ " ^ sqwrl:makeBag(?s1, \"32\"^^xsd:long) ^ sqwrl:makeBag(?s1, \"39\"^^xsd:long) . sqwrl:equal(?s1, ?s2) -> sqwrl:select(0)");
-
-		Assert.assertTrue(result.next());
-	}
-
-	@Test
-	public void TestSQWRLLongSetsEqual() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
-	{
-		OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
-
-		SQWRLResult result = queryEngine.runSQWRLQuery("q1",
-				". sqwrl:makeSet(?s1, \"32\"^^xsd:long) ^ sqwrl:makeSet(?s1, \"39\"^^xsd:long)"
-						+ " ^ sqwrl:makeSet(?s2, \"32\"^^xsd:long) ^ sqwrl:makeSet(?s2, \"39\"^^xsd:long) "
-						+ " ^ sqwrl:makeSet(?s2, \"39\"^^xsd:long) . sqwrl:equal(?s1, ?s2) -> sqwrl:select(0)");
-
-		Assert.assertTrue(result.next());
-	}
-
-	@Test
-	public void TestSQWRLFloatBagsEqual() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
-	{
-		OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
-
-		SQWRLResult result = queryEngine.runSQWRLQuery("q1",
-				". sqwrl:makeBag(?s1, 3.1) ^ sqwrl:makeBag(?s1, 5.1)"
-						+ " ^ sqwrl:makeBag(?s2, 3.1) ^ sqwrl:makeBag(?s2, 5.1) ^ sqwrl:makeBag(?s2, 5.1) "
-						+ " . sqwrl:equal(?s1, ?s2) -> sqwrl:select(0)");
-
-		Assert.assertTrue(result.next());
-	}
-
-	@Test
-	public void TestSQWRLFloatSetsEqual() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
-	{
-		OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
-
-		SQWRLResult result = queryEngine.runSQWRLQuery("q1",
-				". sqwrl:makeSet(?s1, 3.1) ^ sqwrl:makeSet(?s1, 5.1)"
-						+ " ^ sqwrl:makeSet(?s2, 3.1) ^ sqwrl:makeSet(?s2, 5.1) ^ sqwrl:makeSet(?s2, 5.1)"
-						+ ". sqwrl:equal(?s1, ?s2) -> sqwrl:select(0)");
-
-		Assert.assertTrue(result.next());
-	}
-
-	@Test
-	public void TestSQWRLDoubleBagsEqual() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
-	{
-		OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
-
-		SQWRLResult result = queryEngine.runSQWRLQuery("q1",
-				". sqwrl:makeBag(?s1, \"32.1\"^^xsd:double) ^ sqwrl:makeBag(?s2, \"39.3\"^^xsd:double)"
-						+ " ^ sqwrl:makeBag(?s1, \"32.1\"^^xsd:double) ^ sqwrl:makeBag(?s1, \"39.3\"^^xsd:double) . sqwrl:equal(?s1, ?s2) -> sqwrl:select(0)");
-
-		Assert.assertTrue(result.next());
-	}
-
-	@Test
-	public void TestSQWRLDoubleSetsEqual() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
-	{
-		OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
-
-		SQWRLResult result = queryEngine.runSQWRLQuery("q1",
-				". sqwrl:makeBag(?s1, \"32.1\"^^xsd:double) ^ sqwrl:makeBag(?s1, \"39.3\"^^xsd:double)"
-						+ " ^ sqwrl:makeBag(?s2, \"32.1\"^^xsd:double) ^ sqwrl:makeBag(?s2, \"39.3\"^^xsd:double) "
-						+ " sqwrl:makeBag(?s2, \"39.3\"^^xsd:double) . sqwrl:equal(?s1, ?s2) -> sqwrl:select(0)");
-
-		Assert.assertTrue(result.next());
-	}
-
-	@Test
-	public void TestSQWRLStringBagsEqual() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
-	{
-		OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
-
-		SQWRLResult result = queryEngine.runSQWRLQuery("q1", ". sqwrl:makeBag(?s1, \"A\") ^ sqwrl:makeBag(?s1, \"B\")"
-				+ " ^ sqwrl:makeBag(?s2, \"A\") ^ sqwrl:makeBag(?s2, \"B\") . sqwrl:equal(?s1, ?s2) -> sqwrl:select(0)");
-
-		Assert.assertTrue(result.next());
-	}
-
-	@Test
-	public void TestSQWRLStringSetsEqual() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
-	{
-		OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
-
-		SQWRLResult result = queryEngine.runSQWRLQuery("q1",
-				". sqwrl:makeSet(?s1, \"A\") ^ sqwrl:makeSet(?s1, \"B\")"
-						+ " ^ sqwrl:makeBag(?s2, \"A\") ^ sqwrl:makeBag(?s2, \"B\") ^ sqwrl:makeBag(?s2, \"B\")"
-						+ " . sqwrl:equal(?s1, ?s2) -> sqwrl:select(0)");
-
-		Assert.assertTrue(result.next());
-	}
-
-	@Test
-	public void TestSQWRLBooleanBagsEqual() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
-	{
-		OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
-
-		SQWRLResult result = queryEngine.runSQWRLQuery("q1", ". sqwrl:makeBag(?s1, true) ^ sqwrl:makeBag(?s1, false)"
-				+ " ^ sqwrl:makeBag(?s2, true) ^ sqwrl:makeBag(?s2, false) . sqwrl:equal(?s1, ?s2) -> sqwrl:select(0)");
-
-		Assert.assertTrue(result.next());
-	}
-
-	@Test
-	public void TestSQWRLBooleanSetsEqual() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
-	{
-		OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
-
-		SQWRLResult result = queryEngine.runSQWRLQuery("q1",
-				". sqwrl:makeSet(?s1, true) ^ sqwrl:makeSet(?s1, false)"
-						+ " ^ sqwrl:makeSet(?s2, true) ^ sqwrl:makeSet(?s2, false) ^ sqwrl:makeSet(?s2, false) "
-						+ " . sqwrl:equal(?s1, ?s2) -> sqwrl:select(0)");
-
-		Assert.assertTrue(result.next());
-	}
-
-	@Test
-	public void TestSQWRLURIBagsEqual() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
-	{
-		OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
-
-		String homePage1 = "http://stanford.edu/~fred";
-		String homePage2 = "http://stanford.edu/~bob";
-
-		SQWRLResult result = queryEngine.runSQWRLQuery("q1",
-				". sqwrl:makeBag(?s1, \"" + homePage1 + "\"^^xsd:anyURI) ^ sqwrl:makeBag(?s2, \"" + homePage2
-						+ "\"^^xsd:anyURI)" + " ^ sqwrl:makeBag(?s1, \"" + homePage1 + "\"^^xsd:anyURI) ^ sqwrl:makeBag(?s2, \""
-						+ homePage2 + "\"^^xsd:anyURI) . sqwrl:equal(?s1, ?s2) -> sqwrl:select(0)");
-
-		Assert.assertTrue(result.next());
-	}
-
-	@Test
-	public void TestSQWRLURISetsEqual() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
-	{
-		OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
-
-		String homePage1 = "http://stanford.edu/~fred";
-		String homePage2 = "http://stanford.edu/~bob";
-
-		SQWRLResult result = queryEngine.runSQWRLQuery("q1",
-				". sqwrl:makeSet(?s1, \"" + homePage1 + "\"^^xsd:anyURI) " + " ^ sqwrl:makeSet(?s1, \"" + homePage2
-						+ "\"^^xsd:anyURI)" + " ^ sqwrl:makeSet(?s2, \"" + homePage1 + "\"^^xsd:anyURI) "
-						+ " ^ sqwrl:makeSet(?s2, \"" + homePage2 + "\"^^xsd:anyURI) " + " ^ sqwrl:makeSet(?s2, \"" + homePage2
-						+ "\"^^xsd:anyURI) " + " . sqwrl:equal(?s1, ?s2) -> sqwrl:select(0)");
-
-		Assert.assertTrue(result.next());
-	}
-
-	@Test
-	public void TestSQWRLBagsSize() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
-	{
-		OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
-
-		addOWLAxioms(ontology, Declaration(DDI), Declaration(AZT));
-
-		SQWRLResult result = queryEngine.runSQWRLQuery("q1",
-				". sqwrl:makeBag(?s1, DDI) ^ sqwrl:makeBag(?s1, AZT) . sqwrl:size(?size, ?s1) -> sqwrl:select(?size)");
-
-		Assert.assertTrue(result.next());
-		SQWRLLiteralResultValue literal = result.getLiteral("size");
-		Assert.assertTrue(literal.isInt());
-		Assert.assertEquals(literal.getInt(), 2);
-	}
-
-	@Test
-	public void TestSQWRLSetsSize() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
-	{
-		OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
-
-		addOWLAxioms(ontology, Declaration(DDI), Declaration(AZT));
-
-		SQWRLResult result = queryEngine.runSQWRLQuery("q1",
-				". sqwrl:makeBag(?s1, DDI) ^ sqwrl:makeSet(?s1, AZT) ^ sqwrl:makeSet(?s1, AZT)"
-						+ " . sqwrl:size(?size, ?s1) -> sqwrl:select(?size)");
-
-		Assert.assertTrue(result.next());
-		SQWRLLiteralResultValue literal = result.getLiteral("size");
-		Assert.assertTrue(literal.isInt());
-		Assert.assertEquals(literal.getInt(), 2);
-	}
-
-	@Test
-	public void TestSQWRLBagsSizeEqual() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
-	{
-		OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
-
-		addOWLAxioms(ontology, Declaration(DDI), Declaration(AZT));
-
-		SQWRLResult result = queryEngine.runSQWRLQuery("q1",
-				". sqwrl:makeBag(?s1, DDI) ^ sqwrl:makeBag(?s1, AZT) . sqwrl:size(?size, ?s1) "
-						+ " ^ swrlb:equal(?size, 2) -> sqwrl:select(0)");
-
-		Assert.assertTrue(result.next());
-	}
-
-	@Test
-	public void TestSQWRLSetSizeEqual() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
-	{
-		OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
-
-		addOWLAxioms(ontology, Declaration(DDI), Declaration(AZT));
-
-		SQWRLResult result = queryEngine.runSQWRLQuery("q1",
-				". sqwrl:makeSet(?s1, DDI) ^ sqwrl:makeSet(?s1, AZT) ^ sqwrl:makeSet(?s1, AZT)"
-						+ " . sqwrl:size(?size, ?s1)  ^ swrlb:equal(?size, 2) -> sqwrl:select(0)");
-
-		Assert.assertTrue(result.next());
-	}
-
-	@Test
-	public void TestSQWRLClassesBagFirst() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
-	{
-		OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
-
-		addOWLAxioms(ontology, Declaration(DDI), Declaration(AZT));
-
-		SQWRLResult result = queryEngine.runSQWRLQuery("q1",
-				". sqwrl:makeBag(?s1, DDI) ^ sqwrl:makeBag(?s1, AZT) . sqwrl:first(?first, ?s1) -> sqwrl:select(?first)");
-
-		Assert.assertTrue(result.next());
-		Assert.assertEquals(result.getClass("first").getShortName(), "AZT");
-	}
-
-	@Test
-	public void TestSQWRLNamedIndividualsBagFirst()
-			throws SWRLParseException, SQWRLException, OWLOntologyCreationException
-	{
-		OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
-
-		addOWLAxioms(ontology, Declaration(FRED), Declaration(BOB));
-
-		SQWRLResult result = queryEngine.runSQWRLQuery("q1",
-				". sqwrl:makeBag(?s1, Fred) ^ sqwrl:makeBag(?s1, Bob) . sqwrl:first(?first, ?s1) -> sqwrl:select(?first)");
-
-		Assert.assertTrue(result.next());
-		Assert.assertEquals(result.getNamedIndividual("first").getShortName(), "Bob");
-	}
-
-	@Test
-	public void TestSQWRLByteBagMin() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
-	{
-		OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
-
-		SQWRLResult result = queryEngine.runSQWRLQuery("q1",
-				". sqwrl:makeBag(?s1, \"77\"^^xsd:byte) ^ sqwrl:makeBag(?s1, \"23\"^^xsd:byte) "
-						+ ". sqwrl:min(?min, ?s1) -> sqwrl:select(?min)");
-
-		Assert.assertTrue(result.next());
-		Assert.assertTrue(result.getLiteral("min").isByte());
-		Assert.assertEquals(result.getLiteral("min").getByte(), 23);
-	}
-
-	@Test
-	public void TestSQWRLShortBagMin() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
-	{
-		OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
-
-		SQWRLResult result = queryEngine.runSQWRLQuery("q1",
-				". sqwrl:makeBag(?s1, \"77\"^^xsd:short) ^ sqwrl:makeBag(?s1, \"23\"^^xsd:short) "
-						+ ". sqwrl:min(?min, ?s1) -> sqwrl:select(?min)");
-
-		Assert.assertTrue(result.next());
-		Assert.assertTrue(result.getLiteral("min").isShort());
-		Assert.assertEquals(result.getLiteral("min").getShort(), 23);
-	}
-
-	@Test
-	public void TestSQWRLIntBagMin() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
-	{
-		OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
-
-		SQWRLResult result = queryEngine.runSQWRLQuery("q1",
-				". sqwrl:makeBag(?s1, 77) ^ sqwrl:makeBag(?s1, 23) . sqwrl:min(?min, ?s1) -> sqwrl:select(?min)");
-
-		Assert.assertTrue(result.next());
-		Assert.assertTrue(result.getLiteral("min").isInt());
-		Assert.assertEquals(result.getLiteral("min").getInt(), 23);
-	}
-
-	@Test
-	public void TestSQWRLLongBagMin() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
-	{
-		OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
-
-		SQWRLResult result = queryEngine.runSQWRLQuery("q1",
-				". sqwrl:makeBag(?s1, \"77\"^^xsd:long) ^ sqwrl:makeBag(?s1, \"23\"^^xsd:long) "
-						+ ". sqwrl:min(?min, ?s1) -> sqwrl:select(?min)");
-
-		Assert.assertTrue(result.next());
-		Assert.assertTrue(result.getLiteral("min").isLong());
-		Assert.assertEquals(result.getLiteral("min").getLong(), 23L);
-	}
-
-	@Test
-	public void TestSQWRLFloatBagMin() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
-	{
-		OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
-
-		SQWRLResult result = queryEngine.runSQWRLQuery("q1",
-				". sqwrl:makeBag(?s1, 77.4) ^ sqwrl:makeBag(?s1, 23.3) . sqwrl:min(?min, ?s1) -> sqwrl:select(?min)");
-
-		Assert.assertTrue(result.next());
-		Assert.assertTrue(result.getLiteral("min").isFloat());
-		Assert.assertEquals(result.getLiteral("min").getFloat(), 23.3f, IntegrationTestBase.DELTA);
-	}
-
-	@Test
-	public void TestSQWRLDoubleBagMin() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
-	{
-		OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
-
-		SQWRLResult result = queryEngine.runSQWRLQuery("q1",
-				". sqwrl:makeBag(?s1, \"77.32\"^^xsd:double) ^ sqwrl:makeBag(?s1, \"23.3\"^^xsd:double) "
-						+ ". sqwrl:min(?min, ?s1) -> sqwrl:select(?min)");
-
-		Assert.assertTrue(result.next());
-		Assert.assertTrue(result.getLiteral("min").isDouble());
-		Assert.assertEquals(result.getLiteral("min").getDouble(), 23.3d, IntegrationTestBase.DELTA);
-	}
-
-	@Test
-	public void TestSQWRLStringBagFirst() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
-	{
-		OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
-
-		SQWRLResult result = queryEngine.runSQWRLQuery("q1",
-				". sqwrl:makeBag(?s1, \"Fred\"^^xsd:string) ^ sqwrl:makeBag(?s1, \"Bob\"^^xsd:string) "
-						+ ". sqwrl:first(?first, ?s1) -> sqwrl:select(?first)");
-
-		Assert.assertTrue(result.next());
-		Assert.assertTrue(result.getLiteral("first").isString());
-		Assert.assertEquals(result.getLiteral("first").getString(), "Bob");
-	}
-
-	@Test
-	public void TestSQWRLStringSetFirst() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
-	{
-		OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
-
-		SQWRLResult result = queryEngine.runSQWRLQuery("q1",
-				". sqwrl:makeSet(?s1, \"Fred\"^^xsd:string) ^ sqwrl:makeSet(?s1, \"Bob\"^^xsd:string) "
-						+ ". sqwrl:first(?first, ?s1) -> sqwrl:select(?first)");
-
-		Assert.assertTrue(result.next());
-		Assert.assertTrue(result.getLiteral("first").isString());
-		Assert.assertEquals(result.getLiteral("first").getString(), "Bob");
-	}
-
-	@Test
-	public void TestSQWRLBagSumShortBroadest() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
-	{
-		OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
-
-		SQWRLResult result = queryEngine.runSQWRLQuery("q1",
-				". sqwrl:makeBag(?s1, \"24\"^^xsd:byte) ^ "
-						+ "sqwrl:makeBag(?s1, \"23\"^^xsd:byte) ^ sqwrl:makeBag(?s1, \"25\"^^xsd:short) "
-						+ ". sqwrl:sum(?sum, ?s1) -> sqwrl:select(?sum)");
-
-		Assert.assertTrue(result.next());
-		Assert.assertTrue(result.getLiteral("sum").isShort());
-		Assert.assertEquals(result.getLiteral("sum").getShort(), 72);
-	}
-
-	@Test
-	public void TestSQWRLSetSumShortBroadest() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
-	{
-		OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
-
-		SQWRLResult result = queryEngine.runSQWRLQuery("q1",
-				". sqwrl:makeSet(?s1, \"24\"^^xsd:byte) ^ "
-						+ "sqwrl:makeSet(?s1, \"23\"^^xsd:byte) ^ sqwrl:makeSet(?s1, \"25\"^^xsd:short) "
-						+ ". sqwrl:sum(?sum, ?s1) -> sqwrl:select(?sum)");
-
-		Assert.assertTrue(result.next());
-		Assert.assertTrue(result.getLiteral("sum").isShort());
-		Assert.assertEquals(result.getLiteral("sum").getShort(), 72);
-	}
-
-	@Test
-	public void TestSQWRLBagSumIntBroadest() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
-	{
-		OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
-
-		SQWRLResult result = queryEngine.runSQWRLQuery("q1",
-				". sqwrl:makeBag(?s1, \"24\"^^xsd:byte) ^ "
-						+ "sqwrl:makeBag(?s1, \"23\"^^xsd:byte) ^ sqwrl:makeBag(?s1, \"25\"^^xsd:int) "
-						+ ". sqwrl:sum(?sum, ?s1) -> sqwrl:select(?sum)");
-
-		Assert.assertTrue(result.next());
-		Assert.assertTrue(result.getLiteral("sum").isInt());
-		Assert.assertEquals(result.getLiteral("sum").getInt(), 72);
-	}
-
-	@Test
-	public void TestSQWRLBagSumLongBroadest() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
-	{
-		OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
-
-		SQWRLResult result = queryEngine.runSQWRLQuery("q1",
-				". sqwrl:makeBag(?s1, \"24\"^^xsd:byte) ^ "
-						+ "sqwrl:makeBag(?s1, \"23\"^^xsd:byte) ^ sqwrl:makeBag(?s1, \"25\"^^xsd:long) "
-						+ ". sqwrl:sum(?sum, ?s1) -> sqwrl:select(?sum)");
-
-		Assert.assertTrue(result.next());
-		Assert.assertTrue(result.getLiteral("sum").isLong());
-		Assert.assertEquals(result.getLiteral("sum").getLong(), 72L);
-	}
-
-	@Test
-	public void TestSQWRLBagSumFloatBroadest() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
-	{
-		OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
-
-		SQWRLResult result = queryEngine.runSQWRLQuery("q1",
-				". sqwrl:makeBag(?s1, \"24\"^^xsd:byte) ^ "
-						+ "sqwrl:makeBag(?s1, \"23\"^^xsd:byte) ^ sqwrl:makeBag(?s1, \"25.0\"^^xsd:float) "
-						+ ". sqwrl:sum(?sum, ?s1) -> sqwrl:select(?sum)");
-
-		Assert.assertTrue(result.next());
-		Assert.assertTrue(result.getLiteral("sum").isFloat());
-		Assert.assertEquals(result.getLiteral("sum").getFloat(), 72f, IntegrationTestBase.DELTA);
-	}
-
-	@Test
-	public void TestSQWRLByteBagSumDoubleBroadest()
-			throws SWRLParseException, SQWRLException, OWLOntologyCreationException
-	{
-		OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
-
-		SQWRLResult result = queryEngine.runSQWRLQuery("q1",
-				". sqwrl:makeBag(?s1, \"24\"^^xsd:byte) ^ "
-						+ "sqwrl:makeBag(?s1, \"23\"^^xsd:byte) ^ sqwrl:makeBag(?s1, \"25.0\"^^xsd:double) "
-						+ ". sqwrl:sum(?sum, ?s1) -> sqwrl:select(?sum)");
-
-		Assert.assertTrue(result.next());
-		Assert.assertTrue(result.getLiteral("sum").isDouble());
-		Assert.assertEquals(result.getLiteral("sum").getDouble(), 72d, IntegrationTestBase.DELTA);
-	}
-
-	@Test
-	public void TestSQWRLByteBagSum() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
-	{
-		OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
-
-		SQWRLResult result = queryEngine.runSQWRLQuery("q1",
-				". sqwrl:makeBag(?s1, \"24\"^^xsd:byte) ^ "
-						+ "sqwrl:makeBag(?s1, \"23\"^^xsd:byte) ^ sqwrl:makeBag(?s1, \"25\"^^xsd:byte) "
-						+ ". sqwrl:sum(?sum, ?s1) -> sqwrl:select(?sum)");
-
-		Assert.assertTrue(result.next());
-		Assert.assertTrue(result.getLiteral("sum").isByte());
-		Assert.assertEquals(result.getLiteral("sum").getByte(), 72);
-	}
-
-	@Test
-	public void TestSQWRLShortBagSum() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
-	{
-		OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
-
-		SQWRLResult result = queryEngine.runSQWRLQuery("q1",
-				". sqwrl:makeBag(?s1, \"24\"^^xsd:short) ^ "
-						+ "sqwrl:makeBag(?s1, \"23\"^^xsd:short) ^ sqwrl:makeBag(?s1, \"25\"^^xsd:short) "
-						+ ". sqwrl:sum(?sum, ?s1) -> sqwrl:select(?sum)");
-
-		Assert.assertTrue(result.next());
-		Assert.assertTrue(result.getLiteral("sum").isShort());
-		Assert.assertEquals(result.getLiteral("sum").getShort(), 72);
-	}
-
-	@Test
-	public void TestSQWRLIntBagSum() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
-	{
-		OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
-
-		SQWRLResult result = queryEngine.runSQWRLQuery("q1",
-				". sqwrl:makeBag(?s1, \"24\"^^xsd:int) ^ "
-						+ "sqwrl:makeBag(?s1, \"23\"^^xsd:int) ^ sqwrl:makeBag(?s1, \"25\"^^xsd:int) "
-						+ ". sqwrl:sum(?sum, ?s1) -> sqwrl:select(?sum)");
-
-		Assert.assertTrue(result.next());
-		Assert.assertTrue(result.getLiteral("sum").isInt());
-		Assert.assertEquals(result.getLiteral("sum").getInt(), 72);
-	}
-
-	@Test
-	public void TestSQWRLLongBagSum() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
-	{
-		OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
-
-		SQWRLResult result = queryEngine.runSQWRLQuery("q1",
-				". sqwrl:makeBag(?s1, \"24\"^^xsd:long) ^ "
-						+ "sqwrl:makeBag(?s1, \"23\"^^xsd:long) ^ sqwrl:makeBag(?s1, \"25\"^^xsd:long) "
-						+ ". sqwrl:sum(?sum, ?s1) -> sqwrl:select(?sum)");
-
-		Assert.assertTrue(result.next());
-		Assert.assertTrue(result.getLiteral("sum").isLong());
-		Assert.assertEquals(result.getLiteral("sum").getLong(), 72L);
-	}
-
-	@Test
-	public void TestSQWRLFloatBagSum() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
-	{
-		OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
-
-		SQWRLResult result = queryEngine.runSQWRLQuery("q1",
-				". sqwrl:makeBag(?s1, \"24.0\"^^xsd:float) ^ "
-						+ "sqwrl:makeBag(?s1, \"23.0\"^^xsd:float) ^ sqwrl:makeBag(?s1, \"25.0\"^^xsd:float) "
-						+ ". sqwrl:sum(?sum, ?s1) -> sqwrl:select(?sum)");
-
-		Assert.assertTrue(result.next());
-		Assert.assertTrue(result.getLiteral("sum").isFloat());
-		Assert.assertEquals(result.getLiteral("sum").getFloat(), 72.0f, IntegrationTestBase.DELTA);
-	}
-
-	@Test
-	public void TestSQWRLDoubleBagSum() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
-	{
-		OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
-
-		SQWRLResult result = queryEngine.runSQWRLQuery("q1",
-				". sqwrl:makeBag(?s1, \"24.0\"^^xsd:double) ^ "
-						+ "sqwrl:makeBag(?s1, \"23.0\"^^xsd:double) ^ sqwrl:makeBag(?s1, \"25.0\"^^xsd:double) "
-						+ ". sqwrl:sum(?sum, ?s1) -> sqwrl:select(?sum)");
-
-		Assert.assertTrue(result.next());
-		Assert.assertTrue(result.getLiteral("sum").isDouble());
-		Assert.assertEquals(result.getLiteral("sum").getDouble(), 72.0d, IntegrationTestBase.DELTA);
-	}
-
-	@Test
-	public void TestSQWRLBagAvgShortBroadest() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
-	{
-		OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
-
-		SQWRLResult result = queryEngine.runSQWRLQuery("q1",
-				". sqwrl:makeBag(?s1, \"24\"^^xsd:byte) ^ "
-						+ "sqwrl:makeBag(?s1, \"23\"^^xsd:byte) ^ sqwrl:makeBag(?s1, \"25\"^^xsd:short) "
-						+ ". sqwrl:avg(?avg, ?s1) -> sqwrl:select(?avg)");
-
-		Assert.assertTrue(result.next());
-		Assert.assertTrue(result.getLiteral("avg").isShort());
-		Assert.assertEquals(result.getLiteral("avg").getShort(), 24);
-	}
-
-	@Test
-	public void TestSQWRLBagAvgIntBroadest() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
-	{
-		OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
-
-		SQWRLResult result = queryEngine.runSQWRLQuery("q1",
-				". sqwrl:makeBag(?s1, \"24\"^^xsd:byte) ^ "
-						+ "sqwrl:makeBag(?s1, \"23\"^^xsd:byte) ^ sqwrl:makeBag(?s1, \"25\"^^xsd:int) "
-						+ ". sqwrl:avg(?avg, ?s1) -> sqwrl:select(?avg)");
-
-		Assert.assertTrue(result.next());
-		Assert.assertTrue(result.getLiteral("avg").isInt());
-		Assert.assertEquals(result.getLiteral("avg").getInt(), 24);
-	}
-
-	@Test
-	public void TestSQWRLBagAvgLongBroadest() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
-	{
-		OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
-
-		SQWRLResult result = queryEngine.runSQWRLQuery("q1",
-				". sqwrl:makeBag(?s1, \"24\"^^xsd:byte) ^ "
-						+ "sqwrl:makeBag(?s1, \"23\"^^xsd:byte) ^ sqwrl:makeBag(?s1, \"25\"^^xsd:long) "
-						+ ". sqwrl:avg(?avg, ?s1) -> sqwrl:select(?avg)");
-
-		Assert.assertTrue(result.next());
-		Assert.assertTrue(result.getLiteral("avg").isLong());
-		Assert.assertEquals(result.getLiteral("avg").getLong(), 24L);
-	}
-
-	@Test
-	public void TestSQWRLBagAvgFloatBroadest() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
-	{
-		OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
-
-		SQWRLResult result = queryEngine.runSQWRLQuery("q1",
-				". sqwrl:makeBag(?s1, \"24\"^^xsd:byte) ^ "
-						+ "sqwrl:makeBag(?s1, \"23\"^^xsd:byte) ^ sqwrl:makeBag(?s1, \"25.0\"^^xsd:float) "
-						+ ". sqwrl:avg(?avg, ?s1) -> sqwrl:select(?avg)");
-
-		Assert.assertTrue(result.next());
-		Assert.assertTrue(result.getLiteral("avg").isFloat());
-		Assert.assertEquals(result.getLiteral("avg").getFloat(), 24.0f, IntegrationTestBase.DELTA);
-	}
-
-	@Test
-	public void TestSQWRLBagDoubleBroadest() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
-	{
-		OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
-
-		SQWRLResult result = queryEngine.runSQWRLQuery("q1",
-				". sqwrl:makeBag(?s1, \"24\"^^xsd:byte) ^ "
-						+ "sqwrl:makeBag(?s1, \"23\"^^xsd:byte) ^ sqwrl:makeBag(?s1, \"25.0\"^^xsd:double) "
-						+ ". sqwrl:avg(?avg, ?s1) -> sqwrl:select(?avg)");
-
-		Assert.assertTrue(result.next());
-		Assert.assertTrue(result.getLiteral("avg").isDouble());
-		Assert.assertEquals(result.getLiteral("avg").getDouble(), 24.0d, IntegrationTestBase.DELTA);
-	}
-
-	@Test
-	public void TestSQWRLByteBagAvg() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
-	{
-		OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
-
-		SQWRLResult result = queryEngine.runSQWRLQuery("q1",
-				". sqwrl:makeBag(?s1, \"24\"^^xsd:byte) ^ "
-						+ "sqwrl:makeBag(?s1, \"23\"^^xsd:byte) ^ sqwrl:makeBag(?s1, \"25\"^^xsd:byte) "
-						+ ". sqwrl:avg(?avg, ?s1) -> sqwrl:select(?avg)");
-
-		Assert.assertTrue(result.next());
-		Assert.assertTrue(result.getLiteral("avg").isByte());
-		Assert.assertEquals(result.getLiteral("avg").getByte(), 24);
-	}
-
-	@Test
-	public void TestSQWRLByteSetAvg() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
-	{
-		OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
-
-		SQWRLResult result = queryEngine.runSQWRLQuery("q1",
-				". sqwrl:makeSet(?s1, \"24\"^^xsd:byte) ^ "
-						+ "sqwrl:makeSet(?s1, \"23\"^^xsd:byte) ^ sqwrl:makeSet(?s1, \"25\"^^xsd:byte) "
-						+ "sqwrl:makeSet(?s1, \"25\"^^xsd:byte) . sqwrl:avg(?avg, ?s1) -> sqwrl:select(?avg)");
-
-		Assert.assertTrue(result.next());
-		Assert.assertTrue(result.getLiteral("avg").isByte());
-		Assert.assertEquals(result.getLiteral("avg").getByte(), 24);
-	}
-
-	@Test
-	public void TestSQWRLShortBagAvg() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
-	{
-		OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
-
-		SQWRLResult result = queryEngine.runSQWRLQuery("q1",
-				". sqwrl:makeBag(?s1, \"24\"^^xsd:short) ^ "
-						+ "sqwrl:makeBag(?s1, \"23\"^^xsd:short)  ^ sqwrl:makeBag(?s1, \"25\"^^xsd:short) "
-						+ ". sqwrl:avg(?avg, ?s1) -> sqwrl:select(?avg)");
-
-		Assert.assertTrue(result.next());
-		Assert.assertTrue(result.getLiteral("avg").isShort());
-		Assert.assertEquals(result.getLiteral("avg").getShort(), 24);
-	}
-
-	@Test
-	public void TestSQWRLShortSetAvg() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
-	{
-		OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
-
-		SQWRLResult result = queryEngine.runSQWRLQuery("q1",
-				". sqwrl:makeBag(?s1, \"24\"^^xsd:short) ^ "
-						+ "sqwrl:makeBag(?s1, \"23\"^^xsd:short) ^ sqwrl:makeBag(?s1, \"23\"^^xsd:short)"
-						+ "sqwrl:makeBag(?s1, \"25\"^^xsd:short) . sqwrl:avg(?avg, ?s1) -> sqwrl:select(?avg)");
-
-		Assert.assertTrue(result.next());
-		Assert.assertTrue(result.getLiteral("avg").isShort());
-		Assert.assertEquals(result.getLiteral("avg").getShort(), 24);
-	}
-
-	@Test
-	public void TestSQWRLIntBagAvg() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
-	{
-		OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
-
-		SQWRLResult result = queryEngine.runSQWRLQuery("q1", ". sqwrl:makeBag(?s1, 24) ^ " + "sqwrl:makeBag(?s1, 23) "
-				+ "sqwrl:makeBag(?s1, 25) " + ". sqwrl:avg(?avg, ?s1) -> sqwrl:select(?avg)");
-
-		Assert.assertTrue(result.next());
-		Assert.assertTrue(result.getLiteral("avg").isInt());
-		Assert.assertEquals(result.getLiteral("avg").getInt(), 24);
-	}
-
-	@Test
-	public void TestSQWRLIntSetAvg() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
-	{
-		OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
-
-		SQWRLResult result = queryEngine.runSQWRLQuery("q1", ". sqwrl:makeSet(?s1, 24) ^ sqwrl:makeSet(?s1, 23) "
-				+ "^ sqwrl:makeSet(?s1, 25) ^ sqwrl:makeSet(?s1, 25) . sqwrl:avg(?avg, ?s1) -> sqwrl:select(?avg)");
-
-		Assert.assertTrue(result.next());
-		Assert.assertTrue(result.getLiteral("avg").isInt());
-		Assert.assertEquals(result.getLiteral("avg").getInt(), 24);
-	}
-
-	@Test
-	public void TestSQWRLLongBagAvg() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
-	{
-		OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
-
-		SQWRLResult result = queryEngine.runSQWRLQuery("q1",
-				". sqwrl:makeBag(?s1, \"24\"^^xsd:long) ^ " + "sqwrl:makeBag(?s1, \"23\"^^xsd:long) "
-						+ "sqwrl:makeBag(?s1, \"25\"^^xsd:long) " + ". sqwrl:avg(?avg, ?s1) -> sqwrl:select(?avg)");
-
-		Assert.assertTrue(result.next());
-		Assert.assertTrue(result.getLiteral("avg").isLong());
-		Assert.assertEquals(result.getLiteral("avg").getLong(), 24L);
-	}
-
-	@Test
-	public void TestSQWRLLongSetAvg() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
-	{
-		OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
-
-		SQWRLResult result = queryEngine.runSQWRLQuery("q1",
-				". sqwrl:makeSet(?s1, \"24\"^^xsd:long) ^ "
-						+ "sqwrl:makeSet(?s1, \"23\"^^xsd:long) ^ sqwrl:makeSet(?s1, \"25\"^^xsd:long) "
-						+ "sqwrl:makeSet(?s1, \"25\"^^xsd:long) . sqwrl:avg(?avg, ?s1) -> sqwrl:select(?avg)");
-
-		Assert.assertTrue(result.next());
-		Assert.assertTrue(result.getLiteral("avg").isLong());
-		Assert.assertEquals(result.getLiteral("avg").getLong(), 24L);
-	}
-
-	@Test
-	public void TestSQWRLFloatBagAvg() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
-	{
-		OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
-
-		SQWRLResult result = queryEngine.runSQWRLQuery("q1", ". sqwrl:makeBag(?s1, 24.2) ^ " + "sqwrl:makeBag(?s1, 23.2) "
-				+ "sqwrl:makeBag(?s1, 25.2) " + ". sqwrl:avg(?avg, ?s1) -> sqwrl:select(?avg)");
-
-		Assert.assertTrue(result.next());
-		Assert.assertTrue(result.getLiteral("avg").isFloat());
-		Assert.assertEquals(result.getLiteral("avg").getFloat(), 24.2f, IntegrationTestBase.DELTA);
-	}
-
-	@SuppressWarnings("static-access")
-	@Test
-	public void TestSQWRLFloatSetAvg() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
-	{
-		OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
-
-		SQWRLResult result = queryEngine.runSQWRLQuery("q1", ". sqwrl:makeSet(?s1, 24.2) ^ " + "sqwrl:makeSet(?s1, 23.2) "
-				+ "sqwrl:makeBag(?s1, 25.2) ^ sqwrl:makeBag(?s1, 25.2) . sqwrl:avg(?avg, ?s1) -> sqwrl:select(?avg)");
-
-		Assert.assertTrue(result.next());
-		Assert.assertTrue(result.getLiteral("avg").isFloat());
-		Assert.assertEquals(result.getLiteral("avg").getFloat(), 24.2f, this.DELTA);
-	}
-
-	@Test
-	public void TestSQWRLDoubleBagAvg() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
-	{
-		OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
-
-		SQWRLResult result = queryEngine.runSQWRLQuery("q1",
-				". sqwrl:makeBag(?s1, \"24.2\"^^xsd:double) ^ "
-						+ "sqwrl:makeBag(?s1, \"23.2\"^^xsd:double) ^ sqwrl:makeBag(?s1, \"25.2\"^^xsd:double) "
-						+ ". sqwrl:avg(?avg, ?s1) -> sqwrl:select(?avg)");
-
-		Assert.assertTrue(result.next());
-		Assert.assertTrue(result.getLiteral("avg").isDouble());
-		Assert.assertEquals(result.getLiteral("avg").getDouble(), 24.2d, IntegrationTestBase.DELTA);
-	}
-
-	@Test
-	public void TestSQWRLDoubleSetAvg() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
-	{
-		OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
-
-		SQWRLResult result = queryEngine.runSQWRLQuery("q1",
-				". sqwrl:makeBag(?s1, \"24.2\"^^xsd:double) ^ "
-						+ "sqwrl:makeBag(?s1, \"23.2\"^^xsd:double)  ^ sqwrl:makeBag(?s1, \"25.2\"^^xsd:double) "
-						+ "sqwrl:makeBag(?s1, \"25.2\"^^xsd:double) . sqwrl:avg(?avg, ?s1) -> sqwrl:select(?avg)");
-
-		Assert.assertTrue(result.next());
-		Assert.assertTrue(result.getLiteral("avg").isDouble());
-		Assert.assertEquals(result.getLiteral("avg").getDouble(), 24.2d, IntegrationTestBase.DELTA);
-	}
-
-	@Test
-	public void TestSQWRLBagClassesLast() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
-	{
-		OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
-
-		addOWLAxioms(ontology, Declaration(DDI), Declaration(AZT));
-
-		SQWRLResult result = queryEngine.runSQWRLQuery("q1",
-				". sqwrl:makeBag(?s1, DDI) ^ sqwrl:makeBag(?s1, AZT) . sqwrl:last(?last, ?s1) -> sqwrl:select(?last)");
-
-		Assert.assertTrue(result.next());
-		Assert.assertEquals(result.getClass("last").getShortName(), "DDI");
-	}
-
-	@Test
-	public void TestSQWRLBagNamedIndividualLast() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
-	{
-		OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
-
-		addOWLAxioms(ontology, Declaration(FRED), Declaration(BOB));
-
-		SQWRLResult result = queryEngine.runSQWRLQuery("q1",
-				". sqwrl:makeBag(?s1, Bob) ^ sqwrl:makeBag(?s1, Fred) . sqwrl:last(?last, ?s1) -> sqwrl:select(?last)");
-
-		Assert.assertTrue(result.next());
-		Assert.assertEquals(result.getNamedIndividual("last").getShortName(), "Fred");
-	}
-
-	@Test
-	public void TestSQWRLNth() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
-	{
-		OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
-
-		addOWLAxioms(ontology, Declaration(DDI), Declaration(AZT), Declaration(BBT));
-
-		SQWRLResult result = queryEngine.runSQWRLQuery("q1",
-				" . sqwrl:makeBag(?s1, DDI) ^ sqwrl:makeBag(?s1, AZT) ^ sqwrl:makeBag(?s1, BBT) "
-						+ " . sqwrl:nth(?second, ?s1, 2) -> sqwrl:select(?second)");
-
-		Assert.assertTrue(result.next());
-		Assert.assertEquals(result.getClass("second").getShortName(), "BBT");
-	}
-
-	@Test
-	public void TestSQWRLNthLast() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
-	{
-		OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
-
-		addOWLAxioms(ontology, Declaration(DDI), Declaration(AZT), Declaration(BBT));
-
-		SQWRLResult result = queryEngine.runSQWRLQuery("q1",
-				" . sqwrl:makeBag(?s1, DDI) ^ sqwrl:makeBag(?s1, AZT) ^ sqwrl:makeBag(?s1, BBT) "
-						+ " . sqwrl:nthLast(?secondLast, ?s1, 2) -> sqwrl:select(?secondLast)");
-
-		Assert.assertTrue(result.next());
-		Assert.assertEquals(result.getClass("secondLast").getShortName(), "BBT");
-	}
+  @Test public void TestSQWRLClassBagsEqual() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
+  {
+    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
+
+    addOWLAxioms(ontology, Declaration(DDI), Declaration(AZT));
+
+    SQWRLResult result = queryEngine.runSQWRLQuery("q1", ". sqwrl:makeBag(?s1, DDI) ^ sqwrl:makeBag(?s1, AZT)"
+      + " ^ sqwrl:makeBag(?s2, AZT) ^ sqwrl:makeBag(?s2, AZT) . sqwrl:equal(?s1, ?s2) -> sqwrl:select(0)");
+
+    Assert.assertTrue(result.next());
+  }
+
+  @Test public void TestSQWRLClassSetsEqual() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
+  {
+    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
+
+    addOWLAxioms(ontology, Declaration(DDI), Declaration(AZT));
+
+    SQWRLResult result = queryEngine.runSQWRLQuery("q1", ". sqwrl:makeSet(?s1, DDI) ^ sqwrl:makeSet(?s1, AZT)"
+      + " ^ sqwrl:makeSet(?s2, AZT) ^ sqwrl:makeSet(?s2, AZT) . sqwrl:equal(?s1, ?s2) -> sqwrl:select(0)");
+
+    Assert.assertTrue(result.next());
+  }
+
+  @Test public void TestSQWRLIndividualBagsEqual()
+    throws SWRLParseException, SQWRLException, OWLOntologyCreationException
+  {
+    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
+
+    addOWLAxioms(ontology, Declaration(DDI), Declaration(AZT));
+
+    SQWRLResult result = queryEngine.runSQWRLQuery("q1", ". sqwrl:makeBag(?s1, DDI) ^ sqwrl:makeBag(?s1, AZT)"
+      + " ^ sqwrl:makeBag(?s2, AZT) ^ sqwrl:makeBag(?s2, AZT) . sqwrl:equal(?s1, ?s2) -> sqwrl:select(0)");
+
+    Assert.assertTrue(result.next());
+  }
+
+  @Test public void TestSQWRLIndividualSetsEqual()
+    throws SWRLParseException, SQWRLException, OWLOntologyCreationException
+  {
+    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
+
+    addOWLAxioms(ontology, Declaration(DDI), Declaration(AZT));
+
+    SQWRLResult result = queryEngine.runSQWRLQuery("q1", ". sqwrl:makeSet(?s1, DDI) ^ sqwrl:makeSet(?s1, AZT)"
+      + " ^ sqwrl:makeSet(?s2, AZT) ^ sqwrl:makeSet(?s2, AZT) . sqwrl:equal(?s1, ?s2) -> sqwrl:select(0)");
+
+    Assert.assertTrue(result.next());
+  }
+
+  @Test public void TestSQWRLByteBagsEqual() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
+  {
+    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
+
+    SQWRLResult result = queryEngine.runSQWRLQuery("q1",
+      ". sqwrl:makeBag(?s1, \"32\"^^xsd:byte) ^ sqwrl:makeBag(?s2, \"39\"^^xsd:byte)"
+        + " ^ sqwrl:makeBag(?s1, \"32\"^^xsd:byte) ^ sqwrl:makeBag(?s1, \"39\"^^xsd:byte) . sqwrl:equal(?s1, ?s2) -> sqwrl:select(0)");
+
+    Assert.assertTrue(result.next());
+  }
+
+  @Test public void TestSQWRLByteSetsEqual() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
+  {
+    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
+
+    SQWRLResult result = queryEngine.runSQWRLQuery("q1",
+      ". sqwrl:makeSet(?s1, \"32\"^^xsd:byte) ^ sqwrl:makeSet(?s2, \"39\"^^xsd:byte)"
+        + " ^ sqwrl:makeSet(?s1, \"32\"^^xsd:byte) ^ sqwrl:makeSet(?s1, \"39\"^^xsd:byte) . sqwrl:equal(?s1, ?s2) -> sqwrl:select(0)");
+
+    Assert.assertTrue(result.next());
+  }
+
+  @Test public void TestSQWRLShortBagsEqual() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
+  {
+    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
+
+    SQWRLResult result = queryEngine.runSQWRLQuery("q1",
+      ". sqwrl:makeBag(?s1, \"32\"^^xsd:short) ^ sqwrl:makeBag(?s2, \"39\"^^xsd:short)"
+        + " ^ sqwrl:makeBag(?s1, \"32\"^^xsd:short) ^ sqwrl:makeBag(?s1, \"39\"^^xsd:short) "
+        + " . sqwrl:equal(?s1, ?s2) -> sqwrl:select(0)");
+
+    Assert.assertTrue(result.next());
+  }
+
+  @Test public void TestSQWRLShortSetsEqual() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
+  {
+    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
+
+    SQWRLResult result = queryEngine.runSQWRLQuery("q1",
+      ". sqwrl:makeSet(?s1, \"32\"^^xsd:short) ^ sqwrl:makeSet(?s2, \"39\"^^xsd:short)"
+        + " ^ sqwrl:makeSet(?s1, \"32\"^^xsd:short) ^ sqwrl:makeSet(?s1, \"39\"^^xsd:short) . "
+        + " sqwrl:equal(?s1, ?s2) -> sqwrl:select(0)");
+
+    Assert.assertTrue(result.next());
+  }
+
+  @Test public void TestSQWRLIntBagsEqual() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
+  {
+    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
+
+    SQWRLResult result = queryEngine.runSQWRLQuery("q1", ". sqwrl:makeBag(?s1, 3) ^ sqwrl:makeBag(?s1, 5)"
+      + " ^ sqwrl:makeBag(?s2, 3) ^ sqwrl:makeBag(?s2, 5) . sqwrl:equal(?s1, ?s2) -> sqwrl:select(0)");
+
+    Assert.assertTrue(result.next());
+  }
+
+  @Test public void TestSQWRLIntSetsEqual() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
+  {
+    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
+
+    SQWRLResult result = queryEngine.runSQWRLQuery("q1", ". sqwrl:makeSet(?s1, 3) ^ sqwrl:makeSet(?s1, 5)"
+      + " ^ sqwrl:makeSet(?s2, 3) ^ sqwrl:makeSet(?s2, 5) . sqwrl:equal(?s1, ?s2) -> sqwrl:select(0)");
+
+    Assert.assertTrue(result.next());
+  }
+
+  @Test public void TestSQWRLLongBagsEqual() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
+  {
+    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
+
+    SQWRLResult result = queryEngine.runSQWRLQuery("q1",
+      ". sqwrl:makeBag(?s1, \"32\"^^xsd:long) ^ sqwrl:makeBag(?s2, \"39\"^^xsd:long)"
+        + " ^ sqwrl:makeBag(?s1, \"32\"^^xsd:long) ^ sqwrl:makeBag(?s1, \"39\"^^xsd:long) . sqwrl:equal(?s1, ?s2) -> sqwrl:select(0)");
+
+    Assert.assertTrue(result.next());
+  }
+
+  @Test public void TestSQWRLLongSetsEqual() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
+  {
+    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
+
+    SQWRLResult result = queryEngine.runSQWRLQuery("q1",
+      ". sqwrl:makeSet(?s1, \"32\"^^xsd:long) ^ sqwrl:makeSet(?s1, \"39\"^^xsd:long)"
+        + " ^ sqwrl:makeSet(?s2, \"32\"^^xsd:long) ^ sqwrl:makeSet(?s2, \"39\"^^xsd:long) "
+        + " ^ sqwrl:makeSet(?s2, \"39\"^^xsd:long) . sqwrl:equal(?s1, ?s2) -> sqwrl:select(0)");
+
+    Assert.assertTrue(result.next());
+  }
+
+  @Test public void TestSQWRLFloatBagsEqual() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
+  {
+    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
+
+    SQWRLResult result = queryEngine.runSQWRLQuery("q1", ". sqwrl:makeBag(?s1, 3.1) ^ sqwrl:makeBag(?s1, 5.1)"
+      + " ^ sqwrl:makeBag(?s2, 3.1) ^ sqwrl:makeBag(?s2, 5.1) ^ sqwrl:makeBag(?s2, 5.1) "
+      + " . sqwrl:equal(?s1, ?s2) -> sqwrl:select(0)");
+
+    Assert.assertTrue(result.next());
+  }
+
+  @Test public void TestSQWRLFloatSetsEqual() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
+  {
+    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
+
+    SQWRLResult result = queryEngine.runSQWRLQuery("q1", ". sqwrl:makeSet(?s1, 3.1) ^ sqwrl:makeSet(?s1, 5.1)"
+      + " ^ sqwrl:makeSet(?s2, 3.1) ^ sqwrl:makeSet(?s2, 5.1) ^ sqwrl:makeSet(?s2, 5.1)"
+      + ". sqwrl:equal(?s1, ?s2) -> sqwrl:select(0)");
+
+    Assert.assertTrue(result.next());
+  }
+
+  @Test public void TestSQWRLDoubleBagsEqual() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
+  {
+    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
+
+    SQWRLResult result = queryEngine.runSQWRLQuery("q1",
+      ". sqwrl:makeBag(?s1, \"32.1\"^^xsd:double) ^ sqwrl:makeBag(?s2, \"39.3\"^^xsd:double)"
+        + " ^ sqwrl:makeBag(?s1, \"32.1\"^^xsd:double) ^ sqwrl:makeBag(?s1, \"39.3\"^^xsd:double) . sqwrl:equal(?s1, ?s2) -> sqwrl:select(0)");
+
+    Assert.assertTrue(result.next());
+  }
+
+  @Test public void TestSQWRLDoubleSetsEqual() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
+  {
+    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
+
+    SQWRLResult result = queryEngine.runSQWRLQuery("q1",
+      ". sqwrl:makeBag(?s1, \"32.1\"^^xsd:double) ^ sqwrl:makeBag(?s1, \"39.3\"^^xsd:double)"
+        + " ^ sqwrl:makeBag(?s2, \"32.1\"^^xsd:double) ^ sqwrl:makeBag(?s2, \"39.3\"^^xsd:double) "
+        + " sqwrl:makeBag(?s2, \"39.3\"^^xsd:double) . sqwrl:equal(?s1, ?s2) -> sqwrl:select(0)");
+
+    Assert.assertTrue(result.next());
+  }
+
+  @Test public void TestSQWRLStringBagsEqual() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
+  {
+    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
+
+    SQWRLResult result = queryEngine.runSQWRLQuery("q1", ". sqwrl:makeBag(?s1, \"A\") ^ sqwrl:makeBag(?s1, \"B\")"
+      + " ^ sqwrl:makeBag(?s2, \"A\") ^ sqwrl:makeBag(?s2, \"B\") . sqwrl:equal(?s1, ?s2) -> sqwrl:select(0)");
+
+    Assert.assertTrue(result.next());
+  }
+
+  @Test public void TestSQWRLStringSetsEqual() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
+  {
+    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
+
+    SQWRLResult result = queryEngine.runSQWRLQuery("q1", ". sqwrl:makeSet(?s1, \"A\") ^ sqwrl:makeSet(?s1, \"B\")"
+      + " ^ sqwrl:makeBag(?s2, \"A\") ^ sqwrl:makeBag(?s2, \"B\") ^ sqwrl:makeBag(?s2, \"B\")"
+      + " . sqwrl:equal(?s1, ?s2) -> sqwrl:select(0)");
+
+    Assert.assertTrue(result.next());
+  }
+
+  @Test public void TestSQWRLBooleanBagsEqual() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
+  {
+    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
+
+    SQWRLResult result = queryEngine.runSQWRLQuery("q1", ". sqwrl:makeBag(?s1, true) ^ sqwrl:makeBag(?s1, false)"
+      + " ^ sqwrl:makeBag(?s2, true) ^ sqwrl:makeBag(?s2, false) . sqwrl:equal(?s1, ?s2) -> sqwrl:select(0)");
+
+    Assert.assertTrue(result.next());
+  }
+
+  @Test public void TestSQWRLBooleanSetsEqual() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
+  {
+    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
+
+    SQWRLResult result = queryEngine.runSQWRLQuery("q1", ". sqwrl:makeSet(?s1, true) ^ sqwrl:makeSet(?s1, false)"
+      + " ^ sqwrl:makeSet(?s2, true) ^ sqwrl:makeSet(?s2, false) ^ sqwrl:makeSet(?s2, false) "
+      + " . sqwrl:equal(?s1, ?s2) -> sqwrl:select(0)");
+
+    Assert.assertTrue(result.next());
+  }
+
+  @Test public void TestSQWRLURIBagsEqual() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
+  {
+    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
+
+    String homePage1 = "http://stanford.edu/~fred";
+    String homePage2 = "http://stanford.edu/~bob";
+
+    SQWRLResult result = queryEngine.runSQWRLQuery("q1",
+      ". sqwrl:makeBag(?s1, \"" + homePage1 + "\"^^xsd:anyURI) ^ sqwrl:makeBag(?s2, \"" + homePage2 + "\"^^xsd:anyURI)"
+        + " ^ sqwrl:makeBag(?s1, \"" + homePage1 + "\"^^xsd:anyURI) ^ sqwrl:makeBag(?s2, \"" + homePage2
+        + "\"^^xsd:anyURI) . sqwrl:equal(?s1, ?s2) -> sqwrl:select(0)");
+
+    Assert.assertTrue(result.next());
+  }
+
+  @Test public void TestSQWRLURISetsEqual() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
+  {
+    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
+
+    String homePage1 = "http://stanford.edu/~fred";
+    String homePage2 = "http://stanford.edu/~bob";
+
+    SQWRLResult result = queryEngine.runSQWRLQuery("q1",
+      ". sqwrl:makeSet(?s1, \"" + homePage1 + "\"^^xsd:anyURI) " + " ^ sqwrl:makeSet(?s1, \"" + homePage2
+        + "\"^^xsd:anyURI)" + " ^ sqwrl:makeSet(?s2, \"" + homePage1 + "\"^^xsd:anyURI) " + " ^ sqwrl:makeSet(?s2, \""
+        + homePage2 + "\"^^xsd:anyURI) " + " ^ sqwrl:makeSet(?s2, \"" + homePage2 + "\"^^xsd:anyURI) "
+        + " . sqwrl:equal(?s1, ?s2) -> sqwrl:select(0)");
+
+    Assert.assertTrue(result.next());
+  }
+
+  @Test public void TestSQWRLBagsSize() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
+  {
+    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
+
+    addOWLAxioms(ontology, Declaration(DDI), Declaration(AZT));
+
+    SQWRLResult result = queryEngine.runSQWRLQuery("q1",
+      ". sqwrl:makeBag(?s1, DDI) ^ sqwrl:makeBag(?s1, AZT) . sqwrl:size(?size, ?s1) -> sqwrl:select(?size)");
+
+    Assert.assertTrue(result.next());
+    SQWRLLiteralResultValue literal = result.getLiteral("size");
+    Assert.assertTrue(literal.isInt());
+    Assert.assertEquals(2, literal.getInt());
+  }
+
+  @Test public void TestSQWRLSetsSize() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
+  {
+    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
+
+    addOWLAxioms(ontology, Declaration(DDI), Declaration(AZT));
+
+    SQWRLResult result = queryEngine.runSQWRLQuery("q1",
+      ". sqwrl:makeBag(?s1, DDI) ^ sqwrl:makeSet(?s1, AZT) ^ sqwrl:makeSet(?s1, AZT)"
+        + " . sqwrl:size(?size, ?s1) -> sqwrl:select(?size)");
+
+    Assert.assertTrue(result.next());
+    SQWRLLiteralResultValue literal = result.getLiteral("size");
+    Assert.assertTrue(literal.isInt());
+    Assert.assertEquals(2, literal.getInt());
+  }
+
+  @Test public void TestSQWRLBagsSizeEqual() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
+  {
+    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
+
+    addOWLAxioms(ontology, Declaration(DDI), Declaration(AZT));
+
+    SQWRLResult result = queryEngine.runSQWRLQuery("q1",
+      ". sqwrl:makeBag(?s1, DDI) ^ sqwrl:makeBag(?s1, AZT) . sqwrl:size(?size, ?s1) "
+        + " ^ swrlb:equal(?size, 2) -> sqwrl:select(0)");
+
+    Assert.assertTrue(result.next());
+  }
+
+  @Test public void TestSQWRLSetSizeEqual() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
+  {
+    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
+
+    addOWLAxioms(ontology, Declaration(DDI), Declaration(AZT));
+
+    SQWRLResult result = queryEngine.runSQWRLQuery("q1",
+      ". sqwrl:makeSet(?s1, DDI) ^ sqwrl:makeSet(?s1, AZT) ^ sqwrl:makeSet(?s1, AZT)"
+        + " . sqwrl:size(?size, ?s1)  ^ swrlb:equal(?size, 2) -> sqwrl:select(0)");
+
+    Assert.assertTrue(result.next());
+  }
+
+  @Test public void TestSQWRLClassesBagFirst() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
+  {
+    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
+
+    addOWLAxioms(ontology, Declaration(DDI), Declaration(AZT));
+
+    SQWRLResult result = queryEngine.runSQWRLQuery("q1",
+      ". sqwrl:makeBag(?s1, DDI) ^ sqwrl:makeBag(?s1, AZT) . sqwrl:first(?first, ?s1) -> sqwrl:select(?first)");
+
+    Assert.assertTrue(result.next());
+    Assert.assertEquals("AZT", result.getClass("first").getShortName());
+  }
+
+  @Test public void TestSQWRLNamedIndividualsBagFirst()
+    throws SWRLParseException, SQWRLException, OWLOntologyCreationException
+  {
+    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
+
+    addOWLAxioms(ontology, Declaration(FRED), Declaration(BOB));
+
+    SQWRLResult result = queryEngine.runSQWRLQuery("q1",
+      ". sqwrl:makeBag(?s1, Fred) ^ sqwrl:makeBag(?s1, Bob) . sqwrl:first(?first, ?s1) -> sqwrl:select(?first)");
+
+    Assert.assertTrue(result.next());
+    Assert.assertEquals("Bob", result.getNamedIndividual("first").getShortName());
+  }
+
+  @Test public void TestSQWRLByteBagMin() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
+  {
+    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
+
+    SQWRLResult result = queryEngine.runSQWRLQuery("q1",
+      ". sqwrl:makeBag(?s1, \"77\"^^xsd:byte) ^ sqwrl:makeBag(?s1, \"23\"^^xsd:byte) "
+        + ". sqwrl:min(?min, ?s1) -> sqwrl:select(?min)");
+
+    Assert.assertTrue(result.next());
+    Assert.assertTrue(result.getLiteral("min").isByte());
+    Assert.assertEquals(23, result.getLiteral("min").getByte());
+  }
+
+  @Test public void TestSQWRLShortBagMin() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
+  {
+    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
+
+    SQWRLResult result = queryEngine.runSQWRLQuery("q1",
+      ". sqwrl:makeBag(?s1, \"77\"^^xsd:short) ^ sqwrl:makeBag(?s1, \"23\"^^xsd:short) "
+        + ". sqwrl:min(?min, ?s1) -> sqwrl:select(?min)");
+
+    Assert.assertTrue(result.next());
+    Assert.assertTrue(result.getLiteral("min").isShort());
+    Assert.assertEquals(23, result.getLiteral("min").getShort());
+  }
+
+  @Test public void TestSQWRLIntBagMin() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
+  {
+    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
+
+    SQWRLResult result = queryEngine.runSQWRLQuery("q1",
+      ". sqwrl:makeBag(?s1, 77) ^ sqwrl:makeBag(?s1, 23) . sqwrl:min(?min, ?s1) -> sqwrl:select(?min)");
+
+    Assert.assertTrue(result.next());
+    Assert.assertTrue(result.getLiteral("min").isInt());
+    Assert.assertEquals(23, result.getLiteral("min").getInt());
+  }
+
+  @Test public void TestSQWRLLongBagMin() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
+  {
+    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
+
+    SQWRLResult result = queryEngine.runSQWRLQuery("q1",
+      ". sqwrl:makeBag(?s1, \"77\"^^xsd:long) ^ sqwrl:makeBag(?s1, \"23\"^^xsd:long) "
+        + ". sqwrl:min(?min, ?s1) -> sqwrl:select(?min)");
+
+    Assert.assertTrue(result.next());
+    Assert.assertTrue(result.getLiteral("min").isLong());
+    Assert.assertEquals(23L, result.getLiteral("min").getLong());
+  }
+
+  @Test public void TestSQWRLFloatBagMin() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
+  {
+    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
+
+    SQWRLResult result = queryEngine.runSQWRLQuery("q1",
+      ". sqwrl:makeBag(?s1, 77.4) ^ sqwrl:makeBag(?s1, 23.3) . sqwrl:min(?min, ?s1) -> sqwrl:select(?min)");
+
+    Assert.assertTrue(result.next());
+    Assert.assertTrue(result.getLiteral("min").isFloat());
+    Assert.assertEquals(23.3f, result.getLiteral("min").getFloat(), IntegrationTestBase.DELTA);
+  }
+
+  @Test public void TestSQWRLDoubleBagMin() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
+  {
+    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
+
+    SQWRLResult result = queryEngine.runSQWRLQuery("q1",
+      ". sqwrl:makeBag(?s1, \"77.32\"^^xsd:double) ^ sqwrl:makeBag(?s1, \"23.3\"^^xsd:double) "
+        + ". sqwrl:min(?min, ?s1) -> sqwrl:select(?min)");
+
+    Assert.assertTrue(result.next());
+    Assert.assertTrue(result.getLiteral("min").isDouble());
+    Assert.assertEquals(23.3d, result.getLiteral("min").getDouble(), IntegrationTestBase.DELTA);
+  }
+
+  @Test public void TestSQWRLStringBagFirst() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
+  {
+    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
+
+    SQWRLResult result = queryEngine.runSQWRLQuery("q1",
+      ". sqwrl:makeBag(?s1, \"Fred\"^^xsd:string) ^ sqwrl:makeBag(?s1, \"Bob\"^^xsd:string) "
+        + ". sqwrl:first(?first, ?s1) -> sqwrl:select(?first)");
+
+    Assert.assertTrue(result.next());
+    Assert.assertTrue(result.getLiteral("first").isString());
+    Assert.assertEquals("Bob", result.getLiteral("first").getString());
+  }
+
+  @Test public void TestSQWRLStringSetFirst() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
+  {
+    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
+
+    SQWRLResult result = queryEngine.runSQWRLQuery("q1",
+      ". sqwrl:makeSet(?s1, \"Fred\"^^xsd:string) ^ sqwrl:makeSet(?s1, \"Bob\"^^xsd:string) "
+        + ". sqwrl:first(?first, ?s1) -> sqwrl:select(?first)");
+
+    Assert.assertTrue(result.next());
+    Assert.assertTrue(result.getLiteral("first").isString());
+    Assert.assertEquals("Bob", result.getLiteral("first").getString());
+  }
+
+  @Test public void TestSQWRLBagSumShortBroadest()
+    throws SWRLParseException, SQWRLException, OWLOntologyCreationException
+  {
+    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
+
+    SQWRLResult result = queryEngine.runSQWRLQuery("q1", ". sqwrl:makeBag(?s1, \"24\"^^xsd:byte) ^ "
+      + "sqwrl:makeBag(?s1, \"23\"^^xsd:byte) ^ sqwrl:makeBag(?s1, \"25\"^^xsd:short) "
+      + ". sqwrl:sum(?sum, ?s1) -> sqwrl:select(?sum)");
+
+    Assert.assertTrue(result.next());
+    Assert.assertTrue(result.getLiteral("sum").isShort());
+    Assert.assertEquals(72, result.getLiteral("sum").getShort());
+  }
+
+  @Test public void TestSQWRLSetSumShortBroadest()
+    throws SWRLParseException, SQWRLException, OWLOntologyCreationException
+  {
+    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
+
+    SQWRLResult result = queryEngine.runSQWRLQuery("q1", ". sqwrl:makeSet(?s1, \"24\"^^xsd:byte) ^ "
+      + "sqwrl:makeSet(?s1, \"23\"^^xsd:byte) ^ sqwrl:makeSet(?s1, \"25\"^^xsd:short) "
+      + ". sqwrl:sum(?sum, ?s1) -> sqwrl:select(?sum)");
+
+    Assert.assertTrue(result.next());
+    Assert.assertTrue(result.getLiteral("sum").isShort());
+    Assert.assertEquals(72, result.getLiteral("sum").getShort());
+  }
+
+  @Test public void TestSQWRLBagSumIntBroadest() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
+  {
+    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
+
+    SQWRLResult result = queryEngine.runSQWRLQuery("q1", ". sqwrl:makeBag(?s1, \"24\"^^xsd:byte) ^ "
+      + "sqwrl:makeBag(?s1, \"23\"^^xsd:byte) ^ sqwrl:makeBag(?s1, \"25\"^^xsd:int) "
+      + ". sqwrl:sum(?sum, ?s1) -> sqwrl:select(?sum)");
+
+    Assert.assertTrue(result.next());
+    Assert.assertTrue(result.getLiteral("sum").isInt());
+    Assert.assertEquals(72, result.getLiteral("sum").getInt());
+  }
+
+  @Test public void TestSQWRLBagSumLongBroadest()
+    throws SWRLParseException, SQWRLException, OWLOntologyCreationException
+  {
+    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
+
+    SQWRLResult result = queryEngine.runSQWRLQuery("q1", ". sqwrl:makeBag(?s1, \"24\"^^xsd:byte) ^ "
+      + "sqwrl:makeBag(?s1, \"23\"^^xsd:byte) ^ sqwrl:makeBag(?s1, \"25\"^^xsd:long) "
+      + ". sqwrl:sum(?sum, ?s1) -> sqwrl:select(?sum)");
+
+    Assert.assertTrue(result.next());
+    Assert.assertTrue(result.getLiteral("sum").isLong());
+    Assert.assertEquals(72L, result.getLiteral("sum").getLong());
+  }
+
+  @Test public void TestSQWRLBagSumFloatBroadest()
+    throws SWRLParseException, SQWRLException, OWLOntologyCreationException
+  {
+    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
+
+    SQWRLResult result = queryEngine.runSQWRLQuery("q1", ". sqwrl:makeBag(?s1, \"24\"^^xsd:byte) ^ "
+      + "sqwrl:makeBag(?s1, \"23\"^^xsd:byte) ^ sqwrl:makeBag(?s1, \"25.0\"^^xsd:float) "
+      + ". sqwrl:sum(?sum, ?s1) -> sqwrl:select(?sum)");
+
+    Assert.assertTrue(result.next());
+    Assert.assertTrue(result.getLiteral("sum").isFloat());
+    Assert.assertEquals(72f, result.getLiteral("sum").getFloat(), IntegrationTestBase.DELTA);
+  }
+
+  @Test public void TestSQWRLByteBagSumDoubleBroadest()
+    throws SWRLParseException, SQWRLException, OWLOntologyCreationException
+  {
+    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
+
+    SQWRLResult result = queryEngine.runSQWRLQuery("q1", ". sqwrl:makeBag(?s1, \"24\"^^xsd:byte) ^ "
+      + "sqwrl:makeBag(?s1, \"23\"^^xsd:byte) ^ sqwrl:makeBag(?s1, \"25.0\"^^xsd:double) "
+      + ". sqwrl:sum(?sum, ?s1) -> sqwrl:select(?sum)");
+
+    Assert.assertTrue(result.next());
+    Assert.assertTrue(result.getLiteral("sum").isDouble());
+    Assert.assertEquals(72d, result.getLiteral("sum").getDouble(), IntegrationTestBase.DELTA);
+  }
+
+  @Test public void TestSQWRLByteBagSum() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
+  {
+    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
+
+    SQWRLResult result = queryEngine.runSQWRLQuery("q1", ". sqwrl:makeBag(?s1, \"24\"^^xsd:byte) ^ "
+      + "sqwrl:makeBag(?s1, \"23\"^^xsd:byte) ^ sqwrl:makeBag(?s1, \"25\"^^xsd:byte) "
+      + ". sqwrl:sum(?sum, ?s1) -> sqwrl:select(?sum)");
+
+    Assert.assertTrue(result.next());
+    Assert.assertTrue(result.getLiteral("sum").isByte());
+    Assert.assertEquals(72, result.getLiteral("sum").getByte());
+  }
+
+  @Test public void TestSQWRLShortBagSum() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
+  {
+    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
+
+    SQWRLResult result = queryEngine.runSQWRLQuery("q1", ". sqwrl:makeBag(?s1, \"24\"^^xsd:short) ^ "
+      + "sqwrl:makeBag(?s1, \"23\"^^xsd:short) ^ sqwrl:makeBag(?s1, \"25\"^^xsd:short) "
+      + ". sqwrl:sum(?sum, ?s1) -> sqwrl:select(?sum)");
+
+    Assert.assertTrue(result.next());
+    Assert.assertTrue(result.getLiteral("sum").isShort());
+    Assert.assertEquals(72, result.getLiteral("sum").getShort());
+  }
+
+  @Test public void TestSQWRLIntBagSum() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
+  {
+    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
+
+    SQWRLResult result = queryEngine.runSQWRLQuery("q1", ". sqwrl:makeBag(?s1, \"24\"^^xsd:int) ^ "
+      + "sqwrl:makeBag(?s1, \"23\"^^xsd:int) ^ sqwrl:makeBag(?s1, \"25\"^^xsd:int) "
+      + ". sqwrl:sum(?sum, ?s1) -> sqwrl:select(?sum)");
+
+    Assert.assertTrue(result.next());
+    Assert.assertTrue(result.getLiteral("sum").isInt());
+    Assert.assertEquals(72, result.getLiteral("sum").getInt());
+  }
+
+  @Test public void TestSQWRLLongBagSum() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
+  {
+    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
+
+    SQWRLResult result = queryEngine.runSQWRLQuery("q1", ". sqwrl:makeBag(?s1, \"24\"^^xsd:long) ^ "
+      + "sqwrl:makeBag(?s1, \"23\"^^xsd:long) ^ sqwrl:makeBag(?s1, \"25\"^^xsd:long) "
+      + ". sqwrl:sum(?sum, ?s1) -> sqwrl:select(?sum)");
+
+    Assert.assertTrue(result.next());
+    Assert.assertTrue(result.getLiteral("sum").isLong());
+    Assert.assertEquals(72L, result.getLiteral("sum").getLong());
+  }
+
+  @Test public void TestSQWRLFloatBagSum() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
+  {
+    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
+
+    SQWRLResult result = queryEngine.runSQWRLQuery("q1", ". sqwrl:makeBag(?s1, \"24.0\"^^xsd:float) ^ "
+      + "sqwrl:makeBag(?s1, \"23.0\"^^xsd:float) ^ sqwrl:makeBag(?s1, \"25.0\"^^xsd:float) "
+      + ". sqwrl:sum(?sum, ?s1) -> sqwrl:select(?sum)");
+
+    Assert.assertTrue(result.next());
+    Assert.assertTrue(result.getLiteral("sum").isFloat());
+    Assert.assertEquals(72.0f, result.getLiteral("sum").getFloat(), IntegrationTestBase.DELTA);
+  }
+
+  @Test public void TestSQWRLDoubleBagSum() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
+  {
+    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
+
+    SQWRLResult result = queryEngine.runSQWRLQuery("q1", ". sqwrl:makeBag(?s1, \"24.0\"^^xsd:double) ^ "
+      + "sqwrl:makeBag(?s1, \"23.0\"^^xsd:double) ^ sqwrl:makeBag(?s1, \"25.0\"^^xsd:double) "
+      + ". sqwrl:sum(?sum, ?s1) -> sqwrl:select(?sum)");
+
+    Assert.assertTrue(result.next());
+    Assert.assertTrue(result.getLiteral("sum").isDouble());
+    Assert.assertEquals(72.0d, result.getLiteral("sum").getDouble(), IntegrationTestBase.DELTA);
+  }
+
+  @Test public void TestSQWRLBagAvgShortBroadest()
+    throws SWRLParseException, SQWRLException, OWLOntologyCreationException
+  {
+    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
+
+    SQWRLResult result = queryEngine.runSQWRLQuery("q1", ". sqwrl:makeBag(?s1, \"24\"^^xsd:byte) ^ "
+      + "sqwrl:makeBag(?s1, \"23\"^^xsd:byte) ^ sqwrl:makeBag(?s1, \"25\"^^xsd:short) "
+      + ". sqwrl:avg(?avg, ?s1) -> sqwrl:select(?avg)");
+
+    Assert.assertTrue(result.next());
+    Assert.assertTrue(result.getLiteral("avg").isShort());
+    Assert.assertEquals(24, result.getLiteral("avg").getShort());
+  }
+
+  @Test public void TestSQWRLBagAvgIntBroadest() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
+  {
+    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
+
+    SQWRLResult result = queryEngine.runSQWRLQuery("q1", ". sqwrl:makeBag(?s1, \"24\"^^xsd:byte) ^ "
+      + "sqwrl:makeBag(?s1, \"23\"^^xsd:byte) ^ sqwrl:makeBag(?s1, \"25\"^^xsd:int) "
+      + ". sqwrl:avg(?avg, ?s1) -> sqwrl:select(?avg)");
+
+    Assert.assertTrue(result.next());
+    Assert.assertTrue(result.getLiteral("avg").isInt());
+    Assert.assertEquals(24, result.getLiteral("avg").getInt());
+  }
+
+  @Test public void TestSQWRLBagAvgLongBroadest()
+    throws SWRLParseException, SQWRLException, OWLOntologyCreationException
+  {
+    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
+
+    SQWRLResult result = queryEngine.runSQWRLQuery("q1", ". sqwrl:makeBag(?s1, \"24\"^^xsd:byte) ^ "
+      + "sqwrl:makeBag(?s1, \"23\"^^xsd:byte) ^ sqwrl:makeBag(?s1, \"25\"^^xsd:long) "
+      + ". sqwrl:avg(?avg, ?s1) -> sqwrl:select(?avg)");
+
+    Assert.assertTrue(result.next());
+    Assert.assertTrue(result.getLiteral("avg").isLong());
+    Assert.assertEquals(24L, result.getLiteral("avg").getLong());
+  }
+
+  @Test public void TestSQWRLBagAvgFloatBroadest()
+    throws SWRLParseException, SQWRLException, OWLOntologyCreationException
+  {
+    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
+
+    SQWRLResult result = queryEngine.runSQWRLQuery("q1", ". sqwrl:makeBag(?s1, \"24\"^^xsd:byte) ^ "
+      + "sqwrl:makeBag(?s1, \"23\"^^xsd:byte) ^ sqwrl:makeBag(?s1, \"25.0\"^^xsd:float) "
+      + ". sqwrl:avg(?avg, ?s1) -> sqwrl:select(?avg)");
+
+    Assert.assertTrue(result.next());
+    Assert.assertTrue(result.getLiteral("avg").isFloat());
+    Assert.assertEquals(24.0f, result.getLiteral("avg").getFloat(), IntegrationTestBase.DELTA);
+  }
+
+  @Test public void TestSQWRLBagDoubleBroadest() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
+  {
+    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
+
+    SQWRLResult result = queryEngine.runSQWRLQuery("q1", ". sqwrl:makeBag(?s1, \"24\"^^xsd:byte) ^ "
+      + "sqwrl:makeBag(?s1, \"23\"^^xsd:byte) ^ sqwrl:makeBag(?s1, \"25.0\"^^xsd:double) "
+      + ". sqwrl:avg(?avg, ?s1) -> sqwrl:select(?avg)");
+
+    Assert.assertTrue(result.next());
+    Assert.assertTrue(result.getLiteral("avg").isDouble());
+    Assert.assertEquals(24.0d, result.getLiteral("avg").getDouble(), IntegrationTestBase.DELTA);
+  }
+
+  @Test public void TestSQWRLByteBagAvg() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
+  {
+    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
+
+    SQWRLResult result = queryEngine.runSQWRLQuery("q1", ". sqwrl:makeBag(?s1, \"24\"^^xsd:byte) ^ "
+      + "sqwrl:makeBag(?s1, \"23\"^^xsd:byte) ^ sqwrl:makeBag(?s1, \"25\"^^xsd:byte) "
+      + ". sqwrl:avg(?avg, ?s1) -> sqwrl:select(?avg)");
+
+    Assert.assertTrue(result.next());
+    Assert.assertTrue(result.getLiteral("avg").isByte());
+    Assert.assertEquals(24, result.getLiteral("avg").getByte());
+  }
+
+  @Test public void TestSQWRLByteSetAvg() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
+  {
+    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
+
+    SQWRLResult result = queryEngine.runSQWRLQuery("q1", ". sqwrl:makeSet(?s1, \"24\"^^xsd:byte) ^ "
+      + "sqwrl:makeSet(?s1, \"23\"^^xsd:byte) ^ sqwrl:makeSet(?s1, \"25\"^^xsd:byte) "
+      + "sqwrl:makeSet(?s1, \"25\"^^xsd:byte) . sqwrl:avg(?avg, ?s1) -> sqwrl:select(?avg)");
+
+    Assert.assertTrue(result.next());
+    Assert.assertTrue(result.getLiteral("avg").isByte());
+    Assert.assertEquals(24, result.getLiteral("avg").getByte());
+  }
+
+  @Test public void TestSQWRLShortBagAvg() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
+  {
+    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
+
+    SQWRLResult result = queryEngine.runSQWRLQuery("q1", ". sqwrl:makeBag(?s1, \"24\"^^xsd:short) ^ "
+      + "sqwrl:makeBag(?s1, \"23\"^^xsd:short)  ^ sqwrl:makeBag(?s1, \"25\"^^xsd:short) "
+      + ". sqwrl:avg(?avg, ?s1) -> sqwrl:select(?avg)");
+
+    Assert.assertTrue(result.next());
+    Assert.assertTrue(result.getLiteral("avg").isShort());
+    Assert.assertEquals(24, result.getLiteral("avg").getShort());
+  }
+
+  @Test public void TestSQWRLShortSetAvg() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
+  {
+    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
+
+    SQWRLResult result = queryEngine.runSQWRLQuery("q1", ". sqwrl:makeBag(?s1, \"24\"^^xsd:short) ^ "
+      + "sqwrl:makeBag(?s1, \"23\"^^xsd:short) ^ sqwrl:makeBag(?s1, \"23\"^^xsd:short)"
+      + "sqwrl:makeBag(?s1, \"25\"^^xsd:short) . sqwrl:avg(?avg, ?s1) -> sqwrl:select(?avg)");
+
+    Assert.assertTrue(result.next());
+    Assert.assertTrue(result.getLiteral("avg").isShort());
+    Assert.assertEquals(24, result.getLiteral("avg").getShort());
+  }
+
+  @Test public void TestSQWRLIntBagAvg() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
+  {
+    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
+
+    SQWRLResult result = queryEngine.runSQWRLQuery("q1",
+      ". sqwrl:makeBag(?s1, 24) ^ " + "sqwrl:makeBag(?s1, 23) " + "sqwrl:makeBag(?s1, 25) "
+        + ". sqwrl:avg(?avg, ?s1) -> sqwrl:select(?avg)");
+
+    Assert.assertTrue(result.next());
+    Assert.assertTrue(result.getLiteral("avg").isInt());
+    Assert.assertEquals(24, result.getLiteral("avg").getInt());
+  }
+
+  @Test public void TestSQWRLIntSetAvg() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
+  {
+    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
+
+    SQWRLResult result = queryEngine.runSQWRLQuery("q1", ". sqwrl:makeSet(?s1, 24) ^ sqwrl:makeSet(?s1, 23) "
+      + "^ sqwrl:makeSet(?s1, 25) ^ sqwrl:makeSet(?s1, 25) . sqwrl:avg(?avg, ?s1) -> sqwrl:select(?avg)");
+
+    Assert.assertTrue(result.next());
+    Assert.assertTrue(result.getLiteral("avg").isInt());
+    Assert.assertEquals(24, result.getLiteral("avg").getInt());
+  }
+
+  @Test public void TestSQWRLLongBagAvg() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
+  {
+    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
+
+    SQWRLResult result = queryEngine.runSQWRLQuery("q1",
+      ". sqwrl:makeBag(?s1, \"24\"^^xsd:long) ^ " + "sqwrl:makeBag(?s1, \"23\"^^xsd:long) "
+        + "sqwrl:makeBag(?s1, \"25\"^^xsd:long) " + ". sqwrl:avg(?avg, ?s1) -> sqwrl:select(?avg)");
+
+    Assert.assertTrue(result.next());
+    Assert.assertTrue(result.getLiteral("avg").isLong());
+    Assert.assertEquals(24L, result.getLiteral("avg").getLong());
+  }
+
+  @Test public void TestSQWRLLongSetAvg() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
+  {
+    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
+
+    SQWRLResult result = queryEngine.runSQWRLQuery("q1", ". sqwrl:makeSet(?s1, \"24\"^^xsd:long) ^ "
+      + "sqwrl:makeSet(?s1, \"23\"^^xsd:long) ^ sqwrl:makeSet(?s1, \"25\"^^xsd:long) "
+      + "sqwrl:makeSet(?s1, \"25\"^^xsd:long) . sqwrl:avg(?avg, ?s1) -> sqwrl:select(?avg)");
+
+    Assert.assertTrue(result.next());
+    Assert.assertTrue(result.getLiteral("avg").isLong());
+    Assert.assertEquals(24L, result.getLiteral("avg").getLong());
+  }
+
+  @Test public void TestSQWRLFloatBagAvg() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
+  {
+    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
+
+    SQWRLResult result = queryEngine.runSQWRLQuery("q1",
+      ". sqwrl:makeBag(?s1, 24.2) ^ " + "sqwrl:makeBag(?s1, 23.2) " + "sqwrl:makeBag(?s1, 25.2) "
+        + ". sqwrl:avg(?avg, ?s1) -> sqwrl:select(?avg)");
+
+    Assert.assertTrue(result.next());
+    Assert.assertTrue(result.getLiteral("avg").isFloat());
+    Assert.assertEquals(24.2f, result.getLiteral("avg").getFloat(), IntegrationTestBase.DELTA);
+  }
+
+  @SuppressWarnings("static-access") @Test public void TestSQWRLFloatSetAvg()
+    throws SWRLParseException, SQWRLException, OWLOntologyCreationException
+  {
+    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
+
+    SQWRLResult result = queryEngine.runSQWRLQuery("q1", ". sqwrl:makeSet(?s1, 24.2) ^ " + "sqwrl:makeSet(?s1, 23.2) "
+      + "sqwrl:makeBag(?s1, 25.2) ^ sqwrl:makeBag(?s1, 25.2) . sqwrl:avg(?avg, ?s1) -> sqwrl:select(?avg)");
+
+    Assert.assertTrue(result.next());
+    Assert.assertTrue(result.getLiteral("avg").isFloat());
+    Assert.assertEquals(24.2f, result.getLiteral("avg").getFloat(), IntegrationTestBase.DELTA);
+  }
+
+  @Test public void TestSQWRLDoubleBagAvg() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
+  {
+    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
+
+    SQWRLResult result = queryEngine.runSQWRLQuery("q1", ". sqwrl:makeBag(?s1, \"24.2\"^^xsd:double) ^ "
+      + "sqwrl:makeBag(?s1, \"23.2\"^^xsd:double) ^ sqwrl:makeBag(?s1, \"25.2\"^^xsd:double) "
+      + ". sqwrl:avg(?avg, ?s1) -> sqwrl:select(?avg)");
+
+    Assert.assertTrue(result.next());
+    Assert.assertTrue(result.getLiteral("avg").isDouble());
+    Assert.assertEquals(24.2d, result.getLiteral("avg").getDouble(), IntegrationTestBase.DELTA);
+  }
+
+  @Test public void TestSQWRLDoubleSetAvg() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
+  {
+    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
+
+    SQWRLResult result = queryEngine.runSQWRLQuery("q1", ". sqwrl:makeBag(?s1, \"24.2\"^^xsd:double) ^ "
+      + "sqwrl:makeBag(?s1, \"23.2\"^^xsd:double)  ^ sqwrl:makeBag(?s1, \"25.2\"^^xsd:double) "
+      + "sqwrl:makeBag(?s1, \"25.2\"^^xsd:double) . sqwrl:avg(?avg, ?s1) -> sqwrl:select(?avg)");
+
+    Assert.assertTrue(result.next());
+    Assert.assertTrue(result.getLiteral("avg").isDouble());
+    Assert.assertEquals(24.2d, result.getLiteral("avg").getDouble(), IntegrationTestBase.DELTA);
+  }
+
+  @Test public void TestSQWRLBagClassesLast() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
+  {
+    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
+
+    addOWLAxioms(ontology, Declaration(DDI), Declaration(AZT));
+
+    SQWRLResult result = queryEngine.runSQWRLQuery("q1",
+      ". sqwrl:makeBag(?s1, DDI) ^ sqwrl:makeBag(?s1, AZT) . sqwrl:last(?last, ?s1) -> sqwrl:select(?last)");
+
+    Assert.assertTrue(result.next());
+    Assert.assertEquals("DDI", result.getClass("last").getShortName());
+  }
+
+  @Test public void TestSQWRLBagNamedIndividualLast()
+    throws SWRLParseException, SQWRLException, OWLOntologyCreationException
+  {
+    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
+
+    addOWLAxioms(ontology, Declaration(FRED), Declaration(BOB));
+
+    SQWRLResult result = queryEngine.runSQWRLQuery("q1",
+      ". sqwrl:makeBag(?s1, Bob) ^ sqwrl:makeBag(?s1, Fred) . sqwrl:last(?last, ?s1) -> sqwrl:select(?last)");
+
+    Assert.assertTrue(result.next());
+    Assert.assertEquals("Fred", result.getNamedIndividual("last").getShortName());
+  }
+
+  @Test public void TestSQWRLNth() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
+  {
+    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
+
+    addOWLAxioms(ontology, Declaration(DDI), Declaration(AZT), Declaration(BBT));
+
+    SQWRLResult result = queryEngine.runSQWRLQuery("q1",
+      " . sqwrl:makeBag(?s1, DDI) ^ sqwrl:makeBag(?s1, AZT) ^ sqwrl:makeBag(?s1, BBT) "
+        + " . sqwrl:nth(?second, ?s1, 2) -> sqwrl:select(?second)");
+
+    Assert.assertTrue(result.next());
+    Assert.assertEquals("BBT", result.getClass("second").getShortName());
+  }
+
+  @Test public void TestSQWRLNthLast() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
+  {
+    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
+
+    addOWLAxioms(ontology, Declaration(DDI), Declaration(AZT), Declaration(BBT));
+
+    SQWRLResult result = queryEngine.runSQWRLQuery("q1",
+      " . sqwrl:makeBag(?s1, DDI) ^ sqwrl:makeBag(?s1, AZT) ^ sqwrl:makeBag(?s1, BBT) "
+        + " . sqwrl:nthLast(?secondLast, ?s1, 2) -> sqwrl:select(?secondLast)");
+
+    Assert.assertTrue(result.next());
+    Assert.assertEquals("BBT", result.getClass("secondLast").getShortName());
+  }
 }

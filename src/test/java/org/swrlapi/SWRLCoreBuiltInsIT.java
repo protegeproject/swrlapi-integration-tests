@@ -117,7 +117,7 @@ public class SWRLCoreBuiltInsIT extends IntegrationTestBase
 
     Assert.assertTrue(result.next());
     Assert.assertTrue(result.getNamedIndividual(0).isNamedIndividual());
-    Assert.assertEquals(result.getNamedIndividual(0).getShortName(), "p1");
+    Assert.assertEquals("p1", result.getNamedIndividual(0).getShortName());
   }
 
   @Test public void TestSWRLCoreLessThanBuiltInWithInt()
@@ -161,7 +161,7 @@ public class SWRLCoreBuiltInsIT extends IntegrationTestBase
 
     Assert.assertTrue(result.next());
     Assert.assertTrue(result.getNamedIndividual(0).isNamedIndividual());
-    Assert.assertEquals(result.getNamedIndividual(0).getShortName(), "p1");
+    Assert.assertEquals("p1", result.getNamedIndividual(0).getShortName());
   }
 
   @Test public void TestSWRLCoreLessThanBuiltInWithLong()
@@ -205,7 +205,7 @@ public class SWRLCoreBuiltInsIT extends IntegrationTestBase
 
     Assert.assertTrue(result.next());
     Assert.assertTrue(result.getNamedIndividual(0).isNamedIndividual());
-    Assert.assertEquals(result.getNamedIndividual(0).getShortName(), "p1");
+    Assert.assertEquals("p1", result.getNamedIndividual(0).getShortName());
   }
 
   @Test public void TestSWRLCoreGreaterThanBuiltInWithFloat()
@@ -235,7 +235,7 @@ public class SWRLCoreBuiltInsIT extends IntegrationTestBase
 
     Assert.assertTrue(result.next());
     Assert.assertTrue(result.getNamedIndividual(0).isNamedIndividual());
-    Assert.assertEquals(result.getNamedIndividual(0).getShortName(), "p1");
+    Assert.assertEquals("p1", result.getNamedIndividual(0).getShortName());
   }
 
   @Test public void TestSWRLCoreLessThanBuiltInWithFloat()
@@ -307,7 +307,7 @@ public class SWRLCoreBuiltInsIT extends IntegrationTestBase
 
     Assert.assertTrue(result.next());
     Assert.assertTrue(result.getNamedIndividual(0).isNamedIndividual());
-    Assert.assertEquals(result.getNamedIndividual(0).getShortName(), "p1");
+    Assert.assertEquals("p1", result.getNamedIndividual(0).getShortName());
   }
 
   @Test public void TestSWRLCoreLessThanBuiltInWithString()
@@ -489,7 +489,7 @@ public class SWRLCoreBuiltInsIT extends IntegrationTestBase
     Assert.assertTrue(result.next());
     SQWRLLiteralResultValue literal = result.getLiteral("r");
     Assert.assertTrue(literal.isString());
-    Assert.assertEquals(literal.getString(), "AB");
+    Assert.assertEquals("AB", literal.getString());
   }
 
   @Test public void TestSWRLCoreStringEqualIgnoreCaseBuiltIn()
@@ -673,7 +673,7 @@ public class SWRLCoreBuiltInsIT extends IntegrationTestBase
 
     Assert.assertTrue(result.next());
     Assert.assertTrue(result.getLiteral("x").isDuration());
-    Assert.assertEquals(result.getLiteral("x").getDuration(), new XSDDuration("P3Y4M"));
+    Assert.assertEquals(new XSDDuration("P3Y4M"), result.getLiteral("x").getDuration());
   }
 
   @Test public void TestSWRLCoreDayTimeDurationBuiltIn()
@@ -687,7 +687,7 @@ public class SWRLCoreBuiltInsIT extends IntegrationTestBase
 
     Assert.assertTrue(result.next());
     Assert.assertTrue(result.getLiteral("x").isDuration());
-    Assert.assertEquals(result.getLiteral("x").getDuration(), new XSDDuration("P2DT3H4M5S"));
+    Assert.assertEquals(new XSDDuration("P2DT3H4M5S"), result.getLiteral("x").getDuration());
   }
 
   @Test public void TestSWRLCoreTimeBuiltIn() throws SWRLParseException, SQWRLException, OWLOntologyCreationException

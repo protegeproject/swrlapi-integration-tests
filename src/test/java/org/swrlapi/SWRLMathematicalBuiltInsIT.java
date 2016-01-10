@@ -24,23 +24,22 @@ import static org.semanticweb.owlapi.apibinding.OWLFunctionalSyntaxFactory.Named
  */
 public class SWRLMathematicalBuiltInsIT extends IntegrationTestBase
 {
-	private static final OWLNamedIndividual P1 = NamedIndividual(iri("p1"));
-	private static final OWLDataProperty HAS_AGE = DataProperty(iri("hasAge"));
+  private static final OWLNamedIndividual P1 = NamedIndividual(iri("p1"));
+  private static final OWLDataProperty HAS_AGE = DataProperty(iri("hasAge"));
 
-	@Test
-	public void TestSWRLCoreLessThanBuiltInWithShort()
-			throws SWRLParseException, SQWRLException, OWLOntologyCreationException
-	{
-		OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-		SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
+  @Test public void TestSWRLCoreLessThanBuiltInWithShort()
+    throws SWRLParseException, SQWRLException, OWLOntologyCreationException
+  {
+    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
 
-		addOWLAxioms(ontology, DataPropertyAssertion(HAS_AGE, P1, Literal("42", XSD_INT)));
+    addOWLAxioms(ontology, DataPropertyAssertion(HAS_AGE, P1, Literal("42", XSD_INT)));
 
-		SQWRLResult result = queryEngine.runSQWRLQuery("q1",
-				"hasAge(p1, ?age) ^ swrlm:eval(?r, \"age + 1\", ?age) -> sqwrl:select(?r)");
+    SQWRLResult result = queryEngine
+      .runSQWRLQuery("q1", "hasAge(p1, ?age) ^ swrlm:eval(?r, \"age + 1\", ?age) -> sqwrl:select(?r)");
 
-		Assert.assertTrue(result.next());
-		Assert.assertTrue(result.getLiteral("r").isDouble());
-		Assert.assertEquals(result.getLiteral("r").getDouble(), 43.0d, IntegrationTestBase.DELTA);
-	}
+    Assert.assertTrue(result.next());
+    Assert.assertTrue(result.getLiteral("r").isDouble());
+    Assert.assertEquals(43.0d, result.getLiteral("r").getDouble(), IntegrationTestBase.DELTA);
+  }
 }
