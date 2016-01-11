@@ -60,10 +60,10 @@ public class SQWRLCollectionsIT extends IntegrationTestBase
     OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
     SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
 
-    addOWLAxioms(ontology, Declaration(DDI), Declaration(AZT));
+    addOWLAxioms(ontology, Declaration(BOB), Declaration(FRED));
 
-    SQWRLResult result = queryEngine.runSQWRLQuery("q1", ". sqwrl:makeBag(?s1, DDI) ^ sqwrl:makeBag(?s1, AZT)"
-      + " ^ sqwrl:makeBag(?s2, AZT) ^ sqwrl:makeBag(?s2, AZT) . sqwrl:equal(?s1, ?s2) -> sqwrl:select(0)");
+    SQWRLResult result = queryEngine.runSQWRLQuery("q1", ". sqwrl:makeBag(?s1, Bob) ^ sqwrl:makeBag(?s1, Fred)"
+      + " ^ sqwrl:makeBag(?s2, Bob) ^ sqwrl:makeBag(?s2, Fred) . sqwrl:equal(?s1, ?s2) -> sqwrl:select(0)");
 
     Assert.assertTrue(result.next());
   }
@@ -74,10 +74,10 @@ public class SQWRLCollectionsIT extends IntegrationTestBase
     OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
     SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
 
-    addOWLAxioms(ontology, Declaration(DDI), Declaration(AZT));
+    addOWLAxioms(ontology, Declaration(BOB), Declaration(FRED));
 
-    SQWRLResult result = queryEngine.runSQWRLQuery("q1", ". sqwrl:makeSet(?s1, DDI) ^ sqwrl:makeSet(?s1, AZT)"
-      + " ^ sqwrl:makeSet(?s2, AZT) ^ sqwrl:makeSet(?s2, AZT) . sqwrl:equal(?s1, ?s2) -> sqwrl:select(0)");
+    SQWRLResult result = queryEngine.runSQWRLQuery("q1", ". sqwrl:makeSet(?s1, Bob) ^ sqwrl:makeSet(?s1, Fred)"
+      + " ^ sqwrl:makeSet(?s2, Bob) ^ sqwrl:makeSet(?s2, Fred) . sqwrl:equal(?s1, ?s2) -> sqwrl:select(0)");
 
     Assert.assertTrue(result.next());
   }
