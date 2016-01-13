@@ -30,3 +30,7 @@ Then build and run the tests:
 
     mvn verify
 
+#### License
+
+The software is licensed under the [BSD 2-clause License](https://github.com/protegeproject/swrlapi-integration-tests/blob/master/license.txt).
+
