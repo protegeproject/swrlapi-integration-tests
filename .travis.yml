@@ -7,6 +7,9 @@ notifications:
     - martin.oconnor@stanford.edu
     on_success: never
     on_failure: always
+
+script: '[ ${TRAVIS_PULL_REQUEST} = ''false'' ] && mvn verify'
+
 env:
   global:
   - secure: b5bShYYTcvJwLDKtsKn2qsjNeiNoO+sTUg5GWoWRnzOY3j4PFA7eK8R3gSN6detRcX91SwltYZ+BoCZhQ6scXeJdbwAx/Oc0NlpsxGc5YlZM+yGfOoksV3cY7aAPLATJa3E4WCnvulQ+tbI/+qIgxXefaJXUf2HC6LGOYFrz0w4=
