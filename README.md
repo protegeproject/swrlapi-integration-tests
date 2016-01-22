@@ -1,5 +1,8 @@
 ## SWRLAPI Integration Tests
 
+[![Build Status](https://travis-ci.org/protegeproject/swrlapi-integration-tests.svg?branch=master)](https://travis-ci.org/protegeproject/swrlapi-integration-tests)
+[![Dependency Status](https://www.versioneye.com/user/projects/56a278d09b5998003d000081/badge.svg?style=flat)](https://www.versioneye.com/user/projects/56a278d09b5998003d000081)
+
 Integration tests for the [SWRLAPI](https://github.com/protegeproject/swrlapi).
 
 ### Downloading
@@ -34,3 +37,9 @@ Then build and run the tests:
 
 The software is licensed under the [BSD 2-clause License](https://github.com/protegeproject/swrlapi-integration-tests/blob/master/license.txt).
 
+#### Questions
+
+If you have questions about this library, please go to the main
+Protégé website and subscribe to the [Protégé Developer Support
+mailing list](http://protege.stanford.edu/support.php#mailingListSupport).
+After subscribing, send messages to protege-dev at lists.stanford.edu.
