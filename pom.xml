@@ -24,7 +24,7 @@
     <junit.version>4.12</junit.version>
     <slf4j.version>1.7.13</slf4j.version>
 
-    <maven.compiler.plugin.version>2.3.2</maven.compiler.plugin.version>
+    <maven.compiler.plugin.version>3.5</maven.compiler.plugin.version>
     <maven.failsafe.plugin.version>2.19.1</maven.failsafe.plugin.version>
     <maven.jar.plugin.version>2.6</maven.jar.plugin.version>
     <maven.install.plugin.version>2.5.2</maven.install.plugin.version>
