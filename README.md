@@ -4,13 +4,13 @@
 
 Integration tests for the [SWRLAPI](https://github.com/protegeproject/swrlapi).
 
-#### Building and Tuning the Tests
+#### Building and Running the Tests
 
 To build and run the tests you must have the following items installed:
 
-+ Apache's [Maven](http://maven.apache.org/index.html)
-+ A tool for checking out a [Git](http://git-scm.com/) repository
 + [Java 8](http://www.oracle.com/technetwork/java/javase/downloads/index.html)
++ A tool for checking out a [Git](http://git-scm.com/) repository
++ Apache's [Maven](http://maven.apache.org/index.html)
 
 Get a copy of the latest code:
 
