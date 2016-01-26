@@ -4,15 +4,7 @@
 
 Integration tests for the [SWRLAPI](https://github.com/protegeproject/swrlapi).
 
-### Downloading
-
-You can get a copy of the latests JAR from the [project's GitHub Release area](https://github.com/protegeproject/swrlapi-integration-tests/releases).
-
-This JAR will have a name of the form:
-
-    swrlapi-integration-tests-${version}.jar
-
-#### Building 
+#### Building and Tuning the Tests
 
 To build and run the tests you must have the following items installed:
 
@@ -32,9 +24,17 @@ Then build and run the tests:
 
     mvn verify
 
+#### Downloading
+
+You can get a copy of the latests JAR from the [project's GitHub Release area](https://github.com/protegeproject/swrlapi-integration-tests/releases).
+
+This JAR will have a name of the form:
+
+    swrlapi-integration-tests-${version}.jar
+
 #### License
 
-The software is licensed under the [BSD 2-clause License](https://github.com/protegeproject/swrlapi-integration-tests/blob/master/license.txt).
+This software is licensed under the [BSD 2-clause License](https://github.com/protegeproject/swrlapi-integration-tests/blob/master/license.txt).
 
 #### Questions
 
