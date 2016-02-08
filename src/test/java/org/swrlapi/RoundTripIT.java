@@ -14,6 +14,7 @@ import org.semanticweb.owlapi.model.OWLOntologyCreationException;
 import org.semanticweb.owlapi.model.OWLOntologyManager;
 import org.semanticweb.owlapi.model.OWLOntologyStorageException;
 import org.semanticweb.owlapi.model.parameters.Imports;
+import org.swrlapi.core.IRIResolver;
 import org.swrlapi.core.SWRLRuleEngine;
 import org.swrlapi.factory.SWRLAPIFactory;
 import org.swrlapi.parser.SWRLParseException;
@@ -39,19 +40,20 @@ import static org.semanticweb.owlapi.apibinding.OWLFunctionalSyntaxFactory.Named
  */
 public class RoundTripIT extends IntegrationTestBase
 {
-  private static final String BASE_IRI = "http://swrlapi.org/it/";
-  private static final OWLClass PERSON = Class(iri(BASE_IRI + "#Person"));
-  private static final OWLClass ADULT = Class(iri(BASE_IRI + "#Adult"));
-  private static final OWLNamedIndividual P1 = NamedIndividual(iri(BASE_IRI + "#p1"));
-  private static final OWLDataProperty HAS_AGE = DataProperty(iri(BASE_IRI + "#hasAge"));
+  private static final String NAMESPACE = "http://swrlapi.org/it#";
+  private static final OWLClass PERSON = Class(iri(NAMESPACE + "Person"));
+  private static final OWLClass ADULT = Class(iri(NAMESPACE + "Adult"));
+  private static final OWLNamedIndividual P1 = NamedIndividual(iri(NAMESPACE + "p1"));
+  private static final OWLDataProperty HAS_AGE = DataProperty(iri(NAMESPACE + "hasAge"));
 
   @Test public void TestSWRLRuleRoundTrip()
     throws SWRLParseException, SQWRLException, IOException, OWLOntologyCreationException, OWLOntologyStorageException
   {
     OWLOntologyManager ontologyManager = OWLManager.createOWLOntologyManager();
     RDFXMLDocumentFormat format = new RDFXMLDocumentFormat();
-    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology(iri(BASE_IRI));
-    SWRLRuleEngine ruleEngine = SWRLAPIFactory.createSWRLRuleEngine(ontology);
+    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
+    IRIResolver iriResolver = SWRLAPIFactory.createIRIResolver(NAMESPACE);
+    SWRLRuleEngine ruleEngine = SWRLAPIFactory.createSWRLRuleEngine(ontology, iriResolver);
 
     File file = File.createTempFile("temp", ".owl");
 
@@ -80,8 +82,9 @@ public class RoundTripIT extends IntegrationTestBase
   {
     OWLOntologyManager ontologyManager = OWLManager.createOWLOntologyManager();
     RDFXMLDocumentFormat format = new RDFXMLDocumentFormat();
-    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology(iri(BASE_IRI));
-    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
+    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
+    IRIResolver iriResolver = SWRLAPIFactory.createIRIResolver(NAMESPACE);
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology, iriResolver);
 
     File file = File.createTempFile("temp", ".owl");
 
@@ -100,6 +103,6 @@ public class RoundTripIT extends IntegrationTestBase
 
     Assert.assertTrue(result.next());
     // TODO Fix
-    // Assert.assertEquals("p1", result.getNamedIndividual("p").getShortName());
+    //Assert.assertEquals("p1", result.getNamedIndividual("p").getShortName());
   }
 }
