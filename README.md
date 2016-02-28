@@ -24,21 +24,13 @@ Then build and run the tests:
 
     mvn verify
 
-#### Downloading
-
-You can get a copy of the latests JAR from the [project's GitHub Release area](https://github.com/protegeproject/swrlapi-integration-tests/releases).
-
-This JAR will have a name of the form:
-
-    swrlapi-integration-tests-${version}.jar
-
 #### License
 
 This software is licensed under the [BSD 2-clause License](https://github.com/protegeproject/swrlapi-integration-tests/blob/master/license.txt).
 
 #### Questions
 
-If you have questions about this library, please go to the main
+If you have questions about this software, please go to the main
 Protégé website and subscribe to the [Protégé Developer Support
 mailing list](http://protege.stanford.edu/support.php#mailingListSupport).
 After subscribing, send messages to protege-dev at lists.stanford.edu.
