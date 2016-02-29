@@ -30,6 +30,8 @@ import static org.semanticweb.owlapi.apibinding.OWLFunctionalSyntaxFactory.DataP
 import static org.semanticweb.owlapi.apibinding.OWLFunctionalSyntaxFactory.DifferentIndividuals;
 import static org.semanticweb.owlapi.apibinding.OWLFunctionalSyntaxFactory.Literal;
 import static org.semanticweb.owlapi.apibinding.OWLFunctionalSyntaxFactory.NamedIndividual;
+import static org.semanticweb.owlapi.apibinding.OWLFunctionalSyntaxFactory.OWLNothing;
+import static org.semanticweb.owlapi.apibinding.OWLFunctionalSyntaxFactory.OWLThing;
 import static org.semanticweb.owlapi.apibinding.OWLFunctionalSyntaxFactory.ObjectProperty;
 import static org.semanticweb.owlapi.apibinding.OWLFunctionalSyntaxFactory.ObjectPropertyAssertion;
 import static org.semanticweb.owlapi.apibinding.OWLFunctionalSyntaxFactory.SameIndividual;
@@ -53,6 +55,34 @@ public class SWRLCoreIT extends IntegrationTestBase
   private static final OWLDataProperty HAS_HEIGHT_IN_CM = DataProperty(iri("hasHeightInCM"));
   private static final OWLDataProperty HAS_HEIGHT = DataProperty(iri("hasHeight"));
   private static final OWLDataProperty HEIGHT_OFFET_IN_CM = DataProperty(iri("heightOffsetInCM"));
+
+  @Test public void TestSWRLCoreOWLThingClassAtomInAntecedentWithNamedIndividual()
+    throws SWRLParseException, SQWRLException, OWLOntologyCreationException
+  {
+    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
+
+    addOWLAxioms(ontology, ClassAssertion(OWLThing(), P1));
+
+    SQWRLResult result = queryEngine.runSQWRLQuery("q1", "owl:Thing(p1) -> sqwrl:select(p1)");
+
+    Assert.assertTrue(result.next());
+    Assert.assertEquals("p1", result.getNamedIndividual(0).getShortName());
+  }
+
+  @Test public void TestSWRLCoreOWLNothingClassAtomInAntecedentWithNamedIndividual()
+    throws SWRLParseException, SQWRLException, OWLOntologyCreationException
+  {
+    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
+
+    addOWLAxioms(ontology, ClassAssertion(OWLNothing(), P1));
+
+    SQWRLResult result = queryEngine.runSQWRLQuery("q1", "owl:Nothing(p1) -> sqwrl:select(p1)");
+
+    Assert.assertTrue(result.next());
+    Assert.assertEquals("p1", result.getNamedIndividual(0).getShortName());
+  }
 
   @Test public void TestSWRLCoreClassAtomInAntecedentWithNamedIndividual()
     throws SWRLParseException, SQWRLException, OWLOntologyCreationException
