@@ -20,6 +20,8 @@ import org.swrlapi.sqwrl.SQWRLResult;
 import org.swrlapi.sqwrl.exceptions.SQWRLException;
 import org.swrlapi.test.IntegrationTestBase;
 
+import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.net.URI;
 import java.net.URISyntaxException;
 
@@ -543,6 +545,124 @@ public class SWRLCoreIT extends IntegrationTestBase
     Assert.assertTrue(result.next());
     Assert.assertTrue(result.getLiteral("offset").isDouble());
     Assert.assertEquals(-177.0d, result.getLiteral("offset").getDouble(), IntegrationTestBase.DELTA);
+  }
+
+  @Test public void TestSWRLCoreIntegerLiteralMatch()
+    throws SWRLParseException, SQWRLException, OWLOntologyCreationException
+  {
+    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
+
+    addOWLAxioms(ontology, DataPropertyAssertion(HAS_AGE, P1, Literal("42", XSD_INTEGER)));
+
+    SQWRLResult result = queryEngine.runSQWRLQuery("q1", "hasAge(p1, \"42\"^^xsd:integer) -> sqwrl:select(0)");
+
+    Assert.assertTrue(result.next());
+  }
+
+  @Test public void TestSWRLCoreNegativeIntegerLiteralMatch()
+    throws SWRLParseException, SQWRLException, OWLOntologyCreationException
+  {
+    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
+
+    addOWLAxioms(ontology, DataPropertyAssertion(YEAR_OFFSET_TO_BIRTH, P1, Literal("-42", XSD_INTEGER)));
+
+    SQWRLResult result = queryEngine
+      .runSQWRLQuery("q1", "yearOffsetToBirth(p1, \"-42\"^^xsd:integer) -> sqwrl:select(0)");
+
+    Assert.assertTrue(result.next());
+  }
+
+  @Test public void TestSWRLCoreIntegerLiteralBind()
+    throws SWRLParseException, SQWRLException, OWLOntologyCreationException
+  {
+    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
+
+    addOWLAxioms(ontology, DataPropertyAssertion(HAS_AGE, P1, Literal("42", XSD_INTEGER)));
+
+    SQWRLResult result = queryEngine.runSQWRLQuery("q1", "hasAge(p1, ?age) -> sqwrl:select(p1, ?age)");
+
+    Assert.assertTrue(result.next());
+    Assert.assertTrue(result.getNamedIndividual(0).isNamedIndividual());
+    Assert.assertEquals("p1", result.getNamedIndividual(0).getShortName());
+    Assert.assertTrue(result.getLiteral("age").isInteger());
+    Assert.assertEquals(new BigInteger("42"), result.getLiteral("age").getInteger());
+  }
+
+  @Test public void TestSWRLCoreNegativeIntegerLiteralBind()
+    throws SWRLParseException, SQWRLException, OWLOntologyCreationException
+  {
+    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
+
+    addOWLAxioms(ontology, DataPropertyAssertion(YEAR_OFFSET_TO_BIRTH, P1, Literal("-42", XSD_INTEGER)));
+
+    SQWRLResult result = queryEngine.runSQWRLQuery("q1", "yearOffsetToBirth(p1, ?offset) -> sqwrl:select(?offset)");
+
+    Assert.assertTrue(result.next());
+    Assert.assertTrue(result.getLiteral("offset").isInteger());
+    Assert.assertEquals(new BigInteger("-42"), result.getLiteral("offset").getInteger());
+  }
+
+  @Test public void TestSWRLCoreDecimalLiteralMatch()
+    throws SWRLParseException, SQWRLException, OWLOntologyCreationException
+  {
+    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
+
+    addOWLAxioms(ontology, DataPropertyAssertion(HAS_AGE, P1, Literal("42.0", XSD_DECIMAL)));
+
+    SQWRLResult result = queryEngine.runSQWRLQuery("q1", "hasAge(p1, \"42.0\"^^xsd:decimal) -> sqwrl:select(0)");
+
+    Assert.assertTrue(result.next());
+  }
+
+  @Test public void TestSWRLCoreNegativeDecimalLiteralMatch()
+    throws SWRLParseException, SQWRLException, OWLOntologyCreationException
+  {
+    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
+
+    addOWLAxioms(ontology, DataPropertyAssertion(YEAR_OFFSET_TO_BIRTH, P1, Literal("-42.0", XSD_DECIMAL)));
+
+    SQWRLResult result = queryEngine
+      .runSQWRLQuery("q1", "yearOffsetToBirth(p1, \"-42.0\"^^xsd:decimal) -> sqwrl:select(0)");
+
+    Assert.assertTrue(result.next());
+  }
+
+  @Test public void TestSWRLCoreDecimalLiteralBind()
+    throws SWRLParseException, SQWRLException, OWLOntologyCreationException
+  {
+    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
+
+    addOWLAxioms(ontology, DataPropertyAssertion(HAS_AGE, P1, Literal("42.0", XSD_DECIMAL)));
+
+    SQWRLResult result = queryEngine.runSQWRLQuery("q1", "hasAge(p1, ?age) -> sqwrl:select(p1, ?age)");
+
+    Assert.assertTrue(result.next());
+    Assert.assertTrue(result.getNamedIndividual(0).isNamedIndividual());
+    Assert.assertEquals("p1", result.getNamedIndividual(0).getShortName());
+    Assert.assertTrue(result.getLiteral("age").isDecimal());
+    Assert.assertEquals(new BigDecimal("42.0"), result.getLiteral("age").getDecimal());
+  }
+
+  @Test public void TestSWRLCoreNegativeDecimalLiteralBind()
+    throws SWRLParseException, SQWRLException, OWLOntologyCreationException
+  {
+    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
+
+    addOWLAxioms(ontology, DataPropertyAssertion(YEAR_OFFSET_TO_BIRTH, P1, Literal("-42.0", XSD_DECIMAL)));
+
+    SQWRLResult result = queryEngine.runSQWRLQuery("q1", "yearOffsetToBirth(p1, ?offset) -> sqwrl:select(?offset)");
+
+    Assert.assertTrue(result.next());
+    Assert.assertTrue(result.getLiteral("offset").isDecimal());
+    Assert.assertEquals(new BigDecimal("-42.0"), result.getLiteral("offset").getDecimal());
   }
 
   @Test public void TestSWRLCoreRawBooleanLiteralTrueMatch()
