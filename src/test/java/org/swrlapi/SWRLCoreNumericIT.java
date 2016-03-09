@@ -3,10 +3,8 @@ package org.swrlapi;
 import org.junit.Assert;
 import org.junit.Test;
 import org.semanticweb.owlapi.apibinding.OWLManager;
-import org.semanticweb.owlapi.model.OWLClass;
 import org.semanticweb.owlapi.model.OWLDataProperty;
 import org.semanticweb.owlapi.model.OWLNamedIndividual;
-import org.semanticweb.owlapi.model.OWLObjectProperty;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyCreationException;
 import org.swrlapi.factory.SWRLAPIFactory;
@@ -19,29 +17,20 @@ import org.swrlapi.test.IntegrationTestBase;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 
-import static org.semanticweb.owlapi.apibinding.OWLFunctionalSyntaxFactory.Class;
 import static org.semanticweb.owlapi.apibinding.OWLFunctionalSyntaxFactory.DataProperty;
 import static org.semanticweb.owlapi.apibinding.OWLFunctionalSyntaxFactory.DataPropertyAssertion;
 import static org.semanticweb.owlapi.apibinding.OWLFunctionalSyntaxFactory.Literal;
 import static org.semanticweb.owlapi.apibinding.OWLFunctionalSyntaxFactory.NamedIndividual;
-import static org.semanticweb.owlapi.apibinding.OWLFunctionalSyntaxFactory.ObjectProperty;
 
 /**
  * NOTE: All tests are designed for parallel execution.
  */
 public class SWRLCoreNumericIT extends IntegrationTestBase
 {
-  private static final OWLClass MALE = Class(iri("Male"));
   private static final OWLNamedIndividual P1 = NamedIndividual(iri("p1"));
   private static final OWLNamedIndividual P2 = NamedIndividual(iri("p2"));
-  private static final OWLObjectProperty HAS_UNCLE = ObjectProperty(iri("hasUncle"));
   private static final OWLDataProperty YEAR_OFFSET_TO_BIRTH = DataProperty(iri("yearOffsetToBirth"));
   private static final OWLDataProperty HAS_AGE = DataProperty(iri("hasAge"));
-  private static final OWLDataProperty HAS_TOB = DataProperty(iri("hasTOB"));
-  private static final OWLDataProperty HAS_DOB = DataProperty(iri("hasDOB"));
-  private static final OWLDataProperty HAS_HOMEPAGE = DataProperty(iri("hasHomePage"));
-  private static final OWLDataProperty HAS_NAME = DataProperty(iri("hasName"));
-  private static final OWLDataProperty IS_FRENCH = DataProperty(iri("isFrench"));
   private static final OWLDataProperty HAS_HEIGHT_IN_CM = DataProperty(iri("hasHeightInCM"));
   private static final OWLDataProperty HAS_HEIGHT = DataProperty(iri("hasHeight"));
   private static final OWLDataProperty HEIGHT_OFFET_IN_CM = DataProperty(iri("heightOffsetInCM"));
@@ -671,6 +660,50 @@ public class SWRLCoreNumericIT extends IntegrationTestBase
     Assert.assertTrue(result.getLiteral("age").isDecimal());
     Assert.assertEquals(new BigDecimal("22.0"), result.getLiteral("age").getDecimal());
   }
+
+
+
+
+
+
+  @Test public void TestSWRLCoreNumericNonNegativeIntegerLiteralMatch()
+    throws SWRLParseException, SQWRLException, OWLOntologyCreationException
+  {
+    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
+
+    addOWLAxioms(ontology, DataPropertyAssertion(HAS_AGE, P1, Literal("42", XSD_NON_NEGATIVE_INTEGER)));
+
+    SQWRLResult result = queryEngine
+      .runSQWRLQuery("q1", "hasAge(p1, \"42\"^^xsd:nonNegativeInteger) -> sqwrl:select(0)");
+
+    Assert.assertTrue(result.next());
+  }
+
+  @Test public void TestSWRLCoreNumericNonNegativeIntegerLiteralBind()
+    throws SWRLParseException, SQWRLException, OWLOntologyCreationException
+  {
+    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
+
+    addOWLAxioms(ontology, DataPropertyAssertion(HAS_AGE, P1, Literal("42", XSD_NON_NEGATIVE_INTEGER)));
+
+    SQWRLResult result = queryEngine.runSQWRLQuery("q1", "hasAge(p1, ?age) -> sqwrl:select(p1, ?age)");
+
+    Assert.assertTrue(result.next());
+    Assert.assertTrue(result.getNamedIndividual(0).isNamedIndividual());
+    Assert.assertEquals("p1", result.getNamedIndividual(0).getShortName());
+    Assert.assertTrue(result.getLiteral("age").isNonNegativeInteger());
+    Assert.assertEquals(new BigInteger("42"), result.getLiteral("age").getNonNegativeInteger());
+  }
+
+
+
+
+
+
+
+
 
   @Test public void TestSWRLCoreNumericNonPositiveIntegerLiteralMatch()
     throws SWRLParseException, SQWRLException, OWLOntologyCreationException

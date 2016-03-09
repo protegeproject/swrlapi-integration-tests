@@ -45,16 +45,12 @@ public class SWRLCoreIT extends IntegrationTestBase
   private static final OWLNamedIndividual P1 = NamedIndividual(iri("p1"));
   private static final OWLNamedIndividual P2 = NamedIndividual(iri("p2"));
   private static final OWLObjectProperty HAS_UNCLE = ObjectProperty(iri("hasUncle"));
-  private static final OWLDataProperty YEAR_OFFSET_TO_BIRTH = DataProperty(iri("yearOffsetToBirth"));
   private static final OWLDataProperty HAS_AGE = DataProperty(iri("hasAge"));
   private static final OWLDataProperty HAS_TOB = DataProperty(iri("hasTOB"));
   private static final OWLDataProperty HAS_DOB = DataProperty(iri("hasDOB"));
   private static final OWLDataProperty HAS_HOMEPAGE = DataProperty(iri("hasHomePage"));
   private static final OWLDataProperty HAS_NAME = DataProperty(iri("hasName"));
   private static final OWLDataProperty IS_FRENCH = DataProperty(iri("isFrench"));
-  private static final OWLDataProperty HAS_HEIGHT_IN_CM = DataProperty(iri("hasHeightInCM"));
-  private static final OWLDataProperty HAS_HEIGHT = DataProperty(iri("hasHeight"));
-  private static final OWLDataProperty HEIGHT_OFFET_IN_CM = DataProperty(iri("heightOffsetInCM"));
 
   @Test public void TestSWRLCoreOWLThingClassAtomInAntecedentWithNamedIndividual()
     throws SWRLParseException, SQWRLException, OWLOntologyCreationException
