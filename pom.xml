@@ -3,55 +3,25 @@
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
-    <groupId>org.sonatype.oss</groupId>
-    <artifactId>oss-parent</artifactId>
-    <version>7</version>
+    <groupId>edu.stanford.swrl</groupId>
+    <artifactId>swrlapi-parent</artifactId>
+    <version>1.0.0</version>
   </parent>
 
   <groupId>edu.stanford.swrl</groupId>
   <artifactId>swrlapi-integration-tests</artifactId>
-  <version>1.0.0-beta-5-SNAPSHOT</version>
+  <version>1.0.0-beta-25-SNAPSHOT</version>
   <packaging>jar</packaging>
   <name>SWRLAPI Integration Tests</name>
   <description>Integration tests for the SWRLAPI</description>
 
   <properties>
 
-    <swrlapi.version>1.0.0-beta-23-SNAPSHOT</swrlapi.version>
-    <swrlapi.drools.version>1.0.0-beta-22-SNAPSHOT</swrlapi.drools.version>
-    <owlapi.version>4.2.1</owlapi.version> 
-
-    <junit.version>4.12</junit.version>
-    <slf4j.version>1.7.18</slf4j.version>
-
-    <maven.compiler.plugin.version>3.5.1</maven.compiler.plugin.version>
-    <maven.failsafe.plugin.version>2.19.1</maven.failsafe.plugin.version>
-    <maven.jar.plugin.version>2.6</maven.jar.plugin.version>
-    <maven.install.plugin.version>2.5.2</maven.install.plugin.version>
-    <maven.release.plugin.version>2.5.3</maven.release.plugin.version>
-    <maven.scm.gitexe.version>1.9.4</maven.scm.gitexe.version>
+    <swrlapi.version>${project.version}</swrlapi.version>
+    <swrlapi.drools.version>${project.version}</swrlapi.drools.version>
     
-    <java.version>1.8</java.version> 
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-
   </properties>
 
-  <developers>
-    <developer>
-      <name>Martin O'Connor</name>
-      <email>martin.oconnor@stanford.edu</email>
-      <organization>Stanford Center for Biomedical Informatics Research</organization>
-      <organizationUrl>http://bmir.stanford.edu</organizationUrl>
-    </developer>
-  </developers>
-
-  <licenses>
-    <license>
-      <name>BSD 2-Clause License</name>
-      <url>http://opensource.org/licenses/BSD-2-Clause</url>
-    </license>
-  </licenses>
-  
   <scm>
     <connection>scm:git:git@github.com:protegeproject/swrlapi-integration-tests.git</connection>
     <developerConnection>scm:git:git@github.com:protegeproject/swrlapi-integration-tests.git</developerConnection>
@@ -76,26 +46,22 @@
     <dependency>
       <groupId>net.sourceforge.owlapi</groupId>
       <artifactId>owlapi-osgidistribution</artifactId>
-      <version>${owlapi.version}</version>
     </dependency>
 
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
-      <version>${junit.version}</version>
       <scope>test</scope>
     </dependency>
 
     <dependency>
       <groupId>org.slf4j</groupId>
       <artifactId>slf4j-api</artifactId>
-      <version>${slf4j.version}</version>
     </dependency>
 
     <dependency>
       <groupId>org.slf4j</groupId>
       <artifactId>slf4j-log4j12</artifactId>
-      <version>${slf4j.version}</version>
       <scope>test</scope>
     </dependency>
 
@@ -106,17 +72,13 @@
     <plugins>
 
       <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
-        <version>${maven.compiler.plugin.version}</version>
-        <configuration>
-          <source>${java.version}</source>
-          <target>${java.version}</target>
-        </configuration>
       </plugin>
 
       <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-jar-plugin</artifactId>
-        <version>${maven.jar.plugin.version}</version>
         <executions> <!-- Attach this plugin to the 'none' phase so it never runs -->
           <execution>
             <id>default-jar</id>
@@ -126,8 +88,8 @@
       </plugin>  
 
       <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-failsafe-plugin</artifactId>
-        <version>${maven.failsafe.plugin.version}</version>
         <configuration>
           <parallel>methods</parallel> 
           <useUnlimitedThreads>true</useUnlimitedThreads>
@@ -141,26 +103,6 @@
             </goals>
           </execution>
         </executions>
-      </plugin>
-
-      <plugin>
-        <artifactId>maven-install-plugin</artifactId>
-        <version>${maven.install.plugin.version}</version>
-        <configuration>
-          <skip>true</skip>
-        </configuration>
-      </plugin>
-
-      <plugin> 
-        <artifactId>maven-release-plugin</artifactId>
-        <version>${maven.release.plugin.version}</version>
-        <dependencies>
-          <dependency>
-            <groupId>org.apache.maven.scm</groupId>
-            <artifactId>maven-scm-provider-gitexe</artifactId>
-	    <version>${maven.scm.gitexe.version}</version>
-          </dependency>
-        </dependencies>
       </plugin>
 
     </plugins>
