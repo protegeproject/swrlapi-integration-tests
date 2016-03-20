@@ -5,11 +5,12 @@
   <parent>
     <groupId>edu.stanford.swrl</groupId>
     <artifactId>swrlapi-parent</artifactId>
-    <version>1.0.0-beta-30-SNAPSHOT</version>
+    <version>1.0.0-beta-31-SNAPSHOT</version>
   </parent>
 
   <groupId>edu.stanford.swrl</groupId>
   <artifactId>swrlapi-integration-tests</artifactId>
+    <version>1.0.0-beta-31-SNAPSHOT</version>
   <packaging>jar</packaging>
   <name>SWRLAPI Integration Tests</name>
   <description>Integration tests for the SWRLAPI</description>
