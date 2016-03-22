@@ -5,7 +5,7 @@
   <parent>
     <groupId>edu.stanford.swrl</groupId>
     <artifactId>swrlapi-parent</artifactId>
-    <version>1.0.0-beta-31-SNAPSHOT</version>
+    <version>1.0.0-beta-31</version>
   </parent>
 
   <groupId>edu.stanford.swrl</groupId>
@@ -14,6 +14,13 @@
   <packaging>jar</packaging>
   <name>SWRLAPI Integration Tests</name>
   <description>Integration tests for the SWRLAPI</description>
+
+  <properties>
+
+    <swrlapi.version>1.0.0-beta-31</swrlapi.version>
+    <swrlapi.drools.version>1.0.0-beta-31</swrlapi.drools.version>
+
+  </properties>
 
   <scm>
     <connection>scm:git:git@github.com:protegeproject/swrlapi-integration-tests.git</connection>
