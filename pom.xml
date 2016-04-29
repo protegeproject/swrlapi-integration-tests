@@ -5,20 +5,20 @@
   <parent>
     <groupId>edu.stanford.swrl</groupId>
     <artifactId>swrlapi-parent</artifactId>
-    <version>1.0.0-beta-53-SNAPSHOT</version>
+    <version>1.0.0-SNAPSHOT</version>
   </parent>
 
   <groupId>edu.stanford.swrl</groupId>
   <artifactId>swrlapi-integration-tests</artifactId>
-  <version>1.0.0-beta-53-SNAPSHOT</version>
+  <version>1.0.0-SNAPSHOT</version>
   <packaging>jar</packaging>
   <name>SWRLAPI Integration Tests</name>
   <description>Integration tests for the SWRLAPI</description>
 
   <properties>
 
-    <swrlapi.version>1.0.0-beta-53-SNAPSHOT</swrlapi.version>
-    <swrlapi.drools.version>1.0.0-beta-53-SNAPSHOT</swrlapi.drools.version>
+    <swrlapi.version>1.0.0-SNAPSHOT</swrlapi.version>
+    <swrlapi.drools.version>1.0.0-SNAPSHOT</swrlapi.drools.version>
 
   </properties>
 
@@ -26,7 +26,6 @@
     <connection>scm:git:git@github.com:protegeproject/swrlapi-integration-tests.git</connection>
     <developerConnection>scm:git:git@github.com:protegeproject/swrlapi-integration-tests.git</developerConnection>
     <url>https://github.com/protegeproject/swrlapi-integration-tests</url>
-    <tag>release-1.0.0-beta-52</tag>
   </scm>
 
   <dependencies>
