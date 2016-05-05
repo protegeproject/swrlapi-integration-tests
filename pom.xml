@@ -10,7 +10,7 @@
 
   <groupId>edu.stanford.swrl</groupId>
   <artifactId>swrlapi-integration-tests</artifactId>
-  <version>1.0.3-SNAPSHOT</version>
+  <version>1.0.3</version>
   <packaging>jar</packaging>
   <name>SWRLAPI Integration Tests</name>
   <description>Integration tests for the SWRLAPI</description>
@@ -26,6 +26,7 @@
     <connection>scm:git:git@github.com:protegeproject/swrlapi-integration-tests.git</connection>
     <developerConnection>scm:git:git@github.com:protegeproject/swrlapi-integration-tests.git</developerConnection>
     <url>https://github.com/protegeproject/swrlapi-integration-tests</url>
+    <tag>release-1.0.3</tag>
   </scm>
 
   <dependencies>
