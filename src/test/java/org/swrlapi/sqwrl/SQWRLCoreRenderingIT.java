@@ -13,7 +13,7 @@ import org.swrlapi.test.IntegrationTestBase;
 /**
  * NOTE: All tests are designed for parallel execution.
  */
-public class SQWRLCoreRenderIT extends IntegrationTestBase
+public class SQWRLCoreRenderingIT extends IntegrationTestBase
 {
   @Test public void TestSQWRLCoreRenderColumnName()
     throws SWRLParseException, SQWRLException, OWLOntologyCreationException
