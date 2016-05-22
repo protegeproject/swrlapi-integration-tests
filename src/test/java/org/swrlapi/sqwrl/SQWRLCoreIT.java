@@ -1,7 +1,9 @@
 package org.swrlapi.sqwrl;
 
 import org.junit.Assert;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import org.semanticweb.owlapi.apibinding.OWLManager;
 import org.semanticweb.owlapi.model.OWLClass;
 import org.semanticweb.owlapi.model.OWLDataProperty;
@@ -46,6 +48,8 @@ public class SQWRLCoreIT extends IntegrationTestBase
   private static final OWLDataProperty HAS_HOMEPAGE = DataProperty(iri("hasHomePage"));
   private static final OWLDataProperty HAS_NAME = DataProperty(iri("hasName"));
   private static final OWLDataProperty HAS_HEIGHT = DataProperty(iri("hasHeight"));
+
+  @Rule public final ExpectedException thrown = ExpectedException.none();
 
   @Test public void TestSQWRLCoreColumnName() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
   {
@@ -1709,4 +1713,60 @@ public class SQWRLCoreIT extends IntegrationTestBase
     Assert.assertTrue(result.getLiteral("name").isString());
     Assert.assertEquals("Ann", result.getLiteral("name").getString());
   }
+
+  @Test public void TestSQWRLInvalidColumnName() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
+  {
+    this.thrown.expect(SQWRLException.class);
+    this.thrown.expectMessage("only string literals allowed as column names");
+
+    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
+
+    queryEngine.createSQWRLQuery("q1", " -> sqwrl:select(0) ^ sqwrl:columnNames(23)");
+  }
+
+  @Test public void TestSQWRLInvalidOrderByClause()
+    throws SWRLParseException, SQWRLException, OWLOntologyCreationException
+  {
+    this.thrown.expect(SQWRLException.class);
+    this.thrown.expectMessage("orderedBy clause cannot be used without a select clause");
+
+    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
+
+    queryEngine.createSQWRLQuery("q1", "owl:Thing(?x) -> sqwrl:orderBy(?x)");
+  }
+
+  @Test public void TestSQWRLInvalidSlicingOperatorWithoutOrderClause()
+    throws SWRLParseException, SQWRLException, OWLOntologyCreationException
+  {
+    this.thrown.expect(SQWRLException.class);
+    this.thrown.expectMessage("slicing operator used without an order clause");
+
+    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
+
+    queryEngine.createSQWRLQuery("q1", "-> sqwrl:nth(2)");
+  }
+
+  // orderedBy clause cannot be used without a select clause
+  //    "first or least do not accept arguments"
+  //    "not first or least do not accept arguments"
+  //    "greatest or last do not accept arguments"
+  //    "not greatest or last do not accept arguments"
+  //    "nth argument for slicing operator " + builtInPrefixedName + " must be a positive xsd:int"
+  //  "expecting integer for slicing operator " + builtInPrefixedName);
+  //  "expecting integer for slicing operator " + builtInPrefixedName);
+  //  "slicing operator " + builtInPrefixedName + " expecting a maximum of 2 arguments"
+  //  "slice size argument to slicing operator " + builtInName + " must be a positive xsd:int"
+  //  "expecting integer to slicing operator " + builtInName);
+  //  "only variables allowed for ordered columns - found " + argument.getClass().getName());
+  //  "variable ?" + variableName + " must be selected before it can be ordered"
+  //  "only string literals allowed as column names - found " + argument);
+  //  "groupBy must have at least two arguments"
+  //    "groupBy applied to undefined collection " + collectionName);
+  //  "groupBy specified more than once for same collection " + collectionName);
+  //  "unbound group argument passed to groupBy for collection " + collectionName);
+  //  "groupBy applied to undefined collection " + collectionName);
+
 }
