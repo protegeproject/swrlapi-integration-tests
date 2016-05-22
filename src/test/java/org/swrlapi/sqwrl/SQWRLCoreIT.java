@@ -1725,11 +1725,35 @@ public class SQWRLCoreIT extends IntegrationTestBase
     queryEngine.createSQWRLQuery("q1", " -> sqwrl:select(0) ^ sqwrl:columnNames(23)");
   }
 
-  @Test public void TestSQWRLInvalidOrderByClause()
+  @Test public void TestSQWRLInvalidOrderByArgument()
     throws SWRLParseException, SQWRLException, OWLOntologyCreationException
   {
     this.thrown.expect(SQWRLException.class);
-    this.thrown.expectMessage("orderedBy clause cannot be used without a select clause");
+    this.thrown.expectMessage("only variables allowed for ordered columns");
+
+    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
+
+    queryEngine.createSQWRLQuery("q1", " -> sqwrl:select(0) ^ sqwrl:orderBy(23)");
+  }
+
+  @Test public void TestSQWRLInvalidOrderByDescendingArgument()
+    throws SWRLParseException, SQWRLException, OWLOntologyCreationException
+  {
+    this.thrown.expect(SQWRLException.class);
+    this.thrown.expectMessage("only variables allowed for ordered columns");
+
+    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
+
+    queryEngine.createSQWRLQuery("q1", " -> sqwrl:select(0) ^ sqwrl:orderByDescending(23)");
+  }
+
+  @Test public void TestSQWRLInvalidOrderByClauseWithoutSelectClause()
+    throws SWRLParseException, SQWRLException, OWLOntologyCreationException
+  {
+    this.thrown.expect(SQWRLException.class);
+    this.thrown.expectMessage("ordered clause cannot be used without a select clause");
 
     OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
     SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
@@ -1737,7 +1761,259 @@ public class SQWRLCoreIT extends IntegrationTestBase
     queryEngine.createSQWRLQuery("q1", "owl:Thing(?x) -> sqwrl:orderBy(?x)");
   }
 
-  @Test public void TestSQWRLInvalidSlicingOperatorWithoutOrderClause()
+  @Test public void TestSQWRLInvalidOrderByDescendingClauseWithoutSelectClause()
+    throws SWRLParseException, SQWRLException, OWLOntologyCreationException
+  {
+    this.thrown.expect(SQWRLException.class);
+    this.thrown.expectMessage("ordered clause cannot be used without a select clause");
+
+    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
+
+    queryEngine.createSQWRLQuery("q1", "owl:Thing(?x) -> sqwrl:orderByDescending(?x)");
+  }
+
+  @Test public void TestSQWRLInvalidFirstNClauseUsedWithoutASelectClause()
+    throws SWRLParseException, SQWRLException, OWLOntologyCreationException
+  {
+    this.thrown.expect(SQWRLException.class);
+    this.thrown.expectMessage("slicing operator used without a select clause");
+
+    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
+
+    queryEngine.createSQWRLQuery("q1", " -> sqwrl:firstN(1)");
+  }
+
+  @Test public void TestSQWRLInvalidNthClauseUsedWithoutASelectClause()
+    throws SWRLParseException, SQWRLException, OWLOntologyCreationException
+  {
+    this.thrown.expect(SQWRLException.class);
+    this.thrown.expectMessage("slicing operator used without a select clause");
+
+    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
+
+    queryEngine.createSQWRLQuery("q1", " -> sqwrl:nth(1)");
+  }
+
+  @Test public void TestSQWRLInvalidNotNthClauseUsedWithoutASelectClause()
+    throws SWRLParseException, SQWRLException, OWLOntologyCreationException
+  {
+    this.thrown.expect(SQWRLException.class);
+    this.thrown.expectMessage("slicing operator used without a select clause");
+
+    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
+
+    queryEngine.createSQWRLQuery("q1", " -> sqwrl:notNth(1)");
+  }
+
+  @Test public void TestSQWRLInvalidNthGreatestClauseUsedWithoutASelectClause()
+    throws SWRLParseException, SQWRLException, OWLOntologyCreationException
+  {
+    this.thrown.expect(SQWRLException.class);
+    this.thrown.expectMessage("slicing operator used without a select clause");
+
+    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
+
+    queryEngine.createSQWRLQuery("q1", " -> sqwrl:nthGreatest(1)");
+  }
+
+  @Test public void TestSQWRLInvalidNthLastClauseUsedWithoutASelectClause()
+    throws SWRLParseException, SQWRLException, OWLOntologyCreationException
+  {
+    this.thrown.expect(SQWRLException.class);
+    this.thrown.expectMessage("slicing operator used without a select clause");
+
+    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
+
+    queryEngine.createSQWRLQuery("q1", " -> sqwrl:nthLast(1)");
+  }
+
+  @Test public void TestSQWRLInvalidNotNthLastClauseUsedWithoutASelectClause()
+    throws SWRLParseException, SQWRLException, OWLOntologyCreationException
+  {
+    this.thrown.expect(SQWRLException.class);
+    this.thrown.expectMessage("slicing operator used without a select clause");
+
+    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
+
+    queryEngine.createSQWRLQuery("q1", " -> sqwrl:notNthLast(1)");
+  }
+
+  @Test public void TestSQWRLInvalidNotNthGreatestClauseUsedWithoutASelectClause()
+    throws SWRLParseException, SQWRLException, OWLOntologyCreationException
+  {
+    this.thrown.expect(SQWRLException.class);
+    this.thrown.expectMessage("slicing operator used without a select clause");
+
+    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
+
+    queryEngine.createSQWRLQuery("q1", " -> sqwrl:notNthGreatest(1)");
+  }
+
+  @Test public void TestSQWRLInvalidNotFirstNClauseUsedWithoutASelectClause()
+    throws SWRLParseException, SQWRLException, OWLOntologyCreationException
+  {
+    this.thrown.expect(SQWRLException.class);
+    this.thrown.expectMessage("slicing operator used without a select clause");
+
+    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
+
+    queryEngine.createSQWRLQuery("q1", " -> sqwrl:notFirstN(1)");
+  }
+
+  @Test public void TestSQWRLInvalidNotLastNClauseUsedWithoutASelectClause()
+    throws SWRLParseException, SQWRLException, OWLOntologyCreationException
+  {
+    this.thrown.expect(SQWRLException.class);
+    this.thrown.expectMessage("slicing operator used without a select clause");
+
+    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
+
+    queryEngine.createSQWRLQuery("q1", " -> sqwrl:notLastN(1)");
+  }
+
+  @Test public void TestSQWRLInvalidNotGreatestNClauseUsedWithoutASelectClause()
+    throws SWRLParseException, SQWRLException, OWLOntologyCreationException
+  {
+    this.thrown.expect(SQWRLException.class);
+    this.thrown.expectMessage("slicing operator used without a select clause");
+
+    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
+
+    queryEngine.createSQWRLQuery("q1", " -> sqwrl:notGreatestN(1)");
+  }
+
+  @Test public void TestSQWRLInvalidNotLeastNClauseUsedWithoutASelectClause()
+    throws SWRLParseException, SQWRLException, OWLOntologyCreationException
+  {
+    this.thrown.expect(SQWRLException.class);
+    this.thrown.expectMessage("slicing operator used without a select clause");
+
+    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
+
+    queryEngine.createSQWRLQuery("q1", " -> sqwrl:notLeastN(1)");
+  }
+
+  @Test public void TestSQWRLInvalidLastNClauseUsedWithoutASelectClause()
+    throws SWRLParseException, SQWRLException, OWLOntologyCreationException
+  {
+    this.thrown.expect(SQWRLException.class);
+    this.thrown.expectMessage("slicing operator used without a select clause");
+
+    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
+
+    queryEngine.createSQWRLQuery("q1", " -> sqwrl:lastN(1)");
+  }
+
+  @Test public void TestSQWRLInvalidLeastNClauseUsedWithoutASelectClause()
+    throws SWRLParseException, SQWRLException, OWLOntologyCreationException
+  {
+    this.thrown.expect(SQWRLException.class);
+    this.thrown.expectMessage("slicing operator used without a select clause");
+
+    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
+
+    queryEngine.createSQWRLQuery("q1", " -> sqwrl:leastN(1)");
+  }
+
+  @Test public void TestSQWRLInvalidGreatestNClauseUsedWithoutASelectClause()
+    throws SWRLParseException, SQWRLException, OWLOntologyCreationException
+  {
+    this.thrown.expect(SQWRLException.class);
+    this.thrown.expectMessage("slicing operator used without a select clause");
+
+    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
+
+    queryEngine.createSQWRLQuery("q1", " -> sqwrl:greatestN(1)");
+  }
+
+  @Test public void TestSQWRLInvalidNthSliceClauseUsedWithoutASelectClause()
+    throws SWRLParseException, SQWRLException, OWLOntologyCreationException
+  {
+    this.thrown.expect(SQWRLException.class);
+    this.thrown.expectMessage("slicing operator used without a select clause");
+
+    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
+
+    queryEngine.createSQWRLQuery("q1", " -> sqwrl:nthSlice(1, 1)");
+  }
+
+  @Test public void TestSQWRLInvalidNthLastSliceClauseUsedWithoutASelectClause()
+    throws SWRLParseException, SQWRLException, OWLOntologyCreationException
+  {
+    this.thrown.expect(SQWRLException.class);
+    this.thrown.expectMessage("slicing operator used without a select clause");
+
+    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
+
+    queryEngine.createSQWRLQuery("q1", " -> sqwrl:nthLastSlice(1, 1)");
+  }
+
+  @Test public void TestSQWRLInvalidNthGreatestSliceClauseUsedWithoutASelectClause()
+    throws SWRLParseException, SQWRLException, OWLOntologyCreationException
+  {
+    this.thrown.expect(SQWRLException.class);
+    this.thrown.expectMessage("slicing operator used without a select clause");
+
+    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
+
+    queryEngine.createSQWRLQuery("q1", " -> sqwrl:nthGreatestSlice(1, 1)");
+  }
+
+  @Test public void TestSQWRLInvalidNotNthGreatestSliceClauseUsedWithoutASelectClause()
+    throws SWRLParseException, SQWRLException, OWLOntologyCreationException
+  {
+    this.thrown.expect(SQWRLException.class);
+    this.thrown.expectMessage("slicing operator used without a select clause");
+
+    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
+
+    queryEngine.createSQWRLQuery("q1", " -> sqwrl:notNthGreatestSlice(1, 1)");
+  }
+
+  @Test public void TestSQWRLInvalidNotNthLastSliceClauseUsedWithoutASelectClause()
+    throws SWRLParseException, SQWRLException, OWLOntologyCreationException
+  {
+    this.thrown.expect(SQWRLException.class);
+    this.thrown.expectMessage("slicing operator used without a select clause");
+
+    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
+
+    queryEngine.createSQWRLQuery("q1", " -> sqwrl:notNthLastSlice(1, 1)");
+  }
+
+  @Test public void TestSQWRLInvalidNotNthSliceClauseUsedWithoutASelectClause()
+    throws SWRLParseException, SQWRLException, OWLOntologyCreationException
+  {
+    this.thrown.expect(SQWRLException.class);
+    this.thrown.expectMessage("slicing operator used without a select clause");
+
+    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
+
+    queryEngine.createSQWRLQuery("q1", " -> sqwrl:notNthSlice(1, 1)");
+  }
+
+  @Test public void TestSQWRLInvalidSliceArgumentWithoutOrderClause()
     throws SWRLParseException, SQWRLException, OWLOntologyCreationException
   {
     this.thrown.expect(SQWRLException.class);
@@ -1746,27 +2022,78 @@ public class SQWRLCoreIT extends IntegrationTestBase
     OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
     SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
 
-    queryEngine.createSQWRLQuery("q1", "-> sqwrl:nth(2)");
+    queryEngine.createSQWRLQuery("q1", "owl:Thing(?x) -> sqwrl:select(?x) ^ sqwrl:nth(1)");
   }
 
-  // orderedBy clause cannot be used without a select clause
-  //    "first or least do not accept arguments"
-  //    "not first or least do not accept arguments"
-  //    "greatest or last do not accept arguments"
-  //    "not greatest or last do not accept arguments"
-  //    "nth argument for slicing operator " + builtInPrefixedName + " must be a positive xsd:int"
-  //  "expecting integer for slicing operator " + builtInPrefixedName);
-  //  "expecting integer for slicing operator " + builtInPrefixedName);
-  //  "slicing operator " + builtInPrefixedName + " expecting a maximum of 2 arguments"
-  //  "slice size argument to slicing operator " + builtInName + " must be a positive xsd:int"
-  //  "expecting integer to slicing operator " + builtInName);
-  //  "only variables allowed for ordered columns - found " + argument.getClass().getName());
-  //  "variable ?" + variableName + " must be selected before it can be ordered"
-  //  "only string literals allowed as column names - found " + argument);
-  //  "groupBy must have at least two arguments"
-  //    "groupBy applied to undefined collection " + collectionName);
-  //  "groupBy specified more than once for same collection " + collectionName);
-  //  "unbound group argument passed to groupBy for collection " + collectionName);
-  //  "groupBy applied to undefined collection " + collectionName);
+  @Test public void TestSQWRLInvalidSliceArgumentType()
+    throws SWRLParseException, SQWRLException, OWLOntologyCreationException
+  {
+    this.thrown.expect(SQWRLException.class);
+    this.thrown.expectMessage("expecting xsd:int argument for slicing operator sqwrl:nth");
 
+    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
+
+    queryEngine.createSQWRLQuery("q1", "owl:Thing(?x) -> sqwrl:select(?x) ^ sqwrl:orderBy(?x) ^ sqwrl:nth(33.3)");
+  }
+
+  @Test public void TestSQWRLInvalidNonPositiveSliceArgument()
+    throws SWRLParseException, SQWRLException, OWLOntologyCreationException
+  {
+    this.thrown.expect(SQWRLException.class);
+    this.thrown.expectMessage("nth argument for slicing operator sqwrl:nth must be a positive xsd:int");
+
+    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
+
+    queryEngine.createSQWRLQuery("q1", "owl:Thing(?x) -> sqwrl:select(?x) ^ sqwrl:orderBy(?x) ^ sqwrl:nth(-3)");
+  }
+
+  @Test public void TestSQWRLInvalidSliceSizeArgumentType()
+    throws SWRLParseException, SQWRLException, OWLOntologyCreationException
+  {
+    this.thrown.expect(SQWRLException.class);
+    this.thrown.expectMessage("expecting xsd:int argument for slicing operator sqwrl:nth");
+
+    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
+
+    queryEngine.createSQWRLQuery("q1", "owl:Thing(?x) -> sqwrl:select(?x) ^ sqwrl:orderBy(?x) ^ sqwrl:nth(1, 22.3)");
+  }
+
+  @Test public void TestSQWRLInvalidNonPositiveSliceSizeArgument()
+    throws SWRLParseException, SQWRLException, OWLOntologyCreationException
+  {
+    this.thrown.expect(SQWRLException.class);
+    this.thrown.expectMessage("slice size argument to slicing operator sqwrl:nth must be a positive xsd:int");
+
+    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
+
+    queryEngine.createSQWRLQuery("q1", "owl:Thing(?x) -> sqwrl:select(?x) ^ sqwrl:orderBy(?x) ^ sqwrl:nth(1, -4)");
+  }
+
+  @Test public void TestSQWRLInvalidSliceArgumentNumber()
+    throws SWRLParseException, SQWRLException, OWLOntologyCreationException
+  {
+    this.thrown.expect(SQWRLException.class);
+    this.thrown.expectMessage("slicing operator sqwrl:nth expecting a maximum of 2 arguments");
+
+    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
+
+    queryEngine.createSQWRLQuery("q1", "owl:Thing(?x) -> sqwrl:select(?x) ^ sqwrl:orderBy(?x) ^ sqwrl:nth(1, 1, 1)");
+  }
+
+  @Test public void TestSQWRLInvalidOrderByArgumentType()
+    throws SWRLParseException, SQWRLException, OWLOntologyCreationException
+  {
+    this.thrown.expect(SQWRLException.class);
+    this.thrown.expectMessage("only variables allowed for ordered columns");
+
+    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
+
+    queryEngine.createSQWRLQuery("q1", "owl:Thing(?x) -> sqwrl:select(?x) ^ sqwrl:orderBy(3)");
+  }
 }

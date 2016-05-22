@@ -1,7 +1,9 @@
 package org.swrlapi.sqwrl;
 
 import org.junit.Assert;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import org.semanticweb.owlapi.apibinding.OWLManager;
 import org.semanticweb.owlapi.model.OWLClass;
 import org.semanticweb.owlapi.model.OWLNamedIndividual;
@@ -27,6 +29,8 @@ public class SQWRLCollectionsIT extends IntegrationTestBase
   private static final OWLClass BBT = Class(iri("BBT"));
   private static final OWLNamedIndividual BOB = NamedIndividual(iri("Bob"));
   private static final OWLNamedIndividual FRED = NamedIndividual(iri("Fred"));
+
+  @Rule public final ExpectedException thrown = ExpectedException.none();
 
   @Test public void TestSQWRLClassBagsEqual() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
   {
@@ -977,5 +981,50 @@ public class SQWRLCollectionsIT extends IntegrationTestBase
 
     Assert.assertTrue(result.next());
     Assert.assertEquals("BBT", result.getClass("secondLast").getShortName());
+  }
+
+  @Test public void TestSQWRLInvalidGroupByArgumentNumber()
+    throws SWRLParseException, SQWRLException, OWLOntologyCreationException
+  {
+    this.thrown.expect(SQWRLException.class);
+    this.thrown.expectMessage("groupBy must have at least two arguments");
+
+    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
+
+    addOWLAxioms(ontology, Declaration(DDI));
+
+    queryEngine
+      .runSQWRLQuery("q1", ". sqwrl:makeBag(?s1, DDI) ^ sqwrl:groupBy(?secondLast) -> ");
+  }
+
+  @Test public void TestSQWRLInvalidUnboundGroupByArgument()
+    throws SWRLParseException, SQWRLException, OWLOntologyCreationException
+  {
+    this.thrown.expect(SQWRLException.class);
+    this.thrown.expectMessage("unbound group argument passed to groupBy for collection s1");
+
+    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
+
+    addOWLAxioms(ontology, Declaration(DDI));
+
+    queryEngine
+      .runSQWRLQuery("q1", ". sqwrl:makeBag(?s1, DDI) ^ sqwrl:groupBy(?s1, ?secondLast) -> ");
+  }
+
+  @Test public void TestSQWRLInvalidGroupByCollectionArgument()
+    throws SWRLParseException, SQWRLException, OWLOntologyCreationException
+  {
+    this.thrown.expect(SQWRLException.class);
+    this.thrown.expectMessage("groupBy applied to undefined collection s2");
+
+    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
+
+    addOWLAxioms(ontology, Declaration(DDI));
+
+    queryEngine
+      .runSQWRLQuery("q1", ". sqwrl:makeBag(?s1, DDI) ^ sqwrl:groupBy(?s2, ?secondLast) -> ");
   }
 }
