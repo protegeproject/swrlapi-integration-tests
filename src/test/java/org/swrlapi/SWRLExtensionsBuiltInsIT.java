@@ -20,6 +20,8 @@ import static org.semanticweb.owlapi.apibinding.OWLFunctionalSyntaxFactory.OWLTh
 public class SWRLExtensionsBuiltInsIT extends IntegrationTestBase
 {
   private static final OWLNamedIndividual P1 = NamedIndividual(iri("p1"));
+  private static final OWLNamedIndividual P2 = NamedIndividual(iri("p2"));
+  private static final OWLNamedIndividual P3 = NamedIndividual(iri("p3"));
 
   @Test public void TestSWRLExtensionsMakeOWLThingBuiltIn()
     throws SWRLParseException, SQWRLException, OWLOntologyCreationException
@@ -28,10 +30,12 @@ public class SWRLExtensionsBuiltInsIT extends IntegrationTestBase
     SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
 
     addOWLAxioms(ontology, ClassAssertion(OWLThing(), P1));
+    addOWLAxioms(ontology, ClassAssertion(OWLThing(), P2));
+    addOWLAxioms(ontology, ClassAssertion(OWLThing(), P3));
 
     SQWRLResult result = queryEngine
       .runSQWRLQuery("q1", "owl:Thing(?x) ^ swrlx:makeOWLThing(?t, ?x) -> sqwrl:select(?t)");
 
-    Assert.assertTrue(result.next());
+    Assert.assertEquals(result.getNumberOfRows(), 3);
   }
 }
