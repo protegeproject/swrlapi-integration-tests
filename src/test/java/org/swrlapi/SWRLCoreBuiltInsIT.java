@@ -604,6 +604,24 @@ public class SWRLCoreBuiltInsIT extends IntegrationTestBase
   // Assert.assertTrue(result.next());
   // }
 
+  @Test public void TestSWRLCoreTokenizeBuiltIn()
+    throws SWRLParseException, SQWRLException, OWLOntologyCreationException
+  {
+    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
+
+    SQWRLResult result = queryEngine
+      .runSQWRLQuery("q1", "swrlb:tokenize(?t, \"The,cat,sat\", \",\") -> sqwrl:select(?t)");
+
+    Assert.assertEquals(result.getNumberOfRows(), 3);
+    Assert.assertTrue(result.next());
+    Assert.assertEquals(result.getLiteral(0).getString(), "The");
+    Assert.assertTrue(result.next());
+    Assert.assertEquals(result.getLiteral(0).getString(), "cat");
+    Assert.assertTrue(result.next());
+    Assert.assertEquals(result.getLiteral(0).getString(), "sat");
+  }
+
   @Test public void TestSWRLCoreSubstringAfterBuiltIn()
     throws SWRLParseException, SQWRLException, OWLOntologyCreationException
   {
