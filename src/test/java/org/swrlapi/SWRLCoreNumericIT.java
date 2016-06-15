@@ -1,7 +1,9 @@
 package org.swrlapi;
 
 import org.junit.Assert;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import org.semanticweb.owlapi.apibinding.OWLManager;
 import org.semanticweb.owlapi.model.OWLDataProperty;
 import org.semanticweb.owlapi.model.OWLNamedIndividual;
@@ -34,6 +36,8 @@ public class SWRLCoreNumericIT extends IntegrationTestBase
   private static final OWLDataProperty HAS_HEIGHT_IN_CM = DataProperty(iri("hasHeightInCM"));
   private static final OWLDataProperty HAS_HEIGHT = DataProperty(iri("hasHeight"));
   private static final OWLDataProperty HEIGHT_OFFET_IN_CM = DataProperty(iri("heightOffsetInCM"));
+
+  @Rule public final ExpectedException thrown = ExpectedException.none();
 
   @Test public void TestSWRLCoreNumericByteLiteralMatch()
     throws SWRLParseException, SQWRLException, OWLOntologyCreationException
@@ -90,6 +94,18 @@ public class SWRLCoreNumericIT extends IntegrationTestBase
     Assert.assertTrue(result.next());
     Assert.assertTrue(result.getLiteral("age").isByte());
     Assert.assertEquals(22, result.getLiteral("age").getByte());
+  }
+
+  @Test public void TestSWRLCoreNumericInvalidByteLiteral()
+    throws SWRLParseException, SQWRLException, OWLOntologyCreationException
+  {
+    thrown.expect(SWRLParseException.class);
+    thrown.expectMessage("literal value 'x42' is not a valid http://www.w3.org/2001/XMLSchema#byte");
+
+    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
+
+    queryEngine.runSQWRLQuery("q1", "-> sqwrl:select(\"x42\"^^xsd:byte)");
   }
 
   @Test public void TestSWRLCoreNumericShortLiteralMatch()
@@ -163,6 +179,18 @@ public class SWRLCoreNumericIT extends IntegrationTestBase
     Assert.assertTrue(result.next());
     Assert.assertTrue(result.getLiteral("age").isShort());
     Assert.assertEquals(22, result.getLiteral("age").getShort());
+  }
+
+  @Test public void TestSWRLCoreNumericInvalidShortLiteral()
+    throws SWRLParseException, SQWRLException, OWLOntologyCreationException
+  {
+    thrown.expect(SWRLParseException.class);
+    thrown.expectMessage("literal value 'x42' is not a valid http://www.w3.org/2001/XMLSchema#short");
+
+    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
+
+    queryEngine.runSQWRLQuery("q1", "-> sqwrl:select(\"x42\"^^xsd:short)");
   }
 
   @Test public void TestSWRLCoreNumericRawIntLiteralMatch()
@@ -263,6 +291,18 @@ public class SWRLCoreNumericIT extends IntegrationTestBase
     Assert.assertEquals(22, result.getLiteral("age").getInt());
   }
 
+  @Test public void TestSWRLCoreNumericInvalidIntLiteral()
+    throws SWRLParseException, SQWRLException, OWLOntologyCreationException
+  {
+    thrown.expect(SWRLParseException.class);
+    thrown.expectMessage("literal value 'x42' is not a valid http://www.w3.org/2001/XMLSchema#int");
+
+    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
+
+    queryEngine.runSQWRLQuery("q1", "-> sqwrl:select(\"x42\"^^xsd:int)");
+  }
+
   @Test public void TestSWRLCoreNumericLongLiteralMatch()
     throws SWRLParseException, SQWRLException, OWLOntologyCreationException
   {
@@ -335,6 +375,18 @@ public class SWRLCoreNumericIT extends IntegrationTestBase
     Assert.assertTrue(result.next());
     Assert.assertTrue(result.getLiteral("age").isLong());
     Assert.assertEquals(22L, result.getLiteral("age").getLong());
+  }
+
+  @Test public void TestSWRLCoreNumericInvalidLongLiteral()
+    throws SWRLParseException, SQWRLException, OWLOntologyCreationException
+  {
+    thrown.expect(SWRLParseException.class);
+    thrown.expectMessage("literal value 'x42' is not a valid http://www.w3.org/2001/XMLSchema#long");
+
+    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
+
+    queryEngine.runSQWRLQuery("q1", "-> sqwrl:select(\"x42\"^^xsd:long)");
   }
 
   @Test public void TestSWRLCoreNumericRawFloatLiteralMatch()
@@ -437,6 +489,18 @@ public class SWRLCoreNumericIT extends IntegrationTestBase
     Assert.assertEquals(122.0f, result.getLiteral("height").getFloat(), IntegrationTestBase.DELTA);
   }
 
+  @Test public void TestSWRLCoreNumericInvalidFloatLiteral()
+    throws SWRLParseException, SQWRLException, OWLOntologyCreationException
+  {
+    thrown.expect(SWRLParseException.class);
+    thrown.expectMessage("literal value 'x42.0' is not a valid http://www.w3.org/2001/XMLSchema#float");
+
+    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
+
+    queryEngine.runSQWRLQuery("q1", "-> sqwrl:select(\"x42.0\"^^xsd:float)");
+  }
+
   @Test public void TestSWRLCoreNumericDoubleLiteralMatch()
     throws SWRLParseException, SQWRLException, OWLOntologyCreationException
   {
@@ -509,6 +573,18 @@ public class SWRLCoreNumericIT extends IntegrationTestBase
     Assert.assertTrue(result.next());
     Assert.assertTrue(result.getLiteral("age").isDouble());
     Assert.assertEquals(122.0d, result.getLiteral("age").getDouble(), IntegrationTestBase.DELTA);
+  }
+
+  @Test public void TestSWRLCoreNumericInvalidDoubleLiteral()
+    throws SWRLParseException, SQWRLException, OWLOntologyCreationException
+  {
+    thrown.expect(SWRLParseException.class);
+    thrown.expectMessage("literal value 'x42.0' is not a valid http://www.w3.org/2001/XMLSchema#double");
+
+    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
+
+    queryEngine.runSQWRLQuery("q1", "-> sqwrl:select(\"x42.0\"^^xsd:double)");
   }
 
   @Test public void TestSWRLCoreNumericIntegerLiteralMatch()
