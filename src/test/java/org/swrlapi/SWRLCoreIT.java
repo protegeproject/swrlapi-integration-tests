@@ -1,7 +1,9 @@
 package org.swrlapi;
 
 import org.junit.Assert;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import org.semanticweb.owlapi.apibinding.OWLManager;
 import org.semanticweb.owlapi.model.OWLClass;
 import org.semanticweb.owlapi.model.OWLDataProperty;
@@ -9,6 +11,7 @@ import org.semanticweb.owlapi.model.OWLNamedIndividual;
 import org.semanticweb.owlapi.model.OWLObjectProperty;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyCreationException;
+import org.semanticweb.owlapi.vocab.OWL2Datatype;
 import org.swrlapi.factory.SWRLAPIFactory;
 import org.swrlapi.literal.XSDDate;
 import org.swrlapi.literal.XSDDateTime;
@@ -49,8 +52,11 @@ public class SWRLCoreIT extends IntegrationTestBase
   private static final OWLDataProperty HAS_TOB = DataProperty(iri("hasTOB"));
   private static final OWLDataProperty HAS_DOB = DataProperty(iri("hasDOB"));
   private static final OWLDataProperty HAS_HOMEPAGE = DataProperty(iri("hasHomePage"));
+  private static final OWLDataProperty HAS_VALUE = DataProperty(iri("hasValue"));
   private static final OWLDataProperty HAS_NAME = DataProperty(iri("hasName"));
   private static final OWLDataProperty IS_FRENCH = DataProperty(iri("isFrench"));
+
+  @Rule public final ExpectedException thrown = ExpectedException.none();
 
   @Test public void TestSWRLCoreOWLThingClassAtomInAntecedentWithNamedIndividual()
     throws SWRLParseException, SQWRLException, OWLOntologyCreationException
@@ -307,6 +313,105 @@ public class SWRLCoreIT extends IntegrationTestBase
     Assert.assertEquals(new URI(homePage), result.getLiteral("home").getAnyURI());
   }
 
+  @Test public void TestSWRLCoreRDFPlainLiteralMatch()
+    throws SWRLParseException, SQWRLException, OWLOntologyCreationException
+  {
+    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
+
+    String value = "aaa";
+
+    addOWLAxioms(ontology, DataPropertyAssertion(HAS_VALUE, P1, Literal(value, OWL2Datatype.RDF_PLAIN_LITERAL)));
+
+    SQWRLResult result = queryEngine
+      .runSQWRLQuery("q1", "hasValue(p1, \"" + value + "\"^^rdf:PlainLiteral) -> sqwrl:select(0)");
+
+    Assert.assertTrue(result.next());
+  }
+
+  @Test public void TestSWRLCoreRDFPlainLiteralBind()
+    throws SWRLParseException, SQWRLException, OWLOntologyCreationException, URISyntaxException
+  {
+    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
+
+    String value = "aaa";
+
+    addOWLAxioms(ontology, DataPropertyAssertion(HAS_VALUE, P1, Literal(value, OWL2Datatype.RDF_PLAIN_LITERAL)));
+
+    SQWRLResult result = queryEngine.runSQWRLQuery("q1", "hasValue(p1, ?value) -> sqwrl:select(?value)");
+
+    Assert.assertTrue(result.next());
+    Assert.assertTrue(result.getLiteral("value").isRDFPlainLiteral());
+    Assert.assertEquals(value, result.getLiteral("value").getRDFPlainLiteral());
+  }
+
+  @Test public void TestSWRLCoreRDFSLiteralMatch()
+    throws SWRLParseException, SQWRLException, OWLOntologyCreationException
+  {
+    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
+
+    String value = "aaa";
+
+    addOWLAxioms(ontology, DataPropertyAssertion(HAS_VALUE, P1, Literal(value, OWL2Datatype.RDFS_LITERAL)));
+
+    SQWRLResult result = queryEngine
+      .runSQWRLQuery("q1", "hasValue(p1, \"" + value + "\"^^rdfs:Literal) -> sqwrl:select(0)");
+
+    Assert.assertTrue(result.next());
+  }
+
+  @Test public void TestSWRLCoreRDFSLiteralBind()
+    throws SWRLParseException, SQWRLException, OWLOntologyCreationException, URISyntaxException
+  {
+    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
+
+    String value = "aaa";
+
+    addOWLAxioms(ontology, DataPropertyAssertion(HAS_VALUE, P1, Literal(value, OWL2Datatype.RDFS_LITERAL)));
+
+    SQWRLResult result = queryEngine.runSQWRLQuery("q1", "hasValue(p1, ?value) -> sqwrl:select(?value)");
+
+    Assert.assertTrue(result.next());
+    Assert.assertTrue(result.getLiteral("value").isRDFSLiteral());
+    Assert.assertEquals(value, result.getLiteral("value").getRDFSLiteral());
+  }
+
+  @Test public void TestSWRLCoreRDFXMLLiteralMatch()
+    throws SWRLParseException, SQWRLException, OWLOntologyCreationException
+  {
+    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
+
+    String value = "<html/>";
+
+    addOWLAxioms(ontology, DataPropertyAssertion(HAS_VALUE, P1, Literal(value, OWL2Datatype.RDF_XML_LITERAL)));
+
+    SQWRLResult result = queryEngine
+      .runSQWRLQuery("q1", "hasValue(p1, \"" + value + "\"^^rdf:XMLLiteral) -> sqwrl:select(0)");
+
+    Assert.assertTrue(result.next());
+  }
+
+  @Test public void TestSWRLCoreRDFXMLLiteralBind()
+    throws SWRLParseException, SQWRLException, OWLOntologyCreationException, URISyntaxException
+  {
+    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
+
+    String value = "<html/>";
+
+    addOWLAxioms(ontology, DataPropertyAssertion(HAS_VALUE, P1, Literal(value, OWL2Datatype.RDF_XML_LITERAL)));
+
+    SQWRLResult result = queryEngine.runSQWRLQuery("q1", "hasValue(p1, ?value) -> sqwrl:select(?value)");
+
+    Assert.assertTrue(result.next());
+    Assert.assertTrue(result.getLiteral("value").isRDFXMLLiteral());
+    Assert.assertEquals(value, result.getLiteral("value").getRDFXMLLiteral());
+  }
+  
   @Test public void TestSWRLCoreXSDDateLiteralMatch()
     throws SWRLParseException, SQWRLException, OWLOntologyCreationException
   {
@@ -333,6 +438,18 @@ public class SWRLCoreIT extends IntegrationTestBase
     Assert.assertTrue(result.next());
     Assert.assertTrue(result.getLiteral("dob").isDate());
     Assert.assertEquals(new XSDDate("2001-01-05"), result.getLiteral("dob").getDate());
+  }
+
+  @Test public void TestSWRLCoreInvalidXSDDateLiteral()
+    throws SWRLParseException, SQWRLException, OWLOntologyCreationException
+  {
+    thrown.expect(SWRLParseException.class);
+    thrown.expectMessage("literal value 'X42Y' is not a valid http://www.w3.org/2001/XMLSchema#date");
+
+    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
+
+    queryEngine.runSQWRLQuery("q1", "-> sqwrl:select(\"X42Y\"^^xsd:date)");
   }
 
   @Test public void TestSWRLCoreXSDDateTimeLiteralMatch()
@@ -364,6 +481,18 @@ public class SWRLCoreIT extends IntegrationTestBase
     Assert.assertEquals(new XSDDateTime("2001-01-05T10:10:10"), result.getLiteral("tob").getDateTime());
   }
 
+  @Test public void TestSWRLCoreInvalidXSDDateTimeLiteral()
+    throws SWRLParseException, SQWRLException, OWLOntologyCreationException
+  {
+    thrown.expect(SWRLParseException.class);
+    thrown.expectMessage("literal value 'X42Y' is not a valid http://www.w3.org/2001/XMLSchema#dateTime");
+
+    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
+
+    queryEngine.runSQWRLQuery("q1", "-> sqwrl:select(\"X42Y\"^^xsd:dateTime)");
+  }
+
   @Test public void TestSWRLCoreXSDDurationLiteralMatch()
     throws SWRLParseException, SQWRLException, OWLOntologyCreationException
   {
@@ -390,6 +519,18 @@ public class SWRLCoreIT extends IntegrationTestBase
     Assert.assertTrue(result.next());
     Assert.assertTrue(result.getLiteral("age").isDuration());
     Assert.assertEquals(new XSDDuration("P42Y"), result.getLiteral("age").getDuration());
+  }
+
+  @Test public void TestSWRLCoreInvalidXSDDurationLiteral()
+    throws SWRLParseException, SQWRLException, OWLOntologyCreationException
+  {
+    thrown.expect(SWRLParseException.class);
+    thrown.expectMessage("literal value 'X42Y' is not a valid http://www.w3.org/2001/XMLSchema#duration");
+
+    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
+
+    queryEngine.runSQWRLQuery("q1", "-> sqwrl:select(\"X42Y\"^^xsd:duration)");
   }
 
   @Test public void TestSWRLCoreXSDTimeLiteralMatch()
@@ -420,6 +561,18 @@ public class SWRLCoreIT extends IntegrationTestBase
     Assert.assertEquals("p1", result.getNamedIndividual(0).getShortName());
     Assert.assertTrue(result.getLiteral("bt").isTime());
     Assert.assertEquals(new XSDTime("10:10:10.33"), result.getLiteral("bt").getTime());
+  }
+
+  @Test public void TestSWRLCoreInvalidXSDTimeLiteral()
+    throws SWRLParseException, SQWRLException, OWLOntologyCreationException
+  {
+    thrown.expect(SWRLParseException.class);
+    thrown.expectMessage("literal value 'X42Y' is not a valid http://www.w3.org/2001/XMLSchema#time");
+
+    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
+
+    queryEngine.runSQWRLQuery("q1", "-> sqwrl:select(\"X42Y\"^^xsd:time)");
   }
 
   @Test public void TestSWRLCoreCascadingBooleanVariable()
