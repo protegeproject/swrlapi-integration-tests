@@ -17,8 +17,8 @@
 
   <properties>
 
-    <swrlapi.version>1.0.9-SNAPSHOT</swrlapi.version>
-    <swrlapi.drools.version>1.0.9-SNAPSHOT</swrlapi.drools.version>
+    <swrlapi.version>1.0.9</swrlapi.version>
+    <swrlapi.drools.version>1.0.9</swrlapi.drools.version>
 
   </properties>
 
