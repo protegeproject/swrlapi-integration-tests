@@ -12,6 +12,7 @@
   <artifactId>swrlapi-integration-tests</artifactId>
   <version>1.0.10-SNAPSHOT</version>
   <packaging>jar</packaging>
+
   <name>SWRLAPI Integration Tests</name>
   <description>Integration tests for the SWRLAPI</description>
 
@@ -85,14 +86,6 @@
           </execution>
         </executions>
       </plugin>  
-
-<plugin>
-  <groupId>org.apache.maven.plugins</groupId>
-  <artifactId>maven-install-plugin</artifactId>
-  <configuration>
-    <skip>true</skip>
-  </configuration>
-</plugin>
 
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
