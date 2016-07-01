@@ -12,9 +12,9 @@ import org.semanticweb.owlapi.model.OWLOntologyCreationException;
 import org.swrlapi.core.SWRLAPIRule;
 import org.swrlapi.core.SWRLRuleEngine;
 import org.swrlapi.core.SWRLRuleRenderer;
+import org.swrlapi.exceptions.SWRLBuiltInException;
 import org.swrlapi.factory.SWRLAPIFactory;
 import org.swrlapi.parser.SWRLParseException;
-import org.swrlapi.sqwrl.exceptions.SQWRLException;
 import org.swrlapi.test.IntegrationTestBase;
 
 import static org.semanticweb.owlapi.apibinding.OWLFunctionalSyntaxFactory.Class;
@@ -42,7 +42,7 @@ public class SWRLCoreRenderingIT extends IntegrationTestBase
   private static final OWLDataProperty IS_FRENCH = DataProperty(iri("isFrench"));
 
   @Test public void TestSWRLCoreRenderOWLThingClassAtom()
-    throws SWRLParseException, SQWRLException, OWLOntologyCreationException
+    throws SWRLParseException, SWRLBuiltInException, OWLOntologyCreationException
   {
     OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
     SWRLRuleEngine ruleEngine = SWRLAPIFactory.createSWRLRuleEngine(ontology);
@@ -57,7 +57,7 @@ public class SWRLCoreRenderingIT extends IntegrationTestBase
   }
 
   @Test public void TestSWRLCoreRenderOWLNothingClassAtom()
-    throws SWRLParseException, SQWRLException, OWLOntologyCreationException
+    throws SWRLParseException, SWRLBuiltInException, OWLOntologyCreationException
   {
     OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
     SWRLRuleEngine ruleEngine = SWRLAPIFactory.createSWRLRuleEngine(ontology);
@@ -72,7 +72,7 @@ public class SWRLCoreRenderingIT extends IntegrationTestBase
   }
 
   @Test public void TestSWRLCoreRenderClassAtomWithVariable()
-    throws SWRLParseException, SQWRLException, OWLOntologyCreationException
+    throws SWRLParseException, SWRLBuiltInException, OWLOntologyCreationException
   {
     OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
     SWRLRuleEngine ruleEngine = SWRLAPIFactory.createSWRLRuleEngine(ontology);
@@ -87,7 +87,7 @@ public class SWRLCoreRenderingIT extends IntegrationTestBase
   }
 
   @Test public void TestSWRLCoreRenderClassAtomWithNamedIndividual()
-    throws SWRLParseException, SQWRLException, OWLOntologyCreationException
+    throws SWRLParseException, SWRLBuiltInException, OWLOntologyCreationException
   {
     OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
     SWRLRuleEngine ruleEngine = SWRLAPIFactory.createSWRLRuleEngine(ontology);
@@ -102,7 +102,7 @@ public class SWRLCoreRenderingIT extends IntegrationTestBase
   }
 
   @Test public void TestSWRLCoreRenderObjectPropertyAtomWithNamedIndividualArguments()
-    throws SWRLParseException, SQWRLException, OWLOntologyCreationException
+    throws SWRLParseException, SWRLBuiltInException, OWLOntologyCreationException
   {
     OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
     SWRLRuleEngine ruleEngine = SWRLAPIFactory.createSWRLRuleEngine(ontology);
@@ -117,7 +117,7 @@ public class SWRLCoreRenderingIT extends IntegrationTestBase
   }
 
   @Test public void TestSWRLCoreRenderObjectPropertyAtomWithNamedIndividualFirstArgument()
-    throws SWRLParseException, SQWRLException, OWLOntologyCreationException
+    throws SWRLParseException, SWRLBuiltInException, OWLOntologyCreationException
   {
     OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
     SWRLRuleEngine ruleEngine = SWRLAPIFactory.createSWRLRuleEngine(ontology);
@@ -133,7 +133,7 @@ public class SWRLCoreRenderingIT extends IntegrationTestBase
   }
 
   @Test public void TestSWRLCoreRenderObjectPropertyAtomWithNamedIndividualSecondArgument()
-    throws SWRLParseException, SQWRLException, OWLOntologyCreationException
+    throws SWRLParseException, SWRLBuiltInException, OWLOntologyCreationException
   {
     OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
     SWRLRuleEngine ruleEngine = SWRLAPIFactory.createSWRLRuleEngine(ontology);
@@ -149,7 +149,7 @@ public class SWRLCoreRenderingIT extends IntegrationTestBase
   }
 
   @Test public void TestSWRLCoreRenderObjectPropertyAtomWithVariableArguments()
-    throws SWRLParseException, SQWRLException, OWLOntologyCreationException
+    throws SWRLParseException, SWRLBuiltInException, OWLOntologyCreationException
   {
     OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
     SWRLRuleEngine ruleEngine = SWRLAPIFactory.createSWRLRuleEngine(ontology);
@@ -164,7 +164,7 @@ public class SWRLCoreRenderingIT extends IntegrationTestBase
   }
 
   @Test public void TestSWRLCoreRenderDataPropertyAtomWithStringLiteral()
-    throws SWRLParseException, SQWRLException, OWLOntologyCreationException
+    throws SWRLParseException, SWRLBuiltInException, OWLOntologyCreationException
   {
     OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
     SWRLRuleEngine ruleEngine = SWRLAPIFactory.createSWRLRuleEngine(ontology);
@@ -180,7 +180,7 @@ public class SWRLCoreRenderingIT extends IntegrationTestBase
   }
 
   @Test public void TestSWRLCoreRenderDataPropertyAtomWithQualifiedStringLiteral()
-    throws SWRLParseException, SQWRLException, OWLOntologyCreationException
+    throws SWRLParseException, SWRLBuiltInException, OWLOntologyCreationException
   {
     OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
     SWRLRuleEngine ruleEngine = SWRLAPIFactory.createSWRLRuleEngine(ontology);
@@ -197,7 +197,7 @@ public class SWRLCoreRenderingIT extends IntegrationTestBase
   }
 
   @Test public void TestSWRLCoreRenderDataPropertyAtomWithBooleanTrueLiteral()
-    throws SWRLParseException, SQWRLException, OWLOntologyCreationException
+    throws SWRLParseException, SWRLBuiltInException, OWLOntologyCreationException
   {
     OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
     SWRLRuleEngine ruleEngine = SWRLAPIFactory.createSWRLRuleEngine(ontology);
@@ -213,7 +213,7 @@ public class SWRLCoreRenderingIT extends IntegrationTestBase
   }
 
   @Test public void TestSWRLCoreRenderDataPropertyAtomWithQualifiedBooleanTrueLiteral()
-    throws SWRLParseException, SQWRLException, OWLOntologyCreationException
+    throws SWRLParseException, SWRLBuiltInException, OWLOntologyCreationException
   {
     OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
     SWRLRuleEngine ruleEngine = SWRLAPIFactory.createSWRLRuleEngine(ontology);
@@ -230,7 +230,7 @@ public class SWRLCoreRenderingIT extends IntegrationTestBase
   }
 
   @Test public void TestSWRLCoreRenderDataPropertyAtomWithBooleanFalseLiteral()
-    throws SWRLParseException, SQWRLException, OWLOntologyCreationException
+    throws SWRLParseException, SWRLBuiltInException, OWLOntologyCreationException
   {
     OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
     SWRLRuleEngine ruleEngine = SWRLAPIFactory.createSWRLRuleEngine(ontology);
@@ -246,7 +246,7 @@ public class SWRLCoreRenderingIT extends IntegrationTestBase
   }
 
   @Test public void TestSWRLCoreRenderDataPropertyAtomWithQualifiedBooleanFalseLiteral()
-    throws SWRLParseException, SQWRLException, OWLOntologyCreationException
+    throws SWRLParseException, SWRLBuiltInException, OWLOntologyCreationException
   {
     OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
     SWRLRuleEngine ruleEngine = SWRLAPIFactory.createSWRLRuleEngine(ontology);
@@ -263,7 +263,7 @@ public class SWRLCoreRenderingIT extends IntegrationTestBase
   }
 
   @Test public void TestSWRLCoreRenderDataPropertyAtomWithIntLiteral()
-    throws SWRLParseException, SQWRLException, OWLOntologyCreationException
+    throws SWRLParseException, SWRLBuiltInException, OWLOntologyCreationException
   {
     OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
     SWRLRuleEngine ruleEngine = SWRLAPIFactory.createSWRLRuleEngine(ontology);
@@ -279,7 +279,7 @@ public class SWRLCoreRenderingIT extends IntegrationTestBase
   }
 
   @Test public void TestSWRLCoreRenderDataPropertyAtomWithQualifiedIntLiteral()
-    throws SWRLParseException, SQWRLException, OWLOntologyCreationException
+    throws SWRLParseException, SWRLBuiltInException, OWLOntologyCreationException
   {
     OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
     SWRLRuleEngine ruleEngine = SWRLAPIFactory.createSWRLRuleEngine(ontology);
@@ -297,7 +297,7 @@ public class SWRLCoreRenderingIT extends IntegrationTestBase
 
 
   @Test public void TestSWRLCoreRenderDataPropertyAtomWithFloatLiteral()
-    throws SWRLParseException, SQWRLException, OWLOntologyCreationException
+    throws SWRLParseException, SWRLBuiltInException, OWLOntologyCreationException
   {
     OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
     SWRLRuleEngine ruleEngine = SWRLAPIFactory.createSWRLRuleEngine(ontology);
@@ -313,7 +313,7 @@ public class SWRLCoreRenderingIT extends IntegrationTestBase
   }
 
   @Test public void TestSWRLCoreRenderDataPropertyAtomWithQualifiedFloatLiteral()
-    throws SWRLParseException, SQWRLException, OWLOntologyCreationException
+    throws SWRLParseException, SWRLBuiltInException, OWLOntologyCreationException
   {
     OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
     SWRLRuleEngine ruleEngine = SWRLAPIFactory.createSWRLRuleEngine(ontology);
@@ -330,7 +330,7 @@ public class SWRLCoreRenderingIT extends IntegrationTestBase
   }
 
   @Test public void TestSWRLCoreRenderSameAsAtomWithVariables()
-    throws SWRLParseException, SQWRLException, OWLOntologyCreationException
+    throws SWRLParseException, SWRLBuiltInException, OWLOntologyCreationException
   {
     OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
     SWRLRuleEngine ruleEngine = SWRLAPIFactory.createSWRLRuleEngine(ontology);
@@ -343,7 +343,7 @@ public class SWRLCoreRenderingIT extends IntegrationTestBase
   }
 
   @Test public void TestSWRLCoreRenderSameAsAtomWithNamedIndividualFirstArgument()
-    throws SWRLParseException, SQWRLException, OWLOntologyCreationException
+    throws SWRLParseException, SWRLBuiltInException, OWLOntologyCreationException
   {
     OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
     SWRLRuleEngine ruleEngine = SWRLAPIFactory.createSWRLRuleEngine(ontology);
@@ -358,7 +358,7 @@ public class SWRLCoreRenderingIT extends IntegrationTestBase
   }
 
   @Test public void TestSWRLCoreRenderSameAsAtomWithNamedIndividualSecondArgument()
-    throws SWRLParseException, SQWRLException, OWLOntologyCreationException
+    throws SWRLParseException, SWRLBuiltInException, OWLOntologyCreationException
   {
     OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
     SWRLRuleEngine ruleEngine = SWRLAPIFactory.createSWRLRuleEngine(ontology);
@@ -373,7 +373,7 @@ public class SWRLCoreRenderingIT extends IntegrationTestBase
   }
 
   @Test public void TestSWRLCoreRenderSameAsAtomWithNamedIndividualArguments()
-    throws SWRLParseException, SQWRLException, OWLOntologyCreationException
+    throws SWRLParseException, SWRLBuiltInException, OWLOntologyCreationException
   {
     OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
     SWRLRuleEngine ruleEngine = SWRLAPIFactory.createSWRLRuleEngine(ontology);
@@ -389,7 +389,7 @@ public class SWRLCoreRenderingIT extends IntegrationTestBase
   }
 
   @Test public void TestSWRLCoreRenderDifferentFromAtomWithVariables()
-    throws SWRLParseException, SQWRLException, OWLOntologyCreationException
+    throws SWRLParseException, SWRLBuiltInException, OWLOntologyCreationException
   {
     OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
     SWRLRuleEngine ruleEngine = SWRLAPIFactory.createSWRLRuleEngine(ontology);
@@ -402,7 +402,7 @@ public class SWRLCoreRenderingIT extends IntegrationTestBase
   }
 
   @Test public void TestSWRLCoreRenderDifferentFromAtomWithNamedIndividualFirstArgument()
-    throws SWRLParseException, SQWRLException, OWLOntologyCreationException
+    throws SWRLParseException, SWRLBuiltInException, OWLOntologyCreationException
   {
     OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
     SWRLRuleEngine ruleEngine = SWRLAPIFactory.createSWRLRuleEngine(ontology);
@@ -417,7 +417,7 @@ public class SWRLCoreRenderingIT extends IntegrationTestBase
   }
 
   @Test public void TestSWRLCoreRenderDifferentFromAtomWithNamedIndividualSecondArgument()
-    throws SWRLParseException, SQWRLException, OWLOntologyCreationException
+    throws SWRLParseException, SWRLBuiltInException, OWLOntologyCreationException
   {
     OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
     SWRLRuleEngine ruleEngine = SWRLAPIFactory.createSWRLRuleEngine(ontology);
@@ -432,7 +432,7 @@ public class SWRLCoreRenderingIT extends IntegrationTestBase
   }
 
   @Test public void TestSWRLCoreRenderDifferentFromAtomWithNamedIndividualArguments()
-    throws SWRLParseException, SQWRLException, OWLOntologyCreationException
+    throws SWRLParseException, SWRLBuiltInException, OWLOntologyCreationException
   {
     OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
     SWRLRuleEngine ruleEngine = SWRLAPIFactory.createSWRLRuleEngine(ontology);
