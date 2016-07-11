@@ -63,4 +63,17 @@ public class SWRLABoxBuiltInsIT extends IntegrationTestBase
     Assert.assertTrue(result.hasNamedIndividualValue(1));
     Assert.assertEquals(result.getNamedIndividual(1).getShortName(), "p3");
   }
+
+  @Test public void TestSWRLABoxCAABuiltInWithBoundNamedClassesAndIndividuals()
+    throws SWRLParseException, SQWRLException, OWLOntologyCreationException
+  {
+    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
+
+    addOWLAxioms(ontology, ClassAssertion(C1, P1));
+
+    SQWRLResult result = queryEngine.runSQWRLQuery("q1", "abox:caa(C1, p1) -> sqwrl:select(0)");
+
+    Assert.assertTrue(result.next());
+  }
 }
