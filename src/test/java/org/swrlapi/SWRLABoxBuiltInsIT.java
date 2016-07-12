@@ -17,6 +17,7 @@ import org.swrlapi.test.IntegrationTestBase;
 import static org.semanticweb.owlapi.apibinding.OWLFunctionalSyntaxFactory.Class;
 import static org.semanticweb.owlapi.apibinding.OWLFunctionalSyntaxFactory.ClassAssertion;
 import static org.semanticweb.owlapi.apibinding.OWLFunctionalSyntaxFactory.NamedIndividual;
+import static org.semanticweb.owlapi.apibinding.OWLFunctionalSyntaxFactory.ObjectUnionOf;
 
 /**
  * NOTE: All tests are designed for parallel execution.
@@ -98,7 +99,7 @@ public class SWRLABoxBuiltInsIT extends IntegrationTestBase
     Assert.assertEquals(result.getNamedIndividual(0).getShortName(), "p2");
   }
 
-  @Test public void TestSWRLABoxCAABuiltInWithUnoundNamedClassAndBoundNamedIndividual()
+  @Test public void TestSWRLABoxCAABuiltInWithUnboundNamedClassAndBoundNamedIndividual()
     throws SWRLParseException, SQWRLException, OWLOntologyCreationException
   {
     OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
@@ -118,4 +119,20 @@ public class SWRLABoxBuiltInsIT extends IntegrationTestBase
     Assert.assertTrue(result.hasClassValue(0));
     Assert.assertEquals(result.getClass(0).getShortName(), "C2");
   }
+
+  @Test public void TestSWRLABoxCAABuiltInWithUnboundClassExpressionAndUnBoundNamedIndividual()
+    throws SWRLParseException, SQWRLException, OWLOntologyCreationException
+  {
+    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
+
+    addOWLAxioms(ontology, ClassAssertion(ObjectUnionOf(C1, C2), P1));
+    addOWLAxioms(ontology, ClassAssertion(ObjectUnionOf(C2, C3), P2));
+
+//    SQWRLResult result = queryEngine
+//      .runSQWRLQuery("q1", "abox:caa(?c, ?i) -> sqwrl:select(?c, ?i) ^ sqwrl:orderBy(?c, ?i)");
+//
+//    Assert.assertEquals(result.getNumberOfRows(), 2);
+  }
+
 }
