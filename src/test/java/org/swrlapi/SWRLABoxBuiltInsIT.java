@@ -32,7 +32,7 @@ public class SWRLABoxBuiltInsIT extends IntegrationTestBase
   private static final OWLNamedIndividual P2 = NamedIndividual(iri("p2"));
   private static final OWLNamedIndividual P3 = NamedIndividual(iri("p3"));
 
-  @Test public void TestSWRLABoxCAABuiltInWithUnboundNamedClassesAndIndividuals()
+  @Test public void TestSWRLABoxCAABuiltInWithUnboundNamedClassAndNamedIndividual()
     throws SWRLParseException, SQWRLException, OWLOntologyCreationException
   {
     OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
@@ -64,7 +64,7 @@ public class SWRLABoxBuiltInsIT extends IntegrationTestBase
     Assert.assertEquals(result.getNamedIndividual(1).getShortName(), "p3");
   }
 
-  @Test public void TestSWRLABoxCAABuiltInWithBoundNamedClassesAndIndividuals()
+  @Test public void TestSWRLABoxCAABuiltInWithBoundNamedClassAndNamedIndividual()
     throws SWRLParseException, SQWRLException, OWLOntologyCreationException
   {
     OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
@@ -75,5 +75,47 @@ public class SWRLABoxBuiltInsIT extends IntegrationTestBase
     SQWRLResult result = queryEngine.runSQWRLQuery("q1", "abox:caa(C1, p1) -> sqwrl:select(0)");
 
     Assert.assertTrue(result.next());
+  }
+
+  @Test public void TestSWRLABoxCAABuiltInWithBoundNamedClassAndUnboundNamedIndividual()
+    throws SWRLParseException, SQWRLException, OWLOntologyCreationException
+  {
+    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
+
+    addOWLAxioms(ontology, ClassAssertion(C1, P1));
+    addOWLAxioms(ontology, ClassAssertion(C1, P2));
+
+    SQWRLResult result = queryEngine.runSQWRLQuery("q1", "abox:caa(C1, ?i) -> sqwrl:select(?i) ^ sqwrl:orderBy(?i)");
+
+    Assert.assertEquals(result.getNumberOfRows(), 2);
+
+    Assert.assertTrue(result.next());
+    Assert.assertTrue(result.hasNamedIndividualValue(0));
+    Assert.assertEquals(result.getNamedIndividual(0).getShortName(), "p1");
+    Assert.assertTrue(result.next());
+    Assert.assertTrue(result.hasNamedIndividualValue(0));
+    Assert.assertEquals(result.getNamedIndividual(0).getShortName(), "p2");
+  }
+
+  @Test public void TestSWRLABoxCAABuiltInWithUnoundNamedClassAndBoundNamedIndividual()
+    throws SWRLParseException, SQWRLException, OWLOntologyCreationException
+  {
+    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
+
+    addOWLAxioms(ontology, ClassAssertion(C1, P1));
+    addOWLAxioms(ontology, ClassAssertion(C2, P1));
+
+    SQWRLResult result = queryEngine.runSQWRLQuery("q1", "abox:caa(?c, p1) -> sqwrl:select(?c) ^ sqwrl:orderBy(?c)");
+
+    Assert.assertEquals(result.getNumberOfRows(), 2);
+
+    Assert.assertTrue(result.next());
+    Assert.assertTrue(result.hasClassValue(0));
+    Assert.assertEquals(result.getClass(0).getShortName(), "C1");
+    Assert.assertTrue(result.next());
+    Assert.assertTrue(result.hasClassValue(0));
+    Assert.assertEquals(result.getClass(0).getShortName(), "C2");
   }
 }
