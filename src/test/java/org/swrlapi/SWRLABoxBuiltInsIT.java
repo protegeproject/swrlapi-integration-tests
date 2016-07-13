@@ -129,10 +129,10 @@ public class SWRLABoxBuiltInsIT extends IntegrationTestBase
     addOWLAxioms(ontology, ClassAssertion(ObjectUnionOf(C1, C2), P1));
     addOWLAxioms(ontology, ClassAssertion(ObjectUnionOf(C2, C3), P2));
 
-//    SQWRLResult result = queryEngine
-//      .runSQWRLQuery("q1", "abox:caa(?c, ?i) -> sqwrl:select(?c, ?i) ^ sqwrl:orderBy(?c, ?i)");
-//
-//    Assert.assertEquals(result.getNumberOfRows(), 2);
+    SQWRLResult result = queryEngine
+      .runSQWRLQuery("q1", "abox:caa(?c, ?i) -> sqwrl:select(?c, ?i) ^ sqwrl:orderBy(?c, ?i)");
+
+    Assert.assertEquals(result.getNumberOfRows(), 2);
   }
 
 }
