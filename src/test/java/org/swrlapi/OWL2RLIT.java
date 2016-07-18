@@ -269,7 +269,7 @@ public class OWL2RLIT extends IntegrationTestBase
   // + "then SIA sia=new SIA($y1, $y2); inferrer.infer(sia); end");
   //
   // createOWL2RLRuleDefinition(OWL2RLNames.Rule.CLS_OO, "cls_oo",
-  // "rule cls_oo when OOOCE($c:ceid, $y1:i1) then CAA caa1=new CAA($c, $y1); inferrer.infer(caa1); end");
+  // "rule cls_oo when OOOCE($x:ceid, $is:is) $i:String() from $is then CAA caa1=new CAA($x, $i); inferrer.infer(caa1); end");
 
   @Test public void CAX_SCO() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
   {
