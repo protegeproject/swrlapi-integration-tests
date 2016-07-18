@@ -226,11 +226,12 @@ public class OWL2RLIT extends IntegrationTestBase
   // "rule cls_nothing1 when then CDA cda=new CDA(\"owl:Nothing\"); inferrer.infer(cda); end");
   //
   // createOWL2RLRuleDefinition(OWL2RLNames.Rule.CLS_INT1, "cls_int1",
-  // "rule cls_int1 when OIOCE($x:ceid, $c1:c1) CAA(cid==$c1, $y:i) forall ( OIOCE(ceid==$x, $cc:c1) CAA(cid==$cc, i==$y)  ) "
-  // + "then CAA caa=new CAA($x, $y); inferrer.infer(caa); end");
+  // "rule cls_int1 when OIOCE($x:ceid, $ceids:ceids) $c : String() from $ceids CAA(cid==$c, $i:i)
+  // forall ( CAA(cid==$c, i==$i) ) then CAA caa=new CAA($x, $i); inferrer.infer(caa); end");
   //
   // createOWL2RLRuleDefinition(OWL2RLNames.Rule.CLS_INT2, "cls_int2",
-  // "rule cls_int2 when OIOCE($c:ceid, $c1:c1) CAA(cid==$c, $y:i) then CAA caa1=new CAA($c1, $y); inferrer.infer(caa1); end");
+  // "rule cls_int2 when OIOCE($x:ceid, $ceids:ceids) $c : String() from $ceids CAA(cid==$x, $i:i)
+  // then CAA caa1=new CAA($x, $i); inferrer.infer(caa1); end")
   //
   // createOWL2RLRuleDefinition(OWL2RLNames.Rule.CLS_UNI, "cls_uni",
   // "rule cls_uni when OUOCE($c:ceid, $c1:c1) CAA(cid==$c1, $y:i) then CAA caa=new CAA($c, $y); inferrer.infer(caa); end");
