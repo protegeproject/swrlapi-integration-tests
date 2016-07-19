@@ -234,7 +234,8 @@ public class OWL2RLIT extends IntegrationTestBase
   // then CAA caa1=new CAA($x, $i); inferrer.infer(caa1); end")
   //
   // createOWL2RLRuleDefinition(OWL2RLNames.Rule.CLS_UNI, "cls_uni",
-  // "rule cls_uni when OUOCE($c:ceid, $c1:c1) CAA(cid==$c1, $y:i) then CAA caa=new CAA($c, $y); inferrer.infer(caa); end");
+  // "rule scm_uni when OUOCE($x:ceid, $ceids:ceids) $c: String() from $ceids
+  // then SCA sca1=new SCA($c, $x); inferrer.infer(sca1); end")
   //
   // // T(?x, owl:someValuesFrom, ?y) T(?x, owl:onProperty, ?p) T(?u, ?p, ?v) T(?v, rdf:type, ?y) -> T(?u, rdf:type, ?x)
   // createOWL2RLRuleDefinition(OWL2RLNames.Rule.CLS_SFV1, "cls_sfv1",
@@ -269,7 +270,7 @@ public class OWL2RLIT extends IntegrationTestBase
   // + "then SIA sia=new SIA($y1, $y2); inferrer.infer(sia); end");
   //
   // createOWL2RLRuleDefinition(OWL2RLNames.Rule.CLS_OO, "cls_oo",
-  // "rule cls_oo when OOOCE($x:ceid, $is:is) $i:String() from $is then CAA caa1=new CAA($x, $i); inferrer.infer(caa1); end");
+  // "rule cls_oo when OOOCE($x:ceid, $iids:iids) $i:String() from $iids then CAA caa1=new CAA($x, $i); inferrer.infer(caa1); end");
 
   @Test public void CAX_SCO() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
   {
