@@ -135,7 +135,9 @@ public class SWRLABoxBuiltInsIT extends IntegrationTestBase
     Assert.assertEquals(result.getNumberOfRows(), 2);
     Assert.assertTrue(result.next());
     Assert.assertTrue(result.hasClassExpressionValue(0));
+    Assert.assertFalse(result.getClassExpression(0).getRendering().isEmpty());
     Assert.assertTrue(result.next());
     Assert.assertTrue(result.hasClassExpressionValue(0));
+    Assert.assertFalse(result.getClassExpression(0).getRendering().isEmpty());
   }
 }
