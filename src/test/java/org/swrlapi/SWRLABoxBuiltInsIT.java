@@ -120,7 +120,7 @@ public class SWRLABoxBuiltInsIT extends IntegrationTestBase
     Assert.assertEquals(result.getClass(0).getShortName(), "C2");
   }
 
-  @Test public void TestSWRLABoxCAABuiltInWithUnboundClassExpressionAndUnBoundNamedIndividual()
+  @Test public void TestSWRLABoxCAABuiltInWithUnboundClassExpressionAndUnboundNamedIndividual()
     throws SWRLParseException, SQWRLException, OWLOntologyCreationException
   {
     OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
@@ -133,6 +133,9 @@ public class SWRLABoxBuiltInsIT extends IntegrationTestBase
       .runSQWRLQuery("q1", "abox:caa(?c, ?i) -> sqwrl:select(?c, ?i) ^ sqwrl:orderBy(?c, ?i)");
 
     Assert.assertEquals(result.getNumberOfRows(), 2);
+    Assert.assertTrue(result.next());
+    Assert.assertTrue(result.hasClassExpressionValue(0));
+    Assert.assertTrue(result.next());
+    Assert.assertTrue(result.hasClassExpressionValue(0));
   }
-
 }
