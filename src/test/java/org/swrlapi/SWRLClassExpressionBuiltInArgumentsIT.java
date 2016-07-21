@@ -36,6 +36,7 @@ import static org.semanticweb.owlapi.apibinding.OWLFunctionalSyntaxFactory.Objec
 import static org.semanticweb.owlapi.apibinding.OWLFunctionalSyntaxFactory.ObjectIntersectionOf;
 import static org.semanticweb.owlapi.apibinding.OWLFunctionalSyntaxFactory.ObjectMaxCardinality;
 import static org.semanticweb.owlapi.apibinding.OWLFunctionalSyntaxFactory.ObjectMinCardinality;
+import static org.semanticweb.owlapi.apibinding.OWLFunctionalSyntaxFactory.ObjectOneOf;
 import static org.semanticweb.owlapi.apibinding.OWLFunctionalSyntaxFactory.ObjectProperty;
 import static org.semanticweb.owlapi.apibinding.OWLFunctionalSyntaxFactory.ObjectSomeValuesFrom;
 import static org.semanticweb.owlapi.apibinding.OWLFunctionalSyntaxFactory.ObjectUnionOf;
@@ -51,6 +52,7 @@ public class SWRLClassExpressionBuiltInArgumentsIT extends IntegrationTestBase
   private static final OWLObjectProperty OP1 = ObjectProperty(iri("OP1"));
   private static final OWLDataProperty DP1 = DataProperty(iri("DP1"));
   private static final OWLNamedIndividual I1 = NamedIndividual(iri("i1"));
+  private static final OWLNamedIndividual I2 = NamedIndividual(iri("i2"));
   private static final OWLDatatype D1 = OWLFunctionalSyntaxFactory.Datatype(iri("d1"));
 
   @Test public void TestObjectUnionOfSWRLClassExpressionBuiltInArgument()
@@ -60,6 +62,22 @@ public class SWRLClassExpressionBuiltInArgumentsIT extends IntegrationTestBase
     SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
 
     addOWLAxioms(ontology, ClassAssertion(ObjectUnionOf(C1, C2), I1));
+
+    SQWRLResult result = queryEngine.runSQWRLQuery("q1", "abox:caa(?c, ?i) -> sqwrl:select(?c)");
+
+    Assert.assertEquals(result.getNumberOfRows(), 1);
+    Assert.assertTrue(result.next());
+    Assert.assertTrue(result.hasClassExpressionValue(0));
+    Assert.assertFalse(result.getClassExpression(0).getRendering().isEmpty());
+  }
+
+  @Test public void TestObjectOneOfSWRLClassExpressionBuiltInArgument()
+    throws SWRLParseException, SQWRLException, OWLOntologyCreationException
+  {
+    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
+
+    addOWLAxioms(ontology, ClassAssertion(ObjectOneOf(I1, I2), I1));
 
     SQWRLResult result = queryEngine.runSQWRLQuery("q1", "abox:caa(?c, ?i) -> sqwrl:select(?c)");
 
