@@ -226,14 +226,16 @@ public class OWL2RLIT extends IntegrationTestBase
   // "rule cls_nothing1 when then CDA cda=new CDA(\"owl:Nothing\"); inferrer.infer(cda); end");
   //
   // createOWL2RLRuleDefinition(OWL2RLNames.Rule.CLS_INT1, "cls_int1",
-  // "rule cls_int1 when OIOCE($x:ceid, $c1:c1) CAA(cid==$c1, $y:i) forall ( OIOCE(ceid==$x, $cc:c1) CAA(cid==$cc, i==$y)  ) "
-  // + "then CAA caa=new CAA($x, $y); inferrer.infer(caa); end");
+  // "rule cls_int1 when OIOCE($x:ceid, $ceids:ceids) $c : String() from $ceids CAA(cid==$c, $i:i)
+  // forall ( CAA(cid==$c, i==$i) ) then CAA caa=new CAA($x, $i); inferrer.infer(caa); end");
   //
   // createOWL2RLRuleDefinition(OWL2RLNames.Rule.CLS_INT2, "cls_int2",
-  // "rule cls_int2 when OIOCE($c:ceid, $c1:c1) CAA(cid==$c, $y:i) then CAA caa1=new CAA($c1, $y); inferrer.infer(caa1); end");
+  // "rule cls_int2 when OIOCE($x:ceid, $ceids:ceids) $c : String() from $ceids CAA(cid==$x, $i:i)
+  // then CAA caa1=new CAA($x, $i); inferrer.infer(caa1); end")
   //
   // createOWL2RLRuleDefinition(OWL2RLNames.Rule.CLS_UNI, "cls_uni",
-  // "rule cls_uni when OUOCE($c:ceid, $c1:c1) CAA(cid==$c1, $y:i) then CAA caa=new CAA($c, $y); inferrer.infer(caa); end");
+  // "rule scm_uni when OUOCE($x:ceid, $ceids:ceids) $c: String() from $ceids
+  // then SCA sca1=new SCA($c, $x); inferrer.infer(sca1); end")
   //
   // // T(?x, owl:someValuesFrom, ?y) T(?x, owl:onProperty, ?p) T(?u, ?p, ?v) T(?v, rdf:type, ?y) -> T(?u, rdf:type, ?x)
   // createOWL2RLRuleDefinition(OWL2RLNames.Rule.CLS_SFV1, "cls_sfv1",
@@ -268,7 +270,7 @@ public class OWL2RLIT extends IntegrationTestBase
   // + "then SIA sia=new SIA($y1, $y2); inferrer.infer(sia); end");
   //
   // createOWL2RLRuleDefinition(OWL2RLNames.Rule.CLS_OO, "cls_oo",
-  // "rule cls_oo when OOOCE($c:ceid, $y1:i1, $y2:i2) then CAA caa1=new CAA($c, $y1); CAA caa2=new CAA($c, $y2); inferrer.infer(caa1, caa2); end");
+  // "rule cls_oo when OOOCE($x:ceid, $iids:iids) $i:String() from $iids then CAA caa1=new CAA($x, $i); inferrer.infer(caa1); end");
 
   @Test public void CAX_SCO() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
   {

@@ -16,6 +16,7 @@ import org.semanticweb.owlapi.model.OWLOntologyStorageException;
 import org.semanticweb.owlapi.model.parameters.Imports;
 import org.swrlapi.core.IRIResolver;
 import org.swrlapi.core.SWRLRuleEngine;
+import org.swrlapi.exceptions.SWRLBuiltInException;
 import org.swrlapi.factory.SWRLAPIFactory;
 import org.swrlapi.parser.SWRLParseException;
 import org.swrlapi.sqwrl.SQWRLQueryEngine;
@@ -47,7 +48,8 @@ public class RoundTripIT extends IntegrationTestBase
   private static final OWLDataProperty HAS_AGE = DataProperty(iri(NAMESPACE + "hasAge"));
 
   @Test public void TestSWRLRuleRoundTrip()
-    throws SWRLParseException, SQWRLException, IOException, OWLOntologyCreationException, OWLOntologyStorageException
+    throws SWRLParseException, SWRLBuiltInException, IOException, OWLOntologyCreationException,
+    OWLOntologyStorageException
   {
     OWLOntologyManager ontologyManager = OWLManager.createOWLOntologyManager();
     RDFXMLDocumentFormat format = new RDFXMLDocumentFormat();

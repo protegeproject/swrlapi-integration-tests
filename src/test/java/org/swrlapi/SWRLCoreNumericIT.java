@@ -35,7 +35,7 @@ public class SWRLCoreNumericIT extends IntegrationTestBase
   private static final OWLDataProperty HAS_AGE = DataProperty(iri("hasAge"));
   private static final OWLDataProperty HAS_HEIGHT_IN_CM = DataProperty(iri("hasHeightInCM"));
   private static final OWLDataProperty HAS_HEIGHT = DataProperty(iri("hasHeight"));
-  private static final OWLDataProperty HEIGHT_OFFET_IN_CM = DataProperty(iri("heightOffsetInCM"));
+  private static final OWLDataProperty HEIGHT_OFFSET_IN_CM = DataProperty(iri("heightOffsetInCM"));
 
   @Rule public final ExpectedException thrown = ExpectedException.none();
 
@@ -408,7 +408,7 @@ public class SWRLCoreNumericIT extends IntegrationTestBase
     OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
     SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
 
-    addOWLAxioms(ontology, DataPropertyAssertion(HEIGHT_OFFET_IN_CM, P1, Literal("-180.0", XSD_FLOAT)));
+    addOWLAxioms(ontology, DataPropertyAssertion(HEIGHT_OFFSET_IN_CM, P1, Literal("-180.0", XSD_FLOAT)));
 
     SQWRLResult result = queryEngine.runSQWRLQuery("q1", "heightOffsetInCM(p1, -180.0) -> sqwrl:select(0)");
 
@@ -434,7 +434,7 @@ public class SWRLCoreNumericIT extends IntegrationTestBase
     OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
     SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
 
-    addOWLAxioms(ontology, DataPropertyAssertion(HEIGHT_OFFET_IN_CM, P1, Literal("-177.1", XSD_FLOAT)));
+    addOWLAxioms(ontology, DataPropertyAssertion(HEIGHT_OFFSET_IN_CM, P1, Literal("-177.1", XSD_FLOAT)));
 
     SQWRLResult result = queryEngine
       .runSQWRLQuery("q1", "heightOffsetInCM(p1, \"-177.1\"^^xsd:float) -> sqwrl:select(0)");
@@ -463,7 +463,7 @@ public class SWRLCoreNumericIT extends IntegrationTestBase
     OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
     SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
 
-    addOWLAxioms(ontology, DataPropertyAssertion(HEIGHT_OFFET_IN_CM, P1, Literal("-177.0", XSD_FLOAT)));
+    addOWLAxioms(ontology, DataPropertyAssertion(HEIGHT_OFFSET_IN_CM, P1, Literal("-177.0", XSD_FLOAT)));
 
     SQWRLResult result = queryEngine.runSQWRLQuery("q1", "heightOffsetInCM(p1, ?offset) -> sqwrl:select(?offset)");
 
@@ -520,7 +520,7 @@ public class SWRLCoreNumericIT extends IntegrationTestBase
     OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
     SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
 
-    addOWLAxioms(ontology, DataPropertyAssertion(HEIGHT_OFFET_IN_CM, P1, Literal("-177.1", XSD_DOUBLE)));
+    addOWLAxioms(ontology, DataPropertyAssertion(HEIGHT_OFFSET_IN_CM, P1, Literal("-177.1", XSD_DOUBLE)));
 
     SQWRLResult result = queryEngine
       .runSQWRLQuery("q1", "heightOffsetInCM(p1, \"-177.1\"^^xsd:double) -> sqwrl:select(0)");
@@ -549,7 +549,7 @@ public class SWRLCoreNumericIT extends IntegrationTestBase
     OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
     SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
 
-    addOWLAxioms(ontology, DataPropertyAssertion(HEIGHT_OFFET_IN_CM, P1, Literal("-177.0", XSD_DOUBLE)));
+    addOWLAxioms(ontology, DataPropertyAssertion(HEIGHT_OFFSET_IN_CM, P1, Literal("-177.0", XSD_DOUBLE)));
 
     SQWRLResult result = queryEngine.runSQWRLQuery("q1", "heightOffsetInCM(p1, ?offset) -> sqwrl:select(?offset)");
 

@@ -17,6 +17,8 @@ import org.swrlapi.test.IntegrationTestBase;
 
 /**
  * NOTE: All tests are designed for parallel execution.
+ *
+ * @see org.swrlapi.builtins.swrlb.SWRLBuiltInLibraryImpl
  */
 public class SWRLBuiltInsIT extends IntegrationTestBase
 {

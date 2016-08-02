@@ -23,6 +23,8 @@ import static org.semanticweb.owlapi.apibinding.OWLFunctionalSyntaxFactory.Named
 
 /**
  * NOTE: All tests are designed for parallel execution.
+ *
+ * @see org.swrlapi.builtins.swrlb.SWRLBuiltInLibraryImpl
  */
 public class SWRLCoreBuiltInsIT extends IntegrationTestBase
 {
