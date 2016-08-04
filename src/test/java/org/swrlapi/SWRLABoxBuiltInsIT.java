@@ -46,23 +46,23 @@ public class SWRLABoxBuiltInsIT extends IntegrationTestBase
     SQWRLResult result = queryEngine
       .runSQWRLQuery("q1", "abox:caa(?c, ?i) -> sqwrl:select(?c, ?i) ^ sqwrl:orderBy(?c, ?i)");
 
-    Assert.assertEquals(result.getNumberOfRows(), 3);
+    Assert.assertEquals(3, result.getNumberOfRows());
 
     Assert.assertTrue(result.next());
     Assert.assertTrue(result.hasClassValue(0));
-    Assert.assertEquals(result.getClass(0).getShortName(), "C1");
+    Assert.assertEquals("C1", result.getClass(0).getShortName());
     Assert.assertTrue(result.hasNamedIndividualValue(1));
-    Assert.assertEquals(result.getNamedIndividual(1).getShortName(), "p1");
+    Assert.assertEquals("p1", result.getNamedIndividual(1).getShortName());
     Assert.assertTrue(result.next());
     Assert.assertTrue(result.hasClassValue(0));
-    Assert.assertEquals(result.getClass(0).getShortName(), "C2");
+    Assert.assertEquals("C2", result.getClass(0).getShortName());
     Assert.assertTrue(result.hasNamedIndividualValue(1));
-    Assert.assertEquals(result.getNamedIndividual(1).getShortName(), "p2");
+    Assert.assertEquals("p2", result.getNamedIndividual(1).getShortName());
     Assert.assertTrue(result.next());
     Assert.assertTrue(result.hasClassValue(0));
-    Assert.assertEquals(result.getClass(0).getShortName(), "C3");
+    Assert.assertEquals("C3", result.getClass(0).getShortName());
     Assert.assertTrue(result.hasNamedIndividualValue(1));
-    Assert.assertEquals(result.getNamedIndividual(1).getShortName(), "p3");
+    Assert.assertEquals("p3", result.getNamedIndividual(1).getShortName());
   }
 
   @Test public void TestSWRLABoxCAABuiltInWithBoundNamedClassAndNamedIndividual()
@@ -89,14 +89,14 @@ public class SWRLABoxBuiltInsIT extends IntegrationTestBase
 
     SQWRLResult result = queryEngine.runSQWRLQuery("q1", "abox:caa(C1, ?i) -> sqwrl:select(?i) ^ sqwrl:orderBy(?i)");
 
-    Assert.assertEquals(result.getNumberOfRows(), 2);
+    Assert.assertEquals(2, result.getNumberOfRows());
 
     Assert.assertTrue(result.next());
     Assert.assertTrue(result.hasNamedIndividualValue(0));
-    Assert.assertEquals(result.getNamedIndividual(0).getShortName(), "p1");
+    Assert.assertEquals("p1", result.getNamedIndividual(0).getShortName());
     Assert.assertTrue(result.next());
     Assert.assertTrue(result.hasNamedIndividualValue(0));
-    Assert.assertEquals(result.getNamedIndividual(0).getShortName(), "p2");
+    Assert.assertEquals("p2", result.getNamedIndividual(0).getShortName());
   }
 
   @Test public void TestSWRLABoxCAABuiltInWithUnboundNamedClassAndBoundNamedIndividual()
@@ -110,14 +110,14 @@ public class SWRLABoxBuiltInsIT extends IntegrationTestBase
 
     SQWRLResult result = queryEngine.runSQWRLQuery("q1", "abox:caa(?c, p1) -> sqwrl:select(?c) ^ sqwrl:orderBy(?c)");
 
-    Assert.assertEquals(result.getNumberOfRows(), 2);
+    Assert.assertEquals(2, result.getNumberOfRows());
 
     Assert.assertTrue(result.next());
     Assert.assertTrue(result.hasClassValue(0));
-    Assert.assertEquals(result.getClass(0).getShortName(), "C1");
+    Assert.assertEquals( "C1", result.getClass(0).getShortName());
     Assert.assertTrue(result.next());
     Assert.assertTrue(result.hasClassValue(0));
-    Assert.assertEquals(result.getClass(0).getShortName(), "C2");
+    Assert.assertEquals( "C2", result.getClass(0).getShortName());
   }
 
   @Test public void TestSWRLABoxCAABuiltInWithUnboundClassExpressionAndUnboundNamedIndividual()
@@ -132,7 +132,7 @@ public class SWRLABoxBuiltInsIT extends IntegrationTestBase
     SQWRLResult result = queryEngine
       .runSQWRLQuery("q1", "abox:caa(?c, ?i) -> sqwrl:select(?c, ?i) ^ sqwrl:orderBy(?c, ?i)");
 
-    Assert.assertEquals(result.getNumberOfRows(), 2);
+    Assert.assertEquals(2, result.getNumberOfRows());
     Assert.assertTrue(result.next());
     Assert.assertTrue(result.hasClassExpressionValue(0));
     Assert.assertFalse(result.getClassExpression(0).getRendering().isEmpty());
