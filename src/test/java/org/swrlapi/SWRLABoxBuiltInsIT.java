@@ -569,5 +569,4 @@ public class SWRLABoxBuiltInsIT extends IntegrationTestBase
   // TestSWRLABoxNDPAABuiltInWithBound1stUnbound2ndUnbound3dArgument
   // TestSWRLABoxNDPAABuiltInWithBound1stUnbound2ndBound3dArgument
   // TestSWRLABoxNDPAABuiltInWithBound1stBound2ndUnbound3dArgument
-
 }
