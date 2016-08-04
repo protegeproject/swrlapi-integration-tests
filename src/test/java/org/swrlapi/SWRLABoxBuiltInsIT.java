@@ -16,6 +16,7 @@ import org.swrlapi.test.IntegrationTestBase;
 
 import static org.semanticweb.owlapi.apibinding.OWLFunctionalSyntaxFactory.Class;
 import static org.semanticweb.owlapi.apibinding.OWLFunctionalSyntaxFactory.ClassAssertion;
+import static org.semanticweb.owlapi.apibinding.OWLFunctionalSyntaxFactory.DifferentIndividuals;
 import static org.semanticweb.owlapi.apibinding.OWLFunctionalSyntaxFactory.NamedIndividual;
 import static org.semanticweb.owlapi.apibinding.OWLFunctionalSyntaxFactory.SameIndividual;
 
@@ -121,7 +122,6 @@ public class SWRLABoxBuiltInsIT extends IntegrationTestBase
     Assert.assertEquals("C2", result.getClass(0).getShortName());
   }
 
-
   @Test public void TestSWRLABoxSIABuiltInWithAllUnboundArguments()
     throws SWRLParseException, SQWRLException, OWLOntologyCreationException
   {
@@ -171,6 +171,147 @@ public class SWRLABoxBuiltInsIT extends IntegrationTestBase
     Assert.assertTrue(result.hasNamedIndividualValue(1));
     Assert.assertEquals("p1", result.getNamedIndividual(0).getShortName());
     Assert.assertEquals("p2", result.getNamedIndividual(1).getShortName());
+  }
+
+  @Test public void TestSWRLABoxSIABuiltInWithUnbound1stArgumentAndBound2ndArgument()
+    throws SWRLParseException, SQWRLException, OWLOntologyCreationException
+  {
+    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
+
+    addOWLAxioms(ontology, SameIndividual(P1, P2));
+    addOWLAxioms(ontology, SameIndividual(P2, P3));
+    addOWLAxioms(ontology, SameIndividual(P3, P4));
+
+    SQWRLResult result = queryEngine.runSQWRLQuery("q1", "abox:sia(?i, p3) -> sqwrl:select(?i, p3)");
+
+    Assert.assertEquals(1, result.getNumberOfRows());
+
+    Assert.assertTrue(result.next());
+    Assert.assertTrue(result.hasNamedIndividualValue(0));
+    Assert.assertTrue(result.hasNamedIndividualValue(1));
+    Assert.assertEquals("p2", result.getNamedIndividual(0).getShortName());
+    Assert.assertEquals("p3", result.getNamedIndividual(1).getShortName());
+  }
+
+  @Test public void TestSWRLABoxSIABuiltInWithBound1stArgumentAndUnbound2ndArgument()
+    throws SWRLParseException, SQWRLException, OWLOntologyCreationException
+  {
+    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
+
+    addOWLAxioms(ontology, SameIndividual(P1, P2));
+    addOWLAxioms(ontology, SameIndividual(P2, P3));
+    addOWLAxioms(ontology, SameIndividual(P3, P4));
+
+    SQWRLResult result = queryEngine.runSQWRLQuery("q1", "abox:sia(p3, ?i) -> sqwrl:select(p3, ?i)");
+
+    Assert.assertEquals(1, result.getNumberOfRows());
+
+    Assert.assertTrue(result.next());
+    Assert.assertTrue(result.hasNamedIndividualValue(0));
+    Assert.assertTrue(result.hasNamedIndividualValue(1));
+    Assert.assertEquals("p3", result.getNamedIndividual(0).getShortName());
+    Assert.assertEquals("p4", result.getNamedIndividual(1).getShortName());
+  }
+
+
+
+
+
+
+
+  @Test public void TestSWRLABoxDIABuiltInWithAllUnboundArguments()
+    throws SWRLParseException, SQWRLException, OWLOntologyCreationException
+  {
+    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
+
+    addOWLAxioms(ontology, DifferentIndividuals(P1, P2));
+    addOWLAxioms(ontology, DifferentIndividuals(P2, P3));
+    addOWLAxioms(ontology, DifferentIndividuals(P3, P4));
+
+    SQWRLResult result = queryEngine
+      .runSQWRLQuery("q1", "abox:dia(?i1, ?i2) -> sqwrl:select(?i1, ?i2) ^ sqwrl:orderBy(?i1, ?i2)");
+
+    Assert.assertEquals(3, result.getNumberOfRows());
+
+    Assert.assertTrue(result.next());
+    Assert.assertTrue(result.hasNamedIndividualValue(0));
+    Assert.assertTrue(result.hasNamedIndividualValue(1));
+    Assert.assertEquals("p1", result.getNamedIndividual(0).getShortName());
+    Assert.assertEquals("p2", result.getNamedIndividual(1).getShortName());
+    Assert.assertTrue(result.next());
+    Assert.assertTrue(result.hasNamedIndividualValue(0));
+    Assert.assertTrue(result.hasNamedIndividualValue(1));
+    Assert.assertEquals("p2", result.getNamedIndividual(0).getShortName());
+    Assert.assertEquals("p3", result.getNamedIndividual(1).getShortName());
+    Assert.assertTrue(result.next());
+    Assert.assertTrue(result.hasNamedIndividualValue(0));
+    Assert.assertTrue(result.hasNamedIndividualValue(1));
+    Assert.assertEquals("p3", result.getNamedIndividual(0).getShortName());
+    Assert.assertEquals("p4", result.getNamedIndividual(1).getShortName());
+  }
+
+  @Test public void TestSWRLABoxDIABuiltInWithAllBoundArguments()
+    throws SWRLParseException, SQWRLException, OWLOntologyCreationException
+  {
+    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
+
+    addOWLAxioms(ontology, DifferentIndividuals(P1, P2));
+
+    SQWRLResult result = queryEngine.runSQWRLQuery("q1", "abox:dia(p1, p2) -> sqwrl:select(p1, p2)");
+
+    Assert.assertEquals(1, result.getNumberOfRows());
+
+    Assert.assertTrue(result.next());
+    Assert.assertTrue(result.hasNamedIndividualValue(0));
+    Assert.assertTrue(result.hasNamedIndividualValue(1));
+    Assert.assertEquals("p1", result.getNamedIndividual(0).getShortName());
+    Assert.assertEquals("p2", result.getNamedIndividual(1).getShortName());
+  }
+
+  @Test public void TestSWRLABoxDIABuiltInWithUnbound1stArgumentAndBound2ndArgument()
+    throws SWRLParseException, SQWRLException, OWLOntologyCreationException
+  {
+    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
+
+    addOWLAxioms(ontology, DifferentIndividuals(P1, P2));
+    addOWLAxioms(ontology, DifferentIndividuals(P2, P3));
+    addOWLAxioms(ontology, DifferentIndividuals(P3, P4));
+
+    SQWRLResult result = queryEngine.runSQWRLQuery("q1", "abox:dia(?i, p3) -> sqwrl:select(?i, p3)");
+
+    Assert.assertEquals(1, result.getNumberOfRows());
+
+    Assert.assertTrue(result.next());
+    Assert.assertTrue(result.hasNamedIndividualValue(0));
+    Assert.assertTrue(result.hasNamedIndividualValue(1));
+    Assert.assertEquals("p2", result.getNamedIndividual(0).getShortName());
+    Assert.assertEquals("p3", result.getNamedIndividual(1).getShortName());
+  }
+
+  @Test public void TestSWRLABoxDIABuiltInWithBound1stArgumentAndUnbound2ndArgument()
+    throws SWRLParseException, SQWRLException, OWLOntologyCreationException
+  {
+    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
+
+    addOWLAxioms(ontology, DifferentIndividuals(P1, P2));
+    addOWLAxioms(ontology, DifferentIndividuals(P2, P3));
+    addOWLAxioms(ontology, DifferentIndividuals(P3, P4));
+
+    SQWRLResult result = queryEngine.runSQWRLQuery("q1", "abox:dia(p3, ?i) -> sqwrl:select(p3, ?i)");
+
+    Assert.assertEquals(1, result.getNumberOfRows());
+
+    Assert.assertTrue(result.next());
+    Assert.assertTrue(result.hasNamedIndividualValue(0));
+    Assert.assertTrue(result.hasNamedIndividualValue(1));
+    Assert.assertEquals("p3", result.getNamedIndividual(0).getShortName());
+    Assert.assertEquals("p4", result.getNamedIndividual(1).getShortName());
   }
 
 }
