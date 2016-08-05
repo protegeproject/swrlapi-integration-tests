@@ -18,6 +18,7 @@ import org.swrlapi.test.IntegrationTestBase;
 
 import static org.semanticweb.owlapi.apibinding.OWLFunctionalSyntaxFactory.Class;
 import static org.semanticweb.owlapi.apibinding.OWLFunctionalSyntaxFactory.DataProperty;
+import static org.semanticweb.owlapi.apibinding.OWLFunctionalSyntaxFactory.DataPropertyDomain;
 import static org.semanticweb.owlapi.apibinding.OWLFunctionalSyntaxFactory.DisjointClasses;
 import static org.semanticweb.owlapi.apibinding.OWLFunctionalSyntaxFactory.EquivalentClasses;
 import static org.semanticweb.owlapi.apibinding.OWLFunctionalSyntaxFactory.FunctionalDataProperty;
@@ -25,6 +26,8 @@ import static org.semanticweb.owlapi.apibinding.OWLFunctionalSyntaxFactory.Funct
 import static org.semanticweb.owlapi.apibinding.OWLFunctionalSyntaxFactory.InverseFunctionalObjectProperty;
 import static org.semanticweb.owlapi.apibinding.OWLFunctionalSyntaxFactory.Literal;
 import static org.semanticweb.owlapi.apibinding.OWLFunctionalSyntaxFactory.ObjectProperty;
+import static org.semanticweb.owlapi.apibinding.OWLFunctionalSyntaxFactory.ObjectPropertyDomain;
+import static org.semanticweb.owlapi.apibinding.OWLFunctionalSyntaxFactory.ObjectPropertyRange;
 import static org.semanticweb.owlapi.apibinding.OWLFunctionalSyntaxFactory.SubClassOf;
 
 /**
@@ -284,6 +287,133 @@ public class SWRLTBoxBuiltInsIT extends IntegrationTestBase
     Assert.assertTrue(result.next());
   }
 
-  // OBJECT_PROPERTY_DOMAIN, OBJECT_PROPERTY_RANGE,
-  // DATA_PROPERTY_DOMAIN, DATA_PROPERTY_RANGE,
+  @Test public void TestSWRLTBoxOPDABuiltInWithAllUnboundArguments()
+    throws SWRLParseException, SQWRLException, OWLOntologyCreationException
+  {
+    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
+
+    addOWLAxioms(ontology, ObjectPropertyDomain(OP1, C1));
+    addOWLAxioms(ontology, ObjectPropertyDomain(OP2, C2));
+
+    SQWRLResult result = queryEngine
+      .runSQWRLQuery("q1", "tbox:opda(?p, ?d) -> sqwrl:select(?p, ?d) ^ sqwrl:orderBy(?p, ?d)");
+
+    Assert.assertEquals(result.getNumberOfRows(), 2);
+    Assert.assertTrue(result.next());
+    Assert.assertTrue(result.hasObjectPropertyValue(0));
+    Assert.assertTrue(result.hasClassValue(1));
+    Assert.assertEquals(result.getClass(1).getShortName(), "C1");
+    Assert.assertEquals(result.getObjectProperty(0).getShortName(), "op1");
+
+    Assert.assertTrue(result.next());
+    Assert.assertTrue(result.hasObjectPropertyValue(0));
+    Assert.assertTrue(result.hasClassValue(1));
+    Assert.assertEquals(result.getClass(1).getShortName(), "C2");
+    Assert.assertEquals(result.getObjectProperty(0).getShortName(), "op2");
+  }
+
+  @Test public void TestSWRLTBoxOPDABuiltInWithAllBoundArguments()
+    throws SWRLParseException, SQWRLException, OWLOntologyCreationException
+  {
+    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
+
+    addOWLAxioms(ontology, ObjectPropertyDomain(OP1, C1));
+    addOWLAxioms(ontology, ObjectPropertyDomain(OP2, C2));
+
+    SQWRLResult result = queryEngine.runSQWRLQuery("q1", "tbox:opda(op1, C1) -> sqwrl:select(0)");
+
+    Assert.assertTrue(result.next());
+  }
+
+  // TODO 2 bound/unbound combinations for above
+
+
+  @Test public void TestSWRLTBoxOPRABuiltInWithAllUnboundArguments()
+    throws SWRLParseException, SQWRLException, OWLOntologyCreationException
+  {
+    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
+
+    addOWLAxioms(ontology, ObjectPropertyRange(OP1, C1));
+    addOWLAxioms(ontology, ObjectPropertyRange(OP2, C2));
+
+    SQWRLResult result = queryEngine
+      .runSQWRLQuery("q1", "tbox:opra(?p, ?d) -> sqwrl:select(?p, ?d) ^ sqwrl:orderBy(?p, ?d)");
+
+    Assert.assertEquals(result.getNumberOfRows(), 2);
+    Assert.assertTrue(result.next());
+    Assert.assertTrue(result.hasObjectPropertyValue(0));
+    Assert.assertTrue(result.hasClassValue(1));
+    Assert.assertEquals(result.getClass(1).getShortName(), "C1");
+    Assert.assertEquals(result.getObjectProperty(0).getShortName(), "op1");
+
+    Assert.assertTrue(result.next());
+    Assert.assertTrue(result.hasObjectPropertyValue(0));
+    Assert.assertTrue(result.hasClassValue(1));
+    Assert.assertEquals(result.getClass(1).getShortName(), "C2");
+    Assert.assertEquals(result.getObjectProperty(0).getShortName(), "op2");
+  }
+
+  @Test public void TestSWRLTBoxOPRABuiltInWithAllBoundArguments()
+    throws SWRLParseException, SQWRLException, OWLOntologyCreationException
+  {
+    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
+
+    addOWLAxioms(ontology, ObjectPropertyRange(OP1, C1));
+    addOWLAxioms(ontology, ObjectPropertyRange(OP2, C2));
+
+    SQWRLResult result = queryEngine.runSQWRLQuery("q1", "tbox:opra(op1, C1) -> sqwrl:select(0)");
+
+    Assert.assertTrue(result.next());
+  }
+
+  // TODO 2 bound/unbound combinations for above
+
+
+  @Test public void TestSWRLTBoxDPDABuiltInWithAllUnboundArguments()
+    throws SWRLParseException, SQWRLException, OWLOntologyCreationException
+  {
+    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
+
+    addOWLAxioms(ontology, DataPropertyDomain(DP1, C1));
+    addOWLAxioms(ontology, DataPropertyDomain(DP2, C2));
+
+    SQWRLResult result = queryEngine
+      .runSQWRLQuery("q1", "tbox:dpda(?p, ?d) -> sqwrl:select(?p, ?d) ^ sqwrl:orderBy(?p, ?d)");
+
+    Assert.assertEquals(result.getNumberOfRows(), 2);
+    Assert.assertTrue(result.next());
+    Assert.assertTrue(result.hasDataPropertyValue(0));
+    Assert.assertTrue(result.hasClassValue(1));
+    Assert.assertEquals(result.getClass(1).getShortName(), "C1");
+    Assert.assertEquals(result.getDataProperty(0).getShortName(), "dp1");
+
+    Assert.assertTrue(result.next());
+    Assert.assertTrue(result.hasDataPropertyValue(0));
+    Assert.assertTrue(result.hasClassValue(1));
+    Assert.assertEquals(result.getClass(1).getShortName(), "C2");
+    Assert.assertEquals(result.getDataProperty(0).getShortName(), "dp2");
+  }
+
+  @Test public void TestSWRLTBoxDPDABuiltInWithAllBoundArguments()
+    throws SWRLParseException, SQWRLException, OWLOntologyCreationException
+  {
+    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
+
+    addOWLAxioms(ontology, DataPropertyDomain(DP1, C1));
+    addOWLAxioms(ontology, DataPropertyDomain(DP2, C2));
+
+    SQWRLResult result = queryEngine.runSQWRLQuery("q1", "tbox:dpda(dp1, C1) -> sqwrl:select(0)");
+
+    Assert.assertTrue(result.next());
+  }
+
+  // TODO 2 bound/unbound combinations for above
+
+  // TODO DATA_PROPERTY_RANGE tests
 }
