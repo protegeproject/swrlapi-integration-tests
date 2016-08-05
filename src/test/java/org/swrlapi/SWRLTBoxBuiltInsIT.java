@@ -327,8 +327,8 @@ public class SWRLTBoxBuiltInsIT extends IntegrationTestBase
     Assert.assertTrue(result.next());
   }
 
-  // TODO 2 bound/unbound combinations for above
-
+  // TODO TestSWRLTBoxOPDABuiltInWithBound1stUnbound2ndArguments
+  // TODO TestSWRLTBoxOPDABuiltInWithUnbound1stBound2ndArguments
 
   @Test public void TestSWRLTBoxOPRABuiltInWithAllUnboundArguments()
     throws SWRLParseException, SQWRLException, OWLOntologyCreationException
@@ -370,8 +370,8 @@ public class SWRLTBoxBuiltInsIT extends IntegrationTestBase
     Assert.assertTrue(result.next());
   }
 
-  // TODO 2 bound/unbound combinations for above
-
+  // TODO TestSWRLTBoxOPRABuiltInWithBound1stUnbound2ndArguments
+  // TODO TestSWRLTBoxOPRABuiltInWithUnbound1stBound2ndArguments
 
   @Test public void TestSWRLTBoxDPDABuiltInWithAllUnboundArguments()
     throws SWRLParseException, SQWRLException, OWLOntologyCreationException
@@ -413,7 +413,10 @@ public class SWRLTBoxBuiltInsIT extends IntegrationTestBase
     Assert.assertTrue(result.next());
   }
 
-  // TODO 2 bound/unbound combinations for above
-
-  // TODO DATA_PROPERTY_RANGE tests
+  // TODO TestSWRLTBoxDPDABuiltInWithBound1stUnbound2ndArguments
+  // TODO TestSWRLTBoxDPDABuiltInWithUnbound1stBound2ndArguments
+  // TODO TestSWRLTBoxDPRABuiltInWithAllBoundArguments
+  // TODO TestSWRLTBoxDPRABuiltInWithAllUnboundArguments
+  // TODO TestSWRLTBoxDPRABuiltInWithBound1stUnbound2ndArguments
+  // TODO TestSWRLTBoxDPRABuiltInWithUnbound1stBound2ndArguments
 }
