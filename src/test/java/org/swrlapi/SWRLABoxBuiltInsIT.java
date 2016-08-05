@@ -376,12 +376,143 @@ public class SWRLABoxBuiltInsIT extends IntegrationTestBase
     Assert.assertTrue(result.next());
   }
 
-  // TestSWRLABoxOPAABuiltInWithUnbound1stUnbound2ndBound3dArgument
-  // TestSWRLABoxOPAABuiltInWithUnbound1stBound2ndUnbound3dArgument
-  // TestSWRLABoxOPAABuiltInWithUnbound1stBound2ndBound3dArgument
-  // TestSWRLABoxOPAABuiltInWithBound1stUnbound2ndUnbound3dArgument
-  // TestSWRLABoxOPAABuiltInWithBound1stUnbound2ndBound3dArgument
-  // TestSWRLABoxOPAABuiltInWithBound1stBound2ndUnbound3dArgument
+  @Test public void TestSWRLABoxOPAABuiltInWithUnbound1stUnbound2ndBound3dArgument()
+    throws SWRLParseException, SQWRLException, OWLOntologyCreationException
+  {
+    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
+
+    addOWLAxioms(ontology, ObjectPropertyAssertion(OP1, NI1, NI2));
+    addOWLAxioms(ontology, ObjectPropertyAssertion(OP2, NI2, NI3));
+    addOWLAxioms(ontology, ObjectPropertyAssertion(OP3, NI3, NI4));
+
+    SQWRLResult result = queryEngine.runSQWRLQuery("q1", "abox:opaa(?s, ?p, ni2) -> sqwrl:select(?s, ?p, ni2)");
+
+    Assert.assertEquals(1, result.getNumberOfRows());
+
+    Assert.assertTrue(result.next());
+    Assert.assertTrue(result.hasNamedIndividualValue(0));
+    Assert.assertTrue(result.hasObjectPropertyValue(1));
+    Assert.assertTrue(result.hasNamedIndividualValue(2));
+    Assert.assertEquals("ni1", result.getNamedIndividual(0).getShortName());
+    Assert.assertEquals("op1", result.getObjectProperty(1).getShortName());
+    Assert.assertEquals("ni2", result.getNamedIndividual(2).getShortName());
+  }
+
+  @Test public void TestSWRLABoxOPAABuiltInWithUnbound1stBound2ndUnbound3dArgument()
+    throws SWRLParseException, SQWRLException, OWLOntologyCreationException
+  {
+    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
+
+    addOWLAxioms(ontology, ObjectPropertyAssertion(OP1, NI1, NI2));
+    addOWLAxioms(ontology, ObjectPropertyAssertion(OP2, NI2, NI3));
+    addOWLAxioms(ontology, ObjectPropertyAssertion(OP3, NI3, NI4));
+
+    SQWRLResult result = queryEngine.runSQWRLQuery("q1", "abox:opaa(?s, op1, ?o) -> sqwrl:select(?s, op1, ?o)");
+
+    Assert.assertEquals(1, result.getNumberOfRows());
+
+    Assert.assertTrue(result.next());
+    Assert.assertTrue(result.hasNamedIndividualValue(0));
+    Assert.assertTrue(result.hasObjectPropertyValue(1));
+    Assert.assertTrue(result.hasNamedIndividualValue(2));
+    Assert.assertEquals("ni1", result.getNamedIndividual(0).getShortName());
+    Assert.assertEquals("op1", result.getObjectProperty(1).getShortName());
+    Assert.assertEquals("ni2", result.getNamedIndividual(2).getShortName());
+  }
+
+  @Test public void TestSWRLABoxOPAABuiltInWithUnbound1stBound2ndBound3dArgument()
+    throws SWRLParseException, SQWRLException, OWLOntologyCreationException
+  {
+    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
+
+    addOWLAxioms(ontology, ObjectPropertyAssertion(OP1, NI1, NI2));
+    addOWLAxioms(ontology, ObjectPropertyAssertion(OP2, NI2, NI3));
+    addOWLAxioms(ontology, ObjectPropertyAssertion(OP3, NI3, NI4));
+
+    SQWRLResult result = queryEngine.runSQWRLQuery("q1", "abox:opaa(?s, op1, ni2) -> sqwrl:select(?s, op1, ni2)");
+
+    Assert.assertEquals(1, result.getNumberOfRows());
+
+    Assert.assertTrue(result.next());
+    Assert.assertTrue(result.hasNamedIndividualValue(0));
+    Assert.assertTrue(result.hasObjectPropertyValue(1));
+    Assert.assertTrue(result.hasNamedIndividualValue(2));
+    Assert.assertEquals("ni1", result.getNamedIndividual(0).getShortName());
+    Assert.assertEquals("op1", result.getObjectProperty(1).getShortName());
+    Assert.assertEquals("ni2", result.getNamedIndividual(2).getShortName());
+  }
+
+  @Test public void TestSWRLABoxOPAABuiltInWithBound1stUnbound2ndUnbound3dArgument()
+    throws SWRLParseException, SQWRLException, OWLOntologyCreationException
+  {
+    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
+
+    addOWLAxioms(ontology, ObjectPropertyAssertion(OP1, NI1, NI2));
+    addOWLAxioms(ontology, ObjectPropertyAssertion(OP2, NI2, NI3));
+    addOWLAxioms(ontology, ObjectPropertyAssertion(OP3, NI3, NI4));
+
+    SQWRLResult result = queryEngine.runSQWRLQuery("q1", "abox:opaa(ni1, ?p, ?o) -> sqwrl:select(ni1, ?p, ?o)");
+
+    Assert.assertEquals(1, result.getNumberOfRows());
+
+    Assert.assertTrue(result.next());
+    Assert.assertTrue(result.hasNamedIndividualValue(0));
+    Assert.assertTrue(result.hasObjectPropertyValue(1));
+    Assert.assertTrue(result.hasNamedIndividualValue(2));
+    Assert.assertEquals("ni1", result.getNamedIndividual(0).getShortName());
+    Assert.assertEquals("op1", result.getObjectProperty(1).getShortName());
+    Assert.assertEquals("ni2", result.getNamedIndividual(2).getShortName());
+  }
+
+  @Test public void TestSWRLABoxOPAABuiltInWithBound1stUnbound2ndBound3dArgument()
+    throws SWRLParseException, SQWRLException, OWLOntologyCreationException
+  {
+    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
+
+    addOWLAxioms(ontology, ObjectPropertyAssertion(OP1, NI1, NI2));
+    addOWLAxioms(ontology, ObjectPropertyAssertion(OP2, NI2, NI3));
+    addOWLAxioms(ontology, ObjectPropertyAssertion(OP3, NI3, NI4));
+
+    SQWRLResult result = queryEngine.runSQWRLQuery("q1", "abox:opaa(ni1, ?p, ni2) -> sqwrl:select(ni1, ?p, ni2)");
+
+    Assert.assertEquals(1, result.getNumberOfRows());
+
+    Assert.assertTrue(result.next());
+    Assert.assertTrue(result.hasNamedIndividualValue(0));
+    Assert.assertTrue(result.hasObjectPropertyValue(1));
+    Assert.assertTrue(result.hasNamedIndividualValue(2));
+    Assert.assertEquals("ni1", result.getNamedIndividual(0).getShortName());
+    Assert.assertEquals("op1", result.getObjectProperty(1).getShortName());
+    Assert.assertEquals("ni2", result.getNamedIndividual(2).getShortName());
+  }
+
+  @Test public void TestSWRLABoxOPAABuiltInWithBound1stBound2ndUnbound3dArgument()
+    throws SWRLParseException, SQWRLException, OWLOntologyCreationException
+  {
+    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
+
+    addOWLAxioms(ontology, ObjectPropertyAssertion(OP1, NI1, NI2));
+    addOWLAxioms(ontology, ObjectPropertyAssertion(OP2, NI2, NI3));
+    addOWLAxioms(ontology, ObjectPropertyAssertion(OP3, NI3, NI4));
+
+    SQWRLResult result = queryEngine.runSQWRLQuery("q1", "abox:opaa(ni1, op1, ?o) -> sqwrl:select(ni1, op1, ?o)");
+
+    Assert.assertEquals(1, result.getNumberOfRows());
+
+    Assert.assertTrue(result.next());
+    Assert.assertTrue(result.hasNamedIndividualValue(0));
+    Assert.assertTrue(result.hasObjectPropertyValue(1));
+    Assert.assertTrue(result.hasNamedIndividualValue(2));
+    Assert.assertEquals("ni1", result.getNamedIndividual(0).getShortName());
+    Assert.assertEquals("op1", result.getObjectProperty(1).getShortName());
+    Assert.assertEquals("ni2", result.getNamedIndividual(2).getShortName());
+  }
 
   @Test public void TestSWRLABoxNOPAABuiltInWithAllUnboundArguments()
     throws SWRLParseException, SQWRLException, OWLOntologyCreationException
@@ -438,13 +569,147 @@ public class SWRLABoxBuiltInsIT extends IntegrationTestBase
     Assert.assertTrue(result.next());
   }
 
-  // TestSWRLABoxNOPAABuiltInWithUnbound1stUnbound2ndBound3dArgument
-  // TestSWRLABoxNOPAABuiltInWithUnbound1stBound2ndUnbound3dArgument
-  // TestSWRLABoxNOPAABuiltInWithUnbound1stBound2ndBound3dArgument
-  // TestSWRLABoxNOPAABuiltInWithBound1stUnbound2ndUnbound3dArgument
-  // TestSWRLABoxNOPAABuiltInWithBound1stUnbound2ndBound3dArgument
-  // TestSWRLABoxNOPAABuiltInWithBound1stBound2ndUnbound3dArgument
 
+
+
+
+  @Test public void TestSWRLABoxNOPAABuiltInWithUnbound1stUnbound2ndBound3dArgument()
+    throws SWRLParseException, SQWRLException, OWLOntologyCreationException
+  {
+    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
+
+    addOWLAxioms(ontology, NegativeObjectPropertyAssertion(OP1, NI1, NI2));
+    addOWLAxioms(ontology, NegativeObjectPropertyAssertion(OP2, NI2, NI3));
+    addOWLAxioms(ontology, NegativeObjectPropertyAssertion(OP3, NI3, NI4));
+
+    SQWRLResult result = queryEngine.runSQWRLQuery("q1", "abox:nopaa(?s, ?p, ni2) -> sqwrl:select(?s, ?p, ni2)");
+
+    Assert.assertEquals(1, result.getNumberOfRows());
+
+    Assert.assertTrue(result.next());
+    Assert.assertTrue(result.hasNamedIndividualValue(0));
+    Assert.assertTrue(result.hasObjectPropertyValue(1));
+    Assert.assertTrue(result.hasNamedIndividualValue(2));
+    Assert.assertEquals("ni1", result.getNamedIndividual(0).getShortName());
+    Assert.assertEquals("op1", result.getObjectProperty(1).getShortName());
+    Assert.assertEquals("ni2", result.getNamedIndividual(2).getShortName());
+  }
+
+  @Test public void TestSWRLABoxNOPAABuiltInWithUnbound1stBound2ndUnbound3dArgument()
+    throws SWRLParseException, SQWRLException, OWLOntologyCreationException
+  {
+    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
+
+    addOWLAxioms(ontology, NegativeObjectPropertyAssertion(OP1, NI1, NI2));
+    addOWLAxioms(ontology, NegativeObjectPropertyAssertion(OP2, NI2, NI3));
+    addOWLAxioms(ontology, NegativeObjectPropertyAssertion(OP3, NI3, NI4));
+
+    SQWRLResult result = queryEngine.runSQWRLQuery("q1", "abox:nopaa(?s, op1, ?o) -> sqwrl:select(?s, op1, ?o)");
+
+    Assert.assertEquals(1, result.getNumberOfRows());
+
+    Assert.assertTrue(result.next());
+    Assert.assertTrue(result.hasNamedIndividualValue(0));
+    Assert.assertTrue(result.hasObjectPropertyValue(1));
+    Assert.assertTrue(result.hasNamedIndividualValue(2));
+    Assert.assertEquals("ni1", result.getNamedIndividual(0).getShortName());
+    Assert.assertEquals("op1", result.getObjectProperty(1).getShortName());
+    Assert.assertEquals("ni2", result.getNamedIndividual(2).getShortName());
+  }
+
+  @Test public void TestSWRLABoxNOPAABuiltInWithUnbound1stBound2ndBound3dArgument()
+    throws SWRLParseException, SQWRLException, OWLOntologyCreationException
+  {
+    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
+
+    addOWLAxioms(ontology, NegativeObjectPropertyAssertion(OP1, NI1, NI2));
+    addOWLAxioms(ontology, NegativeObjectPropertyAssertion(OP2, NI2, NI3));
+    addOWLAxioms(ontology, NegativeObjectPropertyAssertion(OP3, NI3, NI4));
+
+    SQWRLResult result = queryEngine.runSQWRLQuery("q1", "abox:nopaa(?s, op1, ni2) -> sqwrl:select(?s, op1, ni2)");
+
+    Assert.assertEquals(1, result.getNumberOfRows());
+
+    Assert.assertTrue(result.next());
+    Assert.assertTrue(result.hasNamedIndividualValue(0));
+    Assert.assertTrue(result.hasObjectPropertyValue(1));
+    Assert.assertTrue(result.hasNamedIndividualValue(2));
+    Assert.assertEquals("ni1", result.getNamedIndividual(0).getShortName());
+    Assert.assertEquals("op1", result.getObjectProperty(1).getShortName());
+    Assert.assertEquals("ni2", result.getNamedIndividual(2).getShortName());
+  }
+
+  @Test public void TestSWRLABoxNOPAABuiltInWithBound1stUnbound2ndUnbound3dArgument()
+    throws SWRLParseException, SQWRLException, OWLOntologyCreationException
+  {
+    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
+
+    addOWLAxioms(ontology, NegativeObjectPropertyAssertion(OP1, NI1, NI2));
+    addOWLAxioms(ontology, NegativeObjectPropertyAssertion(OP2, NI2, NI3));
+    addOWLAxioms(ontology, NegativeObjectPropertyAssertion(OP3, NI3, NI4));
+
+    SQWRLResult result = queryEngine.runSQWRLQuery("q1", "abox:nopaa(ni1, ?p, ?o) -> sqwrl:select(ni1, ?p, ?o)");
+
+    Assert.assertEquals(1, result.getNumberOfRows());
+
+    Assert.assertTrue(result.next());
+    Assert.assertTrue(result.hasNamedIndividualValue(0));
+    Assert.assertTrue(result.hasObjectPropertyValue(1));
+    Assert.assertTrue(result.hasNamedIndividualValue(2));
+    Assert.assertEquals("ni1", result.getNamedIndividual(0).getShortName());
+    Assert.assertEquals("op1", result.getObjectProperty(1).getShortName());
+    Assert.assertEquals("ni2", result.getNamedIndividual(2).getShortName());
+  }
+
+  @Test public void TestSWRLABoxNOPAABuiltInWithBound1stUnbound2ndBound3dArgument()
+    throws SWRLParseException, SQWRLException, OWLOntologyCreationException
+  {
+    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
+
+    addOWLAxioms(ontology, NegativeObjectPropertyAssertion(OP1, NI1, NI2));
+    addOWLAxioms(ontology, NegativeObjectPropertyAssertion(OP2, NI2, NI3));
+    addOWLAxioms(ontology, NegativeObjectPropertyAssertion(OP3, NI3, NI4));
+
+    SQWRLResult result = queryEngine.runSQWRLQuery("q1", "abox:nopaa(ni1, ?p, ni2) -> sqwrl:select(ni1, ?p, ni2)");
+
+    Assert.assertEquals(1, result.getNumberOfRows());
+
+    Assert.assertTrue(result.next());
+    Assert.assertTrue(result.hasNamedIndividualValue(0));
+    Assert.assertTrue(result.hasObjectPropertyValue(1));
+    Assert.assertTrue(result.hasNamedIndividualValue(2));
+    Assert.assertEquals("ni1", result.getNamedIndividual(0).getShortName());
+    Assert.assertEquals("op1", result.getObjectProperty(1).getShortName());
+    Assert.assertEquals("ni2", result.getNamedIndividual(2).getShortName());
+  }
+
+  @Test public void TestSWRLABoxNOPAABuiltInWithBound1stBound2ndUnbound3dArgument()
+    throws SWRLParseException, SQWRLException, OWLOntologyCreationException
+  {
+    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
+
+    addOWLAxioms(ontology, NegativeObjectPropertyAssertion(OP1, NI1, NI2));
+    addOWLAxioms(ontology, NegativeObjectPropertyAssertion(OP2, NI2, NI3));
+    addOWLAxioms(ontology, NegativeObjectPropertyAssertion(OP3, NI3, NI4));
+
+    SQWRLResult result = queryEngine.runSQWRLQuery("q1", "abox:nopaa(ni1, op1, ?o) -> sqwrl:select(ni1, op1, ?o)");
+
+    Assert.assertEquals(1, result.getNumberOfRows());
+
+    Assert.assertTrue(result.next());
+    Assert.assertTrue(result.hasNamedIndividualValue(0));
+    Assert.assertTrue(result.hasObjectPropertyValue(1));
+    Assert.assertTrue(result.hasNamedIndividualValue(2));
+    Assert.assertEquals("ni1", result.getNamedIndividual(0).getShortName());
+    Assert.assertEquals("op1", result.getObjectProperty(1).getShortName());
+    Assert.assertEquals("ni2", result.getNamedIndividual(2).getShortName());
+  }
 
   @Test public void TestSWRLABoxDPAABuiltInWithAllUnboundArguments()
     throws SWRLParseException, SQWRLException, OWLOntologyCreationException
@@ -501,12 +766,12 @@ public class SWRLABoxBuiltInsIT extends IntegrationTestBase
     Assert.assertTrue(result.next());
   }
 
-  // TestSWRLABoxDPAABuiltInWithUnbound1stUnbound2ndBound3dArgument
-  // TestSWRLABoxDPAABuiltInWithUnbound1stBound2ndUnbound3dArgument
-  // TestSWRLABoxDPAABuiltInWithUnbound1stBound2ndBound3dArgument
-  // TestSWRLABoxDPAABuiltInWithBound1stUnbound2ndUnbound3dArgument
-  // TestSWRLABoxDPAABuiltInWithBound1stUnbound2ndBound3dArgument
-  // TestSWRLABoxDPAABuiltInWithBound1stBound2ndUnbound3dArgument
+  // TODO TestSWRLABoxDPAABuiltInWithUnbound1stUnbound2ndBound3dArgument
+  // TODO TestSWRLABoxDPAABuiltInWithUnbound1stBound2ndUnbound3dArgument
+  // TODO TestSWRLABoxDPAABuiltInWithUnbound1stBound2ndBound3dArgument
+  // TODO TestSWRLABoxDPAABuiltInWithBound1stUnbound2ndUnbound3dArgument
+  // TODO TestSWRLABoxDPAABuiltInWithBound1stUnbound2ndBound3dArgument
+  // TODO TestSWRLABoxDPAABuiltInWithBound1stBound2ndUnbound3dArgument
 
   @Test public void TestSWRLABoxNDPAABuiltInWithAllUnboundArguments()
     throws SWRLParseException, SQWRLException, OWLOntologyCreationException
@@ -563,10 +828,10 @@ public class SWRLABoxBuiltInsIT extends IntegrationTestBase
     Assert.assertTrue(result.next());
   }
 
-  // TestSWRLABoxNDPAABuiltInWithUnbound1stUnbound2ndBound3dArgument
-  // TestSWRLABoxNDPAABuiltInWithUnbound1stBound2ndUnbound3dArgument
-  // TestSWRLABoxNDPAABuiltInWithUnbound1stBound2ndBound3dArgument
-  // TestSWRLABoxNDPAABuiltInWithBound1stUnbound2ndUnbound3dArgument
-  // TestSWRLABoxNDPAABuiltInWithBound1stUnbound2ndBound3dArgument
-  // TestSWRLABoxNDPAABuiltInWithBound1stBound2ndUnbound3dArgument
+  // TODO TestSWRLABoxNDPAABuiltInWithUnbound1stUnbound2ndBound3dArgument
+  // TODO TestSWRLABoxNDPAABuiltInWithUnbound1stBound2ndUnbound3dArgument
+  // TODO TestSWRLABoxNDPAABuiltInWithUnbound1stBound2ndBound3dArgument
+  // TODO TestSWRLABoxNDPAABuiltInWithBound1stUnbound2ndUnbound3dArgument
+  // TODO TestSWRLABoxNDPAABuiltInWithBound1stUnbound2ndBound3dArgument
+  // TODO TestSWRLABoxNDPAABuiltInWithBound1stBound2ndUnbound3dArgument
 }
