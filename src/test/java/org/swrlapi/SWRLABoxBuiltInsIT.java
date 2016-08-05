@@ -376,6 +376,13 @@ public class SWRLABoxBuiltInsIT extends IntegrationTestBase
     Assert.assertTrue(result.next());
   }
 
+  // TestSWRLABoxOPAABuiltInWithUnbound1stUnbound2ndBound3dArgument
+  // TestSWRLABoxOPAABuiltInWithUnbound1stBound2ndUnbound3dArgument
+  // TestSWRLABoxOPAABuiltInWithUnbound1stBound2ndBound3dArgument
+  // TestSWRLABoxOPAABuiltInWithBound1stUnbound2ndUnbound3dArgument
+  // TestSWRLABoxOPAABuiltInWithBound1stUnbound2ndBound3dArgument
+  // TestSWRLABoxOPAABuiltInWithBound1stBound2ndUnbound3dArgument
+
   @Test public void TestSWRLABoxNOPAABuiltInWithAllUnboundArguments()
     throws SWRLParseException, SQWRLException, OWLOntologyCreationException
   {
@@ -430,6 +437,14 @@ public class SWRLABoxBuiltInsIT extends IntegrationTestBase
 
     Assert.assertTrue(result.next());
   }
+
+  // TestSWRLABoxNOPAABuiltInWithUnbound1stUnbound2ndBound3dArgument
+  // TestSWRLABoxNOPAABuiltInWithUnbound1stBound2ndUnbound3dArgument
+  // TestSWRLABoxNOPAABuiltInWithUnbound1stBound2ndBound3dArgument
+  // TestSWRLABoxNOPAABuiltInWithBound1stUnbound2ndUnbound3dArgument
+  // TestSWRLABoxNOPAABuiltInWithBound1stUnbound2ndBound3dArgument
+  // TestSWRLABoxNOPAABuiltInWithBound1stBound2ndUnbound3dArgument
+
 
   @Test public void TestSWRLABoxDPAABuiltInWithAllUnboundArguments()
     throws SWRLParseException, SQWRLException, OWLOntologyCreationException
@@ -486,6 +501,13 @@ public class SWRLABoxBuiltInsIT extends IntegrationTestBase
     Assert.assertTrue(result.next());
   }
 
+  // TestSWRLABoxDPAABuiltInWithUnbound1stUnbound2ndBound3dArgument
+  // TestSWRLABoxDPAABuiltInWithUnbound1stBound2ndUnbound3dArgument
+  // TestSWRLABoxDPAABuiltInWithUnbound1stBound2ndBound3dArgument
+  // TestSWRLABoxDPAABuiltInWithBound1stUnbound2ndUnbound3dArgument
+  // TestSWRLABoxDPAABuiltInWithBound1stUnbound2ndBound3dArgument
+  // TestSWRLABoxDPAABuiltInWithBound1stBound2ndUnbound3dArgument
+
   @Test public void TestSWRLABoxNDPAABuiltInWithAllUnboundArguments()
     throws SWRLParseException, SQWRLException, OWLOntologyCreationException
   {
@@ -540,28 +562,6 @@ public class SWRLABoxBuiltInsIT extends IntegrationTestBase
 
     Assert.assertTrue(result.next());
   }
-
-  // TODO More tests
-  // TestSWRLABoxOPAABuiltInWithUnbound1stUnbound2ndBound3dArgument
-  // TestSWRLABoxOPAABuiltInWithUnbound1stBound2ndUnbound3dArgument
-  // TestSWRLABoxOPAABuiltInWithUnbound1stBound2ndBound3dArgument
-  // TestSWRLABoxOPAABuiltInWithBound1stUnbound2ndUnbound3dArgument
-  // TestSWRLABoxOPAABuiltInWithBound1stUnbound2ndBound3dArgument
-  // TestSWRLABoxOPAABuiltInWithBound1stBound2ndUnbound3dArgument
-
-  // TestSWRLABoxNOPAABuiltInWithUnbound1stUnbound2ndBound3dArgument
-  // TestSWRLABoxNOPAABuiltInWithUnbound1stBound2ndUnbound3dArgument
-  // TestSWRLABoxNOPAABuiltInWithUnbound1stBound2ndBound3dArgument
-  // TestSWRLABoxNOPAABuiltInWithBound1stUnbound2ndUnbound3dArgument
-  // TestSWRLABoxNOPAABuiltInWithBound1stUnbound2ndBound3dArgument
-  // TestSWRLABoxNOPAABuiltInWithBound1stBound2ndUnbound3dArgument
-
-  // TestSWRLABoxDPAABuiltInWithUnbound1stUnbound2ndBound3dArgument
-  // TestSWRLABoxDPAABuiltInWithUnbound1stBound2ndUnbound3dArgument
-  // TestSWRLABoxDPAABuiltInWithUnbound1stBound2ndBound3dArgument
-  // TestSWRLABoxDPAABuiltInWithBound1stUnbound2ndUnbound3dArgument
-  // TestSWRLABoxDPAABuiltInWithBound1stUnbound2ndBound3dArgument
-  // TestSWRLABoxDPAABuiltInWithBound1stBound2ndUnbound3dArgument
 
   // TestSWRLABoxNDPAABuiltInWithUnbound1stUnbound2ndBound3dArgument
   // TestSWRLABoxNDPAABuiltInWithUnbound1stBound2ndUnbound3dArgument
