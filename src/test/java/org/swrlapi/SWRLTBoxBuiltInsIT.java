@@ -29,6 +29,7 @@ import static org.semanticweb.owlapi.apibinding.OWLFunctionalSyntaxFactory.Inver
 import static org.semanticweb.owlapi.apibinding.OWLFunctionalSyntaxFactory.ObjectProperty;
 import static org.semanticweb.owlapi.apibinding.OWLFunctionalSyntaxFactory.ObjectPropertyDomain;
 import static org.semanticweb.owlapi.apibinding.OWLFunctionalSyntaxFactory.ObjectPropertyRange;
+import static org.semanticweb.owlapi.apibinding.OWLFunctionalSyntaxFactory.ObjectUnionOf;
 import static org.semanticweb.owlapi.apibinding.OWLFunctionalSyntaxFactory.SubClassOf;
 
 /**
@@ -49,7 +50,7 @@ public class SWRLTBoxBuiltInsIT extends IntegrationTestBase
   private static final OWLDatatype D1 = XSD_INT;
   private static final OWLDatatype D2 = XSD_FLOAT;
 
-  // TODO rbox:opd, dpd, apd, dd
+  // TODO Tests for rbox:opd, rbox:dpd, rbox:apd, rbox:dd
 
   @Test public void TestSWRLRBoxCDBuiltInWithUnboundArgument()
     throws SWRLParseException, SQWRLException, OWLOntologyCreationException
@@ -98,7 +99,7 @@ public class SWRLTBoxBuiltInsIT extends IntegrationTestBase
     SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
 
     addOWLAxioms(ontology, SubClassOf(C1, C2));
-    addOWLAxioms(ontology, SubClassOf(C2, C3));
+    addOWLAxioms(ontology, SubClassOf(C2, ObjectUnionOf(C1, C3)));
 
     SQWRLResult result = queryEngine
       .runSQWRLQuery("q1", "tbox:sca(?csub, ?csup) -> sqwrl:select(?csub, ?csup) ^ sqwrl:orderBy(?csub, ?csup)");
@@ -112,9 +113,9 @@ public class SWRLTBoxBuiltInsIT extends IntegrationTestBase
 
     Assert.assertTrue(result.next());
     Assert.assertTrue(result.hasClassValue(0));
-    Assert.assertTrue(result.hasClassValue(1));
+    Assert.assertTrue(result.hasClassExpressionValue(1));
     Assert.assertEquals(result.getClass(0).getShortName(), "C2");
-    Assert.assertEquals(result.getClass(1).getShortName(), "C3");
+    Assert.assertFalse(result.getClassExpression(1).getRendering().isEmpty());
   }
 
   @Test public void TestSWRLTBoxSCABuiltInWithAllBoundArguments()
@@ -138,7 +139,7 @@ public class SWRLTBoxBuiltInsIT extends IntegrationTestBase
     SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
 
     addOWLAxioms(ontology, SubClassOf(C1, C2));
-    addOWLAxioms(ontology, SubClassOf(C2, C3));
+    addOWLAxioms(ontology, SubClassOf(C2, ObjectUnionOf(C1, C3)));
 
     SQWRLResult result = queryEngine.runSQWRLQuery("q1", "tbox:sca(C1, ?csup) -> sqwrl:select(C1, ?csup)");
 
@@ -177,7 +178,7 @@ public class SWRLTBoxBuiltInsIT extends IntegrationTestBase
     SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
 
     addOWLAxioms(ontology, EquivalentClasses(C1, C2));
-    addOWLAxioms(ontology, EquivalentClasses(C2, C3));
+    addOWLAxioms(ontology, EquivalentClasses(C2, ObjectUnionOf(C1, C3)));
 
     SQWRLResult result = queryEngine
       .runSQWRLQuery("q1", "tbox:eca(?c1, ?c2) -> sqwrl:select(?c1, ?c2) ^ sqwrl:orderBy(?c1, ?c2)");
@@ -191,9 +192,9 @@ public class SWRLTBoxBuiltInsIT extends IntegrationTestBase
 
     Assert.assertTrue(result.next());
     Assert.assertTrue(result.hasClassValue(0));
-    Assert.assertTrue(result.hasClassValue(1));
+    Assert.assertTrue(result.hasClassExpressionValue(1));
     Assert.assertEquals(result.getClass(0).getShortName(), "C2");
-    Assert.assertEquals(result.getClass(1).getShortName(), "C3");
+    Assert.assertFalse(result.getClassExpression(1).getRendering().isEmpty());
   }
 
   @Test public void TestSWRLTBoxECABuiltInWithAllBoundArguments()
@@ -237,16 +238,14 @@ public class SWRLTBoxBuiltInsIT extends IntegrationTestBase
     SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
 
     addOWLAxioms(ontology, EquivalentClasses(C1, C2));
-    addOWLAxioms(ontology, EquivalentClasses(C2, C3));
+    addOWLAxioms(ontology, EquivalentClasses(C2, ObjectUnionOf(C1, C3)));
 
-    SQWRLResult result = queryEngine.runSQWRLQuery("q1", "tbox:eca(?c1, C2) -> sqwrl:select(?c1, C2)");
+    SQWRLResult result = queryEngine.runSQWRLQuery("q1", "tbox:eca(?c, C2) -> sqwrl:select(?c, C2)");
 
     Assert.assertEquals(result.getNumberOfRows(), 1);
     Assert.assertTrue(result.next());
     Assert.assertTrue(result.hasClassValue(0));
-    Assert.assertTrue(result.hasClassValue(1));
     Assert.assertEquals(result.getClass(0).getShortName(), "C1");
-    Assert.assertEquals(result.getClass(1).getShortName(), "C2");
   }
 
   @Test public void TestSWRLTBoxDCABuiltInWithAllUnboundArguments()
@@ -256,7 +255,7 @@ public class SWRLTBoxBuiltInsIT extends IntegrationTestBase
     SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
 
     addOWLAxioms(ontology, DisjointClasses(C1, C2));
-    addOWLAxioms(ontology, DisjointClasses(C2, C3));
+    addOWLAxioms(ontology, DisjointClasses(C2, ObjectUnionOf(C1, C3)));
 
     SQWRLResult result = queryEngine
       .runSQWRLQuery("q1", "tbox:dca(?c1, ?c2) -> sqwrl:select(?c1, ?c2) ^ sqwrl:orderBy(?c1, ?c2)");
@@ -270,9 +269,9 @@ public class SWRLTBoxBuiltInsIT extends IntegrationTestBase
 
     Assert.assertTrue(result.next());
     Assert.assertTrue(result.hasClassValue(0));
-    Assert.assertTrue(result.hasClassValue(1));
+    Assert.assertTrue(result.hasClassExpressionValue(1));
     Assert.assertEquals(result.getClass(0).getShortName(), "C2");
-    Assert.assertEquals(result.getClass(1).getShortName(), "C3");
+    Assert.assertFalse(result.getClassExpression(1).getRendering().isEmpty());
   }
 
   @Test public void TestSWRLTBoxDCABuiltInWithAllBoundArguments()
@@ -296,9 +295,9 @@ public class SWRLTBoxBuiltInsIT extends IntegrationTestBase
     SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
 
     addOWLAxioms(ontology, DisjointClasses(C1, C2));
-    addOWLAxioms(ontology, DisjointClasses(C2, C3));
+    addOWLAxioms(ontology, DisjointClasses(C2, ObjectUnionOf(C1, C3)));
 
-    SQWRLResult result = queryEngine.runSQWRLQuery("q1", "tbox:dca(C1, ?c2) -> sqwrl:select(C1, ?c2)");
+    SQWRLResult result = queryEngine.runSQWRLQuery("q1", "tbox:dca(C1, ?c) -> sqwrl:select(C1, ?c)");
 
     Assert.assertEquals(result.getNumberOfRows(), 1);
     Assert.assertTrue(result.next());
@@ -520,7 +519,7 @@ public class SWRLTBoxBuiltInsIT extends IntegrationTestBase
     SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
 
     addOWLAxioms(ontology, ObjectPropertyRange(OP1, C1));
-    addOWLAxioms(ontology, ObjectPropertyRange(OP2, C2));
+    addOWLAxioms(ontology, ObjectPropertyRange(OP2, ObjectUnionOf(C1, C3)));
 
     SQWRLResult result = queryEngine
       .runSQWRLQuery("q1", "tbox:opra(?p, ?d) -> sqwrl:select(?p, ?d) ^ sqwrl:orderBy(?p, ?d)");
@@ -534,9 +533,9 @@ public class SWRLTBoxBuiltInsIT extends IntegrationTestBase
 
     Assert.assertTrue(result.next());
     Assert.assertTrue(result.hasObjectPropertyValue(0));
-    Assert.assertTrue(result.hasClassValue(1));
-    Assert.assertEquals(result.getClass(1).getShortName(), "C2");
+    Assert.assertTrue(result.hasClassExpressionValue(1));
     Assert.assertEquals(result.getObjectProperty(0).getShortName(), "op2");
+    Assert.assertFalse(result.getClassExpression(1).getRendering().isEmpty());
   }
 
   @Test public void TestSWRLTBoxOPRABuiltInWithAllBoundArguments()
@@ -579,7 +578,7 @@ public class SWRLTBoxBuiltInsIT extends IntegrationTestBase
     SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
 
     addOWLAxioms(ontology, ObjectPropertyRange(OP1, C1));
-    addOWLAxioms(ontology, ObjectPropertyRange(OP2, C2));
+    addOWLAxioms(ontology, ObjectPropertyRange(OP2, ObjectUnionOf(C1, C3)));
 
     SQWRLResult result = queryEngine.runSQWRLQuery("q1", "tbox:opra(?p, C1) -> sqwrl:select(?p, C1)");
 
@@ -587,8 +586,8 @@ public class SWRLTBoxBuiltInsIT extends IntegrationTestBase
     Assert.assertTrue(result.next());
     Assert.assertTrue(result.hasObjectPropertyValue(0));
     Assert.assertTrue(result.hasClassValue(1));
-    Assert.assertEquals(result.getClass(1).getShortName(), "C1");
     Assert.assertEquals(result.getObjectProperty(0).getShortName(), "op1");
+    Assert.assertEquals(result.getClass(1).getShortName(), "C1");
   }
 
   @Test public void TestSWRLTBoxDPDABuiltInWithAllUnboundArguments()
@@ -613,8 +612,8 @@ public class SWRLTBoxBuiltInsIT extends IntegrationTestBase
     Assert.assertTrue(result.next());
     Assert.assertTrue(result.hasDataPropertyValue(0));
     Assert.assertTrue(result.hasClassValue(1));
-    Assert.assertEquals(result.getClass(1).getShortName(), "C2");
     Assert.assertEquals(result.getDataProperty(0).getShortName(), "dp2");
+    Assert.assertEquals(result.getClass(1).getShortName(), "C2");
   }
 
   @Test public void TestSWRLTBoxDPDABuiltInWithAllBoundArguments()
@@ -638,7 +637,7 @@ public class SWRLTBoxBuiltInsIT extends IntegrationTestBase
     SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
 
     addOWLAxioms(ontology, DataPropertyDomain(DP1, C1));
-    addOWLAxioms(ontology, DataPropertyDomain(DP2, C2));
+    addOWLAxioms(ontology, DataPropertyDomain(DP2, ObjectUnionOf(C1, C3)));
 
     SQWRLResult result = queryEngine.runSQWRLQuery("q1", "tbox:dpda(dp1, ?d) -> sqwrl:select(dp1, ?d)");
 
@@ -646,8 +645,8 @@ public class SWRLTBoxBuiltInsIT extends IntegrationTestBase
     Assert.assertTrue(result.next());
     Assert.assertTrue(result.hasDataPropertyValue(0));
     Assert.assertTrue(result.hasClassValue(1));
-    Assert.assertEquals(result.getClass(1).getShortName(), "C1");
     Assert.assertEquals(result.getDataProperty(0).getShortName(), "dp1");
+    Assert.assertEquals(result.getClass(1).getShortName(), "C1");
   }
 
   @Test public void TestSWRLTBoxDPDABuiltInWithUnbound1stBound2ndArguments()
