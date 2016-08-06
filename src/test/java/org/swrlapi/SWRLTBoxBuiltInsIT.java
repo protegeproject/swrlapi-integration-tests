@@ -6,7 +6,6 @@ import org.semanticweb.owlapi.apibinding.OWLManager;
 import org.semanticweb.owlapi.model.OWLClass;
 import org.semanticweb.owlapi.model.OWLDataProperty;
 import org.semanticweb.owlapi.model.OWLDatatype;
-import org.semanticweb.owlapi.model.OWLLiteral;
 import org.semanticweb.owlapi.model.OWLObjectProperty;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyCreationException;
@@ -21,12 +20,12 @@ import static org.semanticweb.owlapi.apibinding.OWLFunctionalSyntaxFactory.Class
 import static org.semanticweb.owlapi.apibinding.OWLFunctionalSyntaxFactory.DataProperty;
 import static org.semanticweb.owlapi.apibinding.OWLFunctionalSyntaxFactory.DataPropertyDomain;
 import static org.semanticweb.owlapi.apibinding.OWLFunctionalSyntaxFactory.DataPropertyRange;
+import static org.semanticweb.owlapi.apibinding.OWLFunctionalSyntaxFactory.Declaration;
 import static org.semanticweb.owlapi.apibinding.OWLFunctionalSyntaxFactory.DisjointClasses;
 import static org.semanticweb.owlapi.apibinding.OWLFunctionalSyntaxFactory.EquivalentClasses;
 import static org.semanticweb.owlapi.apibinding.OWLFunctionalSyntaxFactory.FunctionalDataProperty;
 import static org.semanticweb.owlapi.apibinding.OWLFunctionalSyntaxFactory.FunctionalObjectProperty;
 import static org.semanticweb.owlapi.apibinding.OWLFunctionalSyntaxFactory.InverseFunctionalObjectProperty;
-import static org.semanticweb.owlapi.apibinding.OWLFunctionalSyntaxFactory.Literal;
 import static org.semanticweb.owlapi.apibinding.OWLFunctionalSyntaxFactory.ObjectProperty;
 import static org.semanticweb.owlapi.apibinding.OWLFunctionalSyntaxFactory.ObjectPropertyDomain;
 import static org.semanticweb.owlapi.apibinding.OWLFunctionalSyntaxFactory.ObjectPropertyRange;
@@ -49,9 +48,48 @@ public class SWRLTBoxBuiltInsIT extends IntegrationTestBase
   private static final OWLDataProperty DP2 = DataProperty(iri("dp2"));
   private static final OWLDatatype D1 = XSD_INT;
   private static final OWLDatatype D2 = XSD_FLOAT;
-  private static final OWLLiteral L1INT = Literal("1", XSD_INT);
-  private static final OWLLiteral L18INT = Literal("18", XSD_INT);
-  private static final OWLLiteral L123INT = Literal("123", XSD_INT);
+
+  // TODO rbox:opd, dpd, apd, dd
+
+  @Test public void TestSWRLRBoxCDBuiltInWithUnboundArgument()
+    throws SWRLParseException, SQWRLException, OWLOntologyCreationException
+  {
+    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
+
+    addOWLAxioms(ontology, Declaration(C1));
+    addOWLAxioms(ontology, Declaration(C2));
+    addOWLAxioms(ontology, Declaration(C3));
+
+    SQWRLResult result = queryEngine.runSQWRLQuery("q1", "tbox:cd(?c) -> sqwrl:select(?c) ^ sqwrl:orderBy(?c)");
+
+    Assert.assertEquals(3, result.getNumberOfRows());
+
+    Assert.assertTrue(result.next());
+    Assert.assertTrue(result.hasClassValue(0));
+    Assert.assertEquals(result.getClass(0).getShortName(), "C1");
+    Assert.assertTrue(result.next());
+    Assert.assertTrue(result.hasClassValue(0));
+    Assert.assertEquals(result.getClass(0).getShortName(), "C2");
+    Assert.assertTrue(result.next());
+    Assert.assertTrue(result.hasClassValue(0));
+    Assert.assertEquals(result.getClass(0).getShortName(), "C3");
+  }
+
+  @Test public void TestSWRLRBoxCDBuiltInWithBoundArgument()
+    throws SWRLParseException, SQWRLException, OWLOntologyCreationException
+  {
+    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
+
+    addOWLAxioms(ontology, Declaration(C1));
+    addOWLAxioms(ontology, Declaration(C2));
+    addOWLAxioms(ontology, Declaration(C3));
+
+    SQWRLResult result = queryEngine.runSQWRLQuery("q1", "tbox:cd(C1) -> sqwrl:select(0)");
+
+    Assert.assertTrue(result.next());
+  }
 
   @Test public void TestSWRLTBoxSCABuiltInWithAllUnboundArguments()
     throws SWRLParseException, SQWRLException, OWLOntologyCreationException
