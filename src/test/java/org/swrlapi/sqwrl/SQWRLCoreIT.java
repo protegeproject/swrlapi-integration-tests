@@ -20,6 +20,8 @@ import org.swrlapi.sqwrl.exceptions.SQWRLException;
 import org.swrlapi.sqwrl.values.SQWRLLiteralResultValue;
 import org.swrlapi.test.IntegrationTestBase;
 
+import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.net.URI;
 import java.net.URISyntaxException;
 
@@ -61,11 +63,11 @@ public class SQWRLCoreIT extends IntegrationTestBase
 
     Assert.assertTrue(result.next());
     SQWRLLiteralResultValue literal1 = result.getLiteral("col1");
-    Assert.assertTrue(literal1.isInt());
-    Assert.assertEquals(3, literal1.getInt());
+    Assert.assertTrue(literal1.isInteger());
+    Assert.assertEquals(BigInteger.valueOf(3), literal1.getInteger());
     SQWRLLiteralResultValue literal2 = result.getLiteral("col2");
-    Assert.assertTrue(literal2.isInt());
-    Assert.assertEquals(4, literal2.getInt());
+    Assert.assertTrue(literal2.isInteger());
+    Assert.assertEquals(BigInteger.valueOf(4), literal2.getInteger());
   }
 
   @Test public void TestSQWRLCoreByteResult() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
@@ -111,7 +113,23 @@ public class SQWRLCoreIT extends IntegrationTestBase
     Assert.assertEquals(34, literal.getInt());
   }
 
-  @Test public void TestSQWRLCoreRawIntResult() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
+  @Test public void TestSQWRLCoreQualifiedIntegerResult()
+    throws SWRLParseException, SQWRLException, OWLOntologyCreationException
+  {
+    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
+
+    SQWRLResult result = queryEngine.runSQWRLQuery("q1", "-> sqwrl:select(\"34\"^^xsd:integer)");
+
+    Assert.assertTrue(result.next());
+    SQWRLLiteralResultValue literal = result.getLiteral(0);
+    Assert.assertTrue(literal.isInteger());
+    Assert.assertEquals("xsd:integer", literal.getDatatypePrefixedName());
+    Assert.assertEquals(BigInteger.valueOf(34), literal.getInteger());
+  }
+
+  @Test public void TestSQWRLCoreRawIntegerResult()
+    throws SWRLParseException, SQWRLException, OWLOntologyCreationException
   {
     OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
     SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
@@ -120,9 +138,9 @@ public class SQWRLCoreIT extends IntegrationTestBase
 
     Assert.assertTrue(result.next());
     SQWRLLiteralResultValue literal = result.getLiteral(0);
-    Assert.assertTrue(literal.isInt());
-    Assert.assertEquals("xsd:int", literal.getDatatypePrefixedName());
-    Assert.assertEquals(34, literal.getInt());
+    Assert.assertTrue(literal.isInteger());
+    Assert.assertEquals("xsd:integer", literal.getDatatypePrefixedName());
+    Assert.assertEquals(BigInteger.valueOf(34), literal.getInteger());
   }
 
   @Test public void TestSQWRLCoreLongResult() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
@@ -139,7 +157,7 @@ public class SQWRLCoreIT extends IntegrationTestBase
     Assert.assertEquals(34L, literal.getLong());
   }
 
-  @Test public void TestSQWRLCoreRawFloatResult()
+  @Test public void TestSQWRLCoreRawDecimalResult()
     throws SWRLParseException, SQWRLException, OWLOntologyCreationException
   {
     OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
@@ -149,9 +167,9 @@ public class SQWRLCoreIT extends IntegrationTestBase
 
     Assert.assertTrue(result.next());
     SQWRLLiteralResultValue literal = result.getLiteral(0);
-    Assert.assertTrue(literal.isFloat());
-    Assert.assertEquals("xsd:float", literal.getDatatypePrefixedName());
-    Assert.assertEquals(34.0f, literal.getFloat(), IntegrationTestBase.DELTA);
+    Assert.assertTrue(literal.isDecimal());
+    Assert.assertEquals("xsd:decimal", literal.getDatatypePrefixedName());
+    Assert.assertEquals(BigDecimal.valueOf(34.0), literal.getDecimal());
   }
 
   @Test public void TestSQWRLCoreQualifiedFloatResult()
@@ -167,6 +185,21 @@ public class SQWRLCoreIT extends IntegrationTestBase
     Assert.assertTrue(literal.isFloat());
     Assert.assertEquals(literal.getDatatypePrefixedName(), "xsd:float");
     Assert.assertEquals(34.0f, literal.getFloat(), IntegrationTestBase.DELTA);
+  }
+
+  @Test public void TestSQWRLCoreQualifiedDecimalResult()
+    throws SWRLParseException, SQWRLException, OWLOntologyCreationException
+  {
+    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
+
+    SQWRLResult result = queryEngine.runSQWRLQuery("q1", "-> sqwrl:select(\"34.0\"^^xsd:decimal)");
+
+    Assert.assertTrue(result.next());
+    SQWRLLiteralResultValue literal = result.getLiteral(0);
+    Assert.assertTrue(literal.isDecimal());
+    Assert.assertEquals(literal.getDatatypePrefixedName(), "xsd:decimal");
+    Assert.assertEquals(BigDecimal.valueOf(34.0), literal.getDecimal());
   }
 
   @Test public void TestSQWRLCoreDoubleResult() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
@@ -2029,7 +2062,7 @@ public class SQWRLCoreIT extends IntegrationTestBase
     throws SWRLParseException, SQWRLException, OWLOntologyCreationException
   {
     this.thrown.expect(SQWRLException.class);
-    this.thrown.expectMessage("expecting xsd:int argument for slicing operator sqwrl:nth");
+    this.thrown.expectMessage("expecting xsd:int or xsd:integer argument for slicing operator sqwrl:nth");
 
     OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
     SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
@@ -2041,7 +2074,7 @@ public class SQWRLCoreIT extends IntegrationTestBase
     throws SWRLParseException, SQWRLException, OWLOntologyCreationException
   {
     this.thrown.expect(SQWRLException.class);
-    this.thrown.expectMessage("nth argument for slicing operator sqwrl:nth must be a positive xsd:int");
+    this.thrown.expectMessage("nth argument for slicing operator sqwrl:nth must be a positive xsd:int or xsd:integer");
 
     OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
     SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
@@ -2053,7 +2086,7 @@ public class SQWRLCoreIT extends IntegrationTestBase
     throws SWRLParseException, SQWRLException, OWLOntologyCreationException
   {
     this.thrown.expect(SQWRLException.class);
-    this.thrown.expectMessage("expecting xsd:int argument for slicing operator sqwrl:nth");
+    this.thrown.expectMessage("expecting xsd:int or xsd:integer argument for slicing operator sqwrl:nth");
 
     OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
     SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
@@ -2065,7 +2098,8 @@ public class SQWRLCoreIT extends IntegrationTestBase
     throws SWRLParseException, SQWRLException, OWLOntologyCreationException
   {
     this.thrown.expect(SQWRLException.class);
-    this.thrown.expectMessage("slice size argument to slicing operator sqwrl:nth must be a positive xsd:int");
+    this.thrown
+      .expectMessage("slice size argument to slicing operator sqwrl:nth must be a positive xsd:int or xsd:integer");
 
     OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
     SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);

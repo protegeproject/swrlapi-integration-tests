@@ -17,6 +17,8 @@ import org.swrlapi.sqwrl.SQWRLResult;
 import org.swrlapi.sqwrl.exceptions.SQWRLException;
 import org.swrlapi.test.IntegrationTestBase;
 
+import java.math.BigInteger;
+
 import static org.semanticweb.owlapi.apibinding.OWLFunctionalSyntaxFactory.Class;
 import static org.semanticweb.owlapi.apibinding.OWLFunctionalSyntaxFactory.ClassAssertion;
 import static org.semanticweb.owlapi.apibinding.OWLFunctionalSyntaxFactory.DataProperty;
@@ -50,9 +52,9 @@ public class SWRLABoxBuiltInsIT extends IntegrationTestBase
   private static final OWLDataProperty DP1 = DataProperty(iri("dp1"));
   private static final OWLDataProperty DP2 = DataProperty(iri("dp2"));
   private static final OWLDataProperty DP3 = DataProperty(iri("dp3"));
-  private static final OWLLiteral L1INT = Literal("1", XSD_INT);
-  private static final OWLLiteral L18INT = Literal("18", XSD_INT);
-  private static final OWLLiteral L123INT = Literal("123", XSD_INT);
+  private static final OWLLiteral L1INTEGER = Literal("1", XSD_INTEGER);
+  private static final OWLLiteral L18INTEGER = Literal("18", XSD_INTEGER);
+  private static final OWLLiteral L123INTEGER = Literal("123", XSD_INTEGER);
 
   @Test public void TestSWRLABoxCAABuiltInWithAllUnboundArguments()
     throws SWRLParseException, SQWRLException, OWLOntologyCreationException
@@ -569,10 +571,6 @@ public class SWRLABoxBuiltInsIT extends IntegrationTestBase
     Assert.assertTrue(result.next());
   }
 
-
-
-
-
   @Test public void TestSWRLABoxNOPAABuiltInWithUnbound1stUnbound2ndBound3dArgument()
     throws SWRLParseException, SQWRLException, OWLOntologyCreationException
   {
@@ -717,9 +715,9 @@ public class SWRLABoxBuiltInsIT extends IntegrationTestBase
     OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
     SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
 
-    addOWLAxioms(ontology, DataPropertyAssertion(DP1, NI1, L1INT));
-    addOWLAxioms(ontology, DataPropertyAssertion(DP2, NI2, L18INT));
-    addOWLAxioms(ontology, DataPropertyAssertion(DP3, NI3, L123INT));
+    addOWLAxioms(ontology, DataPropertyAssertion(DP1, NI1, L1INTEGER));
+    addOWLAxioms(ontology, DataPropertyAssertion(DP2, NI2, L18INTEGER));
+    addOWLAxioms(ontology, DataPropertyAssertion(DP3, NI3, L123INTEGER));
 
     SQWRLResult result = queryEngine
       .runSQWRLQuery("q1", "abox:dpaa(?s, ?p, ?l) -> sqwrl:select(?s, ?p, ?l) ^ sqwrl:orderBy(?s, ?p, ?l)");
@@ -732,7 +730,7 @@ public class SWRLABoxBuiltInsIT extends IntegrationTestBase
     Assert.assertTrue(result.hasLiteralValue(2));
     Assert.assertEquals("ni1", result.getNamedIndividual(0).getShortName());
     Assert.assertEquals("dp1", result.getDataProperty(1).getShortName());
-    Assert.assertEquals(1, result.getLiteral(2).getInt());
+    Assert.assertEquals(BigInteger.valueOf(1), result.getLiteral(2).getInteger());
 
     Assert.assertTrue(result.next());
     Assert.assertTrue(result.hasNamedIndividualValue(0));
@@ -740,7 +738,7 @@ public class SWRLABoxBuiltInsIT extends IntegrationTestBase
     Assert.assertTrue(result.hasLiteralValue(2));
     Assert.assertEquals("ni2", result.getNamedIndividual(0).getShortName());
     Assert.assertEquals("dp2", result.getDataProperty(1).getShortName());
-    Assert.assertEquals(18, result.getLiteral(2).getInt());
+    Assert.assertEquals(BigInteger.valueOf(18), result.getLiteral(2).getInteger());
 
     Assert.assertTrue(result.next());
     Assert.assertTrue(result.hasNamedIndividualValue(0));
@@ -748,7 +746,7 @@ public class SWRLABoxBuiltInsIT extends IntegrationTestBase
     Assert.assertTrue(result.hasLiteralValue(2));
     Assert.assertEquals("ni3", result.getNamedIndividual(0).getShortName());
     Assert.assertEquals("dp3", result.getDataProperty(1).getShortName());
-    Assert.assertEquals(123, result.getLiteral(2).getInt());
+    Assert.assertEquals(BigInteger.valueOf(123), result.getLiteral(2).getInteger());
   }
 
   @Test public void TestSWRLABoxDPAABuiltInWithAllBoundArguments()
@@ -757,9 +755,9 @@ public class SWRLABoxBuiltInsIT extends IntegrationTestBase
     OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
     SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
 
-    addOWLAxioms(ontology, DataPropertyAssertion(DP1, NI1, L1INT));
-    addOWLAxioms(ontology, DataPropertyAssertion(DP2, NI2, L18INT));
-    addOWLAxioms(ontology, DataPropertyAssertion(DP3, NI3, L123INT));
+    addOWLAxioms(ontology, DataPropertyAssertion(DP1, NI1, L1INTEGER));
+    addOWLAxioms(ontology, DataPropertyAssertion(DP2, NI2, L18INTEGER));
+    addOWLAxioms(ontology, DataPropertyAssertion(DP3, NI3, L123INTEGER));
 
     SQWRLResult result = queryEngine.runSQWRLQuery("q1", "abox:dpaa(ni1, dp1, 1) -> sqwrl:select(0)");
 
@@ -779,9 +777,9 @@ public class SWRLABoxBuiltInsIT extends IntegrationTestBase
     OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
     SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
 
-    addOWLAxioms(ontology, NegativeDataPropertyAssertion(DP1, NI1, L1INT));
-    addOWLAxioms(ontology, NegativeDataPropertyAssertion(DP2, NI2, L18INT));
-    addOWLAxioms(ontology, NegativeDataPropertyAssertion(DP3, NI3, L123INT));
+    addOWLAxioms(ontology, NegativeDataPropertyAssertion(DP1, NI1, L1INTEGER));
+    addOWLAxioms(ontology, NegativeDataPropertyAssertion(DP2, NI2, L18INTEGER));
+    addOWLAxioms(ontology, NegativeDataPropertyAssertion(DP3, NI3, L123INTEGER));
 
     SQWRLResult result = queryEngine
       .runSQWRLQuery("q1", "abox:ndpaa(?s, ?p, ?l) -> sqwrl:select(?s, ?p, ?l) ^ sqwrl:orderBy(?s, ?p, ?l)");
@@ -794,7 +792,7 @@ public class SWRLABoxBuiltInsIT extends IntegrationTestBase
     Assert.assertTrue(result.hasLiteralValue(2));
     Assert.assertEquals("ni1", result.getNamedIndividual(0).getShortName());
     Assert.assertEquals("dp1", result.getDataProperty(1).getShortName());
-    Assert.assertEquals(1, result.getLiteral(2).getInt());
+    Assert.assertEquals(BigInteger.valueOf(1), result.getLiteral(2).getInteger());
 
     Assert.assertTrue(result.next());
     Assert.assertTrue(result.hasNamedIndividualValue(0));
@@ -802,7 +800,7 @@ public class SWRLABoxBuiltInsIT extends IntegrationTestBase
     Assert.assertTrue(result.hasLiteralValue(2));
     Assert.assertEquals("ni2", result.getNamedIndividual(0).getShortName());
     Assert.assertEquals("dp2", result.getDataProperty(1).getShortName());
-    Assert.assertEquals(18, result.getLiteral(2).getInt());
+    Assert.assertEquals(BigInteger.valueOf(18), result.getLiteral(2).getInteger());
 
     Assert.assertTrue(result.next());
     Assert.assertTrue(result.hasNamedIndividualValue(0));
@@ -810,7 +808,7 @@ public class SWRLABoxBuiltInsIT extends IntegrationTestBase
     Assert.assertTrue(result.hasLiteralValue(2));
     Assert.assertEquals("ni3", result.getNamedIndividual(0).getShortName());
     Assert.assertEquals("dp3", result.getDataProperty(1).getShortName());
-    Assert.assertEquals(123, result.getLiteral(2).getInt());
+    Assert.assertEquals(BigInteger.valueOf(123), result.getLiteral(2).getInteger());
   }
 
   @Test public void TestSWRLABoxNDPAABuiltInWithAllBoundArguments()
@@ -819,9 +817,9 @@ public class SWRLABoxBuiltInsIT extends IntegrationTestBase
     OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
     SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
 
-    addOWLAxioms(ontology, NegativeDataPropertyAssertion(DP1, NI1, L1INT));
-    addOWLAxioms(ontology, NegativeDataPropertyAssertion(DP2, NI2, L18INT));
-    addOWLAxioms(ontology, NegativeDataPropertyAssertion(DP3, NI3, L123INT));
+    addOWLAxioms(ontology, NegativeDataPropertyAssertion(DP1, NI1, L1INTEGER));
+    addOWLAxioms(ontology, NegativeDataPropertyAssertion(DP2, NI2, L18INTEGER));
+    addOWLAxioms(ontology, NegativeDataPropertyAssertion(DP3, NI3, L123INTEGER));
 
     SQWRLResult result = queryEngine.runSQWRLQuery("q1", "abox:ndpaa(ni1, dp1, 1) -> sqwrl:select(0)");
 
