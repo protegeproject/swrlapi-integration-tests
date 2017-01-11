@@ -187,6 +187,20 @@ public class SQWRLCoreIT extends IntegrationTestBase
     Assert.assertEquals(34.0f, literal.getFloat(), IntegrationTestBase.DELTA);
   }
 
+  @Test public void TestSQWRLCoreDoubleResult() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
+  {
+    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
+
+    SQWRLResult result = queryEngine.runSQWRLQuery("q1", "-> sqwrl:select(\"34.0\"^^xsd:double)");
+
+    Assert.assertTrue(result.next());
+    SQWRLLiteralResultValue literal = result.getLiteral(0);
+    Assert.assertTrue(literal.isDouble());
+    Assert.assertEquals(literal.getDatatypePrefixedName(), "xsd:double");
+    Assert.assertEquals(34.0d, literal.getDouble(), IntegrationTestBase.DELTA);
+  }
+
   @Test public void TestSQWRLCoreQualifiedDecimalResult()
     throws SWRLParseException, SQWRLException, OWLOntologyCreationException
   {
@@ -200,20 +214,6 @@ public class SQWRLCoreIT extends IntegrationTestBase
     Assert.assertTrue(literal.isDecimal());
     Assert.assertEquals(literal.getDatatypePrefixedName(), "xsd:decimal");
     Assert.assertEquals(BigDecimal.valueOf(34.0), literal.getDecimal());
-  }
-
-  @Test public void TestSQWRLCoreDoubleResult() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
-  {
-    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
-
-    SQWRLResult result = queryEngine.runSQWRLQuery("q1", "-> sqwrl:select(\"34.0\"^^xsd:double)");
-
-    Assert.assertTrue(result.next());
-    SQWRLLiteralResultValue literal = result.getLiteral(0);
-    Assert.assertTrue(literal.isDouble());
-    Assert.assertEquals(literal.getDatatypePrefixedName(), "xsd:double");
-    Assert.assertEquals(34.0d, literal.getDouble(), IntegrationTestBase.DELTA);
   }
 
   @Test public void TestSQWRLCoreQualifiedBooleanResult()

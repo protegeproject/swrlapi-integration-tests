@@ -479,11 +479,12 @@ public class SQWRLCollectionsIT extends IntegrationTestBase
     SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
 
     SQWRLResult result = queryEngine.runSQWRLQuery("q1",
-      ". sqwrl:makeBag(?s1, 77.4) ^ sqwrl:makeBag(?s1, 23.3) . sqwrl:min(?min, ?s1) -> sqwrl:select(?min)");
+      ". sqwrl:makeBag(?s1, \"77.32\"^^xsd:float) ^ sqwrl:makeBag(?s1, \"23.3\"^^xsd:float) "
+        + ". sqwrl:min(?min, ?s1) -> sqwrl:select(?min)");
 
     Assert.assertTrue(result.next());
     Assert.assertTrue(result.getLiteral("min").isFloat());
-    Assert.assertEquals(23.3f, result.getLiteral("min").getFloat(), IntegrationTestBase.DELTA);
+    Assert.assertEquals(23.3f, result.getLiteral("min").getDouble(), IntegrationTestBase.DELTA);
   }
 
   @Test public void TestSQWRLDoubleBagMin() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
@@ -498,6 +499,19 @@ public class SQWRLCollectionsIT extends IntegrationTestBase
     Assert.assertTrue(result.next());
     Assert.assertTrue(result.getLiteral("min").isDouble());
     Assert.assertEquals(23.3d, result.getLiteral("min").getDouble(), IntegrationTestBase.DELTA);
+  }
+
+  @Test public void TestSQWRLDecimalBagMin() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
+  {
+    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
+
+    SQWRLResult result = queryEngine.runSQWRLQuery("q1",
+      ". sqwrl:makeBag(?s1, 77.4) ^ sqwrl:makeBag(?s1, 23.3) . sqwrl:min(?min, ?s1) -> sqwrl:select(?min)");
+
+    Assert.assertTrue(result.next());
+    Assert.assertTrue(result.getLiteral("min").isDecimal());
+    Assert.assertEquals(BigDecimal.valueOf(23.3), result.getLiteral("min").getDecimal());
   }
 
   @Test public void TestSQWRLStringBagFirst() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
@@ -924,11 +938,10 @@ public class SQWRLCollectionsIT extends IntegrationTestBase
 
     Assert.assertTrue(result.next());
     Assert.assertTrue(result.getLiteral("avg").isDecimal());
-    Assert.assertEquals(BigDecimal.valueOf(24.2f), result.getLiteral("avg").getFloat());
+    Assert.assertEquals(BigDecimal.valueOf(24.2), result.getLiteral("avg").getDecimal());
   }
 
-  @SuppressWarnings("static-access") @Test public void TestSQWRLDecimalSetAvg()
-    throws SWRLParseException, SQWRLException, OWLOntologyCreationException
+  @Test public void TestSQWRLDecimalSetAvg() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
   {
     OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
     SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
