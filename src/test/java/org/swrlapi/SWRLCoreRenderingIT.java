@@ -262,6 +262,40 @@ public class SWRLCoreRenderingIT extends IntegrationTestBase
     Assert.assertEquals(expectedRendering, ruleRendering);
   }
 
+  @Test public void TestSWRLCoreRenderDataPropertyAtomWithByteLiteral()
+    throws SWRLParseException, SWRLBuiltInException, OWLOntologyCreationException
+  {
+    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
+    SWRLRuleEngine ruleEngine = SWRLAPIFactory.createSWRLRuleEngine(ontology);
+    SWRLRuleRenderer ruleRenderer = ruleEngine.createSWRLRuleRenderer();
+
+    addOWLAxioms(ontology, Declaration(HAS_AGE));
+    addOWLAxioms(ontology, Declaration(P1));
+
+    String ruleText = "hasAge(p1, \"23\"^^xsd:byte) -> ";
+    String expectedRendering = "hasAge(p1, \"23\"^^xsd:byte) -> ";
+    SWRLAPIRule rule = ruleEngine.createSWRLRule("R1", ruleText);
+    String ruleRendering = ruleRenderer.renderSWRLRule(rule);
+    Assert.assertEquals(expectedRendering, ruleRendering);
+  }
+
+  @Test public void TestSWRLCoreRenderDataPropertyAtomWithShortLiteral()
+    throws SWRLParseException, SWRLBuiltInException, OWLOntologyCreationException
+  {
+    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
+    SWRLRuleEngine ruleEngine = SWRLAPIFactory.createSWRLRuleEngine(ontology);
+    SWRLRuleRenderer ruleRenderer = ruleEngine.createSWRLRuleRenderer();
+
+    addOWLAxioms(ontology, Declaration(HAS_AGE));
+    addOWLAxioms(ontology, Declaration(P1));
+
+    String ruleText = "hasAge(p1, \"23\"^^xsd:short) -> ";
+    String expectedRendering = "hasAge(p1, \"23\"^^xsd:short) -> ";
+    SWRLAPIRule rule = ruleEngine.createSWRLRule("R1", ruleText);
+    String ruleRendering = ruleRenderer.renderSWRLRule(rule);
+    Assert.assertEquals(expectedRendering, ruleRendering);
+  }
+
   @Test public void TestSWRLCoreRenderDataPropertyAtomWithIntLiteral()
     throws SWRLParseException, SWRLBuiltInException, OWLOntologyCreationException
   {
@@ -272,13 +306,14 @@ public class SWRLCoreRenderingIT extends IntegrationTestBase
     addOWLAxioms(ontology, Declaration(HAS_AGE));
     addOWLAxioms(ontology, Declaration(P1));
 
-    String ruleText = "hasAge(p1, 23) -> ";
+    String ruleText = "hasAge(p1, \"23\"^^xsd:int) -> ";
+    String expectedRendering = "hasAge(p1, \"23\"^^xsd:int) -> ";
     SWRLAPIRule rule = ruleEngine.createSWRLRule("R1", ruleText);
     String ruleRendering = ruleRenderer.renderSWRLRule(rule);
-    Assert.assertEquals(ruleText, ruleRendering);
+    Assert.assertEquals(expectedRendering, ruleRendering);
   }
 
-  @Test public void TestSWRLCoreRenderDataPropertyAtomWithQualifiedIntLiteral()
+  @Test public void TestSWRLCoreRenderDataPropertyAtomWithLongLiteral()
     throws SWRLParseException, SWRLBuiltInException, OWLOntologyCreationException
   {
     OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
@@ -288,15 +323,48 @@ public class SWRLCoreRenderingIT extends IntegrationTestBase
     addOWLAxioms(ontology, Declaration(HAS_AGE));
     addOWLAxioms(ontology, Declaration(P1));
 
-    String ruleText = "hasAge(p1, \"23\"^^xsd:int) -> ";
-    String expectedRendering = "hasAge(p1, 23) -> ";
+    String ruleText = "hasAge(p1, \"23\"^^xsd:long) -> ";
+    String expectedRendering = "hasAge(p1, \"23\"^^xsd:long) -> ";
     SWRLAPIRule rule = ruleEngine.createSWRLRule("R1", ruleText);
     String ruleRendering = ruleRenderer.renderSWRLRule(rule);
     Assert.assertEquals(expectedRendering, ruleRendering);
   }
 
-
   @Test public void TestSWRLCoreRenderDataPropertyAtomWithFloatLiteral()
+    throws SWRLParseException, SWRLBuiltInException, OWLOntologyCreationException
+  {
+    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
+    SWRLRuleEngine ruleEngine = SWRLAPIFactory.createSWRLRuleEngine(ontology);
+    SWRLRuleRenderer ruleRenderer = ruleEngine.createSWRLRuleRenderer();
+
+    addOWLAxioms(ontology, Declaration(HAS_HEIGHT));
+    addOWLAxioms(ontology, Declaration(P1));
+
+    String ruleText = "hasHeight(p1, \"130.3\"^^xsd:float) -> ";
+    String expectedRendering = "hasHeight(p1, \"130.3\"^^xsd:float) -> ";
+    SWRLAPIRule rule = ruleEngine.createSWRLRule("R1", ruleText);
+    String ruleRendering = ruleRenderer.renderSWRLRule(rule);
+    Assert.assertEquals(expectedRendering, ruleRendering);
+  }
+
+  @Test public void TestSWRLCoreRenderDataPropertyAtomWithDoubleLiteral()
+    throws SWRLParseException, SWRLBuiltInException, OWLOntologyCreationException
+  {
+    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
+    SWRLRuleEngine ruleEngine = SWRLAPIFactory.createSWRLRuleEngine(ontology);
+    SWRLRuleRenderer ruleRenderer = ruleEngine.createSWRLRuleRenderer();
+
+    addOWLAxioms(ontology, Declaration(HAS_HEIGHT));
+    addOWLAxioms(ontology, Declaration(P1));
+
+    String ruleText = "hasHeight(p1, \"130.3\"^^xsd:double) -> ";
+    String expectedRendering = "hasHeight(p1, \"130.3\"^^xsd:double) -> ";
+    SWRLAPIRule rule = ruleEngine.createSWRLRule("R1", ruleText);
+    String ruleRendering = ruleRenderer.renderSWRLRule(rule);
+    Assert.assertEquals(expectedRendering, ruleRendering);
+  }
+
+  @Test public void TestSWRLCoreRenderDataPropertyAtomWithDecimalLiteral()
     throws SWRLParseException, SWRLBuiltInException, OWLOntologyCreationException
   {
     OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
@@ -312,7 +380,7 @@ public class SWRLCoreRenderingIT extends IntegrationTestBase
     Assert.assertEquals(ruleText, ruleRendering);
   }
 
-  @Test public void TestSWRLCoreRenderDataPropertyAtomWithQualifiedFloatLiteral()
+  @Test public void TestSWRLCoreRenderDataPropertyAtomWithIntegerLiteral()
     throws SWRLParseException, SWRLBuiltInException, OWLOntologyCreationException
   {
     OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
@@ -322,11 +390,10 @@ public class SWRLCoreRenderingIT extends IntegrationTestBase
     addOWLAxioms(ontology, Declaration(HAS_HEIGHT));
     addOWLAxioms(ontology, Declaration(P1));
 
-    String ruleText = "hasHeight(p1, \"130.3\"^^xsd:float) -> ";
-    String expectedRendering = "hasHeight(p1, 130.3) -> ";
+    String ruleText = "hasHeight(p1, 130) -> ";
     SWRLAPIRule rule = ruleEngine.createSWRLRule("R1", ruleText);
     String ruleRendering = ruleRenderer.renderSWRLRule(rule);
-    Assert.assertEquals(expectedRendering, ruleRendering);
+    Assert.assertEquals(ruleText, ruleRendering);
   }
 
   @Test public void TestSWRLCoreRenderSameAsAtomWithVariables()

@@ -193,33 +193,7 @@ public class SWRLCoreNumericIT extends IntegrationTestBase
     queryEngine.runSQWRLQuery("q1", "-> sqwrl:select(\"x42\"^^xsd:short)");
   }
 
-  @Test public void TestSWRLCoreNumericRawIntLiteralMatch()
-    throws SWRLParseException, SQWRLException, OWLOntologyCreationException
-  {
-    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
-
-    addOWLAxioms(ontology, DataPropertyAssertion(HAS_AGE, P1, Literal("42", XSD_INT)));
-
-    SQWRLResult result = queryEngine.runSQWRLQuery("q1", "hasAge(p1, 42) -> sqwrl:select(0)");
-
-    Assert.assertTrue(result.next());
-  }
-
-  @Test public void TestSWRLCoreNumericRawMinusIntLiteralMatch()
-    throws SWRLParseException, SQWRLException, OWLOntologyCreationException
-  {
-    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
-
-    addOWLAxioms(ontology, DataPropertyAssertion(YEAR_OFFSET_TO_BIRTH, P1, Literal("-42", XSD_INT)));
-
-    SQWRLResult result = queryEngine.runSQWRLQuery("q1", "yearOffsetToBirth(p1, -42) -> sqwrl:select(0)");
-
-    Assert.assertTrue(result.next());
-  }
-
-  @Test public void TestSWRLCoreNumericQualifiedIntLiteralMatch()
+  @Test public void TestSWRLCoreNumericIntLiteralMatch()
     throws SWRLParseException, SQWRLException, OWLOntologyCreationException
   {
     OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
@@ -232,7 +206,7 @@ public class SWRLCoreNumericIT extends IntegrationTestBase
     Assert.assertTrue(result.next());
   }
 
-  @Test public void TestSWRLCoreNumericQualifiedMinusIntLiteralMatch()
+  @Test public void TestSWRLCoreNumericMinusIntLiteralMatch()
     throws SWRLParseException, SQWRLException, OWLOntologyCreationException
   {
     OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
@@ -389,7 +363,7 @@ public class SWRLCoreNumericIT extends IntegrationTestBase
     queryEngine.runSQWRLQuery("q1", "-> sqwrl:select(\"x42\"^^xsd:long)");
   }
 
-  @Test public void TestSWRLCoreNumericRawFloatLiteralMatch()
+  @Test public void TestSWRLCoreNumericFloatLiteralMatch()
     throws SWRLParseException, SQWRLException, OWLOntologyCreationException
   {
     OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
@@ -397,12 +371,12 @@ public class SWRLCoreNumericIT extends IntegrationTestBase
 
     addOWLAxioms(ontology, DataPropertyAssertion(HAS_HEIGHT_IN_CM, P1, Literal("180.0", XSD_FLOAT)));
 
-    SQWRLResult result = queryEngine.runSQWRLQuery("q1", "hasHeightInCM(p1, 180.0) -> sqwrl:select(0)");
+    SQWRLResult result = queryEngine.runSQWRLQuery("q1", "hasHeightInCM(p1, \"180.0\"^^xsd:float) -> sqwrl:select(0)");
 
     Assert.assertTrue(result.next());
   }
 
-  @Test public void TestSWRLCoreNumericRawMinusFloatLiteralMatch()
+  @Test public void TestSWRLCoreNumericMinusFloatLiteralMatch()
     throws SWRLParseException, SQWRLException, OWLOntologyCreationException
   {
     OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
@@ -410,34 +384,8 @@ public class SWRLCoreNumericIT extends IntegrationTestBase
 
     addOWLAxioms(ontology, DataPropertyAssertion(HEIGHT_OFFSET_IN_CM, P1, Literal("-180.0", XSD_FLOAT)));
 
-    SQWRLResult result = queryEngine.runSQWRLQuery("q1", "heightOffsetInCM(p1, -180.0) -> sqwrl:select(0)");
-
-    Assert.assertTrue(result.next());
-  }
-
-  @Test public void TestSWRLCoreNumericQualifiedFloatLiteralMatch()
-    throws SWRLParseException, SQWRLException, OWLOntologyCreationException
-  {
-    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
-
-    addOWLAxioms(ontology, DataPropertyAssertion(HAS_HEIGHT_IN_CM, P1, Literal("177.0", XSD_FLOAT)));
-
-    SQWRLResult result = queryEngine.runSQWRLQuery("q1", "hasHeightInCM(p1, \"177.0\"^^xsd:float) -> sqwrl:select(0)");
-
-    Assert.assertTrue(result.next());
-  }
-
-  @Test public void TestSWRLCoreNumericQualifiedMinusFloatLiteralMatch()
-    throws SWRLParseException, SQWRLException, OWLOntologyCreationException
-  {
-    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
-
-    addOWLAxioms(ontology, DataPropertyAssertion(HEIGHT_OFFSET_IN_CM, P1, Literal("-177.1", XSD_FLOAT)));
-
     SQWRLResult result = queryEngine
-      .runSQWRLQuery("q1", "heightOffsetInCM(p1, \"-177.1\"^^xsd:float) -> sqwrl:select(0)");
+      .runSQWRLQuery("q1", "heightOffsetInCM(p1, \"-180.0\"^^xsd:float) -> sqwrl:select(0)");
 
     Assert.assertTrue(result.next());
   }
@@ -614,6 +562,32 @@ public class SWRLCoreNumericIT extends IntegrationTestBase
     Assert.assertTrue(result.next());
   }
 
+  @Test public void TestSWRLCoreNumericRawIntegerLiteralMatch()
+    throws SWRLParseException, SQWRLException, OWLOntologyCreationException
+  {
+    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
+
+    addOWLAxioms(ontology, DataPropertyAssertion(HAS_AGE, P1, Literal("42", XSD_INTEGER)));
+
+    SQWRLResult result = queryEngine.runSQWRLQuery("q1", "hasAge(p1, 42) -> sqwrl:select(0)");
+
+    Assert.assertTrue(result.next());
+  }
+
+  @Test public void TestSWRLCoreNumericRawMinusIntegerLiteralMatch()
+    throws SWRLParseException, SQWRLException, OWLOntologyCreationException
+  {
+    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
+
+    addOWLAxioms(ontology, DataPropertyAssertion(YEAR_OFFSET_TO_BIRTH, P1, Literal("-42", XSD_INTEGER)));
+
+    SQWRLResult result = queryEngine.runSQWRLQuery("q1", "yearOffsetToBirth(p1, -42) -> sqwrl:select(0)");
+
+    Assert.assertTrue(result.next());
+  }
+
   @Test public void TestSWRLCoreNumericIntegerLiteralBind()
     throws SWRLParseException, SQWRLException, OWLOntologyCreationException
   {
@@ -660,6 +634,32 @@ public class SWRLCoreNumericIT extends IntegrationTestBase
     Assert.assertTrue(result.next());
     Assert.assertTrue(result.getLiteral("age").isInteger());
     Assert.assertEquals(new BigInteger("22"), result.getLiteral("age").getInteger());
+  }
+
+  @Test public void TestSWRLCoreNumericRawDecimalLiteralMatch()
+    throws SWRLParseException, SQWRLException, OWLOntologyCreationException
+  {
+    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
+
+    addOWLAxioms(ontology, DataPropertyAssertion(HAS_AGE, P1, Literal("42.0", XSD_DECIMAL)));
+
+    SQWRLResult result = queryEngine.runSQWRLQuery("q1", "hasAge(p1, 42.0) -> sqwrl:select(0)");
+
+    Assert.assertTrue(result.next());
+  }
+
+  @Test public void TestSWRLCoreNumericRawMinusDecimalLiteralMatch()
+    throws SWRLParseException, SQWRLException, OWLOntologyCreationException
+  {
+    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
+
+    addOWLAxioms(ontology, DataPropertyAssertion(YEAR_OFFSET_TO_BIRTH, P1, Literal("-42.0", XSD_DECIMAL)));
+
+    SQWRLResult result = queryEngine.runSQWRLQuery("q1", "yearOffsetToBirth(p1, -42.0) -> sqwrl:select(0)");
+
+    Assert.assertTrue(result.next());
   }
 
   @Test public void TestSWRLCoreNumericDecimalLiteralMatch()
@@ -737,11 +737,6 @@ public class SWRLCoreNumericIT extends IntegrationTestBase
     Assert.assertEquals(new BigDecimal("22.0"), result.getLiteral("age").getDecimal());
   }
 
-
-
-
-
-
   @Test public void TestSWRLCoreNumericNonNegativeIntegerLiteralMatch()
     throws SWRLParseException, SQWRLException, OWLOntologyCreationException
   {
@@ -772,14 +767,6 @@ public class SWRLCoreNumericIT extends IntegrationTestBase
     Assert.assertTrue(result.getLiteral("age").isNonNegativeInteger());
     Assert.assertEquals(new BigInteger("42"), result.getLiteral("age").getNonNegativeInteger());
   }
-
-
-
-
-
-
-
-
 
   @Test public void TestSWRLCoreNumericNonPositiveIntegerLiteralMatch()
     throws SWRLParseException, SQWRLException, OWLOntologyCreationException

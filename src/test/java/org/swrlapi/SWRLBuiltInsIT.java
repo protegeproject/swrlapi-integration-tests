@@ -311,7 +311,7 @@ public class SWRLBuiltInsIT extends IntegrationTestBase
 
     Assert.assertTrue(result.next());
     Assert.assertTrue(result.getLiteral("y").isDecimal());
-    Assert.assertEquals(BigDecimal.valueOf(8.0), result.getLiteral("y").getDecimal());
+    Assert.assertEquals(new BigDecimal("8.00"), result.getLiteral("y").getDecimal());
   }
 
   @Test public void TestSWRLBuiltInsCascadingBooleanVariable()
