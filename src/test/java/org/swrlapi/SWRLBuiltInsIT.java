@@ -72,12 +72,27 @@ public class SWRLBuiltInsIT extends IntegrationTestBase
     OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
     SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
 
+    String query = "swrlb:add(?r, \"2\"^^xsd:int, \"2\"^^xsd:int) -> sqwrl:select(?r)";
+    SQWRLResult result = queryEngine.runSQWRLQuery("q1", query);
+
+    Assert.assertTrue(result.next());
+    SQWRLLiteralResultValue literal = result.getLiteral("r");
+    Assert.assertTrue(literal.isInt());
+    Assert.assertEquals(4, literal.getInt());
+  }
+
+  @Test public void TestSWRLBuiltInsIntegerBoundResult()
+    throws SWRLParseException, SQWRLException, OWLOntologyCreationException
+  {
+    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
+
     SQWRLResult result = queryEngine.runSQWRLQuery("q1", "swrlb:add(?r, 2, 2) -> sqwrl:select(?r)");
 
     Assert.assertTrue(result.next());
     SQWRLLiteralResultValue literal = result.getLiteral("r");
     Assert.assertTrue(literal.isInteger());
-    Assert.assertEquals(BigInteger.valueOf(4), literal.getInt());
+    Assert.assertEquals(BigInteger.valueOf(4), literal.getInteger());
   }
 
   @Test public void TestSWRLBuiltInsFloatBoundResult()
@@ -122,6 +137,21 @@ public class SWRLBuiltInsIT extends IntegrationTestBase
     SQWRLLiteralResultValue literal = result.getLiteral("r");
     Assert.assertTrue(literal.isDouble());
     Assert.assertEquals(4.0d, literal.getDouble(), IntegrationTestBase.DELTA);
+  }
+
+  @Test public void TestSWRLBuiltInsDecimalBoundResult()
+    throws SWRLParseException, SQWRLException, OWLOntologyCreationException
+  {
+    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
+
+    String query = "swrlb:add(?r, 2.0, 2.0) -> sqwrl:select(?r)";
+    SQWRLResult result = queryEngine.runSQWRLQuery("q1", query);
+
+    Assert.assertTrue(result.next());
+    SQWRLLiteralResultValue literal = result.getLiteral("r");
+    Assert.assertTrue(literal.isDecimal());
+    Assert.assertEquals(BigDecimal.valueOf(4.0), literal.getDecimal());
   }
 
   @Test public void TestSWRLBuiltInsBooleanBoundTrueResult()
@@ -280,7 +310,7 @@ public class SWRLBuiltInsIT extends IntegrationTestBase
     SQWRLResult result = queryEngine.runSQWRLQuery("q1", query);
 
     Assert.assertTrue(result.next());
-    Assert.assertTrue(result.getLiteral("y").isDouble());
+    Assert.assertTrue(result.getLiteral("y").isDecimal());
     Assert.assertEquals(BigDecimal.valueOf(8.0), result.getLiteral("y").getDecimal());
   }
 
