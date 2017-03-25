@@ -135,7 +135,7 @@ public class OWL2RLIT extends IntegrationTestBase
     OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
     SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
 
-    addOWLAxioms(ontology, SameIndividual(I1, I2), DataPropertyAssertion(DP, I1, Literal("3", XSD_INT)));
+    addOWLAxioms(ontology, SameIndividual(I1, I2), DataPropertyAssertion(DP, I1, Literal("3", XSD_INTEGER)));
 
     SQWRLResult result = queryEngine.runSQWRLQuery("q1", "dp(i2, 3) -> sqwrl:select(0)");
 
@@ -171,7 +171,7 @@ public class OWL2RLIT extends IntegrationTestBase
     OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
     SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
 
-    addOWLAxioms(ontology, DataPropertyDomain(DP, C), DataPropertyAssertion(DP, S, Literal("1", XSD_INT)));
+    addOWLAxioms(ontology, DataPropertyDomain(DP, C), DataPropertyAssertion(DP, S, Literal("1", XSD_INTEGER)));
 
     SQWRLResult result = queryEngine.runSQWRLQuery("q1", "C(s) -> sqwrl:select(0)");
 

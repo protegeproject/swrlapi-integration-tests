@@ -15,6 +15,9 @@ import org.swrlapi.sqwrl.exceptions.SQWRLException;
 import org.swrlapi.sqwrl.values.SQWRLLiteralResultValue;
 import org.swrlapi.test.IntegrationTestBase;
 
+import java.math.BigDecimal;
+import java.math.BigInteger;
+
 import static org.semanticweb.owlapi.apibinding.OWLFunctionalSyntaxFactory.Class;
 import static org.semanticweb.owlapi.apibinding.OWLFunctionalSyntaxFactory.Declaration;
 import static org.semanticweb.owlapi.apibinding.OWLFunctionalSyntaxFactory.NamedIndividual;
@@ -136,7 +139,7 @@ public class SQWRLCollectionsIT extends IntegrationTestBase
     Assert.assertTrue(result.next());
   }
 
-  @Test public void TestSQWRLIntBagsEqual() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
+  @Test public void TestSQWRLIntegerBagsEqual() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
   {
     OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
     SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
@@ -147,7 +150,7 @@ public class SQWRLCollectionsIT extends IntegrationTestBase
     Assert.assertTrue(result.next());
   }
 
-  @Test public void TestSQWRLIntSetsEqual() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
+  @Test public void TestSQWRLIntegerSetsEqual() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
   {
     OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
     SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
@@ -435,11 +438,25 @@ public class SQWRLCollectionsIT extends IntegrationTestBase
     SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
 
     SQWRLResult result = queryEngine.runSQWRLQuery("q1",
-      ". sqwrl:makeBag(?s1, 77) ^ sqwrl:makeBag(?s1, 23) . sqwrl:min(?min, ?s1) -> sqwrl:select(?min)");
+      ". sqwrl:makeBag(?s1, \"77\"^^xsd:int) ^ sqwrl:makeBag(?s1, \"23\"^^xsd:int) "
+        + ". sqwrl:min(?min, ?s1) -> sqwrl:select(?min)");
 
     Assert.assertTrue(result.next());
     Assert.assertTrue(result.getLiteral("min").isInt());
     Assert.assertEquals(23, result.getLiteral("min").getInt());
+  }
+
+  @Test public void TestSQWRLIntegerBagMin() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
+  {
+    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
+
+    SQWRLResult result = queryEngine.runSQWRLQuery("q1",
+      ". sqwrl:makeBag(?s1, 77) ^ sqwrl:makeBag(?s1, 23) . sqwrl:min(?min, ?s1) -> sqwrl:select(?min)");
+
+    Assert.assertTrue(result.next());
+    Assert.assertTrue(result.getLiteral("min").isInteger());
+    Assert.assertEquals(BigInteger.valueOf(23), result.getLiteral("min").getInteger());
   }
 
   @Test public void TestSQWRLLongBagMin() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
@@ -462,11 +479,12 @@ public class SQWRLCollectionsIT extends IntegrationTestBase
     SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
 
     SQWRLResult result = queryEngine.runSQWRLQuery("q1",
-      ". sqwrl:makeBag(?s1, 77.4) ^ sqwrl:makeBag(?s1, 23.3) . sqwrl:min(?min, ?s1) -> sqwrl:select(?min)");
+      ". sqwrl:makeBag(?s1, \"77.32\"^^xsd:float) ^ sqwrl:makeBag(?s1, \"23.3\"^^xsd:float) "
+        + ". sqwrl:min(?min, ?s1) -> sqwrl:select(?min)");
 
     Assert.assertTrue(result.next());
     Assert.assertTrue(result.getLiteral("min").isFloat());
-    Assert.assertEquals(23.3f, result.getLiteral("min").getFloat(), IntegrationTestBase.DELTA);
+    Assert.assertEquals(23.3f, result.getLiteral("min").getDouble(), IntegrationTestBase.DELTA);
   }
 
   @Test public void TestSQWRLDoubleBagMin() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
@@ -481,6 +499,19 @@ public class SQWRLCollectionsIT extends IntegrationTestBase
     Assert.assertTrue(result.next());
     Assert.assertTrue(result.getLiteral("min").isDouble());
     Assert.assertEquals(23.3d, result.getLiteral("min").getDouble(), IntegrationTestBase.DELTA);
+  }
+
+  @Test public void TestSQWRLDecimalBagMin() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
+  {
+    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
+
+    SQWRLResult result = queryEngine.runSQWRLQuery("q1",
+      ". sqwrl:makeBag(?s1, 77.4) ^ sqwrl:makeBag(?s1, 23.3) . sqwrl:min(?min, ?s1) -> sqwrl:select(?min)");
+
+    Assert.assertTrue(result.next());
+    Assert.assertTrue(result.getLiteral("min").isDecimal());
+    Assert.assertEquals(BigDecimal.valueOf(23.3), result.getLiteral("min").getDecimal());
   }
 
   @Test public void TestSQWRLStringBagFirst() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
@@ -813,7 +844,21 @@ public class SQWRLCollectionsIT extends IntegrationTestBase
     Assert.assertEquals(24, result.getLiteral("avg").getShort());
   }
 
-  @Test public void TestSQWRLIntBagAvg() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
+  @Test public void TestSQWRLIntSetAvg() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
+  {
+    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
+
+    SQWRLResult result = queryEngine.runSQWRLQuery("q1", ". sqwrl:makeBag(?s1, \"24\"^^xsd:short) ^ "
+      + "sqwrl:makeBag(?s1, \"23\"^^xsd:int) ^ sqwrl:makeBag(?s1, \"23\"^^xsd:int)"
+      + "sqwrl:makeBag(?s1, \"25\"^^xsd:int) . sqwrl:avg(?avg, ?s1) -> sqwrl:select(?avg)");
+
+    Assert.assertTrue(result.next());
+    Assert.assertTrue(result.getLiteral("avg").isInt());
+    Assert.assertEquals(24, result.getLiteral("avg").getInt());
+  }
+
+  @Test public void TestSQWRLIntegerBagAvg() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
   {
     OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
     SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
@@ -823,11 +868,25 @@ public class SQWRLCollectionsIT extends IntegrationTestBase
         + ". sqwrl:avg(?avg, ?s1) -> sqwrl:select(?avg)");
 
     Assert.assertTrue(result.next());
+    Assert.assertTrue(result.getLiteral("avg").isInteger());
+    Assert.assertEquals(BigInteger.valueOf(24), result.getLiteral("avg").getInteger());
+  }
+
+  @Test public void TestSQWRLIntBagAvg() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
+  {
+    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
+
+    SQWRLResult result = queryEngine.runSQWRLQuery("q1",
+      ". sqwrl:makeBag(?s1, \"24\"^^xsd:int) ^ " + "sqwrl:makeBag(?s1, \"23\"^^xsd:int) "
+        + "sqwrl:makeBag(?s1, \"25\"^^xsd:int) " + ". sqwrl:avg(?avg, ?s1) -> sqwrl:select(?avg)");
+
+    Assert.assertTrue(result.next());
     Assert.assertTrue(result.getLiteral("avg").isInt());
     Assert.assertEquals(24, result.getLiteral("avg").getInt());
   }
 
-  @Test public void TestSQWRLIntSetAvg() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
+  @Test public void TestSQWRLIntegerSetAvg() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
   {
     OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
     SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
@@ -836,8 +895,8 @@ public class SQWRLCollectionsIT extends IntegrationTestBase
       + "^ sqwrl:makeSet(?s1, 25) ^ sqwrl:makeSet(?s1, 25) . sqwrl:avg(?avg, ?s1) -> sqwrl:select(?avg)");
 
     Assert.assertTrue(result.next());
-    Assert.assertTrue(result.getLiteral("avg").isInt());
-    Assert.assertEquals(24, result.getLiteral("avg").getInt());
+    Assert.assertTrue(result.getLiteral("avg").isInteger());
+    Assert.assertEquals(BigInteger.valueOf(24), result.getLiteral("avg").getInteger());
   }
 
   @Test public void TestSQWRLLongBagAvg() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
@@ -868,7 +927,7 @@ public class SQWRLCollectionsIT extends IntegrationTestBase
     Assert.assertEquals(24L, result.getLiteral("avg").getLong());
   }
 
-  @Test public void TestSQWRLFloatBagAvg() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
+  @Test public void TestSQWRLDecimalBagAvg() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
   {
     OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
     SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
@@ -878,12 +937,11 @@ public class SQWRLCollectionsIT extends IntegrationTestBase
         + ". sqwrl:avg(?avg, ?s1) -> sqwrl:select(?avg)");
 
     Assert.assertTrue(result.next());
-    Assert.assertTrue(result.getLiteral("avg").isFloat());
-    Assert.assertEquals(24.2f, result.getLiteral("avg").getFloat(), IntegrationTestBase.DELTA);
+    Assert.assertTrue(result.getLiteral("avg").isDecimal());
+    Assert.assertEquals(BigDecimal.valueOf(24.2), result.getLiteral("avg").getDecimal());
   }
 
-  @SuppressWarnings("static-access") @Test public void TestSQWRLFloatSetAvg()
-    throws SWRLParseException, SQWRLException, OWLOntologyCreationException
+  @Test public void TestSQWRLDecimalSetAvg() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
   {
     OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
     SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
@@ -892,8 +950,8 @@ public class SQWRLCollectionsIT extends IntegrationTestBase
       + "sqwrl:makeBag(?s1, 25.2) ^ sqwrl:makeBag(?s1, 25.2) . sqwrl:avg(?avg, ?s1) -> sqwrl:select(?avg)");
 
     Assert.assertTrue(result.next());
-    Assert.assertTrue(result.getLiteral("avg").isFloat());
-    Assert.assertEquals(24.2f, result.getLiteral("avg").getFloat(), IntegrationTestBase.DELTA);
+    Assert.assertTrue(result.getLiteral("avg").isDecimal());
+    Assert.assertEquals(BigDecimal.valueOf(24.2), result.getLiteral("avg").getDecimal());
   }
 
   @Test public void TestSQWRLDoubleBagAvg() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
@@ -994,8 +1052,7 @@ public class SQWRLCollectionsIT extends IntegrationTestBase
 
     addOWLAxioms(ontology, Declaration(DDI));
 
-    queryEngine
-      .runSQWRLQuery("q1", ". sqwrl:makeBag(?s1, DDI) ^ sqwrl:groupBy(?secondLast) -> ");
+    queryEngine.runSQWRLQuery("q1", ". sqwrl:makeBag(?s1, DDI) ^ sqwrl:groupBy(?secondLast) -> ");
   }
 
   @Test public void TestSQWRLInvalidUnboundGroupByArgument()
@@ -1009,8 +1066,7 @@ public class SQWRLCollectionsIT extends IntegrationTestBase
 
     addOWLAxioms(ontology, Declaration(DDI));
 
-    queryEngine
-      .runSQWRLQuery("q1", ". sqwrl:makeBag(?s1, DDI) ^ sqwrl:groupBy(?s1, ?secondLast) -> ");
+    queryEngine.runSQWRLQuery("q1", ". sqwrl:makeBag(?s1, DDI) ^ sqwrl:groupBy(?s1, ?secondLast) -> ");
   }
 
   @Test public void TestSQWRLInvalidGroupByCollectionArgument()
@@ -1024,7 +1080,6 @@ public class SQWRLCollectionsIT extends IntegrationTestBase
 
     addOWLAxioms(ontology, Declaration(DDI));
 
-    queryEngine
-      .runSQWRLQuery("q1", ". sqwrl:makeBag(?s1, DDI) ^ sqwrl:groupBy(?s2, ?secondLast) -> ");
+    queryEngine.runSQWRLQuery("q1", ". sqwrl:makeBag(?s1, DDI) ^ sqwrl:groupBy(?s2, ?secondLast) -> ");
   }
 }
