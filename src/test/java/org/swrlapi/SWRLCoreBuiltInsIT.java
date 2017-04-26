@@ -131,7 +131,7 @@ public class SWRLCoreBuiltInsIT extends IntegrationTestBase
     addOWLAxioms(ontology, DataPropertyAssertion(HAS_AGE, P1, Literal("42", XSD_INT)));
 
     SQWRLResult result = queryEngine
-      .runSQWRLQuery("q1", "hasAge(p1, ?age) ^ swrlb:lessThan(?age, 43) -> sqwrl:select(0)");
+      .runSQWRLQuery("q1", "hasAge(p1, ?age) ^ swrlb:lessThan(?age, \"43\"^^xsd:int) -> sqwrl:select(0)");
 
     Assert.assertTrue(result.next());
   }
@@ -145,7 +145,7 @@ public class SWRLCoreBuiltInsIT extends IntegrationTestBase
     addOWLAxioms(ontology, DataPropertyAssertion(HAS_AGE, P1, Literal("42", XSD_INT)));
 
     SQWRLResult result = queryEngine
-      .runSQWRLQuery("q1", "hasAge(p1, ?age) ^ swrlb:greaterThan(?age, 41) -> sqwrl:select(0)");
+      .runSQWRLQuery("q1", "hasAge(p1, ?age) ^ swrlb:greaterThan(?age, \"41\"^^xsd:int) -> sqwrl:select(0)");
 
     Assert.assertTrue(result.next());
   }
@@ -157,6 +157,50 @@ public class SWRLCoreBuiltInsIT extends IntegrationTestBase
     SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
 
     addOWLAxioms(ontology, DataPropertyAssertion(HAS_AGE, P1, Literal("42", XSD_INT)));
+
+    SQWRLResult result = queryEngine
+      .runSQWRLQuery("q1", "hasAge(p1, ?age) ^ swrlb:equal(?age, \"42\"^^xsd:int) -> sqwrl:select(p1)");
+
+    Assert.assertTrue(result.next());
+    Assert.assertTrue(result.getNamedIndividual(0).isNamedIndividual());
+    Assert.assertEquals("p1", result.getNamedIndividual(0).getShortName());
+  }
+
+  @Test public void TestSWRLCoreLessThanBuiltInWithInteger()
+    throws SWRLParseException, SQWRLException, OWLOntologyCreationException
+  {
+    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
+
+    addOWLAxioms(ontology, DataPropertyAssertion(HAS_AGE, P1, Literal("42", XSD_INTEGER)));
+
+    SQWRLResult result = queryEngine
+      .runSQWRLQuery("q1", "hasAge(p1, ?age) ^ swrlb:lessThan(?age, 43) -> sqwrl:select(0)");
+
+    Assert.assertTrue(result.next());
+  }
+
+  @Test public void TestSWRLCoreGreaterThanBuiltInWithInteger()
+    throws SWRLParseException, SQWRLException, OWLOntologyCreationException
+  {
+    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
+
+    addOWLAxioms(ontology, DataPropertyAssertion(HAS_AGE, P1, Literal("42", XSD_INTEGER)));
+
+    SQWRLResult result = queryEngine
+      .runSQWRLQuery("q1", "hasAge(p1, ?age) ^ swrlb:greaterThan(?age, 41) -> sqwrl:select(0)");
+
+    Assert.assertTrue(result.next());
+  }
+
+  @Test public void TestSWRLCoreEqualBuiltInWithInteger()
+    throws SWRLParseException, SQWRLException, OWLOntologyCreationException
+  {
+    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
+
+    addOWLAxioms(ontology, DataPropertyAssertion(HAS_AGE, P1, Literal("42", XSD_INTEGER)));
 
     SQWRLResult result = queryEngine
       .runSQWRLQuery("q1", "hasAge(p1, ?age) ^ swrlb:equal(?age, 42) -> sqwrl:select(p1)");
@@ -219,7 +263,7 @@ public class SWRLCoreBuiltInsIT extends IntegrationTestBase
     addOWLAxioms(ontology, DataPropertyAssertion(HAS_AGE, P1, Literal("42.0", XSD_FLOAT)));
 
     SQWRLResult result = queryEngine
-      .runSQWRLQuery("q1", "hasAge(p1, ?age) ^ swrlb:greaterThan(?age, 41.0) -> sqwrl:select(0)");
+      .runSQWRLQuery("q1", "hasAge(p1, ?age) ^ swrlb:greaterThan(?age, \"41.0\"^^xsd:float) -> sqwrl:select(0)");
 
     Assert.assertTrue(result.next());
   }
@@ -233,7 +277,7 @@ public class SWRLCoreBuiltInsIT extends IntegrationTestBase
     addOWLAxioms(ontology, DataPropertyAssertion(HAS_HEIGHT_IN_CM, P1, Literal("177.0", XSD_FLOAT)));
 
     SQWRLResult result = queryEngine
-      .runSQWRLQuery("q1", "hasHeightInCM(p1, ?height) ^ swrlb:equal(?height, 177.0) -> sqwrl:select(p1)");
+      .runSQWRLQuery("q1", "hasHeightInCM(p1, ?height) ^ swrlb:equal(?height, \"177.0\"^^xsd:float) -> sqwrl:select(p1)");
 
     Assert.assertTrue(result.next());
     Assert.assertTrue(result.getNamedIndividual(0).isNamedIndividual());
@@ -247,6 +291,51 @@ public class SWRLCoreBuiltInsIT extends IntegrationTestBase
     SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
 
     addOWLAxioms(ontology, DataPropertyAssertion(HAS_AGE, P1, Literal("42.0", XSD_FLOAT)));
+
+    SQWRLResult result = queryEngine
+      .runSQWRLQuery("q1", "hasAge(p1, ?age) ^ swrlb:lessThan(?age, \"43.0\"^^xsd:float) -> sqwrl:select(0)");
+
+    Assert.assertTrue(result.next());
+  }
+
+
+  @Test public void TestSWRLCoreGreaterThanBuiltInWithDecimal()
+    throws SWRLParseException, SQWRLException, OWLOntologyCreationException
+  {
+    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
+
+    addOWLAxioms(ontology, DataPropertyAssertion(HAS_AGE, P1, Literal("42.0", XSD_DECIMAL)));
+
+    SQWRLResult result = queryEngine
+      .runSQWRLQuery("q1", "hasAge(p1, ?age) ^ swrlb:greaterThan(?age, 41.0) -> sqwrl:select(0)");
+
+    Assert.assertTrue(result.next());
+  }
+
+  @Test public void TestSWRLCoreEqualBuiltInWithDecimal()
+    throws SWRLParseException, SQWRLException, OWLOntologyCreationException
+  {
+    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
+
+    addOWLAxioms(ontology, DataPropertyAssertion(HAS_HEIGHT_IN_CM, P1, Literal("177.0", XSD_DECIMAL)));
+
+    SQWRLResult result = queryEngine
+      .runSQWRLQuery("q1", "hasHeightInCM(p1, ?height) ^ swrlb:equal(?height, 177.0) -> sqwrl:select(p1)");
+
+    Assert.assertTrue(result.next());
+    Assert.assertTrue(result.getNamedIndividual(0).isNamedIndividual());
+    Assert.assertEquals("p1", result.getNamedIndividual(0).getShortName());
+  }
+
+  @Test public void TestSWRLCoreLessThanBuiltInWithDecimal()
+    throws SWRLParseException, SQWRLException, OWLOntologyCreationException
+  {
+    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
+
+    addOWLAxioms(ontology, DataPropertyAssertion(HAS_AGE, P1, Literal("42.0", XSD_DECIMAL)));
 
     SQWRLResult result = queryEngine
       .runSQWRLQuery("q1", "hasAge(p1, ?age) ^ swrlb:lessThan(?age, 43.0) -> sqwrl:select(0)");
