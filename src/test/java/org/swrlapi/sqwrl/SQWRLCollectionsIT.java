@@ -514,6 +514,116 @@ public class SQWRLCollectionsIT extends IntegrationTestBase
     Assert.assertEquals(BigDecimal.valueOf(23.3), result.getLiteral("min").getDecimal());
   }
 
+  @Test public void TestSQWRLByteBagMax() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
+  {
+    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
+
+    SQWRLResult result = queryEngine.runSQWRLQuery("q1",
+      ". sqwrl:makeBag(?s1, \"77\"^^xsd:byte) ^ sqwrl:makeBag(?s1, \"23\"^^xsd:byte) "
+        + ". sqwrl:max(?max, ?s1) -> sqwrl:select(?max)");
+
+    Assert.assertTrue(result.next());
+    Assert.assertTrue(result.getLiteral("max").isByte());
+    Assert.assertEquals(77, result.getLiteral("min").getByte());
+  }
+
+  @Test public void TestSQWRLShortBagMax() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
+  {
+    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
+
+    SQWRLResult result = queryEngine.runSQWRLQuery("q1",
+      ". sqwrl:makeBag(?s1, \"77\"^^xsd:short) ^ sqwrl:makeBag(?s1, \"23\"^^xsd:short) "
+        + ". sqwrl:max(?max, ?s1) -> sqwrl:select(?max)");
+
+    Assert.assertTrue(result.next());
+    Assert.assertTrue(result.getLiteral("max").isShort());
+    Assert.assertEquals(77, result.getLiteral("min").getShort());
+  }
+
+  @Test public void TestSQWRLIntBagMax() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
+  {
+    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
+
+    SQWRLResult result = queryEngine.runSQWRLQuery("q1",
+      ". sqwrl:makeBag(?s1, \"77\"^^xsd:int) ^ sqwrl:makeBag(?s1, \"23\"^^xsd:int) "
+        + ". sqwrl:max(?max, ?s1) -> sqwrl:select(?max)");
+
+    Assert.assertTrue(result.next());
+    Assert.assertTrue(result.getLiteral("max").isInt());
+    Assert.assertEquals(77, result.getLiteral("min").getInt());
+  }
+
+  @Test public void TestSQWRLIntegerBagMax() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
+  {
+    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
+
+    SQWRLResult result = queryEngine.runSQWRLQuery("q1",
+      ". sqwrl:makeBag(?s1, 77) ^ sqwrl:makeBag(?s1, 23) . sqwrl:max(?max, ?s1) -> sqwrl:select(?max)");
+
+    Assert.assertTrue(result.next());
+    Assert.assertTrue(result.getLiteral("max").isInteger());
+    Assert.assertEquals(BigInteger.valueOf(77), result.getLiteral("min").getInteger());
+  }
+
+  @Test public void TestSQWRLLongBagMax() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
+  {
+    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
+
+    SQWRLResult result = queryEngine.runSQWRLQuery("q1",
+      ". sqwrl:makeBag(?s1, \"77\"^^xsd:long) ^ sqwrl:makeBag(?s1, \"23\"^^xsd:long) "
+        + ". sqwrl:max(?max, ?s1) -> sqwrl:select(?max)");
+
+    Assert.assertTrue(result.next());
+    Assert.assertTrue(result.getLiteral("max").isLong());
+    Assert.assertEquals(77L, result.getLiteral("min").getLong());
+  }
+
+  @Test public void TestSQWRLFloatBagMax() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
+  {
+    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
+
+    SQWRLResult result = queryEngine.runSQWRLQuery("q1",
+      ". sqwrl:makeBag(?s1, \"77.32\"^^xsd:float) ^ sqwrl:makeBag(?s1, \"23.3\"^^xsd:float) "
+        + ". sqwrl:max(?max, ?s1) -> sqwrl:select(?max)");
+
+    Assert.assertTrue(result.next());
+    Assert.assertTrue(result.getLiteral("max").isFloat());
+    Assert.assertEquals(77.32f, result.getLiteral("min").getDouble(), IntegrationTestBase.DELTA);
+  }
+
+  @Test public void TestSQWRLDoubleBagMax() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
+  {
+    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
+
+    SQWRLResult result = queryEngine.runSQWRLQuery("q1",
+      ". sqwrl:makeBag(?s1, \"77.32\"^^xsd:double) ^ sqwrl:makeBag(?s1, \"23.3\"^^xsd:double) "
+        + ". sqwrl:max(?max, ?s1) -> sqwrl:select(?max)");
+
+    Assert.assertTrue(result.next());
+    Assert.assertTrue(result.getLiteral("max").isDouble());
+    Assert.assertEquals(77.32d, result.getLiteral("min").getDouble(), IntegrationTestBase.DELTA);
+  }
+
+  @Test public void TestSQWRLDecimalBagMax() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
+  {
+    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
+
+    SQWRLResult result = queryEngine.runSQWRLQuery("q1",
+      ". sqwrl:makeBag(?s1, 77.4) ^ sqwrl:makeBag(?s1, 23.3) . sqwrl:max(?max, ?s1) -> sqwrl:select(?max)");
+
+    Assert.assertTrue(result.next());
+    Assert.assertTrue(result.getLiteral("max").isDecimal());
+    Assert.assertEquals(BigDecimal.valueOf(77.4), result.getLiteral("min").getDecimal());
+  }
+
   @Test public void TestSQWRLStringBagFirst() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
   {
     OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
