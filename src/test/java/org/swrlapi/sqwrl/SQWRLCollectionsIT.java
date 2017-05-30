@@ -525,7 +525,7 @@ public class SQWRLCollectionsIT extends IntegrationTestBase
 
     Assert.assertTrue(result.next());
     Assert.assertTrue(result.getLiteral("max").isByte());
-    Assert.assertEquals(77, result.getLiteral("min").getByte());
+    Assert.assertEquals(77, result.getLiteral("max").getByte());
   }
 
   @Test public void TestSQWRLShortBagMax() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
@@ -539,7 +539,7 @@ public class SQWRLCollectionsIT extends IntegrationTestBase
 
     Assert.assertTrue(result.next());
     Assert.assertTrue(result.getLiteral("max").isShort());
-    Assert.assertEquals(77, result.getLiteral("min").getShort());
+    Assert.assertEquals(77, result.getLiteral("max").getShort());
   }
 
   @Test public void TestSQWRLIntBagMax() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
@@ -553,7 +553,7 @@ public class SQWRLCollectionsIT extends IntegrationTestBase
 
     Assert.assertTrue(result.next());
     Assert.assertTrue(result.getLiteral("max").isInt());
-    Assert.assertEquals(77, result.getLiteral("min").getInt());
+    Assert.assertEquals(77, result.getLiteral("max").getInt());
   }
 
   @Test public void TestSQWRLIntegerBagMax() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
@@ -566,7 +566,7 @@ public class SQWRLCollectionsIT extends IntegrationTestBase
 
     Assert.assertTrue(result.next());
     Assert.assertTrue(result.getLiteral("max").isInteger());
-    Assert.assertEquals(BigInteger.valueOf(77), result.getLiteral("min").getInteger());
+    Assert.assertEquals(BigInteger.valueOf(77), result.getLiteral("max").getInteger());
   }
 
   @Test public void TestSQWRLLongBagMax() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
@@ -580,7 +580,7 @@ public class SQWRLCollectionsIT extends IntegrationTestBase
 
     Assert.assertTrue(result.next());
     Assert.assertTrue(result.getLiteral("max").isLong());
-    Assert.assertEquals(77L, result.getLiteral("min").getLong());
+    Assert.assertEquals(77L, result.getLiteral("max").getLong());
   }
 
   @Test public void TestSQWRLFloatBagMax() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
@@ -594,7 +594,7 @@ public class SQWRLCollectionsIT extends IntegrationTestBase
 
     Assert.assertTrue(result.next());
     Assert.assertTrue(result.getLiteral("max").isFloat());
-    Assert.assertEquals(77.32f, result.getLiteral("min").getDouble(), IntegrationTestBase.DELTA);
+    Assert.assertEquals(77.32f, result.getLiteral("max").getDouble(), IntegrationTestBase.DELTA);
   }
 
   @Test public void TestSQWRLDoubleBagMax() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
@@ -608,7 +608,7 @@ public class SQWRLCollectionsIT extends IntegrationTestBase
 
     Assert.assertTrue(result.next());
     Assert.assertTrue(result.getLiteral("max").isDouble());
-    Assert.assertEquals(77.32d, result.getLiteral("min").getDouble(), IntegrationTestBase.DELTA);
+    Assert.assertEquals(77.32d, result.getLiteral("max").getDouble(), IntegrationTestBase.DELTA);
   }
 
   @Test public void TestSQWRLDecimalBagMax() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
@@ -621,7 +621,7 @@ public class SQWRLCollectionsIT extends IntegrationTestBase
 
     Assert.assertTrue(result.next());
     Assert.assertTrue(result.getLiteral("max").isDecimal());
-    Assert.assertEquals(BigDecimal.valueOf(77.4), result.getLiteral("min").getDecimal());
+    Assert.assertEquals(BigDecimal.valueOf(77.4), result.getLiteral("max").getDecimal());
   }
 
   @Test public void TestSQWRLStringBagFirst() throws SWRLParseException, SQWRLException, OWLOntologyCreationException
