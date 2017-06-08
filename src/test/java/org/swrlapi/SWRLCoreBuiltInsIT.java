@@ -276,8 +276,8 @@ public class SWRLCoreBuiltInsIT extends IntegrationTestBase
 
     addOWLAxioms(ontology, DataPropertyAssertion(HAS_HEIGHT_IN_CM, P1, Literal("177.0", XSD_FLOAT)));
 
-    SQWRLResult result = queryEngine
-      .runSQWRLQuery("q1", "hasHeightInCM(p1, ?height) ^ swrlb:equal(?height, \"177.0\"^^xsd:float) -> sqwrl:select(p1)");
+    SQWRLResult result = queryEngine.runSQWRLQuery("q1",
+      "hasHeightInCM(p1, ?height) ^ swrlb:equal(?height, \"177.0\"^^xsd:float) -> sqwrl:select(p1)");
 
     Assert.assertTrue(result.next());
     Assert.assertTrue(result.getNamedIndividual(0).isNamedIndividual());
@@ -297,7 +297,6 @@ public class SWRLCoreBuiltInsIT extends IntegrationTestBase
 
     Assert.assertTrue(result.next());
   }
-
 
   @Test public void TestSWRLCoreGreaterThanBuiltInWithDecimal()
     throws SWRLParseException, SQWRLException, OWLOntologyCreationException
@@ -702,11 +701,11 @@ public class SWRLCoreBuiltInsIT extends IntegrationTestBase
     SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
 
     SQWRLResult result = queryEngine
-      .runSQWRLQuery("q1", "swrlb:tokenize(?t, \"The,cat,sat\", \",\") -> sqwrl:select(?t)");
+      .runSQWRLQuery("q1", "swrlb:tokenize(?t, \"sat,cat,bone\", \",\") -> sqwrl:select(?t) ^ sqwrl:orderBy(?t)");
 
     Assert.assertEquals(result.getNumberOfRows(), 3);
     Assert.assertTrue(result.next());
-    Assert.assertEquals(result.getLiteral(0).getString(), "The");
+    Assert.assertEquals(result.getLiteral(0).getString(), "bone");
     Assert.assertTrue(result.next());
     Assert.assertEquals(result.getLiteral(0).getString(), "cat");
     Assert.assertTrue(result.next());
