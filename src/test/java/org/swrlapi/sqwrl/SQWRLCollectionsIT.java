@@ -328,7 +328,7 @@ public class SQWRLCollectionsIT extends IntegrationTestBase
     SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
 
     addOWLAxioms(ontology, ClassAssertion(PERSON, P1), ClassAssertion(PERSON, P2));
-    addOWLAxioms(ontology, DataPropertyAssertion(HAS_AGE, P1, Literal("10", XSD_INTEGER)));
+    addOWLAxioms(ontology, DataPropertyAssertion(HAS_AGE, P1, Literal("20", XSD_INTEGER)));
     addOWLAxioms(ontology, DataPropertyAssertion(HAS_AGE, P2, Literal("20", XSD_INTEGER)));
 
     SQWRLResult result = queryEngine.runSQWRLQuery("q1",
