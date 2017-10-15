@@ -96,6 +96,42 @@ public class SWRLCoreNumericIT extends IntegrationTestBase
     Assert.assertEquals(22, result.getLiteral("age").getByte());
   }
 
+  @Test public void TestSWRLCoreInvalidBooleanLiteral()
+    throws SWRLParseException, SQWRLException, OWLOntologyCreationException
+  {
+    thrown.expect(SWRLParseException.class);
+    thrown.expectMessage("literal value 'x42' is not a valid http://www.w3.org/2001/XMLSchema#boolean");
+
+    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
+
+    queryEngine.runSQWRLQuery("q1", "-> sqwrl:select(\"x42\"^^xsd:boolean)");
+  }
+
+  @Test public void TestSWRLCoreNumericInvalidIntegerLiteral()
+    throws SWRLParseException, SQWRLException, OWLOntologyCreationException
+  {
+    thrown.expect(SWRLParseException.class);
+    thrown.expectMessage("literal value 'x42' is not a valid http://www.w3.org/2001/XMLSchema#integer");
+
+    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
+
+    queryEngine.runSQWRLQuery("q1", "-> sqwrl:select(\"x42\"^^xsd:integer)");
+  }
+
+  @Test public void TestSWRLCoreNumericInvalidDecimalLiteral()
+    throws SWRLParseException, SQWRLException, OWLOntologyCreationException
+  {
+    thrown.expect(SWRLParseException.class);
+    thrown.expectMessage("literal value 'x42' is not a valid http://www.w3.org/2001/XMLSchema#decimal");
+
+    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
+
+    queryEngine.runSQWRLQuery("q1", "-> sqwrl:select(\"x42\"^^xsd:decimal)");
+  }
+
   @Test public void TestSWRLCoreNumericInvalidByteLiteral()
     throws SWRLParseException, SQWRLException, OWLOntologyCreationException
   {
