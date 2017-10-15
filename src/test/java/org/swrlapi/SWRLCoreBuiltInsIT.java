@@ -8,6 +8,8 @@ import org.semanticweb.owlapi.model.OWLNamedIndividual;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyCreationException;
 import org.swrlapi.factory.SWRLAPIFactory;
+import org.swrlapi.literal.XSDDate;
+import org.swrlapi.literal.XSDDateTime;
 import org.swrlapi.literal.XSDDuration;
 import org.swrlapi.parser.SWRLParseException;
 import org.swrlapi.sqwrl.SQWRLQueryEngine;
@@ -808,4 +810,31 @@ public class SWRLCoreBuiltInsIT extends IntegrationTestBase
 
     Assert.assertTrue(result.next());
   }
+
+  @Test public void TestSWRLCoreAddDayTimeDurationToDate() throws Exception
+  {
+    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
+
+    SQWRLResult result = queryEngine.runSQWRLQuery("q1",
+      "swrlb:addDayTimeDurationToDate(?d, \"1999-01-01\"^^xsd:date, \"P1D\"^^xsd:duration) -> sqwrl:select(?d)");
+
+    Assert.assertTrue(result.next());
+    Assert.assertTrue(result.getLiteral("d").isDate());
+    Assert.assertEquals(new XSDDate("1999-01-02"), result.getLiteral("d").getDate());
+  }
+
+  @Test public void TestSWRLCoreAddDayTimeDurationToDateTime() throws Exception
+  {
+    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
+
+    SQWRLResult result = queryEngine.runSQWRLQuery("q1",
+      "swrlb:addDayTimeDurationToDateTime(?dt, \"1999-01-01T12:12:12\"^^xsd:dateTime, \"P1D\"^^xsd:duration) -> sqwrl:select(?dt)");
+
+    Assert.assertTrue(result.next());
+    Assert.assertTrue(result.getLiteral("dt").isDateTime());
+    Assert.assertEquals(new XSDDateTime("1999-01-02T12:12:12"), result.getLiteral("dt").getDateTime());
+  }
+
 }
