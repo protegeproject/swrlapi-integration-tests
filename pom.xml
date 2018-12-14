@@ -5,7 +5,7 @@
   <parent>
     <groupId>edu.stanford.swrl</groupId>
     <artifactId>swrlapi-parent</artifactId>
-    <version>2.0.6</version>
+    <version>2.0.6-SNAPSHOT</version>
   </parent>
 
   <groupId>edu.stanford.swrl</groupId>
@@ -27,7 +27,6 @@
     <connection>scm:git:git@github.com:protegeproject/swrlapi-integration-tests.git</connection>
     <developerConnection>scm:git:git@github.com:protegeproject/swrlapi-integration-tests.git</developerConnection>
     <url>https://github.com/protegeproject/swrlapi-integration-tests</url>
-    <tag>release-1.0.10</tag>
   </scm>
 
   <dependencies>
