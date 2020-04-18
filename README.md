@@ -1,7 +1,5 @@
 ## SWRLAPI Integration Tests
 
-[![Dependency Status](https://www.versioneye.com/user/projects/56a278d09b5998003d000081/badge.svg?style=flat)](https://www.versioneye.com/user/projects/56a278d09b5998003d000081)
-
 Integration tests for the [SWRLAPI](https://github.com/protegeproject/swrlapi).
 
 #### Building and Running the Tests
