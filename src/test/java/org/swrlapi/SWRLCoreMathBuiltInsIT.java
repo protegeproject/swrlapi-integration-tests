@@ -102,7 +102,7 @@ public class SWRLCoreMathBuiltInsIT extends IntegrationTestBase
 
     Assert.assertTrue(result.next());
     Assert.assertTrue(result.getLiteral("r").isLong());
-    Assert.assertEquals(4l, result.getLiteral("r").getLong());
+    Assert.assertEquals(4L, result.getLiteral("r").getLong());
   }
 
   @Test public void TestSWRLCoreMathAddBuiltInWithDoubles()

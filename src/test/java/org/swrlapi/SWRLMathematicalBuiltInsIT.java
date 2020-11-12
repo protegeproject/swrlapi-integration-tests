@@ -77,7 +77,7 @@ public class SWRLMathematicalBuiltInsIT extends IntegrationTestBase
 
     Assert.assertTrue(result.next());
     Assert.assertTrue(result.getLiteral("r").isDouble());
-    Assert.assertEquals(Double.valueOf("101"), result.getLiteral("r").getDouble(), IntegrationTestBase.DELTA);
+    Assert.assertEquals(Double.parseDouble("101"), result.getLiteral("r").getDouble(), IntegrationTestBase.DELTA);
   }
 
 }
