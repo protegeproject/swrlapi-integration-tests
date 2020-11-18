@@ -23,6 +23,7 @@ import org.swrlapi.sqwrl.SQWRLResult;
 import org.swrlapi.sqwrl.exceptions.SQWRLException;
 import org.swrlapi.test.IntegrationTestBase;
 
+import java.math.BigInteger;
 import java.net.URI;
 import java.net.URISyntaxException;
 
@@ -411,7 +412,7 @@ public class SWRLCoreIT extends IntegrationTestBase
     Assert.assertTrue(result.getLiteral("value").isRDFXMLLiteral());
     Assert.assertEquals(value, result.getLiteral("value").getRDFXMLLiteral());
   }
-  
+
   @Test public void TestSWRLCoreXSDDateLiteralMatch()
     throws SWRLParseException, SQWRLException, OWLOntologyCreationException
   {
@@ -690,4 +691,20 @@ public class SWRLCoreIT extends IntegrationTestBase
     Assert.assertTrue(result.getLiteral("age").isDuration());
     Assert.assertEquals(new XSDDuration("P42Y"), result.getLiteral("age").getDuration());
   }
+
+  @Test public void TestSWRLCoreOutOfOrderNonBuiltInAtomVariableBind()
+    throws SWRLParseException, SQWRLException, OWLOntologyCreationException
+  {
+    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
+
+    addOWLAxioms(ontology, DataPropertyAssertion(HAS_AGE, P1, Literal("42", XSD_INTEGER)));
+
+    SQWRLResult result = queryEngine.runSQWRLQuery("q1", "swrlb:add(?r, ?age, 1) ^ hasAge(p1, ?age) -> sqwrl:select(?r)");
+
+    Assert.assertTrue(result.next());
+    Assert.assertTrue(result.getLiteral("r").isInteger());
+    Assert.assertEquals(BigInteger.valueOf(43), result.getLiteral("r").getInteger());
+  }
+
 }

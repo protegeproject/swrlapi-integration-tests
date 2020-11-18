@@ -500,63 +500,6 @@ public class SWRLCoreBuiltInsIT extends IntegrationTestBase
     Assert.assertTrue(result.next());
   }
 
-  @Test public void TestSWRLCoreAddBuiltInWithShort()
-    throws SWRLParseException, SQWRLException, OWLOntologyCreationException
-  {
-    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
-
-    String query = "swrlb:add(\"4\"^^xsd:short, \"2\"^^xsd:short, \"2\"^^xsd:short) -> sqwrl:select(0)";
-    SQWRLResult result = queryEngine.runSQWRLQuery("q1", query);
-
-    Assert.assertTrue(result.next());
-  }
-
-  @Test public void TestSWRLCoreAddBuiltInWithInt()
-    throws SWRLParseException, SQWRLException, OWLOntologyCreationException
-  {
-    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
-
-    SQWRLResult result = queryEngine.runSQWRLQuery("q1", "swrlb:add(4, 2, 2) -> sqwrl:select(0)");
-
-    Assert.assertTrue(result.next());
-  }
-
-  @Test public void TestSWRLCoreAddBuiltInWithFloat()
-    throws SWRLParseException, SQWRLException, OWLOntologyCreationException
-  {
-    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
-
-    SQWRLResult result = queryEngine.runSQWRLQuery("q1", "swrlb:add(4.1, 2.1, 2.0) -> sqwrl:select(\"Yes\")");
-
-    Assert.assertTrue(result.next());
-  }
-
-  @Test public void TestSWRLCoreAddBuiltInWithLong()
-    throws SWRLParseException, SQWRLException, OWLOntologyCreationException
-  {
-    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
-
-    String query = "swrlb:add(\"4\"^^xsd:long, \"2\"^^xsd:long, \"2\"^^xsd:long) -> sqwrl:select(\"Yes\")";
-    SQWRLResult result = queryEngine.runSQWRLQuery("q1", query);
-
-    Assert.assertTrue(result.next());
-  }
-
-  @Test public void TestSWRLCoreAddBuiltInWithDoubles()
-    throws SWRLParseException, SQWRLException, OWLOntologyCreationException
-  {
-    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
-    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
-
-    String query = "swrlb:add(\"4.0\"^^xsd:double, \"2.0\"^^xsd:double, \"2.0\"^^xsd:double)" + " -> sqwrl:select(0)";
-    SQWRLResult result = queryEngine.runSQWRLQuery("q1", query);
-
-    Assert.assertTrue(result.next());
-  }
 
   @Test public void TestSWRLCoreBooleanNotBuiltIn()
     throws SWRLParseException, SQWRLException, OWLOntologyCreationException
