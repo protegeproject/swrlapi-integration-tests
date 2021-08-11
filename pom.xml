@@ -10,7 +10,7 @@
 
   <groupId>edu.stanford.swrl</groupId>
   <artifactId>swrlapi-integration-tests</artifactId>
-  <version>2.0.11-SNAPSHOT</version>
+  <version>2.0.10</version>
   <packaging>jar</packaging>
 
   <name>SWRLAPI Integration Tests</name>
@@ -18,8 +18,8 @@
 
   <properties>
 
-    <swrlapi.version>2.0.11-SNAPSHOT</swrlapi.version>
-    <swrlapi.drools.version>2.0.11-SNAPSHOT</swrlapi.drools.version>
+    <swrlapi.version>2.0.10</swrlapi.version>
+    <swrlapi.drools.version>2.0.10</swrlapi.drools.version>
 
   </properties>
 
