@@ -5,12 +5,12 @@
   <parent>
     <groupId>edu.stanford.swrl</groupId>
     <artifactId>swrlapi-parent</artifactId>
-    <version>2.0.12-SNAPSHOT</version>
+    <version>2.1.0</version>
   </parent>
 
   <groupId>edu.stanford.swrl</groupId>
   <artifactId>swrlapi-integration-tests</artifactId>
-  <version>2.0.12-SNAPSHOT</version>
+  <version>2.1.1-SNAPSHOT</version>
   <packaging>jar</packaging>
 
   <name>SWRLAPI Integration Tests</name>
@@ -18,8 +18,8 @@
 
   <properties>
 
-    <swrlapi.version>2.0.12-SNAPSHOT</swrlapi.version>
-    <swrlapi.drools.version>2.0.12-SNAPSHOT</swrlapi.drools.version>
+    <swrlapi.version>2.1.0</swrlapi.version>
+    <swrlapi.drools.version>2.1.0</swrlapi.drools.version>
 
   </properties>
 
