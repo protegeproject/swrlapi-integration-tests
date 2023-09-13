@@ -94,6 +94,63 @@ public class SWRLCoreBuiltInsIT extends IntegrationTestBase
     Assert.assertTrue(result.next());
   }
 
+  @Test public void TestSWRLCoreLessThanBuiltInWithXSDTime()
+    throws SWRLParseException, SQWRLException, OWLOntologyCreationException
+  {
+    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
+
+    addOWLAxioms(ontology, DataPropertyAssertion(HAS_TOB, P1, Literal("10:10:10.33", XSD_TIME)));
+
+    SQWRLResult result = queryEngine
+      .runSQWRLQuery("q1", "hasTOB(p1, ?bt) ^ swrlb:lessThan(?bt, \"10:10:10.34\"^^xsd:time) -> sqwrl:select(0)");
+
+    Assert.assertTrue(result.next());
+  }
+
+
+  @Test public void TestSWRLCoreLessThanBuiltInWithXSDDate()
+    throws SWRLParseException, SQWRLException, OWLOntologyCreationException
+  {
+    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
+
+    addOWLAxioms(ontology, DataPropertyAssertion(HAS_DOB, P1, Literal("2001-01-05", XSD_DATE)));
+
+    SQWRLResult result = queryEngine
+      .runSQWRLQuery("q1", "hasDOB(p1, ?dob) ^ swrlb:lessThan(?dob, \"2001-01-06\"^^xsd:date) -> sqwrl:select(0)");
+
+    Assert.assertTrue(result.next());
+  }
+
+  @Test public void TestSWRLCoreLessThanBuiltInWithXSDDateTime()
+    throws SWRLParseException, SQWRLException, OWLOntologyCreationException
+  {
+    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
+
+    addOWLAxioms(ontology, DataPropertyAssertion(HAS_TOB, P1, Literal("2001-01-05T10:10:10", XSD_DATETIME)));
+
+    SQWRLResult result = queryEngine.runSQWRLQuery("q1",
+      "hasTOB(p1, ?tob) ^ swrlb:lessThan(?tob, \"2001-01-05T10:10:11\"^^xsd:dateTime)-> sqwrl:select(0)");
+
+    Assert.assertTrue(result.next());
+  }
+
+  @Test public void TestSWRLCoreLessThanBuiltInWithXSDDuration()
+    throws SWRLParseException, SQWRLException, OWLOntologyCreationException
+  {
+    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
+
+    addOWLAxioms(ontology, DataPropertyAssertion(HAS_AGE, P1, Literal("P42Y", XSD_DURATION)));
+
+    SQWRLResult result = queryEngine
+      .runSQWRLQuery("q1", "hasAge(p1, ?age) ^ swrlb:lessThan(?age, \"P43Y\"^^xsd:duration) -> sqwrl:select(0)");
+
+    Assert.assertTrue(result.next());
+  }
+
   @Test public void TestSWRLCoreGreaterThanBuiltInWithShort()
     throws SWRLParseException, SQWRLException, OWLOntologyCreationException
   {
@@ -236,6 +293,62 @@ public class SWRLCoreBuiltInsIT extends IntegrationTestBase
 
     SQWRLResult result = queryEngine
       .runSQWRLQuery("q1", "hasAge(p1, ?age) ^ swrlb:greaterThan(?age, \"41\"^^xsd:long) -> sqwrl:select(0)");
+
+    Assert.assertTrue(result.next());
+  }
+
+  @Test public void TestSWRLCoreGreaterThanBuiltInWithXSDDate()
+    throws SWRLParseException, SQWRLException, OWLOntologyCreationException
+  {
+    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
+
+    addOWLAxioms(ontology, DataPropertyAssertion(HAS_DOB, P1, Literal("2001-01-05", XSD_DATE)));
+
+    SQWRLResult result = queryEngine
+      .runSQWRLQuery("q1", "hasDOB(p1, ?dob) ^ swrlb:greaterThan(?dob, \"2001-01-04\"^^xsd:date) -> sqwrl:select(0)");
+
+    Assert.assertTrue(result.next());
+  }
+
+  @Test public void TestSWRLCoreGreaterThanBuiltInWithXSDDateTime()
+    throws SWRLParseException, SQWRLException, OWLOntologyCreationException
+  {
+    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
+
+    addOWLAxioms(ontology, DataPropertyAssertion(HAS_TOB, P1, Literal("2001-01-05T10:10:10", XSD_DATETIME)));
+
+    SQWRLResult result = queryEngine.runSQWRLQuery("q1",
+      "hasTOB(p1, ?tob) ^ swrlb:greaterThan(?tob, \"2001-01-05T10:10:09\"^^xsd:dateTime)-> sqwrl:select(0)");
+
+    Assert.assertTrue(result.next());
+  }
+
+  @Test public void TestSWRLCoreGreaterThanBuiltInWithXSDDuration()
+    throws SWRLParseException, SQWRLException, OWLOntologyCreationException
+  {
+    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
+
+    addOWLAxioms(ontology, DataPropertyAssertion(HAS_AGE, P1, Literal("P42Y", XSD_DURATION)));
+
+    SQWRLResult result = queryEngine
+      .runSQWRLQuery("q1", "hasAge(p1, ?age) ^ swrlb:greaterThan(?age, \"P41Y\"^^xsd:duration) -> sqwrl:select(0)");
+
+    Assert.assertTrue(result.next());
+  }
+
+  @Test public void TestSWRLCoreGreaterThanBuiltInWithXSDTime()
+    throws SWRLParseException, SQWRLException, OWLOntologyCreationException
+  {
+    OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
+    SQWRLQueryEngine queryEngine = SWRLAPIFactory.createSQWRLQueryEngine(ontology);
+
+    addOWLAxioms(ontology, DataPropertyAssertion(HAS_TOB, P1, Literal("10:10:10.33", XSD_TIME)));
+
+    SQWRLResult result = queryEngine
+      .runSQWRLQuery("q1", "hasTOB(p1, ?bt) ^ swrlb:greaterThan(?bt, \"10:10:10.32\"^^xsd:time) -> sqwrl:select(0)");
 
     Assert.assertTrue(result.next());
   }
@@ -499,7 +612,6 @@ public class SWRLCoreBuiltInsIT extends IntegrationTestBase
 
     Assert.assertTrue(result.next());
   }
-
 
   @Test public void TestSWRLCoreBooleanNotBuiltIn()
     throws SWRLParseException, SQWRLException, OWLOntologyCreationException
